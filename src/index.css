@@ -1,0 +1,88 @@
+@font-face {
+    font-family: Inter;
+    src: url(./media/fonts/Inter/Inter-VariableFont_slnt-wght.ttf);
+}
+@font-face {
+    font-family: PublicSans;
+    src: url(./media/fonts/Public_Sans/PublicSans-VariableFont_wght.ttf);
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: 'PublicSans', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #f5f5f5;
+}
+
+body > #root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+body > #root > div:first-child {
+    height: 100%;
+}
+
+/*Custom Scrollbar*/
+::-webkit-scrollbar {
+    width: 14px;
+    height: 21px;
+}
+::-webkit-scrollbar-thumb {
+    border: 3px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    border-radius: 7px;
+    background-color: #444;
+    box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+}
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+/*Easy fadeIn animation*/
+.fade-in {
+    animation: fadeIn ease-in-out 0.3s;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.width-in-240 {
+    animation: widthIn240 ease-in-out 0.3s;
+}
+@keyframes widthIn240 {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 200;
+    }
+}
+.ReactVirtualized__Grid__innerScrollContainer {
+    overflow: initial !important;
+}
+
+/* Those Mui elements I can't seem to reach */
+.MuiFormLabel-root.Mui-focused {
+    color: black !important;
+}
+
+.LazyLoad > div > div {
+    opacity: 1 !important;
+}

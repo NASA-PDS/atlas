@@ -1,0 +1,36 @@
+declare const styles: {
+  readonly "additional-map-tools": string;
+  readonly "disabled": string;
+  readonly "leaflet-bar": string;
+  readonly "leaflet-bottom": string;
+  readonly "leaflet-control": string;
+  readonly "leaflet-control-fullscreen-button": string;
+  readonly "leaflet-control-layers": string;
+  readonly "leaflet-control-layers-toggle": string;
+  readonly "leaflet-control-scale-line": string;
+  readonly "leaflet-control-view-center": string;
+  readonly "leaflet-control-zoom-in": string;
+  readonly "leaflet-control-zoom-out": string;
+  readonly "leaflet-disabled": string;
+  readonly "leaflet-draw": string;
+  readonly "leaflet-draw-actions": string;
+  readonly "leaflet-draw-actions-bottom": string;
+  readonly "leaflet-draw-draw-circlemarker": string;
+  readonly "leaflet-draw-draw-polygon": string;
+  readonly "leaflet-draw-draw-rectangle": string;
+  readonly "leaflet-draw-edit-edit": string;
+  readonly "leaflet-draw-edit-remove": string;
+  readonly "leaflet-draw-section": string;
+  readonly "leaflet-left": string;
+  readonly "leaflet-right": string;
+  readonly "leaflet-top": string;
+  readonly "map-container": string;
+  readonly "map-wrapper": string;
+  readonly "marker-cluster": string;
+  readonly "sidebar": string;
+  readonly "sidebar-button": string;
+  readonly "sidebar-collapsed": string;
+  readonly "sidebar-expanded": string;
+};
+export = styles;
+

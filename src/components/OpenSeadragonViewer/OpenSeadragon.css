@@ -1,0 +1,10 @@
+#openSeadragon .navigator {
+    margin: 0px 0px 4px 8px !important;
+    border: 2px solid #282f36 !important;
+}
+#openSeadragon .navigator .displayregion {
+    border: 2px solid #fb8c00 !important;
+}
+#openSeadragon .openseadragon-canvas {
+    outline: none !important;
+}

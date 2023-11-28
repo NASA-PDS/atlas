@@ -1,0 +1,16 @@
+node_modules
+/.vagrant
+.webpack-cache
+npm-debug.log
+.ssh
+node_modules_*
+react-codemod
+coverage
+stuff
+build/*
+yarn-error.log
+debug.log
+tmp
+bundle-stats.json
+.vscode
+docker-compose.yml

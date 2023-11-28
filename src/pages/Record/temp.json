@@ -1,0 +1,239 @@
+{
+  "uri": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.VIC",
+  "gather": {
+    "common": {
+      "mission": "insight",
+      "instrument": ["IDC"],
+      "spacecraft": "insight_lander",
+      "product_type": "DPS",
+      "target": ["mars"]
+    },
+    "uri": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.VIC",
+    "pds_archive": {
+      "product_id": "urn:nasa:pds:insight_cameras:data:d000m1288_710884538dps_f0000_0817m",
+      "bundle_id": "insight_cameras",
+      "related": {
+        "browse": {
+          "uri": "https://hirise-pds.lpl.arizona.edu/PDS/EXTRAS/RDR/PSP/ORB_001500_001599/PSP_001508_1850/PSP_001508_1850_RED.browse.jpg"
+        },
+        "label": {
+          "uri": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.xml"
+        }
+      },
+      "file_name": "D000M1288_710884538DPS_F0000_0817M1.VIC",
+      "pds_standard": "pds4",
+      "collection_id": "data"
+    },
+    "landed_missions": {
+      "frame_type": "Mono",
+      "image_type": "REGULAR",
+      "planet_day_number": 1288,
+      "land_msn_eye": "MONO"
+    },
+    "time": {
+      "stop_time": "2022-07-12T07:57:50.772Z",
+      "spacecraft_clock_start_count": 710884538.1706,
+      "product_creation_time": "2022-08-24T16:07:07Z",
+      "start_time": "2022-07-12T07:57:50.313Z"
+    }
+  },
+  "machine_learning": {
+    "classification": [
+      { "class": "surface", "type": "image", "confidence": 0.99 },
+      {
+        "class": "ripples",
+        "type": "feature",
+        "confidence": 0.9,
+        "feature": {
+          "type": "Feature",
+          "properties": {
+            "image_id": "PSP_001508_1850_RED",
+            "posterior_probability": 0.817,
+            "predicted_class": "ripples",
+            "pixel_coordinates": [
+              [170, 2321],
+              [652, 2321],
+              [652, 2603],
+              [170, 2603],
+              [170, 2321]
+            ]
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [-49.128436553122526, 4.958315157472467],
+                [-49.11841149529505, 4.958315157472467],
+                [-49.11841149529505, 4.948328248016706],
+                [-49.128436553122526, 4.948328248016706],
+                [-49.128436553122526, 4.958315157472467]
+              ]
+            ]
+          }
+        },
+        "explanations": [
+          {
+            "pixel_key_point": {
+              "type": "Point",
+              "coordinates": [870, 3021]
+            },
+            "source_image": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.training.VIC",
+            "heatmap_image": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.heatmap.VIC",
+            "pixel_bbox": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [870, 3021],
+                  [1052, 3021],
+                  [1052, 3203],
+                  [870, 3203],
+                  [870, 3021]
+                ]
+              ]
+            },
+            "similarity_score": 0.6,
+            "class_connection_score": 10.2,
+            "properties": {}
+          }
+        ]
+      },
+      {
+        "class": "crater",
+        "type": "feature",
+        "confidence": 0.91,
+        "feature": {
+          "type": "Feature",
+          "properties": {
+            "image_id": "PSP_001508_1850_RED",
+            "posterior_probability": 0.817,
+            "predicted_class": "crater",
+            "pixel_coordinates": [
+              [670, 2821],
+              [852, 2821],
+              [852, 3003],
+              [670, 3003],
+              [670, 2821]
+            ]
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [-49.128436553122526, 4.958315157472467],
+                [-49.11841149529505, 4.958315157472467],
+                [-49.11841149529505, 4.948328248016706],
+                [-49.128436553122526, 4.948328248016706],
+                [-49.128436553122526, 4.958315157472467]
+              ]
+            ]
+          }
+        },
+        "explanations": [
+          {
+            "pixel_key_point": {
+              "type": "Point",
+              "coordinates": [870, 3021]
+            },
+            "source_image": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.training.VIC",
+            "heatmap_image": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.heatmap.VIC",
+            "pixel_bbox": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [870, 3021],
+                  [1052, 3021],
+                  [1052, 3203],
+                  [870, 3203],
+                  [870, 3021]
+                ]
+              ]
+            },
+            "similarity_score": 0.6,
+            "class_connection_score": 10.2,
+            "properties": {}
+          }
+        ]
+      },
+      {
+        "class": "crater",
+        "type": "feature",
+        "confidence": 0.96,
+        "feature": {
+          "type": "Feature",
+          "properties": {
+            "image_id": "PSP_001508_1850_RED",
+            "posterior_probability": 0.908,
+            "predicted_class": "crater",
+            "pixel_coordinates": [
+              [870, 3021],
+              [1052, 3021],
+              [1052, 3203],
+              [870, 3203],
+              [870, 3021]
+            ]
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [-49.128436553122526, 4.958315157472467],
+                [-49.11841149529505, 4.958315157472467],
+                [-49.11841149529505, 4.948328248016706],
+                [-49.128436553122526, 4.948328248016706],
+                [-49.128436553122526, 4.958315157472467]
+              ]
+            ]
+          },
+          "explanation": {
+            "pixel_key_point": {
+              "type": "Point",
+              "coordinates": [870, 3021]
+            },
+            "source_image": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.training.VIC",
+            "heatmap_image": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.heatmap.VIC",
+            "pixel_bbox": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [870, 3021],
+                  [1052, 3021],
+                  [1052, 3203],
+                  [870, 3203],
+                  [870, 3021]
+                ]
+              ]
+            },
+            "similarity_score": 0.4,
+            "class_connection_score": 12.6,
+            "properties": {}
+          }
+        },
+        "explanations": [
+          {
+            "pixel_key_point": {
+              "type": "Point",
+              "coordinates": [870, 3021]
+            },
+            "source_image": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.training.VIC",
+            "heatmap_image": "atlas:pds4:insight:insight_lander:/insight_cameras/data/sol/1288/mipl/rdr/idc/D000M1288_710884538DPS_F0000_0817M1.heatmap.VIC",
+            "pixel_bbox": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [870, 3021],
+                  [1052, 3021],
+                  [1052, 3203],
+                  [870, 3203],
+                  [870, 3021]
+                ]
+              ]
+            },
+            "similarity_score": 0.6,
+            "class_connection_score": 10.2,
+            "properties": {}
+          }
+        ]
+      }
+    ]
+  }
+}

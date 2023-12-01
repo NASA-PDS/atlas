@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    # Always increase the version requirement
+    # to match the new version.
+    versioning-strategy: increase
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/docker/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "terraform"
+    directory: "/terraform/"
+    schedule:
+      interval: "weekly"

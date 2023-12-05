@@ -7,21 +7,10 @@
 
 <pre align="center">The Official Image Search of the PDS Cartography and Imaging Sciences Node (PDSIMG)</pre>
 
----
-
 <span style="display:block;text-align:center">![Search](docs/images/atlas_search.png)</span>
-
----
-
 <span style="display:block;text-align:center">![Archive Explorer](docs/images/atlas_archiveexplorer.png)</span>
 
----
-
-<div align="center" style="font-size: 24px; font-weight: bold;">
-   <a href="https://pds-imaging.jpl.nasa.gov/beta/search" target="__blank">See it LIVE!</a>
-</div>
-
----
+## [See it LIVE!](https://pds-imaging.jpl.nasa.gov/beta/search)
 
 ## Features
 

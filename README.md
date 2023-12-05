@@ -7,26 +7,33 @@
 
 <pre align="center">The Official Image Search of the PDS Cartography and Imaging Sciences Node (PDSIMG)</pre>
 
-<div align="center" style="font-size: 20px;">
-   <a href="https://pds-imaging.jpl.nasa.gov/beta/search" target="__blank">LIVE Application</a>
+---
+
+<span style="display:block;text-align:center">![Search](docs/images/atlas_search.png)</span>
+
+---
+
+<span style="display:block;text-align:center">![Archive Explorer](docs/images/atlas_archiveexplorer.png)</span>
+
+---
+
+<div align="center" style="font-size: 24px; font-weight: bold;">
+   <a href="https://pds-imaging.jpl.nasa.gov/beta/search" target="__blank">See it LIVE!</a>
 </div>
 
 ---
 
 ## Features
 
-- Web-based mapping interface
-- 2D slippy map
-- 3D globe with tiled height data
-- Image viewer capable of showing mosaics with targets
-- 5 fully customizable layer types
-- Easy to use CMS
-- Multi-user vector drawing
-- Elevation profiler
-- Custom projections
-- Tiling scripts
-- And so much more...
-
+- Full imagery search
+- Dynamically add facets
+- Spatial searches
+- Advanced queries
+- Image viewer
+- Cart
+- Bulk download queries and folders
+- File system viewer
+- ...
 
 ---
 
@@ -36,13 +43,12 @@
 
 1. Install the latest version of [Node.js v16.13.2+](https://nodejs.org/en/download/).
 
-
 ### Setup
 
 `/` will always refer to the repo's root directory
 
 1. Clone the repo  
-   `git clone https://github.com/NASA-PDS/atlas4`
+   `git clone https://github.com/NASA-PDS/atlas`
 
 1. From within `/`  
    `npm install`

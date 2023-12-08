@@ -221,8 +221,6 @@ const CartView = (props) => {
         return state.get('cart').toJS() || []
     })
 
-    console.log(cart)
-
     const gridContainerRef = useRef(null)
     const { width, height, ref } = useResizeDetector()
     const { widthR, heightR } = useSize(gridContainerRef)

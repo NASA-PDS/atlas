@@ -12,7 +12,7 @@ streamsaver.mitm = endpoints.mitm
 const { createWriteStream } = streamsaver
 
 const querySize = 500
-const scrollTimeout = '6h'
+const scrollTimeout = '3h'
 
 export const ZipStreamCart = (
     statusCallback,
@@ -294,7 +294,8 @@ const getQuery = (item, previousResult, productKeys) => {
         let dsl = {
             query: item.query,
             size: querySize,
-            _source: ['uri', ES_PATHS.related.join('.')],
+            sort: [{ ['uri']: 'desc', ['release_id']: 'desc' }],
+            _source: ['uri', ES_PATHS.release_id.join('.'), ES_PATHS.related.join('.')],
         }
 
         const filter_path = 'filter_path=hits.hits._source,hits.total,_scroll_id'
@@ -333,6 +334,8 @@ const getQuery = (item, previousResult, productKeys) => {
                 })
         }
 
+        const urisDownloaded = []
+
         const processResponse = (res) => {
             const result = {
                 files: [],
@@ -355,7 +358,13 @@ const getQuery = (item, previousResult, productKeys) => {
                     let path
                     if (key === 'src') path = getIn(r._source, ES_PATHS.source)
                     else path = getIn(r._source, ES_PATHS.related.concat([key, 'uri']))
-                    if (path) {
+
+                    // We are sorting by uri and release_id and then only download the first instance of the uri
+                    // This is a workaround because collapse does not work with scroll.
+                    if (path && urisDownloaded.indexOf(path) == -1) {
+                        urisDownloaded.push(path)
+                        // Remove first uri just to save on a bit of memory. We proably won't have more than 1k releases for a mission
+                        if (urisDownloaded.length > 1000) urisDownloaded.shift()
                         const release_id = getIn(r._source, ES_PATHS.release_id)
                         const name = getFilename(path)
                         const url = getPDSUrl(path, release_id)

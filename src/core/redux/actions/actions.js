@@ -2109,6 +2109,10 @@ export const addToCart = (type, item) => {
                 from: 0,
                 size: 0,
                 aggs: { count: { sum: { field: 'archive.size' } } },
+                sort: [{ ['release_id']: 'desc' }],
+                collapse: {
+                    field: 'uri',
+                },
                 track_total_hits: true,
             }
 

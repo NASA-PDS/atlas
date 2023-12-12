@@ -429,7 +429,6 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemButtons: {
         lineHeight: '25px',
-        position: 'absolute',
         right: '0px',
         background: theme.palette.swatches.grey.grey150,
         transition: 'opacity 0.2s ease-out',

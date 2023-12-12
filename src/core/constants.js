@@ -26,7 +26,7 @@ export const localStorageCart = 'ATLAS_CART'
 
 export const ES_PATHS = {
     source: ['uri'],
-    release_id: ['release_id'],
+    release_id: ['release_id_num'],
     related: ['gather', 'pds_archive', 'related'],
     ml: ['gather', 'machine_learning'],
     ml_classification_related: ['gather', 'machine_learning', 'classification', 'related'],

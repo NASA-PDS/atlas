@@ -1074,7 +1074,10 @@ const Column = (props) => {
                                                                           streamDownloadFile(
                                                                               getPDSUrl(
                                                                                   s.uri,
-                                                                                  s.release_id
+                                                                                  getIn(
+                                                                                      s,
+                                                                                      ES_PATHS.release_id
+                                                                                  )
                                                                               ),
                                                                               getFilename(s.uri)
                                                                           )

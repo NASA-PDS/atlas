@@ -294,7 +294,7 @@ const getQuery = (item, previousResult, productKeys) => {
         let dsl = {
             query: item.query,
             size: querySize,
-            sort: [{ ['uri']: 'desc', ['release_id']: 'desc' }],
+            sort: [{ ['uri']: 'desc', [ES_PATHS.release_id.join('.')]: 'desc' }],
             _source: ['uri', ES_PATHS.release_id.join('.'), ES_PATHS.related.join('.')],
         }
 

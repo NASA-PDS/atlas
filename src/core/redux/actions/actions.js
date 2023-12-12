@@ -678,13 +678,18 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
             query,
             from,
             size: resultsPerPage,
-            sort: [{ [resultSorting.field]: resultSorting.direction, ['release_id']: 'desc' }],
+            sort: [
+                {
+                    [resultSorting.field]: resultSorting.direction,
+                    [ES_PATHS.release_id.join('.')]: 'desc',
+                },
+            ],
             aggs,
             collapse: {
                 field: 'uri',
             },
             track_total_hits: true,
-            _source: ['uri', 'gather', 'release_id'],
+            _source: ['uri', 'gather', ES_PATHS.release_id.join('.')],
         }
 
         lastDSL = dsl
@@ -929,7 +934,7 @@ export const searchRecordByURI = (uri) => {
 
         const dsl = {
             query,
-            sort: [{ ['release_id']: 'desc' }],
+            sort: [{ [ES_PATHS.release_id.join('.')]: 'desc' }],
             collapse: {
                 field: 'uri',
             },
@@ -1709,7 +1714,12 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
             query,
             from: from,
             size: column.type === 'directory' ? pageSize : 1,
-            sort: [{ [ES_PATHS.archive.name.join('.')]: 'asc', ['release_id']: 'desc' }],
+            sort: [
+                {
+                    [ES_PATHS.archive.name.join('.')]: 'asc',
+                    [ES_PATHS.release_id.join('.')]: 'desc',
+                },
+            ],
             collapse: {
                 field: 'uri',
             },
@@ -2109,7 +2119,7 @@ export const addToCart = (type, item) => {
                 from: 0,
                 size: 0,
                 aggs: { count: { sum: { field: 'archive.size' } } },
-                sort: [{ ['release_id']: 'desc' }],
+                sort: [{ [ES_PATHS.release_id.join('.')]: 'desc' }],
                 collapse: {
                     field: 'uri',
                 },

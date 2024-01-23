@@ -1075,7 +1075,9 @@ const Column = (props) => {
                                                                                   s.uri,
                                                                                   getIn(
                                                                                       s,
-                                                                                      ES_PATHS.release_id
+                                                                                      ES_PATHS
+                                                                                          .archive
+                                                                                          .release_id
                                                                                   )
                                                                               ),
                                                                               getFilename(s.uri)
@@ -1115,7 +1117,8 @@ const Column = (props) => {
                                                                               ),
                                                                               release_id: getIn(
                                                                                   s,
-                                                                                  ES_PATHS.release_id
+                                                                                  ES_PATHS.archive
+                                                                                      .release_id
                                                                               ),
                                                                               size: getIn(
                                                                                   s,

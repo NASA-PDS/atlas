@@ -360,7 +360,10 @@ const ButtonBar = (props) => {
                         disabled={preview.fs_type !== 'file'}
                         onClick={() => {
                             if (preview.uri)
-                                window.open(getPDSUrl(preview.uri, preview.release_id), '_blank')
+                                window.open(
+                                    getPDSUrl(preview.uri, getIn(preview, ES_PATHS.release_id)),
+                                    '_blank'
+                                )
                         }}
                     >
                         <LaunchIcon className={c.buttonIcon} fontSize={iconSize} />
@@ -376,7 +379,7 @@ const ButtonBar = (props) => {
                         onClick={() => {
                             if (preview.uri != null) {
                                 streamDownloadFile(
-                                    getPDSUrl(preview.uri, preview.release_id),
+                                    getPDSUrl(preview.uri, getIn(preview, ES_PATHS.release_id)),
                                     getFilename(preview.uri)
                                 )
                             }
@@ -400,7 +403,7 @@ const ButtonBar = (props) => {
                                     uri: preview.uri,
                                     related: related,
                                     size: preview.size,
-                                    release_id: preview.release_id,
+                                    release_id: getIn(preview, ES_PATHS.release_id),
                                 })
                             )
                             dispatch(setSnackBarText('Added to Cart!', 'success'))
@@ -450,7 +453,7 @@ const Preview = (props) => {
                     },
                 },
                 size: 1,
-                _source: ['uri', 'gather.pds_archive.related', 'release_id'],
+                _source: ['uri', 'gather.pds_archive.related', ES_PATHS.release_id.join('.')],
             }
 
             axios
@@ -488,7 +491,11 @@ const Preview = (props) => {
                         ],
                     },
                 },
-                _source: ['uri', ES_PATHS.pds4_label.lidvid.join('.'), 'release_id'],
+                _source: [
+                    'uri',
+                    ES_PATHS.pds4_label.lidvid.join('.'),
+                    ES_PATHS.release_id.join('.'),
+                ],
             }
 
             axios

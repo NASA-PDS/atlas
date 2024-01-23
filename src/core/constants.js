@@ -26,7 +26,7 @@ export const localStorageCart = 'ATLAS_CART'
 
 export const ES_PATHS = {
     source: ['uri'],
-    release_id: ['release_id'],
+    release_id: ['release_id_num'],
     related: ['gather', 'pds_archive', 'related'],
     ml: ['gather', 'machine_learning'],
     ml_classification_related: ['gather', 'machine_learning', 'classification', 'related'],
@@ -57,6 +57,7 @@ export const ES_PATHS = {
         bundle_id: ['archive', 'bundle_id'],
         volume_id: ['archive', 'volume_id'],
         pds_standard: ['archive', 'pds_standard'],
+        release_id: ['archive', 'release_id_num'],
     },
     pds4_label: {
         lidvid: ['pds4_label', 'lidvid'],

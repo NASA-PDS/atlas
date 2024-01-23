@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { useLocation, useHistory } from 'react-router-dom'
-import { HASH_PATHS, AVAILABLE_URI_SIZES } from '../../../../core/constants'
+import { HASH_PATHS, AVAILABLE_URI_SIZES, ES_PATHS } from '../../../../core/constants'
 
 import clsx from 'clsx'
 
@@ -313,6 +313,8 @@ const GridCard = ({ index, data, width }) => {
         title = JSON.stringify(data.item.query, null, 1)
     else title = data.item.uri
 
+    const release_id = getIn(data, 'item.release_id', null)
+
     return (
         <div
             cart-index={index}
@@ -341,7 +343,7 @@ const GridCard = ({ index, data, width }) => {
             ) : null}
             {images &&
                 images.map((image, idx) => {
-                    const imgURL = getPDSUrl(image, null, AVAILABLE_URI_SIZES.sm)
+                    const imgURL = getPDSUrl(image, release_id, AVAILABLE_URI_SIZES.sm)
                     return (
                         <LazyLoad offset={600} key={idx} once>
                             <Image

@@ -429,7 +429,6 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemButtons: {
         lineHeight: '25px',
-        position: 'absolute',
         right: '0px',
         background: theme.palette.swatches.grey.grey150,
         transition: 'opacity 0.2s ease-out',
@@ -1074,7 +1073,12 @@ const Column = (props) => {
                                                                           streamDownloadFile(
                                                                               getPDSUrl(
                                                                                   s.uri,
-                                                                                  s.release_id
+                                                                                  getIn(
+                                                                                      s,
+                                                                                      ES_PATHS
+                                                                                          .archive
+                                                                                          .release_id
+                                                                                  )
                                                                               ),
                                                                               getFilename(s.uri)
                                                                           )
@@ -1113,7 +1117,8 @@ const Column = (props) => {
                                                                               ),
                                                                               release_id: getIn(
                                                                                   s,
-                                                                                  ES_PATHS.release_id
+                                                                                  ES_PATHS.archive
+                                                                                      .release_id
                                                                               ),
                                                                               size: getIn(
                                                                                   s,

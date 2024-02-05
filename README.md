@@ -39,7 +39,7 @@
 1. Clone the repo  
    `git clone https://github.com/NASA-PDS/atlas`
 
-1. From within `/`  
+1. From within `/`  (If deploying code, be sure to use `npm ci` to produce deterministic builds)
    `npm install`
 
 1. Copy `/sample.env` to `.env`  

@@ -353,8 +353,12 @@ export const prettify = (str) => {
 
 // Gets a file string's extension
 export const getExtension = (string, toLowerCase) => {
-    var ex = /(?:\.([^.]+))?$/.exec(string)[1]
+    // :: represents the version number and versions can include .'s (i.e. 8.1)
+    // Get rid of that portion first
+    if (string) string = string.split('::')[0]
+    let ex = /(?:\.([^.]+))?$/.exec(string)[1]
     if (ex) ex = ex.split(':')[0]
+
     return ex ? (toLowerCase ? ex.toLowerCase() : ex) : ''
 }
 

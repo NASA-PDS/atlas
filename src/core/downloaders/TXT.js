@@ -6,12 +6,12 @@ import { getHeader, getPDSUrl, getFilename, getIn } from '../utils'
 
 import fileSaver from 'file-saver'
 
-// ======================= CURL =======================
-const CURL_FILE_MAX_ROWS = 500000
+// ======================= TXT =======================
+const TXT_FILE_MAX_ROWS = 500000
 
-let CURLRows = []
+let TXTRows = []
 
-export const CURLCart = (productKeys, datestamp) => {
+export const TXTCart = (productKeys, datestamp) => {
     return (dispatch, getState) => {
         if (productKeys == null || productKeys.length === 0) productKeys = ['src']
 
@@ -21,13 +21,13 @@ export const CURLCart = (productKeys, datestamp) => {
 
         const tasks = []
 
-        CURLRows = []
+        TXTRows = []
 
         checkedCart.forEach((d) => {
             tasks.push(async () => {
                 d.type === 'query' || d.type === 'directory' || d.type === 'regex'
-                    ? await CURLQuery(d.item, productKeys, d.type === 'directory', datestamp)
-                    : CURLImage(d.item, productKeys, datestamp)
+                    ? await TXTQuery(d.item, productKeys, d.type === 'directory', datestamp)
+                    : TXTImage(d.item, productKeys, datestamp)
             })
         })
 
@@ -35,14 +35,14 @@ export const CURLCart = (productKeys, datestamp) => {
             for (const task of tasks) {
                 await task()
             }
-            createCURLFile(datestamp)
+            createTXTFile(datestamp)
         }
 
         callTasks()
     }
 }
 
-const CURLQuery = (item, productKeys, keepFolderStructure, datestamp) => {
+const TXTQuery = (item, productKeys, keepFolderStructure, datestamp) => {
     return new Promise((resolve, reject) => {
         let totalReceived = 0
         let dsl = {
@@ -89,14 +89,11 @@ const CURLQuery = (item, productKeys, keepFolderStructure, datestamp) => {
                         }
 
                         const pdsUri = getPDSUrl(path, release_id)
-                        if (filename && pdsUri)
-                            CURLRows.push(
-                                `curl -sSLO# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/${filepath} ${pdsUri}\n`
-                            )
+                        if (filename && pdsUri) TXTRows.push(`${pdsUri}\n`)
                     }
                 })
             })
-            if (CURLRows.length > CURL_FILE_MAX_ROWS) createCURLFile(datestamp)
+            if (TXTRows.length > TXT_FILE_MAX_ROWS) createTXTFile(datestamp)
 
             if (totalReceived < item.total) {
                 return axios
@@ -119,7 +116,7 @@ const CURLQuery = (item, productKeys, keepFolderStructure, datestamp) => {
         }
     })
 }
-const CURLImage = (item, productKeys, datestamp) => {
+const TXTImage = (item, productKeys, datestamp) => {
     productKeys.forEach((key) => {
         let path
         if (key === 'src') path = item.uri
@@ -127,27 +124,24 @@ const CURLImage = (item, productKeys, datestamp) => {
         if (path) {
             const filename = getFilename(path)
             const pdsUri = getPDSUrl(path, item.release_id)
-            if (filename && pdsUri)
-                CURLRows.push(
-                    `curl -sSLO# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/ ${pdsUri}\n`
-                )
+            if (filename && pdsUri) TXTRows.push(`${pdsUri}\n`)
         }
     })
     return
 }
 
-const createCURLFile = (datestamp) => {
-    if (CURLRows.length == 0) {
+const createTXTFile = (datestamp) => {
+    if (TXTRows.length == 0) {
         alert('Nothing to download.')
         return
     }
 
-    let CURLStr = CURLRows.join('')
-    CURLRows = []
+    let TXTStr = TXTRows.join('')
+    TXTRows = []
 
     // Windows treats the % character as EOL in batch files, so need to escape it
-    if (window.navigator.userAgent.indexOf('Windows') !== -1) CURLStr = CURLStr.replace(/%/g, '%%')
+    if (window.navigator.userAgent.indexOf('Windows') !== -1) TXTStr = TXTStr.replace(/%/g, '%%')
 
-    const blob = new Blob([CURLStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas-curl_${datestamp}.bat`, true)
+    const blob = new Blob([TXTStr], { type: 'text/plain;charset=utf-8' })
+    fileSaver.saveAs(blob, `pdsimg-atlas_${datestamp}.txt`, true)
 }

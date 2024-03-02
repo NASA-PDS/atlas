@@ -11,7 +11,7 @@ const WGET_FILE_MAX_ROWS = 500000
 
 let WGETRows = []
 
-export const WGETCart = (productKeys) => {
+export const WGETCart = (productKeys, datestamp) => {
     return (dispatch, getState) => {
         if (productKeys == null || productKeys.length === 0) productKeys = ['src']
 
@@ -25,9 +25,9 @@ export const WGETCart = (productKeys) => {
 
         checkedCart.forEach((d) => {
             tasks.push(async () => {
-                d.type === 'query'
-                    ? await WGETQuery(d.item, productKeys)
-                    : WGETImage(d.item, productKeys)
+                d.type === 'query' || d.type === 'directory' || d.type === 'regex'
+                    ? await WGETQuery(d.item, productKeys, d.type === 'directory', datestamp)
+                    : WGETImage(d.item, productKeys, datestamp)
             })
         })
 
@@ -35,14 +35,14 @@ export const WGETCart = (productKeys) => {
             for (const task of tasks) {
                 await task()
             }
-            createWGETFile()
+            createWGETFile(datestamp)
         }
 
         callTasks()
     }
 }
 
-const WGETQuery = (item, productKeys) => {
+const WGETQuery = (item, productKeys, keepFolderStructure, datestamp) => {
     return new Promise((resolve, reject) => {
         let totalReceived = 0
         let dsl = {
@@ -78,13 +78,25 @@ const WGETQuery = (item, productKeys) => {
                     else path = getIn(r._source, ES_PATHS.related.concat([key, 'uri']))
                     if (path) {
                         const release_id = getIn(r._source, ES_PATHS.release_id)
-                        const filename = getFilename(path)
+                        let filename = getFilename(path)
+
+                        let filepath = ''
+                        if (keepFolderStructure) {
+                            const splitUri = item.uri.split('/')
+                            filepath =
+                                splitUri[splitUri.length - 1] +
+                                path.replace(item.uri, '').replace(filename, '')
+                        }
+
                         const pdsUri = getPDSUrl(path, release_id)
-                        if (filename && pdsUri) WGETRows.push(`wget -nc -O ${filename} ${pdsUri}\n`)
+                        if (filename && pdsUri)
+                            WGETRows.push(
+                                `wget -q --show-progress -nc -P ./pdsimg-atlas-wget_${datestamp}/${filepath} ${pdsUri}\n`
+                            )
                     }
                 })
             })
-            if (WGETRows.length > WGET_FILE_MAX_ROWS) createWGETFile()
+            if (WGETRows.length > WGET_FILE_MAX_ROWS) createWGETFile(datestamp)
 
             if (totalReceived < item.total) {
                 return axios
@@ -107,7 +119,7 @@ const WGETQuery = (item, productKeys) => {
         }
     })
 }
-const WGETImage = (item, productKeys) => {
+const WGETImage = (item, productKeys, datestamp) => {
     productKeys.forEach((key) => {
         let path
         if (key === 'src') path = item.uri
@@ -115,13 +127,16 @@ const WGETImage = (item, productKeys) => {
         if (path) {
             const filename = getFilename(path)
             const pdsUri = getPDSUrl(path, item.release_id)
-            if (filename && pdsUri) WGETRows.push(`wget -nc -O ${filename} ${pdsUri}\n`)
+            if (filename && pdsUri)
+                WGETRows.push(
+                    `wget -q --show-progress -nc -P ./pdsimg-atlas-wget_${datestamp}/ ${pdsUri}\n`
+                )
         }
     })
     return
 }
 
-const createWGETFile = () => {
+const createWGETFile = (datestamp) => {
     if (WGETRows.length == 0) {
         alert('Nothing to download.')
         return
@@ -134,5 +149,5 @@ const createWGETFile = () => {
     if (window.navigator.userAgent.indexOf('Windows') !== -1) WGETStr = WGETStr.replace(/%/g, '%%')
 
     const blob = new Blob([WGETStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, 'atlas_wget_script.bat', true)
+    fileSaver.saveAs(blob, `pdsimg-atlas-wget_${datestamp}.bat`, true)
 }

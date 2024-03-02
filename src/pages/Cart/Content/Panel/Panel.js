@@ -11,6 +11,8 @@ import Tab from '@material-ui/core/Tab'
 import BrowserTab from './Tabs/Browser/Browser'
 import CURLTab from './Tabs/CURL/CURL'
 import WGETTab from './Tabs/WGET/WGET'
+import CSVTab from './Tabs/CSV/CSV'
+import TXTTab from './Tabs/TXT/TXT'
 
 const useStyles = makeStyles((theme) => ({
     Panel: {
@@ -138,12 +140,16 @@ const Panel = (props) => {
                             <StyledTab label="Browser" />
                             <StyledTab label="WGET" />
                             <StyledTab label="CURL" />
+                            <StyledTab label="CSV" />
+                            <StyledTab label="TXT" />
                         </StyledTabs>
                     </div>
                     <div className={c.tabPanels}>
                         <BrowserTab value={tab} index={0} />
                         <WGETTab value={tab} index={1} />
                         <CURLTab value={tab} index={2} />
+                        <CSVTab value={tab} index={3} />
+                        <TXTTab value={tab} index={4} />
                     </div>
                 </>
             )}

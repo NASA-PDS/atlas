@@ -19,6 +19,11 @@ if (typeof storageCart === 'string')
     }
 if (!Array.isArray(storageCart)) storageCart = []
 
+// The saved cart checks tremendously annoy me so off they go...
+storageCart.forEach((item) => {
+    if (item.checked === true) item.checked = false
+})
+
 export const INITIAL = (() => {
     return fromJS({
         // ==================== SEARCH RELATED ====================

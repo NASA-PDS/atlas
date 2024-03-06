@@ -49,10 +49,11 @@ const useStyles = makeStyles((theme) => ({
     },
     introMessage: {
         'position': 'relative',
-        'top': '90px',
-        'width': '238px',
+        'top': '100px',
+        'width': '280px',
         'transform': 'translateY(-50%)',
         'lineHeight': '20px',
+        'fontSize': '16px',
         'color': theme.palette.text.main,
         'background': theme.palette.swatches.yellow.yellow800,
         'margin': theme.spacing(4),
@@ -91,7 +92,7 @@ const StyledTab = withStyles((theme) => ({
         'color': theme.palette.text.main,
         'fontSize': theme.typography.pxToRem(14),
         'marginRight': theme.spacing(1),
-        'minWidth': 88,
+        'minWidth': 58,
         '&:focus': {
             opacity: 1,
         },
@@ -137,7 +138,7 @@ const Panel = (props) => {
                             onChange={handleChange}
                             aria-label="cart download tab"
                         >
-                            <StyledTab label="Browser" />
+                            <StyledTab label="ZIP" />
                             <StyledTab label="WGET" />
                             <StyledTab label="CURL" />
                             <StyledTab label="CSV" />

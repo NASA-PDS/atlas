@@ -5,8 +5,10 @@ import { makeStyles, withStyles } from '@material-ui/core/styles'
 
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import clsx from 'clsx'
 
 import ProductDownloadSelector from '../../../../../../components/ProductDownloadSelector/ProductDownloadSelector'
+import DownloadingCard from '../../../../../../components/DownloadingCard/DownloadingCard'
 import { setSnackBarText } from '../../../../../../core/redux/actions/actions.js'
 import { TXTCart } from '../../../../../../core/downloaders/TXT'
 
@@ -38,6 +40,30 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'monospace',
         marginBottom: '5px',
     },
+    downloadingButton: {
+        background: theme.palette.swatches.grey.grey300,
+        color: theme.palette.text.primary,
+        pointerEvents: 'none',
+    },
+    downloading: {
+        bottom: '0px',
+        position: 'sticky',
+        width: '100%',
+        padding: '12px',
+        boxSizing: 'border-box',
+    },
+    error: {
+        display: 'none',
+        fontSize: '16px',
+        padding: '12px',
+        background: theme.palette.swatches.red.red500,
+        color: theme.palette.text.secondary,
+        border: `1px solid ${theme.palette.swatches.red.red600}`,
+        textAlign: 'center',
+    },
+    errorOn: {
+        display: 'block',
+    },
 }))
 
 function TXTTab(props) {
@@ -47,7 +73,22 @@ function TXTTab(props) {
     const dispatch = useDispatch()
     const selectorRef = useRef()
 
+    const [isDownloading, setIsDownloading] = useState(false)
+    const [onStop, setOnStop] = useState(false)
+    const [downloadId, setDownloadId] = useState(0)
+    const [status, setStatus] = useState(null)
+    const [error, setError] = useState(null)
+
     const [datestamp, setDatestamp] = useState()
+
+    useEffect(() => {
+        // If true, then it'll next be false
+        if (isDownloading === true && status != null) {
+            const nextStatus = status
+            nextStatus.overall.percent = 100
+            setStatus(nextStatus)
+        }
+    }, [isDownloading])
 
     return (
         <div
@@ -57,40 +98,70 @@ function TXTTab(props) {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
-                    <Typography variant="h5">TXT</Typography>
-                    <Typography className={c.p}>
-                        Select the products to include in your download:
-                    </Typography>
-                    <ProductDownloadSelector ref={selectorRef} />
-                    <Button
-                        className={c.button1}
-                        variant="contained"
-                        aria-label="txt download button"
-                        onClick={() => {
-                            if (selectorRef && selectorRef.current) {
-                                const sel = selectorRef.current.getSelected() || {}
-                                if (sel.length == 0) {
-                                    dispatch(setSnackBarText('Nothing to download', 'warning'))
-                                } else {
-                                    const datestamp = new Date()
-                                        .toISOString()
-                                        .replace(/:/g, '_')
-                                        .replace(/\./g, '_')
-                                        .replace(/Z/g, '')
-                                    dispatch(TXTCart(sel, datestamp))
-                                    setDatestamp(datestamp)
+                <>
+                    <Box p={3}>
+                        <Typography variant="h5">TXT</Typography>
+                        <Typography className={c.p}>
+                            Select the products to include in your download:
+                        </Typography>
+                        <ProductDownloadSelector ref={selectorRef} />
+                        <Button
+                            className={clsx(c.button1, {
+                                [c.downloadingButton]: isDownloading,
+                            })}
+                            variant="contained"
+                            aria-label="txt download button"
+                            onClick={() => {
+                                if (selectorRef && selectorRef.current) {
+                                    const sel = selectorRef.current.getSelected() || {}
+                                    if (sel.length == 0) {
+                                        dispatch(setSnackBarText('Nothing to download', 'warning'))
+                                    } else {
+                                        setIsDownloading(true)
+                                        setDownloadId(downloadId + 1)
+                                        setError(null)
+                                        const datestamp = new Date()
+                                            .toISOString()
+                                            .replace(/:/g, '_')
+                                            .replace(/\./g, '_')
+                                            .replace(/Z/g, '')
+                                        dispatch(
+                                            TXTCart(
+                                                setStatus,
+                                                setIsDownloading,
+                                                setOnStop,
+                                                sel,
+                                                datestamp
+                                            )
+                                        )
+                                        setDatestamp(datestamp)
+                                    }
                                 }
-                            }
-                        }}
-                    >
-                        Download TXT
-                    </Button>
-                    <Typography className={c.p}>
-                        Downloads a .txt file named `./pdsimg-atlas_{datestamp}.txt` that simply
-                        lists out all download urls.
-                    </Typography>
-                </Box>
+                            }}
+                        >
+                            {isDownloading ? 'Download in Progress' : 'Download TXT'}
+                        </Button>
+                        <Typography className={c.p}>
+                            Downloads a .txt file named `./pdsimg-atlas_{datestamp}.txt` that simply
+                            lists out all download urls.
+                        </Typography>
+                        <Typography className={c.p}>
+                            The downloaded script files max out at 500k lines. Multiple script files
+                            may be downloaded to support to entire payload.
+                        </Typography>
+                        <div className={c.downloading}>
+                            <div className={clsx(c.error, { [c.errorOn]: error != null })}>
+                                {error}
+                            </div>
+                            <DownloadingCard
+                                downloadId={'txt' + downloadId}
+                                status={status}
+                                hidePause={true}
+                                onStop={onStop}
+                            />
+                        </div>
+                    </Box>
+                </>
             )}
         </div>
     )

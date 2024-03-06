@@ -78,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
     statusRight: {
         width: '108px',
         display: 'flex',
+        justifyContent: 'end',
     },
     statusButtonBlue: {
         'fontSize': 30,
@@ -107,11 +108,13 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         background: theme.palette.swatches.green.green500,
     },
+    hide: {
+        display: 'none',
+    },
 }))
 
 function DownloadingCard(props) {
-    const { downloadId, status, controller, controllerType, onStop } = props
-
+    const { downloadId, status, controller, controllerType, onStop, hideActions, hidePause } = props
     const c = useStyles()
 
     const modes = {
@@ -160,8 +163,8 @@ function DownloadingCard(props) {
                 default:
                     break
             }
-            setMode(modes.stopped)
         }
+        setMode(modes.stopped)
         if (typeof onStop === 'function') onStop()
     }
 
@@ -192,6 +195,12 @@ function DownloadingCard(props) {
     if (mode === modes.running && status.overall.percent >= 100) setMode(modes.done)
     else if (mode === modes.done && status.overall.percent < 100) setMode(modes.running)
 
+    let remaining = moment
+        .utc(moment.duration(status.overall.estimatedTimeRemaining).as('milliseconds'))
+        .format('HH:mm:ss')
+    if (isNaN(status.overall.estimatedTimeRemaining)) remaining = 'Calculating'
+    else if (status.overall.estimatedTimeRemaining < 0) remaining = '00:00:00'
+
     return (
         <Paper className={c.status} elevation={0}>
             {mode === modes.running && (
@@ -218,22 +227,19 @@ function DownloadingCard(props) {
                     <div className={c.statusElapsed}>{`Elapsed: ${moment
                         .utc(moment.duration(status.overall.elapsedTime).as('milliseconds'))
                         .format('HH:mm:ss')}`}</div>
-                    <div className={c.statusRemaining}>{`Remaining: ${moment
-                        .utc(
-                            moment
-                                .duration(status.overall.estimatedTimeRemaining)
-                                .as('milliseconds')
-                        )
-                        .format('HH:mm:ss')}`}</div>
+                    <div className={c.statusRemaining}>{`Remaining: ${
+                        remaining == 'Invalid date' ? 'Calculating' : remaining
+                    }`}</div>
                 </div>
                 <div
                     className={clsx(c.statusRight, {
                         [c.statusDone]: mode === modes.done || mode === modes.stopped,
+                        [c.hide]: hideActions === true,
                     })}
                 >
                     <Tooltip title={`${mode === modes.paused ? 'Resume' : 'Pause'} Download`} arrow>
                         <IconButton
-                            className={c.statusButtonBlue}
+                            className={clsx(c.statusButtonBlue, { [c.hide]: hidePause === true })}
                             onClick={() => {
                                 if (mode === modes.running) {
                                     pause()

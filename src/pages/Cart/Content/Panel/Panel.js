@@ -11,6 +11,8 @@ import Tab from '@material-ui/core/Tab'
 import BrowserTab from './Tabs/Browser/Browser'
 import CURLTab from './Tabs/CURL/CURL'
 import WGETTab from './Tabs/WGET/WGET'
+import CSVTab from './Tabs/CSV/CSV'
+import TXTTab from './Tabs/TXT/TXT'
 
 const useStyles = makeStyles((theme) => ({
     Panel: {
@@ -47,10 +49,11 @@ const useStyles = makeStyles((theme) => ({
     },
     introMessage: {
         'position': 'relative',
-        'top': '90px',
-        'width': '238px',
+        'top': '100px',
+        'width': '280px',
         'transform': 'translateY(-50%)',
         'lineHeight': '20px',
+        'fontSize': '16px',
         'color': theme.palette.text.main,
         'background': theme.palette.swatches.yellow.yellow800,
         'margin': theme.spacing(4),
@@ -89,7 +92,7 @@ const StyledTab = withStyles((theme) => ({
         'color': theme.palette.text.main,
         'fontSize': theme.typography.pxToRem(14),
         'marginRight': theme.spacing(1),
-        'minWidth': 88,
+        'minWidth': 58,
         '&:focus': {
             opacity: 1,
         },
@@ -135,15 +138,19 @@ const Panel = (props) => {
                             onChange={handleChange}
                             aria-label="cart download tab"
                         >
-                            <StyledTab label="Browser" />
+                            <StyledTab label="ZIP" />
                             <StyledTab label="WGET" />
                             <StyledTab label="CURL" />
+                            <StyledTab label="CSV" />
+                            <StyledTab label="TXT" />
                         </StyledTabs>
                     </div>
                     <div className={c.tabPanels}>
                         <BrowserTab value={tab} index={0} />
                         <WGETTab value={tab} index={1} />
                         <CURLTab value={tab} index={2} />
+                        <CSVTab value={tab} index={3} />
+                        <TXTTab value={tab} index={4} />
                     </div>
                 </>
             )}

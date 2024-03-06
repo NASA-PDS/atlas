@@ -6,12 +6,12 @@ import { getHeader, getPDSUrl, getFilename, getIn } from '../utils'
 
 import fileSaver from 'file-saver'
 
-// ======================= CURL =======================
-const CURL_FILE_MAX_ROWS = 500000
+// ======================= CSV =======================
+const CSV_FILE_MAX_ROWS = 500000
 
-let CURLRows = []
+let CSVRows = []
 
-export const CURLCart = (statusCallback, finishCallback, setOnStop, productKeys, datestamp) => {
+export const CSVCart = (statusCallback, finishCallback, setOnStop, productKeys, datestamp) => {
     return (dispatch, getState) => {
         if (productKeys == null || productKeys.length === 0) productKeys = ['src']
 
@@ -22,12 +22,12 @@ export const CURLCart = (statusCallback, finishCallback, setOnStop, productKeys,
 
         const tasks = []
 
-        CURLRows = []
+        CSVRows = ['filename,size,uri,download_url\n']
 
         checkedCart.forEach((d) => {
             tasks.push(async () => {
                 d.type === 'query' || d.type === 'directory' || d.type === 'regex'
-                    ? await CURLQuery(
+                    ? await CSVQuery(
                           d.item,
                           productKeys,
                           d.type === 'directory',
@@ -37,7 +37,7 @@ export const CURLCart = (statusCallback, finishCallback, setOnStop, productKeys,
                           setOnStop,
                           startTime
                       )
-                    : CURLImage(d.item, productKeys, datestamp, statusCallback)
+                    : CSVImage(d.item, productKeys, datestamp, statusCallback)
             })
         })
 
@@ -45,14 +45,14 @@ export const CURLCart = (statusCallback, finishCallback, setOnStop, productKeys,
             for (const task of tasks) {
                 await task()
             }
-            createCURLFile(datestamp, finishCallback)
+            createCSVFile(datestamp, finishCallback)
         }
 
         callTasks()
     }
 }
 
-const CURLQuery = (
+const CSVQuery = (
     item,
     productKeys,
     keepFolderStructure,
@@ -136,6 +136,7 @@ const CURLQuery = (
                     let path
                     if (key === 'src') path = getIn(r._source, ES_PATHS.source)
                     else path = getIn(r._source, ES_PATHS.related.concat([key, 'uri']))
+                    const size = getIn(r._source, ES_PATHS.related.concat([key, 'size']), null)
                     if (path) {
                         // Do no try downloading dirs
                         // Make sure a . exists in the final part
@@ -158,13 +159,11 @@ const CURLQuery = (
 
                         const pdsUri = getPDSUrl(path, release_id)
                         if (filename && pdsUri)
-                            CURLRows.push(
-                                `curl -sSLO# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/${filepath} ${pdsUri}\n`
-                            )
+                            CSVRows.push(`${filename},${size},${path},${pdsUri}\n`)
                     }
                 })
             })
-            if (CURLRows.length >= CURL_FILE_MAX_ROWS) createCURLFile(datestamp)
+            if (CSVRows.length >= CSV_FILE_MAX_ROWS) createCSVFile(datestamp)
 
             if (totalReceived < item.total) {
                 return axios
@@ -187,18 +186,17 @@ const CURLQuery = (
         }
     })
 }
-const CURLImage = (item, productKeys, datestamp, statusCallback) => {
+const CSVImage = (item, productKeys, datestamp, statusCallback) => {
     productKeys.forEach((key, idx) => {
         let path
         if (key === 'src') path = item.uri
         else path = getIn(item.related, [key, 'uri'])
+        const size = getIn(item.related, [key, 'size'], null)
+
         if (path) {
             const filename = getFilename(path)
             const pdsUri = getPDSUrl(path, item.release_id)
-            if (filename && pdsUri)
-                CURLRows.push(
-                    `curl -sSLO# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/ ${pdsUri}\n`
-                )
+            if (filename && pdsUri) CSVRows.push(`${filename},${size},${path},${pdsUri}\n`)
         }
 
         sendStatus(
@@ -216,20 +214,20 @@ const CURLImage = (item, productKeys, datestamp, statusCallback) => {
     return
 }
 
-const createCURLFile = (datestamp) => {
-    if (CURLRows.length == 0) {
+const createCSVFile = (datestamp, finishCallback) => {
+    if (CSVRows.length == 0) {
         alert('Nothing to download.')
         return
     }
 
-    let CURLStr = CURLRows.join('')
-    CURLRows = []
+    let CSVStr = CSVRows.join('')
+    CSVRows = []
 
     // Windows treats the % character as EOL in batch files, so need to escape it
-    if (window.navigator.userAgent.indexOf('Windows') !== -1) CURLStr = CURLStr.replace(/%/g, '%%')
+    if (window.navigator.userAgent.indexOf('Windows') !== -1) CSVStr = CSVStr.replace(/%/g, '%%')
 
-    const blob = new Blob([CURLStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas-curl_${datestamp}.bat`, true)
+    const blob = new Blob([CSVStr], { type: 'text/plain;charset=utf-8' })
+    fileSaver.saveAs(blob, `pdsimg-atlas_${datestamp}.csv`, true)
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

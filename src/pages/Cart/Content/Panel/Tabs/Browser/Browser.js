@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
     downloading: {
         bottom: '0px',
-        position: 'absolute',
+        position: 'sticky',
         width: '100%',
         padding: '12px',
         boxSizing: 'border-box',
@@ -64,6 +64,15 @@ function BrowserTab(props) {
 
     const dispatch = useDispatch()
     const selectorRef = useRef()
+
+    useEffect(() => {
+        // If true, then it'll next be false
+        if (isDownloading === true && status != null) {
+            const nextStatus = status
+            nextStatus.overall.percent = 100
+            setStatus(nextStatus)
+        }
+    }, [isDownloading])
 
     return (
         <div
@@ -118,7 +127,7 @@ function BrowserTab(props) {
                     <div className={c.downloading}>
                         <div className={clsx(c.error, { [c.errorOn]: error != null })}>{error}</div>
                         <DownloadingCard
-                            downloadId={downloadId}
+                            downloadId={'zip' + downloadId}
                             status={status}
                             controller={zipController}
                             controllerType="zip"

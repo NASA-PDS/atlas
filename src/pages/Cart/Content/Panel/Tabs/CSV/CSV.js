@@ -10,7 +10,7 @@ import clsx from 'clsx'
 import ProductDownloadSelector from '../../../../../../components/ProductDownloadSelector/ProductDownloadSelector'
 import DownloadingCard from '../../../../../../components/DownloadingCard/DownloadingCard'
 import { setSnackBarText } from '../../../../../../core/redux/actions/actions.js'
-import { CURLCart } from '../../../../../../core/downloaders/CURL'
+import { CSVCart } from '../../../../../../core/downloaders/CSV'
 
 import Box from '@material-ui/core/Box'
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
     pCode: {
         background: theme.palette.swatches.grey.grey200,
-        padding: `${theme.spacing(4)}px`,
+        padding: `${theme.spacing(3)}px`,
         fontFamily: 'monospace',
         marginBottom: '5px',
     },
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function CURLTab(props) {
+function CSVTab(props) {
     const { value, index, ...other } = props
 
     const c = useStyles()
@@ -92,15 +92,15 @@ function CURLTab(props) {
 
     return (
         <div
-            role="curl-tab"
+            role="csv-tab"
             hidden={value !== index}
-            id={`scrollable-auto-CURLTabpanel-${index}`}
+            id={`scrollable-auto-csvtabpanel-${index}`}
             {...other}
         >
             {value === index && (
                 <>
                     <Box p={3}>
-                        <Typography variant="h5">CURL</Typography>
+                        <Typography variant="h5">CSV</Typography>
                         <Typography className={c.p}>
                             Select the products to include in your download:
                         </Typography>
@@ -110,7 +110,7 @@ function CURLTab(props) {
                                 [c.downloadingButton]: isDownloading,
                             })}
                             variant="contained"
-                            aria-label="curl download button"
+                            aria-label="csv download button"
                             onClick={() => {
                                 if (selectorRef && selectorRef.current) {
                                     const sel = selectorRef.current.getSelected() || {}
@@ -126,7 +126,7 @@ function CURLTab(props) {
                                             .replace(/\./g, '_')
                                             .replace(/Z/g, '')
                                         dispatch(
-                                            CURLCart(
+                                            CSVCart(
                                                 setStatus,
                                                 setIsDownloading,
                                                 setOnStop,
@@ -139,61 +139,33 @@ function CURLTab(props) {
                                 }
                             }}
                         >
-                            {isDownloading ? 'Download in Progress' : 'Download CURL Script'}
+                            {isDownloading ? 'Download in Progress' : 'Download CSV'}
                         </Button>
-                        <Typography className={c.p2}>Requires: curl 7.73.0+</Typography>
                         <Typography className={c.p}>
-                            To provide bulk downloading of PDS Imaging products, we have provided a
-                            set of pre-configured CURL commands below that can be executed on your
-                            computer to download the contents of your bulk download cart.
+                            Downloads a .csv named `./pdsimg-atlas_{datestamp}.csv` with the
+                            following header:
                         </Typography>
-                        <Typography className={c.p}>
-                            CURL is software that allows one to download internet content using a
-                            command line interface. Availability and installation of Curl varies
-                            between operating systems. Please verify that Curl is available for your
-                            computer and is installed.
-                        </Typography>
-                        <Typography className={c.p2}>
-                            After downloading, run the "pdsimg-atlas-curl_{datestamp}.bat" with the
-                            following command:
-                        </Typography>
-                        <Typography className={c.p3}>Mac / Linux:</Typography>
-                        <Typography className={c.pCode}>
-                            source pdsimg-atlas-curl_{datestamp}.bat
-                        </Typography>
-
-                        <Typography className={c.p3}>Windows (WSL):</Typography>
-                        <Typography className={c.pCode}>
-                            bash
-                            <br />
-                            source pdsimg-atlas-curl_{datestamp}.bat
-                        </Typography>
+                        <Typography className={c.pCode}>filename,size,uri,download_url</Typography>
                         <Typography className={c.p}>
                             The downloaded script files max out at 500k lines. Multiple script files
                             may be downloaded to support to entire payload.
                         </Typography>
-                        <Typography className={c.p}>
-                            All files are download into an `./pdsimg-atlas-curl_{datestamp}`
-                            directory.
-                        </Typography>
-                        <div className={c.downloading}>
-                            <div className={clsx(c.error, { [c.errorOn]: error != null })}>
-                                {error}
-                            </div>
-                            <DownloadingCard
-                                downloadId={'curl' + downloadId}
-                                status={status}
-                                hidePause={true}
-                                onStop={onStop}
-                            />
-                        </div>
                     </Box>
+                    <div className={c.downloading}>
+                        <div className={clsx(c.error, { [c.errorOn]: error != null })}>{error}</div>
+                        <DownloadingCard
+                            downloadId={'csv' + downloadId}
+                            status={status}
+                            hidePause={true}
+                            onStop={onStop}
+                        />
+                    </div>
                 </>
             )}
         </div>
     )
 }
 
-CURLTab.propTypes = {}
+CSVTab.propTypes = {}
 
-export default CURLTab
+export default CSVTab

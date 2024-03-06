@@ -6,12 +6,12 @@ import { getHeader, getPDSUrl, getFilename, getIn } from '../utils'
 
 import fileSaver from 'file-saver'
 
-// ======================= CURL =======================
-const CURL_FILE_MAX_ROWS = 500000
+// ======================= TXT =======================
+const TXT_FILE_MAX_ROWS = 500000
 
-let CURLRows = []
+let TXTRows = []
 
-export const CURLCart = (statusCallback, finishCallback, setOnStop, productKeys, datestamp) => {
+export const TXTCart = (statusCallback, finishCallback, setOnStop, productKeys, datestamp) => {
     return (dispatch, getState) => {
         if (productKeys == null || productKeys.length === 0) productKeys = ['src']
 
@@ -22,12 +22,12 @@ export const CURLCart = (statusCallback, finishCallback, setOnStop, productKeys,
 
         const tasks = []
 
-        CURLRows = []
+        TXTRows = []
 
         checkedCart.forEach((d) => {
             tasks.push(async () => {
                 d.type === 'query' || d.type === 'directory' || d.type === 'regex'
-                    ? await CURLQuery(
+                    ? await TXTQuery(
                           d.item,
                           productKeys,
                           d.type === 'directory',
@@ -37,7 +37,7 @@ export const CURLCart = (statusCallback, finishCallback, setOnStop, productKeys,
                           setOnStop,
                           startTime
                       )
-                    : CURLImage(d.item, productKeys, datestamp, statusCallback)
+                    : TXTImage(d.item, productKeys, datestamp, statusCallback)
             })
         })
 
@@ -45,14 +45,14 @@ export const CURLCart = (statusCallback, finishCallback, setOnStop, productKeys,
             for (const task of tasks) {
                 await task()
             }
-            createCURLFile(datestamp, finishCallback)
+            createTXTFile(datestamp, finishCallback)
         }
 
         callTasks()
     }
 }
 
-const CURLQuery = (
+const TXTQuery = (
     item,
     productKeys,
     keepFolderStructure,
@@ -157,14 +157,11 @@ const CURLQuery = (
                         }
 
                         const pdsUri = getPDSUrl(path, release_id)
-                        if (filename && pdsUri)
-                            CURLRows.push(
-                                `curl -sSLO# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/${filepath} ${pdsUri}\n`
-                            )
+                        if (filename && pdsUri) TXTRows.push(`${pdsUri}\n`)
                     }
                 })
             })
-            if (CURLRows.length >= CURL_FILE_MAX_ROWS) createCURLFile(datestamp)
+            if (TXTRows.length >= TXT_FILE_MAX_ROWS) createTXTFile(datestamp)
 
             if (totalReceived < item.total) {
                 return axios
@@ -187,7 +184,7 @@ const CURLQuery = (
         }
     })
 }
-const CURLImage = (item, productKeys, datestamp, statusCallback) => {
+const TXTImage = (item, productKeys, datestamp, statusCallback) => {
     productKeys.forEach((key, idx) => {
         let path
         if (key === 'src') path = item.uri
@@ -195,10 +192,7 @@ const CURLImage = (item, productKeys, datestamp, statusCallback) => {
         if (path) {
             const filename = getFilename(path)
             const pdsUri = getPDSUrl(path, item.release_id)
-            if (filename && pdsUri)
-                CURLRows.push(
-                    `curl -sSLO# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/ ${pdsUri}\n`
-                )
+            if (filename && pdsUri) TXTRows.push(`${pdsUri}\n`)
         }
 
         sendStatus(
@@ -216,20 +210,20 @@ const CURLImage = (item, productKeys, datestamp, statusCallback) => {
     return
 }
 
-const createCURLFile = (datestamp) => {
-    if (CURLRows.length == 0) {
+const createTXTFile = (datestamp, finishCallback) => {
+    if (TXTRows.length == 0) {
         alert('Nothing to download.')
         return
     }
 
-    let CURLStr = CURLRows.join('')
-    CURLRows = []
+    let TXTStr = TXTRows.join('')
+    TXTRows = []
 
     // Windows treats the % character as EOL in batch files, so need to escape it
-    if (window.navigator.userAgent.indexOf('Windows') !== -1) CURLStr = CURLStr.replace(/%/g, '%%')
+    if (window.navigator.userAgent.indexOf('Windows') !== -1) TXTStr = TXTStr.replace(/%/g, '%%')
 
-    const blob = new Blob([CURLStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas-curl_${datestamp}.bat`, true)
+    const blob = new Blob([TXTStr], { type: 'text/plain;charset=utf-8' })
+    fileSaver.saveAs(blob, `pdsimg-atlas_${datestamp}.txt`, true)
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

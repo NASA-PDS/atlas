@@ -112,6 +112,7 @@ const ZipStreamDownload = (
                 // We got next files, so initialize fetching by setting filesIdx from null to 0
                 filesIdx = 0
             }
+
             // Group Failures
             // Skip and recall if something failed
             if (files.length === 0) {

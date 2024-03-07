@@ -67,7 +67,13 @@ const CURLQuery = (
         let dsl = {
             query: item.query,
             size: 5000,
-            _source: ['uri', ES_PATHS.related.join('.'), ES_PATHS.archive.fs_type.join('.')],
+            sort: [{ ['uri']: 'desc', [ES_PATHS.release_id.join('.')]: 'desc' }],
+            _source: [
+                'uri',
+                ES_PATHS.release_id.join('.'),
+                ES_PATHS.related.join('.'),
+                ES_PATHS.archive.fs_type.join('.'),
+            ],
         }
         let stopped = false
 

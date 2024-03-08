@@ -197,6 +197,7 @@ export const getInitialActiveFilters = (mapping) => {
         'gather.common.spacecraft': mapping.groups.gather.groups.common.groups.spacecraft,
         'gather.common.instrument': mapping.groups.gather.groups.common.groups.instrument,
         'gather.common.target': mapping.groups.gather.groups.common.groups.target,
+        'gather.common.product_type': mapping.groups.gather.groups.common.groups.product_type,
         'gather.common.kind': mapping.groups.gather.groups.common.groups.kind,
         'archive.bundle_id': mapping.groups.archive.groups.bundle_id,
     }

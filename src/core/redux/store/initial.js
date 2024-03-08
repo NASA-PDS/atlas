@@ -110,6 +110,7 @@ export const INITIAL = (() => {
                 'gather.common.spacecraft',
                 'gather.common.target',
                 'gather.common.instrument',
+                'gather.common.product_type',
             ],
             defaultColumns: [
                 'gather.pds_archive.file_name',
@@ -118,6 +119,7 @@ export const INITIAL = (() => {
                 'gather.common.spacecraft',
                 'gather.common.target',
                 'gather.common.instrument',
+                'gather.common.product_type',
             ],
         },
         gridSize: 192,

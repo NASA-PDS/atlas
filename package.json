@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/search",
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider node scripts/start.js",
     "build": "cross-env NODE_OPTIONS=\"--openssl-legacy-provider --max-old-space-size=4096\" node scripts/build.js",
     "analyze": "node scripts/start.js --analyze",
     "test": "node scripts/test.js",

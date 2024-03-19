@@ -460,9 +460,14 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                     query.bool = query.bool || {
                                         must: [],
                                     }
+
+                                    let qs_input = '.*' + facet.state.input + '.*'
                                     query.bool.must.push({
-                                        simple_query_string: {
-                                            query: facet.state.input,
+                                        regexp: {
+                                            uri: {
+                                                value: qs_input,
+                                                case_insensitive: true,
+                                            },
                                         },
                                     })
                                 }
@@ -881,7 +886,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
 
                             let filterState = {}
                             if (q[0] === '_') {
-                                filterState.text = url.query[q]
+                                filterState.input = url.query[q]
                             } else {
                                 url.query[q].split(',').forEach((v) => {
                                     filterState[v] = true

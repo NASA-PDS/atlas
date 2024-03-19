@@ -23,6 +23,9 @@ const getSearchURL = (activeFilters) => {
         if (activeFilters[filter].facets) {
             activeFilters[filter].facets.forEach((f, idx) => {
                 switch (f.type) {
+                    case 'query_string':
+                        if (f.state && f.state.input) values.push(`${encodeURI(f.state.input)}`)
+                        break
                     case 'text':
                         if (f.state && f.state.text) values.push(`${encodeURI(f.state.text)}`)
                         break

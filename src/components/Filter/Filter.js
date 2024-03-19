@@ -287,7 +287,7 @@ const Filter = (props) => {
     const filterName = filter.display_name || filterKey
 
     // Turns a:b:c into ::c
-    let friendlyFilterName = filterName
+    let friendlyFilterName = filterName.replaceAll('_', ' ')
     if (friendlyFilterName.includes(':'))
         friendlyFilterName = `${friendlyFilterName.replace(/[^:]/g, '')}${friendlyFilterName
             .split(':')

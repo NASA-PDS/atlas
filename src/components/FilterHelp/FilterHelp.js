@@ -74,20 +74,22 @@ const FilterHelp = (props) => {
     const { filter, filterKey, onClose } = props
     const c = useStyles()
 
-    const [helpData, setHelpData] = useState(false)
+    const [helpData, setHelpData] = useState(null)
 
     useEffect(() => {
         try {
-            let field = filter.facets[0].field.toLowerCase().replace('.keyword', '').split('.')
-            field = field[field.length - 1]
-            axios
-                .get(`${endpoints.pdsFieldSearch.replace('{field}', field)}`)
-                .then((response) => {
-                    setHelpData(getIn(response, 'data.response.docs.0', null))
-                })
-                .catch((err) => {
-                    setHelpData(null)
-                })
+            if (filter.description == null || filter.description === '') {
+                let field = filter.facets[0].field.toLowerCase().replace('.keyword', '').split('.')
+                field = field[field.length - 1]
+                axios
+                    .get(`${endpoints.pdsFieldSearch.replace('{field}', field)}`)
+                    .then((response) => {
+                        setHelpData(getIn(response, 'data.response.docs.0', null))
+                    })
+                    .catch((err) => {
+                        setHelpData(null)
+                    })
+            }
         } catch (err) {}
     }, [JSON.stringify(filter)])
 

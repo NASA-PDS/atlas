@@ -16,6 +16,11 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft'
 import RotateRightIcon from '@material-ui/icons/RotateRight'
 import LayersIcon from '@material-ui/icons/Layers'
 
+import Paper from '@material-ui/core/Paper'
+import Tooltip from '@material-ui/core/Tooltip'
+
+import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined'
+
 import './OpenSeadragon.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -70,10 +75,61 @@ const useStyles = makeStyles((theme) => ({
     joiner: {
         borderBottom: '1px solid rgba(0,0,0,0.17)',
     },
+    status: {
+        'position': 'absolute',
+
+        'background': theme.palette.swatches.grey.grey800,
+        'top': 0,
+        'width': '100%',
+        'height': '100%',
+        'transition': 'all 0.2s ease-out',
+        '& > div': {
+            transition: 'background 0.4s ease-out',
+        },
+        '& > div > div': {
+            transition: 'background 0.4s ease-out',
+        },
+    },
+    statusHidden: {
+        pointerEvents: 'none',
+        opacity: 0,
+    },
+    statusPaper: {
+        'position': 'absolute',
+        'top': '50%',
+        'left': '50%',
+        'transform': 'translateX(-50%) translateY(-50%)',
+        'background': theme.palette.primary.main,
+        '& > div': {
+            padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+        },
+    },
+    statusError: {
+        background: theme.palette.swatches.red.red500,
+        fontSize: '16px',
+        color: theme.palette.text.primary,
+        paddingBottom: theme.spacing(0.5),
+    },
+    statusErrorTitle: {
+        'display': 'flex',
+        'justifyContent': 'center',
+        'fontSize': '24px',
+        'fontWeight': 'bold',
+        'marginBottom': theme.spacing(1.5),
+        '& > div': {
+            marginLeft: theme.spacing(1.5),
+        },
+    },
+    statusErrorMessage: {
+        textAlign: 'center',
+        margin: '0px 5%',
+        maxWidth: '600px',
+    },
 }))
 
 const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
     const [viewer, setViewer] = useState(null)
+    const [openFailed, setOpenFailed] = useState(false)
     const [svgOverlay, setSvgOverlay] = useState(null)
 
     const c = useStyles()
@@ -118,6 +174,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
     // Update image when changed
     useEffect(() => {
         if (image && image.src && viewer) {
+            setOpenFailed(false)
             viewer.removeHandler('open')
             viewer.addHandler('open', function (e) {
                 const so = viewer.svgOverlay()
@@ -138,14 +195,20 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
         }
     }, [features])
 
-    // Make an the canvases pixelated
     useEffect(() => {
+        // Make all the canvases pixelated
         if (viewer && viewer.canvas && viewer.canvas.childNodes) {
             viewer.canvas.childNodes.forEach((canvas) => {
                 if (typeof canvas.getContext === 'function') {
                     const ctx = canvas.getContext('2d')
                     ctx.imageSmoothingEnabled = false
                 }
+            })
+        }
+        // Set open failed event
+        if (viewer) {
+            viewer.addHandler('open-failed', () => {
+                setOpenFailed(true)
             })
         }
     }, [viewer])
@@ -222,6 +285,27 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                     </IconButton>
                 </div>
             </div>
+            {openFailed === true ? (
+                <div className={c.openFailedWrapper}>
+                    <div className={clsx(c.status, { [c.statusHidden]: !openFailed })}>
+                        <Paper className={c.statusPaper} elevation={2}>
+                            <div className={c.statusError}>
+                                <div className={c.statusErrorTitle}>
+                                    <Tooltip title={''} arrow placement="left-end">
+                                        <ErrorOutlineOutlinedIcon fontSize="large" />
+                                    </Tooltip>
+                                    <div>This product doesn't seem to have a browse image.</div>
+                                </div>
+                                <div className={c.statusErrorMessage}>
+                                    We encountered an error while trying to search our imaging
+                                    archive, please try again. If the issue persists, please contact
+                                    a site administrator.
+                                </div>
+                            </div>
+                        </Paper>
+                    </div>
+                </div>
+            ) : null}
         </div>
     )
 }

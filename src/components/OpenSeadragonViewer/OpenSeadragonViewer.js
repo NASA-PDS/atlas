@@ -75,6 +75,15 @@ const useStyles = makeStyles((theme) => ({
     joiner: {
         borderBottom: '1px solid rgba(0,0,0,0.17)',
     },
+    openFailedWrapper: {
+        opacity: 0,
+        transition: `0.2s ease-in opacity`,
+        pointerEvents: 'none',
+    },
+    openFailedShown: {
+        pointerEvents: 'initial',
+        opacity: 1,
+    },
     status: {
         'position': 'absolute',
 
@@ -92,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     },
     statusHidden: {
         pointerEvents: 'none',
-        opacity: 0,
+        opacity: 1,
     },
     statusPaper: {
         'position': 'absolute',
@@ -100,14 +109,15 @@ const useStyles = makeStyles((theme) => ({
         'left': '50%',
         'transform': 'translateX(-50%) translateY(-50%)',
         'background': theme.palette.primary.main,
+        'opacity': 0.75,
         '& > div': {
             padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
         },
     },
     statusError: {
-        background: theme.palette.swatches.red.red500,
+        background: theme.palette.accent.main,
         fontSize: '16px',
-        color: theme.palette.text.primary,
+        color: theme.palette.text.secondary,
         paddingBottom: theme.spacing(0.5),
     },
     statusErrorTitle: {
@@ -123,7 +133,8 @@ const useStyles = makeStyles((theme) => ({
     statusErrorMessage: {
         textAlign: 'center',
         margin: '0px 5%',
-        maxWidth: '600px',
+        maxWidth: '550px',
+        color: theme.palette.swatches.grey.grey100,
     },
 }))
 
@@ -285,27 +296,24 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                     </IconButton>
                 </div>
             </div>
-            {openFailed === true ? (
-                <div className={c.openFailedWrapper}>
-                    <div className={clsx(c.status, { [c.statusHidden]: !openFailed })}>
-                        <Paper className={c.statusPaper} elevation={2}>
-                            <div className={c.statusError}>
-                                <div className={c.statusErrorTitle}>
-                                    <Tooltip title={''} arrow placement="left-end">
-                                        <ErrorOutlineOutlinedIcon fontSize="large" />
-                                    </Tooltip>
-                                    <div>This product doesn't seem to have a browse image.</div>
-                                </div>
-                                <div className={c.statusErrorMessage}>
-                                    We encountered an error while trying to search our imaging
-                                    archive, please try again. If the issue persists, please contact
-                                    a site administrator.
-                                </div>
+            <div className={clsx(c.openFailedWrapper, { [c.openFailedShown]: openFailed })}>
+                <div className={clsx(c.status, { [c.statusHidden]: !openFailed })}>
+                    <Paper className={c.statusPaper} elevation={2}>
+                        <div className={c.statusError}>
+                            <div className={c.statusErrorTitle}>
+                                <Tooltip title={''} arrow placement="left-end">
+                                    <ErrorOutlineOutlinedIcon fontSize="large" />
+                                </Tooltip>
+                                <div>This product doesn't have a browse image.</div>
                             </div>
-                        </Paper>
-                    </div>
+                            <div className={c.statusErrorMessage}>
+                                Not all do. That's okay. You can still view the label, download the
+                                source product and add it to the cart.
+                            </div>
+                        </div>
+                    </Paper>
                 </div>
-            ) : null}
+            </div>
         </div>
     )
 }

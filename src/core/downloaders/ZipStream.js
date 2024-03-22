@@ -131,37 +131,42 @@ const ZipStreamDownload = (
             }
 
             let manualPull = false
+            let enqueued = false
             // Stream current file to zip
             let url = files[filesIdx].url
 
             const name = files[filesIdx].name
             let res = null
-            try {
-                res = await fetch(url)
-            } catch (err) {
+
+            res = await fetch(url).catch((err) => {
                 failures += 1
-            }
+            })
 
             if (res != null) {
-                const stream = () => res.body
-                // Main Queueing of next file
-                // Files go under a {index}_{type} directory to avoid issues with duplicates. ex. 1_query/, 2_image/
-                try {
-                    let filepath = `${currentItemIdx}_${currentItem.type}/${name}`
-                    if (currentItem.type === 'directory' && files[filesIdx].url) {
-                        try {
-                            filepath =
-                                getFilename(currentItem.item.uri) +
-                                files[filesIdx].url.split(currentItem.item.uri)[1]
-                        } catch (err) {}
+                if (res.status !== 404 && res.status !== 403) {
+                    const stream = () => res.body
+                    // Main Queueing of next file
+                    // Files go under a {index}_{type} directory to avoid issues with duplicates. ex. 1_query/, 2_image/
+                    try {
+                        let filepath = `${currentItemIdx}_${currentItem.type}/${name}`
+                        if (currentItem.type === 'directory' && files[filesIdx].url) {
+                            try {
+                                filepath =
+                                    getFilename(currentItem.item.uri) +
+                                    files[filesIdx].url.split(currentItem.item.uri)[1]
+                            } catch (err) {}
+                        }
+                        // Make sure we're not trying to add folders as files
+                        if (getExtension(filepath).length > 0) {
+                            // Write file
+                            ctrl.enqueue({ name: filepath, stream })
+                            enqueued = true
+                        }
+                    } catch (err) {
+                        // Individual failures
+                        failures += 1
                     }
-                    // Make sure we're not trying to add folders as files
-                    if (getExtension(filepath).length > 0) {
-                        // Write file
-                        ctrl.enqueue({ name: filepath, stream })
-                    }
-                } catch (err) {
-                    // Individual failures
+                } else {
                     failures += 1
                 }
             }
@@ -222,6 +227,12 @@ const ZipStreamDownload = (
                     files = []
                     filesIdx = null
                 }
+            }
+
+            // We didn't queue the next file due to some error, skip to the next product
+            if (enqueued === false) {
+                pull(ctrl)
+                return
             }
         }
     }

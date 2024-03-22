@@ -28,6 +28,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import FolderIcon from '@material-ui/icons/Folder'
+import ImageIcon from '@material-ui/icons/Image'
 
 import { setRecordData, setSnackBarText } from '../../../../core/redux/actions/actions'
 
@@ -208,6 +209,9 @@ const useStyles = makeStyles((theme) => ({
     noBackground: {
         background: 'none',
     },
+    errorIcon: {
+        fontSize: '42px',
+    },
 }))
 
 const CartView = (props) => {
@@ -370,6 +374,7 @@ const GridCard = ({ index, data, width }) => {
                                 disableSpinner={true}
                                 animationDuration={1200}
                                 iconContainerStyle={{ opacity: 0.6 }}
+                                errorIcon={<ImageIcon className={c.errorIcon} />}
                                 src={imgURL || ''}
                                 alt={imgAlt}
                             />

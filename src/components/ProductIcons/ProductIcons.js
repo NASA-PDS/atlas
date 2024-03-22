@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { getExtension } from '../../core/utils'
 
-import BrokenImageIcon from '@material-ui/icons/BrokenImage'
+import ImageIcon from '@material-ui/icons/Image'
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
 import FolderIcon from '@material-ui/icons/Folder'
 
@@ -83,6 +83,9 @@ const useStyles = makeStyles((theme) => ({
     dark: {
         color: 'black',
     },
+    missing: {
+        color: theme.palette.accent.main,
+    },
     iconSvg: {
         width: '48px',
         height: '48px',
@@ -106,6 +109,8 @@ const ProductIcons = (props) => {
     const c = useStyles()
 
     let Icon
+
+    let isMissing = false
 
     if (type) {
         switch (type) {
@@ -137,7 +142,8 @@ const ProductIcons = (props) => {
                 Icon = <InsertDriveFileOutlinedIcon className={clsx(c.default)} />
                 break
             default:
-                Icon = <BrokenImageIcon className={clsx(c.default)} />
+                isMissing = true
+                Icon = <ImageIcon className={clsx(c.default)} />
         }
     } else {
         const ext = getExtension(filename, true)
@@ -155,7 +161,8 @@ const ProductIcons = (props) => {
                 )
                 break
             default:
-                Icon = <BrokenImageIcon className={clsx(c.default)} />
+                isMissing = true
+                Icon = <ImageIcon className={clsx(c.default)} />
         }
     }
 
@@ -164,6 +171,7 @@ const ProductIcons = (props) => {
             className={clsx(c.ProductIcons, {
                 [c.small]: size === 'small',
                 [c.dark]: color === 'dark',
+                [c.missing]: isMissing === true,
             })}
         >
             {Icon}

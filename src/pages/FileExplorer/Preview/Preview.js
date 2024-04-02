@@ -428,6 +428,7 @@ const Preview = (props) => {
     const [related, setRelated] = useState(null)
     const [versions, setVersions] = useState([])
     const [activeVersion, setActiveVersion] = useState(null)
+    const [hasBrowse, setHasBrowse] = useState(null)
 
     let preview = useSelector((state) => {
         const filexPreview = state.get('filexPreview')
@@ -654,7 +655,7 @@ const Preview = (props) => {
                             history.push(`${HASH_PATHS.record}?uri=${preview.uri}&back=page`)
                     }}
                 >
-                    {imageUrl != 'null' ? (
+                    {imageUrl != 'null' && hasBrowse !== false ? (
                         <Image
                             className={c.previewImage}
                             style={{
@@ -669,6 +670,12 @@ const Preview = (props) => {
                             src={imageUrl}
                             alt={imageUrl}
                             errorIcon={<ProductIcons filename={imageUrl} type={preview.fs_type} />}
+                            onLoad={() => {
+                                setHasBrowse(true)
+                            }}
+                            onError={() => {
+                                setHasBrowse(false)
+                            }}
                         />
                     ) : (
                         <div className={c.imageless}>
@@ -787,138 +794,155 @@ const Preview = (props) => {
                                             </div>
                                         </li>
                                     )}
-                                    {getIn(related, 'gather.pds_archive.related.browse.uri') && (
-                                        <li>
-                                            <div className={c.relatedGroup}>Browse</div>
-                                            <div className={c.relatedLinks}>
-                                                <Button
-                                                    className={c.relatedButton}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    endIcon={
-                                                        <LaunchIcon className={c.buttonIcon} />
-                                                    }
-                                                    onClick={() => {
-                                                        const uri = getIn(
-                                                            related,
-                                                            'gather.pds_archive.related.browse.uri'
-                                                        )
-                                                        const release_id = getIn(
-                                                            related,
-                                                            ES_PATHS.release_id
-                                                        )
-                                                        if (uri)
-                                                            window.open(
-                                                                getPDSUrl(uri, release_id),
-                                                                '_blank'
+                                    {hasBrowse === true &&
+                                        getIn(related, 'gather.pds_archive.related.browse.uri') && (
+                                            <li>
+                                                <div className={c.relatedGroup}>Browse</div>
+                                                <div className={c.relatedLinks}>
+                                                    <Button
+                                                        className={c.relatedButton}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        endIcon={
+                                                            <LaunchIcon className={c.buttonIcon} />
+                                                        }
+                                                        onClick={() => {
+                                                            const uri = getIn(
+                                                                related,
+                                                                'gather.pds_archive.related.browse.uri'
                                                             )
-                                                    }}
-                                                >
-                                                    <div className={c.relatedItem}>Full</div>
-                                                </Button>
-                                                <Button
-                                                    className={c.relatedButton}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    endIcon={
-                                                        <LaunchIcon className={c.buttonIcon} />
-                                                    }
-                                                    onClick={() => {
-                                                        const uri = getIn(
-                                                            related,
-                                                            'gather.pds_archive.related.browse.uri'
-                                                        )
-                                                        const release_id = getIn(
-                                                            related,
-                                                            ES_PATHS.release_id
-                                                        )
-                                                        if (uri)
-                                                            window.open(
-                                                                getPDSUrl(uri, release_id, 'lg'),
-                                                                '_blank'
+                                                            const release_id = getIn(
+                                                                related,
+                                                                ES_PATHS.release_id
                                                             )
-                                                    }}
-                                                >
-                                                    <div className={c.relatedItem}>Large</div>
-                                                </Button>
-                                                <Button
-                                                    className={c.relatedButton}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    endIcon={
-                                                        <LaunchIcon className={c.buttonIcon} />
-                                                    }
-                                                    onClick={() => {
-                                                        const uri = getIn(
-                                                            related,
-                                                            'gather.pds_archive.related.browse.uri'
-                                                        )
-                                                        const release_id = getIn(
-                                                            related,
-                                                            ES_PATHS.release_id
-                                                        )
-                                                        if (uri)
-                                                            window.open(
-                                                                getPDSUrl(uri, release_id, 'md'),
-                                                                '_blank'
+                                                            if (uri)
+                                                                window.open(
+                                                                    getPDSUrl(uri, release_id),
+                                                                    '_blank'
+                                                                )
+                                                        }}
+                                                    >
+                                                        <div className={c.relatedItem}>Full</div>
+                                                    </Button>
+                                                    <Button
+                                                        className={c.relatedButton}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        endIcon={
+                                                            <LaunchIcon className={c.buttonIcon} />
+                                                        }
+                                                        onClick={() => {
+                                                            const uri = getIn(
+                                                                related,
+                                                                'gather.pds_archive.related.browse.uri'
                                                             )
-                                                    }}
-                                                >
-                                                    <div className={c.relatedItem}>Medium</div>
-                                                </Button>
-                                                <Button
-                                                    className={c.relatedButton}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    endIcon={
-                                                        <LaunchIcon className={c.buttonIcon} />
-                                                    }
-                                                    onClick={() => {
-                                                        const uri = getIn(
-                                                            related,
-                                                            'gather.pds_archive.related.browse.uri'
-                                                        )
-                                                        const release_id = getIn(
-                                                            related,
-                                                            ES_PATHS.release_id
-                                                        )
-                                                        if (uri)
-                                                            window.open(
-                                                                getPDSUrl(uri, release_id, 'sm'),
-                                                                '_blank'
+                                                            const release_id = getIn(
+                                                                related,
+                                                                ES_PATHS.release_id
                                                             )
-                                                    }}
-                                                >
-                                                    <div className={c.relatedItem}>Small</div>
-                                                </Button>
-                                                <Button
-                                                    className={c.relatedButton}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    endIcon={
-                                                        <LaunchIcon className={c.buttonIcon} />
-                                                    }
-                                                    onClick={() => {
-                                                        const uri = getIn(
-                                                            related,
-                                                            'gather.pds_archive.related.browse.uri'
-                                                        )
-                                                        const release_id = getIn(
-                                                            related,
-                                                            ES_PATHS.release_id
-                                                        )
-                                                        if (uri)
-                                                            window.open(
-                                                                getPDSUrl(uri, release_id, 'xs'),
-                                                                '_blank'
+                                                            if (uri)
+                                                                window.open(
+                                                                    getPDSUrl(
+                                                                        uri,
+                                                                        release_id,
+                                                                        'lg'
+                                                                    ),
+                                                                    '_blank'
+                                                                )
+                                                        }}
+                                                    >
+                                                        <div className={c.relatedItem}>Large</div>
+                                                    </Button>
+                                                    <Button
+                                                        className={c.relatedButton}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        endIcon={
+                                                            <LaunchIcon className={c.buttonIcon} />
+                                                        }
+                                                        onClick={() => {
+                                                            const uri = getIn(
+                                                                related,
+                                                                'gather.pds_archive.related.browse.uri'
                                                             )
-                                                    }}
-                                                >
-                                                    <div className={c.relatedItem}>Tiny</div>
-                                                </Button>
-                                            </div>
-                                        </li>
-                                    )}
+                                                            const release_id = getIn(
+                                                                related,
+                                                                ES_PATHS.release_id
+                                                            )
+                                                            if (uri)
+                                                                window.open(
+                                                                    getPDSUrl(
+                                                                        uri,
+                                                                        release_id,
+                                                                        'md'
+                                                                    ),
+                                                                    '_blank'
+                                                                )
+                                                        }}
+                                                    >
+                                                        <div className={c.relatedItem}>Medium</div>
+                                                    </Button>
+                                                    <Button
+                                                        className={c.relatedButton}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        endIcon={
+                                                            <LaunchIcon className={c.buttonIcon} />
+                                                        }
+                                                        onClick={() => {
+                                                            const uri = getIn(
+                                                                related,
+                                                                'gather.pds_archive.related.browse.uri'
+                                                            )
+                                                            const release_id = getIn(
+                                                                related,
+                                                                ES_PATHS.release_id
+                                                            )
+                                                            if (uri)
+                                                                window.open(
+                                                                    getPDSUrl(
+                                                                        uri,
+                                                                        release_id,
+                                                                        'sm'
+                                                                    ),
+                                                                    '_blank'
+                                                                )
+                                                        }}
+                                                    >
+                                                        <div className={c.relatedItem}>Small</div>
+                                                    </Button>
+                                                    <Button
+                                                        className={c.relatedButton}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        endIcon={
+                                                            <LaunchIcon className={c.buttonIcon} />
+                                                        }
+                                                        onClick={() => {
+                                                            const uri = getIn(
+                                                                related,
+                                                                'gather.pds_archive.related.browse.uri'
+                                                            )
+                                                            const release_id = getIn(
+                                                                related,
+                                                                ES_PATHS.release_id
+                                                            )
+                                                            if (uri)
+                                                                window.open(
+                                                                    getPDSUrl(
+                                                                        uri,
+                                                                        release_id,
+                                                                        'xs'
+                                                                    ),
+                                                                    '_blank'
+                                                                )
+                                                        }}
+                                                    >
+                                                        <div className={c.relatedItem}>Tiny</div>
+                                                    </Button>
+                                                </div>
+                                            </li>
+                                        )}
                                 </ul>
                             </div>
                         </div>

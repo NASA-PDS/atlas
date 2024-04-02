@@ -307,8 +307,8 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                                 <div>This product doesn't have a browse image.</div>
                             </div>
                             <div className={c.statusErrorMessage}>
-                                Not all do. That's okay. You can still view the label, download the
-                                source product and add it to the cart.
+                                You can still view the label, download the source product and add it
+                                to the cart.
                             </div>
                         </div>
                     </Paper>

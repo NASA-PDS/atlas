@@ -428,7 +428,7 @@ const Preview = (props) => {
     const [related, setRelated] = useState(null)
     const [versions, setVersions] = useState([])
     const [activeVersion, setActiveVersion] = useState(null)
-    const [hasBrowse, setHasBrowse] = useState(false)
+    const [hasBrowse, setHasBrowse] = useState(null)
 
     let preview = useSelector((state) => {
         const filexPreview = state.get('filexPreview')
@@ -651,7 +651,7 @@ const Preview = (props) => {
                             history.push(`${HASH_PATHS.record}?uri=${preview.uri}&back=page`)
                     }}
                 >
-                    {imageUrl != 'null' ? (
+                    {imageUrl != 'null' && hasBrowse !== false ? (
                         <Image
                             className={c.previewImage}
                             style={{
@@ -790,7 +790,7 @@ const Preview = (props) => {
                                             </div>
                                         </li>
                                     )}
-                                    {hasBrowse &&
+                                    {hasBrowse === true &&
                                         getIn(related, 'gather.pds_archive.related.browse.uri') && (
                                             <li>
                                                 <div className={c.relatedGroup}>Browse</div>

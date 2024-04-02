@@ -1342,7 +1342,7 @@ export const setRecordViewTab = (newRecordViewTab) => {
 }
 
 // ================= FILE-EXPLORER RELATED =================
-const FILEX_PAGE_SIZE = 1500
+const FILEX_PAGE_SIZE = 1000
 /**
  * Adds a column to the file explorer
  *
@@ -1541,10 +1541,17 @@ export const updateFilexColumn = (columnId, options, stopPropagate, forcePropaga
                             // Previous columns needs to query before adding new ones
                             function add(pathId) {
                                 const key = splitPath[pathId]
+                                const isFinalFile = key.includes('.') && key[key.length - 1] === '-'
+                                let lastMatch = rawPath.lastIndexOf(
+                                    `/${key}${isFinalFile ? '' : '/'}`
+                                )
+                                if (lastMatch == -1) lastMatch = rawPath.lastIndexOf(`/${key}`)
                                 const uri =
                                     uriPrefix +
-                                    rawPath.substring(0, rawPath.lastIndexOf(key) + key.length)
-                                const isFinalFile = key.includes('.') && key[key.length - 1] === '-'
+                                    rawPath.substring(
+                                        0,
+                                        lastMatch + key.length + (isFinalFile ? 0 : 1)
+                                    )
                                 // || rawPathFinal === key
 
                                 dispatch(

@@ -561,7 +561,7 @@ const Column = (props) => {
                     if (name == null) name = getIn(c, 'key', '')
                     if (name.length > longestName.length) longestName = name
                 })
-                const bestWidth = Math.max(longestName.length * 8.2 + 70, minColumnWidth)
+                const bestWidth = Math.max(longestName.length * 9.25 + 75, minColumnWidth)
                 colRef.current.style.width = `${bestWidth}px`
             }
         }

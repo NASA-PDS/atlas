@@ -448,12 +448,16 @@ const Preview = (props) => {
                     bool: {
                         must: [
                             { query_string: { query: `${uri}.*`, default_field: '*uri' } },
-                            { exists: { field: 'gather' } },
+                            { exists: { field: 'gather.common' } },
                         ],
                     },
                 },
                 size: 1,
                 _source: ['uri', 'gather.pds_archive.related', ES_PATHS.release_id.join('.')],
+                sort: [{ [ES_PATHS.release_id.join('.')]: 'desc' }],
+                collapse: {
+                    field: 'uri',
+                },
             }
 
             axios

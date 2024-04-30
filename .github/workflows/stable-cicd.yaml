@@ -1,0 +1,65 @@
+# 🏃‍♀️ Continuous Integration and Delivery: Stable
+# ===============================================
+#
+# Note: for this workflow to succeed, the following secrets must be installed
+# in the repository:
+#
+# ``ADMIN_GITHUB_TOKEN``
+#     A personal access token of a user with collaborator or better access to
+#     the project repository.
+# ``NPMJS_COM_TOKEN`` — token for npmjs.com. To create such a token, visit
+#     npmjs.com, log in, and go to your profile menu → Access Tokens →
+#     Generate new token → Granual access token, and give it a name, a
+#     description, and an expiration date. Leave the IP ranges empty.
+#     Under Packages, choose Read and Write, then All packages. Don't mess
+#     with Organizations. Then click "Generate token" and save the token
+#     in GitHub's secrets as ``NPMJS_COM_TOKEN``.
+
+
+---
+
+name: 😌 Stable integration & delivery
+
+
+# Driving Event
+# -------------
+#
+# What event starts this workflow: a push of a release tag.
+#
+# For the "glob++" pattern syntax, see https://git.io/JJZQt
+
+on:
+    push:
+        tags:
+            - 'release/*'
+
+
+# What to Do
+# ----------
+#
+# Round up, yee-haw!
+
+jobs:
+    stable-assembly:
+        name: 🐴 Stable Assembly
+        runs-on: ubuntu-latest
+        steps:
+            -
+                name: 💳 Checkout
+                uses: actions/checkout@v2
+                with:
+                    lfs: true
+                    token: ${{secrets.ADMIN_GITHUB_TOKEN}}
+                    fetch-depth: 0
+            -
+                name: 🤠 Roundup
+                uses: NASA-PDS/roundup-action@stable
+                with:
+                    assembly: stable
+                env:
+                    ADMIN_GITHUB_TOKEN: ${{secrets.ADMIN_GITHUB_TOKEN}}
+                    NPMJS_COM_TOKEN: ${{secrets.NPMJS_COM_TOKEN}}
+
+...
+
+# -*- mode: yaml; indent: 4; fill-column: 120; coding: utf-8 -*-

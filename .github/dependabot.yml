@@ -3,10 +3,20 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "daily"
+    target-branch: "develop"
     # Always increase the version requirement
     # to match the new version.
     versioning-strategy: increase
+    groups:
+       # Specify a name for the group, which will be used in pull request titles
+       # and branch names
+       dev-dependencies:
+          # Define patterns to include dependencies in the group (based on
+          # dependency name)
+          applies-to: version-updates # Applies the group rule to version updates
+            - "*"       # A wildcard that matches all dependencies in the package
+                        # ecosystem. Note: using "*" may open a large pull request
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"

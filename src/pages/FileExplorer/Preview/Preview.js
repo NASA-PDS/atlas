@@ -552,7 +552,7 @@ const Preview = (props) => {
     const browseUri = getIn(related, 'gather.pds_archive.related.browse.uri')
     const release_id = getIn(related, ES_PATHS.release_id)
 
-    if (browseUri && IMAGE_EXTENSIONS.includes(getExtension(browseUri)))
+    if (browseUri && IMAGE_EXTENSIONS.includes(getExtension(browseUri, true)))
         imageUrl = getPDSUrl(browseUri, release_id, 'md')
 
     if (Object.keys(preview).length == 0) {

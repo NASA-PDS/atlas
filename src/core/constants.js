@@ -20,6 +20,7 @@ export const HASH_PATHS = {
     record: publicUrl + '/record',
     cart: publicUrl + '/cart',
     fileExplorer: publicUrl + '/archive-explorer',
+    apiDocumentation: publicUrl + '/atlas/documentation',
 }
 
 export const localStorageCart = 'ATLAS_CART'

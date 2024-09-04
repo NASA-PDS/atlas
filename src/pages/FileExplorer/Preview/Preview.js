@@ -465,8 +465,10 @@ const Preview = (props) => {
                 .post(`${domain}${endpoints.search}`, dsl, getHeader())
                 .then((response) => {
                     const hit = response?.data?.hits?.hits?.[0]?._source
-                    if (hit) setRelated(hit)
-                    else setRelated(null)
+                    if (hit) {
+                        setHasBrowse(true)
+                        setRelated(hit)
+                    } else setRelated(null)
                 })
                 .catch((err) => {
                     setRelated(null)

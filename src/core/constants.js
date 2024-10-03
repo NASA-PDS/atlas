@@ -1,7 +1,6 @@
 export const domain = process.env.REACT_APP_DOMAIN
 
 export const publicUrl = process.env.REACT_APP_PUBLIC_URL || ''
-export const publicUrl2 = process.env.PUBLIC_URL || ''
 
 export const endpoints = {
     data: process.env.REACT_APP_DATA_ENDPOINT,
@@ -21,7 +20,7 @@ export const HASH_PATHS = {
     record: publicUrl + '/record',
     cart: publicUrl + '/cart',
     fileExplorer: publicUrl + '/archive-explorer',
-    apiDocumentation: publicUrl2 + '/atlas/documentation',
+    apiDocumentation: '/beta/atlas/documentation/',
 }
 
 export const localStorageCart = 'ATLAS_CART'

@@ -16,6 +16,15 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     SplitButton: {
+        'borderRadius': '2px',
+        '& > .MuiButton-root': {
+            background: theme.palette.swatches.grey.grey0,
+        },
+        '& .MuiButtonGroup-groupedOutlinedHorizontal:not(:last-child)': {
+            borderRight: '2px solid rgba(23, 23, 27, 0.5) !important',
+        },
+    },
+    contained: {
         'border': 'none',
         'borderRadius': '2px',
         '& > .MuiButton-root': {
@@ -86,6 +95,7 @@ export default function SplitButton(props) {
         forceIndex,
         startingIndex,
         truncateDelimiter,
+        variant,
     } = props
 
     const c = useStyles()
@@ -154,8 +164,10 @@ export default function SplitButton(props) {
     return (
         <>
             <ButtonGroup
-                className={`${c.SplitButton} ${className}`}
-                variant="contained"
+                className={clsx(c.SplitButton, className, {
+                    [c.contained]: variant != 'outlined',
+                })}
+                variant={variant || 'contained'}
                 color="secondary"
                 size="small"
                 aria-label="split button"

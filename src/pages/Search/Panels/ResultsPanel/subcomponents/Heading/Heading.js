@@ -17,7 +17,7 @@ import RotateRightIcon from '@material-ui/icons/RotateRight'
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import PhotoSizeSelectLargeIcon from '@material-ui/icons/PhotoSizeSelectLarge'
 import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall'
-import SwapVertIcon from '@material-ui/icons/SwapVert'
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
 
 import ResultsSorter from '../../../../../../components/ResultsSorter/ResultsSorter'
 import MenuButton from '../../../../../../components/MenuButton/MenuButton'
@@ -112,12 +112,12 @@ const Heading = (props) => {
     const dispatch = useDispatch()
 
     const theme = useTheme()
-    const isMobileXS = useMediaQuery(theme.breakpoints.down('xs'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
     const filterType = useSelector((state) => state.getIn(['filterType']))
     const gridSize = useSelector((state) => state.getIn(['gridSize']))
 
-    const gridSizes = isMobileXS ? [92, 128, 256] : [128, 192, 256]
+    const gridSizes = isMobile ? [92, 128, 256] : [128, 192, 256]
 
     const rotate90 = () => {
         window.atlasGlobal.imageRotation = (window.atlasGlobal.imageRotation + 90) % 360
@@ -145,7 +145,7 @@ const Heading = (props) => {
             <div className={c.middle}>{filterType === 'basic' && <ChippedFilters />}</div>
             <div className={c.right}>
                 <ResultsSorter />
-                {activeView === 'grid' && !isMobileXS && (
+                {activeView === 'grid' && !isMobile && (
                     <div className={c.gridSize}>
                         <Tooltip title="Small Grid Images" arrow>
                             <IconButton
@@ -191,7 +191,7 @@ const Heading = (props) => {
                         </Tooltip>
                     </div>
                 )}
-                {activeView === 'grid' && !isMobileXS && (
+                {activeView === 'grid' && !isMobile && (
                     <Tooltip title="Rotate Images 90°" arrow>
                         <IconButton
                             className={c.rotateButton}
@@ -204,7 +204,7 @@ const Heading = (props) => {
                         </IconButton>
                     </Tooltip>
                 )}
-                {activeView === 'table' && !isMobileXS && (
+                {activeView === 'table' && !isMobile && (
                     <Button
                         className={c.button1}
                         variant="contained"
@@ -215,27 +215,42 @@ const Heading = (props) => {
                         Edit Columns
                     </Button>
                 )}
+                <Tooltip title="Add All Query Results to Cart" arrow>
+                    <Button
+                        className={c.button1}
+                        variant="contained"
+                        aria-label="add all results to cart"
+                        size="small"
+                        onClick={() => {
+                            dispatch(addToCart('query', 'lastQuery'))
+                            dispatch(setSnackBarText('Added Query to Cart!', 'success'))
+                        }}
+                        endIcon={<AddShoppingCartIcon size="small" />}
+                    >
+                        {isMobile ? 'Add' : 'Add to Cart'}
+                    </Button>
+                </Tooltip>
                 <MenuButton
                     options={
-                        !isMobileXS
+                        !isMobile
                             ? [
-                                  'Add Selected Results to Cart',
                                   'Add All Query Results to Cart',
+                                  'Add Selected Results to Cart',
                                   '-',
                                   'Deselect All',
                               ]
                             : activeView === 'table'
                             ? [
-                                  'Add Selected Results to Cart',
                                   'Add All Query Results to Cart',
+                                  'Add Selected Results to Cart',
                                   '-',
                                   'Deselect All',
                                   '-',
                                   'Edit Columns',
                               ]
                             : [
-                                  'Add Selected Results to Cart',
                                   'Add All Query Results to Cart',
+                                  'Add Selected Results to Cart',
                                   '-',
                                   'Deselect All',
                                   '-',

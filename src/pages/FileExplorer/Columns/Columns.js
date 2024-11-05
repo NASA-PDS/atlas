@@ -60,8 +60,8 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 import Draggable from 'react-draggable'
 import Highlighter from 'react-highlight-words'
 
-const initialColumnWidth = 180
-const minColumnWidth = 180
+const initialColumnWidth = 220
+const minColumnWidth = 220
 
 const useStyles = makeStyles((theme) => ({
     Columns: {
@@ -554,14 +554,18 @@ const Column = (props) => {
                 if (!isMobile && content.length === 1 && firstItemRef && firstItemRef.current) {
                     firstItemRef.current.click()
                 }
-                // Find widest column name
-                let longestName = ''
+                // Find widest column name // start with heading name
+                let longestName = prevNames
+                    ? prevNames.map((n) => n.title).join('/')
+                    : prevColumn?.active?.key
+                    ? prevColumn.active.key
+                    : ''
                 content.forEach((c) => {
                     let name = getIn(c, '_source.archive.name')
                     if (name == null) name = getIn(c, 'key', '')
                     if (name.length > longestName.length) longestName = name
                 })
-                const bestWidth = Math.max(longestName.length * 9.25 + 75, minColumnWidth)
+                const bestWidth = Math.max(longestName.length * 9 + 70, minColumnWidth)
                 colRef.current.style.width = `${bestWidth}px`
             }
         }
@@ -725,22 +729,42 @@ const Column = (props) => {
                                                 {pds_standard === 'pds3' ? 'Volumes' : 'Bundles'}
                                             </Typography>
                                         </div>
-                                        <MenuButton
-                                            key={1}
-                                            options={['Filter', 'Regex Search']}
-                                            buttonComponent={<MoreVertIcon fontSize="inherit" />}
-                                            title={'Actions'}
-                                            onChange={(option) => {
-                                                if (option === 'Filter')
-                                                    setFilterSearchOpen(!filterSearchOpen)
-                                                else if (option === 'Regex Search')
-                                                    dispatch(
-                                                        setModal('regex', {
-                                                            uri: currentParentUri,
-                                                        })
-                                                    )
-                                            }}
-                                        />
+                                        <div>
+                                            <Tooltip title="URI Regex Search Here" arrow>
+                                                <IconButton
+                                                    //className={}
+                                                    aria-label="regex"
+                                                    onClick={() => {
+                                                        dispatch(
+                                                            setModal('regex', {
+                                                                uri: currentParentUri,
+                                                            })
+                                                        )
+                                                    }}
+                                                >
+                                                    <SearchIcon fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip>
+                                            {/*
+                                            <MenuButton
+                                                key={1}
+                                                options={['Filter', 'Regex Search']}
+                                                buttonComponent={
+                                                    <MoreVertIcon fontSize="inherit" />
+                                                }
+                                                title={'Actions'}
+                                                onChange={(option) => {
+                                                    if (option === 'Filter')
+                                                        setFilterSearchOpen(!filterSearchOpen)
+                                                    else if (option === 'Regex Search')
+                                                        dispatch(
+                                                            setModal('regex', {
+                                                                uri: currentParentUri,
+                                                            })
+                                                        )
+                                                }}
+                                            />*/}
+                                        </div>
                                     </div>
                                 ) : null}
                                 {params.type === 'directory' && prevColumn?.active?.key != null ? (
@@ -755,6 +779,36 @@ const Column = (props) => {
                                                 ? prevNames.map((n) => n.title).join('/')
                                                 : prevColumn.active.key}
                                         </Typography>
+                                        <div>
+                                            <Tooltip title="Filter List" arrow>
+                                                <IconButton
+                                                    //className={}
+                                                    aria-label="filter"
+                                                    onClick={() => {
+                                                        setFilterSearchOpen(!filterSearchOpen)
+                                                    }}
+                                                >
+                                                    <FilterListIcon fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip>
+
+                                            <Tooltip title="URI Regex Search Here" arrow>
+                                                <IconButton
+                                                    //className={}
+                                                    aria-label="regex"
+                                                    onClick={() => {
+                                                        dispatch(
+                                                            setModal('regex', {
+                                                                uri: currentParentUri,
+                                                            })
+                                                        )
+                                                    }}
+                                                >
+                                                    <SearchIcon fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </div>
+                                        {/*
                                         <MenuButton
                                             key={1}
                                             options={['Filter', 'Regex Search']}
@@ -770,7 +824,7 @@ const Column = (props) => {
                                                         })
                                                     )
                                             }}
-                                        />
+                                        />*/}
                                     </div>
                                 ) : null}
                             </>

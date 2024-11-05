@@ -9,11 +9,26 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import { setResultSorting } from '../../core/redux/actions/actions.js'
 
 import { makeStyles } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     ResultsSorter: {
         height: '26px',
+        marginLeft: '4px',
         margin: '7px 5px',
+    },
+    label: {
+        lineHeight: '26px',
+        paddingRight: '4px',
+        fontSize: '10px',
+        textTransform: 'uppercase',
+        fontWeight: 'bold',
+    },
+    flex: {
+        'display': 'flex',
+        '& > svg': {
+            paddingTop: '2px',
+        },
     },
 }))
 
@@ -45,7 +60,7 @@ export default function ResultsSorter(props) {
     //Add all active filters as potential sorts
     Object.keys(activeFilters).forEach((filter) => {
         activeFilters[filter].facets.forEach((f) => {
-            if (f.type != 'text') {
+            if (f.type != 'text' && f.field !== '*') {
                 if (resultSorting.field === f.field) selectedIndex = items.length
                 items.push({ name: f.field })
                 flatFields.push(f.field)
@@ -74,10 +89,21 @@ export default function ResultsSorter(props) {
         <SplitButton
             className={c.ResultsSorter}
             startIcon={
-                resultSorting.direction === 'desc' ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />
+                resultSorting.direction === 'desc' ? (
+                    <div className={c.flex}>
+                        <Typography className={c.label}>Sort</Typography>
+                        <ArrowDownwardIcon />
+                    </div>
+                ) : (
+                    <div className={c.flex}>
+                        <Typography className={c.label}>Sort</Typography>
+                        <ArrowUpwardIcon />
+                    </div>
+                )
             }
             truncateDelimiter="."
             items={items}
+            variant="outlined"
             forceIndex={selectedIndex}
             onChange={(item, index) => {
                 dispatch(setResultSorting(item.name))

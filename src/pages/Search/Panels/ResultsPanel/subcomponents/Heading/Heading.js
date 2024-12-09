@@ -17,7 +17,7 @@ import RotateRightIcon from '@material-ui/icons/RotateRight'
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import PhotoSizeSelectLargeIcon from '@material-ui/icons/PhotoSizeSelectLarge'
 import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall'
-import SwapVertIcon from '@material-ui/icons/SwapVert'
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
 
 import ResultsSorter from '../../../../../../components/ResultsSorter/ResultsSorter'
 import MenuButton from '../../../../../../components/MenuButton/MenuButton'
@@ -103,6 +103,17 @@ const useStyles = makeStyles((theme) => ({
         margin: '7px 3px',
         background: theme.palette.accent.main,
     },
+    button2: {
+        'color': theme.palette.text.secondary,
+        'fontSize': '11px',
+        'lineHeight': '11px',
+        'margin': '7px 3px',
+        'background': theme.palette.swatches.red.red500,
+        '&:hover': {
+            color: theme.palette.text.secondary,
+            background: theme.palette.swatches.red.red400,
+        },
+    },
 }))
 
 const Heading = (props) => {
@@ -112,12 +123,14 @@ const Heading = (props) => {
     const dispatch = useDispatch()
 
     const theme = useTheme()
-    const isMobileXS = useMediaQuery(theme.breakpoints.down('xs'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const filterType = useSelector((state) => state.getIn(['filterType']))
     const gridSize = useSelector((state) => state.getIn(['gridSize']))
 
-    const gridSizes = isMobileXS ? [92, 128, 256] : [128, 192, 256]
+    const resultKeysChecked = useSelector((state) => state.getIn(['resultKeysChecked']).toJS())
+
+    const gridSizes = isMobile ? [92, 128, 256] : [128, 192, 256]
 
     const rotate90 = () => {
         window.atlasGlobal.imageRotation = (window.atlasGlobal.imageRotation + 90) % 360
@@ -145,7 +158,7 @@ const Heading = (props) => {
             <div className={c.middle}>{filterType === 'basic' && <ChippedFilters />}</div>
             <div className={c.right}>
                 <ResultsSorter />
-                {activeView === 'grid' && !isMobileXS && (
+                {activeView === 'grid' && !isMobile && (
                     <div className={c.gridSize}>
                         <Tooltip title="Small Grid Images" arrow>
                             <IconButton
@@ -191,7 +204,7 @@ const Heading = (props) => {
                         </Tooltip>
                     </div>
                 )}
-                {activeView === 'grid' && !isMobileXS && (
+                {activeView === 'grid' && !isMobile && (
                     <Tooltip title="Rotate Images 90°" arrow>
                         <IconButton
                             className={c.rotateButton}
@@ -204,7 +217,7 @@ const Heading = (props) => {
                         </IconButton>
                     </Tooltip>
                 )}
-                {activeView === 'table' && !isMobileXS && (
+                {activeView === 'table' && !isMobile && (
                     <Button
                         className={c.button1}
                         variant="contained"
@@ -215,27 +228,66 @@ const Heading = (props) => {
                         Edit Columns
                     </Button>
                 )}
+                <Tooltip
+                    title={
+                        resultKeysChecked.length > 0
+                            ? 'Add Selected Results to Cart'
+                            : 'Add All Query Results to Cart'
+                    }
+                    arrow
+                >
+                    <Button
+                        className={resultKeysChecked.length > 0 ? c.button2 : c.button1}
+                        variant="contained"
+                        aria-label={
+                            resultKeysChecked.length > 0
+                                ? 'add selected results to cart'
+                                : 'add all query results to cart'
+                        }
+                        size="small"
+                        onClick={() => {
+                            if (resultKeysChecked.length > 0) {
+                                dispatch(addToCart('image', 'checkedResults'))
+                                dispatch(
+                                    setSnackBarText('Added Selected Items to Cart!', 'success')
+                                )
+                            } else {
+                                dispatch(addToCart('query', 'lastQuery'))
+                                dispatch(setSnackBarText('Added Query to Cart!', 'success'))
+                            }
+                        }}
+                        endIcon={<AddShoppingCartIcon size="small" />}
+                    >
+                        {isMobile
+                            ? resultKeysChecked.length > 0
+                                ? 'Add Selected'
+                                : 'Add All'
+                            : resultKeysChecked.length > 0
+                            ? 'Add Selected to Cart'
+                            : 'Add All to Cart'}
+                    </Button>
+                </Tooltip>
                 <MenuButton
                     options={
-                        !isMobileXS
+                        !isMobile
                             ? [
-                                  'Add Selected Results to Cart',
                                   'Add All Query Results to Cart',
+                                  'Add Selected Results to Cart',
                                   '-',
                                   'Deselect All',
                               ]
                             : activeView === 'table'
                             ? [
-                                  'Add Selected Results to Cart',
                                   'Add All Query Results to Cart',
+                                  'Add Selected Results to Cart',
                                   '-',
                                   'Deselect All',
                                   '-',
                                   'Edit Columns',
                               ]
                             : [
-                                  'Add Selected Results to Cart',
                                   'Add All Query Results to Cart',
+                                  'Add Selected Results to Cart',
                                   '-',
                                   'Deselect All',
                                   '-',

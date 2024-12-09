@@ -58,7 +58,6 @@ const FilterList = (props) => {
     const activeFilters = useSelector((state) => {
         return state.getIn(['activeFilters']).toJS()
     })
-
     useEffect(() => {
         const currentURL = new Url(window.location)
         const desiredSearchUrl = getSearchURL(activeFilters)
@@ -67,9 +66,12 @@ const FilterList = (props) => {
         }
     }, [activeFilters])
 
+    const sortedActiveFilterKeys = Object.keys(activeFilters).sort((a, b) => {
+        return activeFilters[a].order - activeFilters[b].order
+    })
     return (
         <div className={c.FilterList}>
-            {Object.keys(activeFilters).map((filterKey, idx) => {
+            {sortedActiveFilterKeys.map((filterKey, idx) => {
                 return (
                     <Filter
                         key={idx}

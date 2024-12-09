@@ -143,9 +143,21 @@ function setInitialActiveFilters(state, payload) {
 function addActiveFilters(state, payload) {
     let nextActiveFilters = state.get('activeFilters').toJS()
 
-    Object.keys(payload.filters).forEach((key) => {
-        if (nextActiveFilters[key] == null) nextActiveFilters[key] = payload.filters[key]
+    const sortedActiveFilterKeys = Object.keys(nextActiveFilters).sort((a, b) => {
+        return nextActiveFilters[a].order - nextActiveFilters[b].order
     })
+
+    sortedActiveFilterKeys.forEach((key, idx) => {
+        nextActiveFilters[key].order = idx
+    })
+
+    Object.keys(payload.filters).forEach((key) => {
+        if (nextActiveFilters[key] == null) {
+            nextActiveFilters[key] = payload.filters[key]
+            nextActiveFilters[key].order = Object.keys(nextActiveFilters).length
+        }
+    })
+
     return state.setIn(['activeFilters'], fromJS(nextActiveFilters))
 }
 

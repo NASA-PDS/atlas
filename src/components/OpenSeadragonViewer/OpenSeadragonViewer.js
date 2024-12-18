@@ -192,6 +192,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                 setSvgOverlay(so)
                 drawFeatures(so, features)
             })
+            console.log(image.src)
             viewer.open({
                 type: 'image',
                 url: image.src,

@@ -3,8 +3,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { setSnackBarText } from '../../../../../core/redux/actions/actions'
-import { getIn, getPDSUrl, isObject, copyToClipboard } from '../../../../../core/utils.js'
-import { ES_PATHS } from '../../../../../core/constants.js'
+import {
+    getIn,
+    getPDSUrl,
+    getExtension,
+    isObject,
+    copyToClipboard,
+} from '../../../../../core/utils.js'
+import { ES_PATHS, IMAGE_EXTENSIONS } from '../../../../../core/constants.js'
 
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
@@ -427,6 +433,12 @@ const ProductLabel = (props) => {
 
     const browse_uri = getIn(recordData, ES_PATHS.browse)
     const imgURL = getPDSUrl(browse_uri, release_id)
+
+    let type = getExtension(imgURL, true)
+    if (!IMAGE_EXTENSIONS.includes(type)) {
+        imgURL = getPDSUrl(uri, release_id)
+        type = getExtension(imgURL, true)
+    }
 
     const label_uri = getIn(recordData, ES_PATHS.label)
     const labelURL = getPDSUrl(label_uri, release_id)

@@ -14,7 +14,7 @@ import {
     abbreviateNumber,
     getExtension,
 } from '../../../core/utils'
-import { IMAGE_EXTENSIONS, ES_PATHS } from '../../../core/constants'
+import { IMAGE_EXTENSIONS, ES_PATHS, DISPLAY_NAME_MAPPINGS } from '../../../core/constants'
 import { streamDownloadFile } from '../../../core/downloaders/ZipStream.js'
 
 import {
@@ -980,7 +980,9 @@ const Column = (props) => {
                                                   })}
                                                   title={result.key}
                                               >
-                                                  {result.key}
+                                                  {DISPLAY_NAME_MAPPINGS[result.key]
+                                                      ? DISPLAY_NAME_MAPPINGS[result.key]
+                                                      : result.key}
                                               </div>
                                           </div>
                                           <div className={c.flex}>

@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import Checkbox from '@material-ui/core/Checkbox'
 
 import { setFieldState } from '../../../../core/redux/actions/actions.js'
+import { DISPLAY_NAME_MAPPINGS } from '../../../../core/constants.js'
 import { getIn } from '../../../../core/utils.js'
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     label: {
         display: 'flex',
         lineHeight: '26px',
-        marginLeft: '12px',
+        marginLeft: '8px',
     },
     name: {
         padding: '0px 2px',
@@ -94,7 +95,11 @@ const ListFilter = (props) => {
                                 aria-label="select"
                             />
                             <span className={c.label}>
-                                <div className={c.name}>{field.key}</div>
+                                <div className={c.name}>
+                                    {DISPLAY_NAME_MAPPINGS[field.key]
+                                        ? DISPLAY_NAME_MAPPINGS[field.key]
+                                        : field.key}
+                                </div>
                                 <div className={c.count}>({field.doc_count})</div>
                             </span>
                         </li>

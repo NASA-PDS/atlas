@@ -16,6 +16,7 @@ export const endpoints = {
 }
 
 export const HASH_PATHS = {
+    root: publicUrl + '/',
     search: publicUrl + '/search',
     record: publicUrl + '/record',
     cart: publicUrl + '/cart',

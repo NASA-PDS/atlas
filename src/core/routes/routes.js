@@ -26,6 +26,8 @@ export const Routes = () => {
         dispatch(loadMappings('atlas'))
     }, [])
 
+    console.log(HASH_PATHS)
+
     return (
         <div className="Routes">
             <Router>
@@ -33,6 +35,17 @@ export const Routes = () => {
                 <div className="routeMain">
                     <Topbar />
                     <Switch location={location}>
+                        <Route
+                            exact
+                            path={HASH_PATHS.root}
+                            component={() => {
+                                return (
+                                    <div className="routeContent">
+                                        <Search />
+                                    </div>
+                                )
+                            }}
+                        />
                         <Route
                             exact
                             path={HASH_PATHS.search}

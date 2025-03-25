@@ -26,8 +26,6 @@ export const Routes = () => {
         dispatch(loadMappings('atlas'))
     }, [])
 
-    console.log(HASH_PATHS)
-
     return (
         <div className="Routes">
             <Router>

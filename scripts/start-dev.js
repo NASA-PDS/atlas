@@ -121,7 +121,7 @@ checkBrowsers(paths.appPath, isInteractive)
                 console.log()
             }
 
-            console.log(chalk.cyan('Starting the development server...\n'))
+            console.log(chalk.cyan(`Development server listening on localhost:${port}\n`))
         })
         ;['SIGINT', 'SIGTERM'].forEach(function (sig) {
             process.on(sig, function () {

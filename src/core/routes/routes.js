@@ -35,6 +35,17 @@ export const Routes = () => {
                     <Switch location={location}>
                         <Route
                             exact
+                            path={HASH_PATHS.root}
+                            component={() => {
+                                return (
+                                    <div className="routeContent">
+                                        <Search />
+                                    </div>
+                                )
+                            }}
+                        />
+                        <Route
+                            exact
                             path={HASH_PATHS.search}
                             component={() => {
                                 return (

@@ -30,7 +30,7 @@
 
 ### System Requirements
 
-1. Install the latest version of [Node.js v16.13.2+](https://nodejs.org/en/download/).
+1. Install the latest version of [Node.js v20.13.1+](https://nodejs.org/en/download/).
 
 ### Setup
 
@@ -39,13 +39,16 @@
 1. Clone the repo  
    `git clone https://github.com/NASA-PDS/atlas`
 
-1. From within `/`  (If deploying code, be sure to use `npm ci` to produce deterministic builds)
+1. From within `/` (If deploying code, be sure to use `npm ci` to produce deterministic builds)
    `npm install`
 
 1. Copy `/sample.env` to `.env`  
    `cp sample.env .env`
 
 1. Run `npm run build` to bundle up the code (first time or if there are any changes)
+
+   1. Run `npm run start:prod` for production
+   1. cd `/Documentation`, `npm install`, `npm run build` to build the /documentation (served through Atlas server)
 
 1. Or run `npm run start` for development
 
@@ -65,7 +68,7 @@ Check out our code of conduct [here.](CODE_OF_CONDUCT.md)
 
 ### License: Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
-Copyright (c) 2023, California Institute of Technology ("Caltech"). U.S. Government sponsorship acknowledged.
+Copyright (c) 2025, California Institute of Technology ("Caltech"). U.S. Government sponsorship acknowledged.
 
 All rights reserved.
 
@@ -79,7 +82,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ---
 
-## Contacts
+## Contact
 
-Michael McAuley - michael.mcauley@jpl.nasa.gov
-Tariq K. Soliman - tariq.k.soliman@jpl.nasa.gov
+pds-imaging@jpl.nasa.gov

@@ -16,11 +16,12 @@ export const endpoints = {
 }
 
 export const HASH_PATHS = {
+    root: publicUrl + '/',
     search: publicUrl + '/search',
     record: publicUrl + '/record',
     cart: publicUrl + '/cart',
     fileExplorer: publicUrl + '/archive-explorer',
-    apiDocumentation: '/beta/atlas/documentation/',
+    apiDocumentation: publicUrl + '/documentation/',
 }
 
 export const localStorageCart = 'ATLAS_CART'

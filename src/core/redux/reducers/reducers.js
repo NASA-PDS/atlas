@@ -633,15 +633,15 @@ function addToCart(state, payload) {
     let currentCart = state.getIn(['cart']).toJS()
 
     const time = new Date().getTime()
-
     if (payload.item === 'lastQuery') {
         const lastQuery = state.getIn(['lastQuery'])
-        if (lastQuery)
+        if (lastQuery) {
             currentCart.push({
                 type: payload.type,
                 time: time,
                 item: { ...lastQuery.toJS(), ...{ related: payload.aggs } },
             })
+        }
     } else if (payload.item === 'lastRegexQuery') {
         const lastQuery = state.getIn(['lastRegexQuery'])
         if (lastQuery)
@@ -654,15 +654,23 @@ function addToCart(state, payload) {
         const resultKeysChecked = state.getIn(['resultKeysChecked']).toJS()
         const results = state.getIn(['results'])
         results.forEach((r) => {
-            if (resultKeysChecked.includes(r.result_key))
-                currentCart.push({
+            if (resultKeysChecked.includes(r.result_key)) {
+                const item = {
                     type: 'image',
                     time: time,
                     item: {
                         uri: getIn(r._source, ES_PATHS.source),
                         related: getIn(r._source, ES_PATHS.related),
                     },
-                })
+                }
+                item.item.related.src = {
+                    uri: getIn(r._source, ES_PATHS.uri),
+                    size: getIn(r._source, ES_PATHS.archive.size),
+                }
+                item.item.release_id = getIn(r._source, ES_PATHS.release_id)
+
+                currentCart.push(item)
+            }
         })
     } else currentCart.push({ type: payload.type, time: time, item: payload.item })
 

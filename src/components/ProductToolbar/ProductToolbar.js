@@ -168,7 +168,7 @@ const ProductToolbar = (props) => {
               }
           }).length > 0
 
-    if (isInCart) {
+    if (isCart && isInCart) {
         uri = getIn(result, 'item.uri', null)
         release_id = getIn(result, 'item.release_id', null)
     }
@@ -244,10 +244,15 @@ const ProductToolbar = (props) => {
                         size="small"
                         onClick={() => {
                             if (!isInCart) {
+                                const related = getIn(s, ES_PATHS.related)
+                                related.src = related.src || {}
+                                related.src.size = getIn(s, ES_PATHS.archive.size)
+                                related.src.uri = getIn(s, ES_PATHS.uri)
+
                                 dispatch(
                                     addToCart('image', {
                                         uri: getIn(s, ES_PATHS.source),
-                                        related: getIn(s, ES_PATHS.related),
+                                        related: related,
                                         release_id: getIn(s, ES_PATHS.release_id),
                                     })
                                 )

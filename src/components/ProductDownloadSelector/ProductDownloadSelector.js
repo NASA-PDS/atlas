@@ -132,6 +132,8 @@ const ProductDownloadSelector = forwardRef((props, ref) => {
                     if (related[productType]) {
                         if (related[productType].value != null) {
                             size += related[productType].value
+                        } else if (related[productType].size != null) {
+                            size += related[productType].size
                         } else {
                             sizeComplete = false
                         }

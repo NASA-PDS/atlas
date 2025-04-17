@@ -694,7 +694,13 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 field: 'uri',
             },
             track_total_hits: true,
-            _source: ['uri', 'gather', ES_PATHS.release_id.join('.')],
+            _source: [
+                ES_PATHS.uri.join('.'),
+                ES_PATHS.gather_uri.join('.'),
+                ES_PATHS.pds_archive.join('.'),
+                ES_PATHS.release_id.join('.'),
+                ES_PATHS.archive.size.join('.'),
+            ],
         }
 
         lastDSL = dsl
@@ -706,8 +712,17 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 const urlHasQuery = url != null ? Object.keys(url.query).length > 0 : false
                 if (!urlHasQuery) {
                     let cartImages = []
-                    for (let i = 0; i < 4 && i < response.data.hits.hits.length; i++)
-                        cartImages.push(getIn(response.data.hits.hits[i]._source, ES_PATHS.thumb))
+                    for (let i = 0; i < 4 && i < response.data.hits.hits.length; i++) {
+                        const release_id = getIn(
+                            response.data.hits.hits[i]._source,
+                            ES_PATHS.release_id
+                        )
+                        cartImages.push(
+                            `${getIn(response.data.hits.hits[i]._source, ES_PATHS.thumb)}${
+                                release_id != null && release_id != 0 ? `::${release_id}` : ''
+                            }`
+                        )
+                    }
 
                     const resultsTotal = getIn(response, 'data.hits.total.value')
                     dispatch({

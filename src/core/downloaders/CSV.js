@@ -222,7 +222,7 @@ const CSVImage = (item, productKeys, datestamp, statusCallback) => {
 
 const createCSVFile = (datestamp, finishCallback) => {
     if (CSVRows.length == 0) {
-        alert('Nothing to download.')
+        alert('Please select products to download.')
         return
     }
 

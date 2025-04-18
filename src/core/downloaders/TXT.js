@@ -218,7 +218,7 @@ const TXTImage = (item, productKeys, datestamp, statusCallback) => {
 
 const createTXTFile = (datestamp, finishCallback) => {
     if (TXTRows.length == 0) {
-        alert('Nothing to download.')
+        alert('Please select products to download.')
         return
     }
 

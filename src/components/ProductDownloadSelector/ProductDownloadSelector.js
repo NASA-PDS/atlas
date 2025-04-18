@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ProductDownloadSelector = forwardRef((props, ref) => {
-    const { hidden, forceAllSelected, onSummaryReady } = props
+    const { hidden, forceAllSelected, onSummaryReady, onSelection } = props
 
     const dispatch = useDispatch()
 
@@ -103,16 +103,7 @@ const ProductDownloadSelector = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         getSelected: () => {
-            const selected = []
-            Object.keys(listState).forEach((groupName) => {
-                Object.keys(listState[groupName]).forEach((productType) => {
-                    const p = listState[groupName][productType]
-                    if (p.checked) {
-                        selected.push(productType)
-                    }
-                })
-            })
-            return selected
+            return getSelected(listState)
         },
         getSummary: () => {
             return getSummary(listState)
@@ -163,6 +154,8 @@ const ProductDownloadSelector = forwardRef((props, ref) => {
             !getIn(nextListState, [group, name, 'checked'], false)
         )
         setListState(nextListState)
+        if (typeof onSelection === 'function')
+            onSelection((getSelected(nextListState) || []).length)
     }
 
     const summary = getSummary(listState)
@@ -225,6 +218,19 @@ function makeSelectors(state, onCheck) {
     })
 
     return list
+}
+
+function getSelected(listState) {
+    const selected = []
+    Object.keys(listState).forEach((groupName) => {
+        Object.keys(listState[groupName]).forEach((productType) => {
+            const p = listState[groupName][productType]
+            if (p.checked) {
+                selected.push(productType)
+            }
+        })
+    })
+    return selected
 }
 
 function getSummary(state) {

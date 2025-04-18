@@ -225,7 +225,7 @@ const WGETImage = (item, productKeys, datestamp, statusCallback) => {
 
 const createWGETFile = (datestamp, finishCallback) => {
     if (WGETRows.length == 0) {
-        alert('Nothing to download.')
+        alert('Please select products to download.')
         return
     }
 

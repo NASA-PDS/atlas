@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import { ZipStreamCart } from '../../../../../../core/downloaders/ZipStream'
 import { setSnackBarText } from '../../../../../../core/redux/actions/actions.js'
@@ -61,6 +62,7 @@ function BrowserTab(props) {
     const [status, setStatus] = useState(null)
     const [zipController, setZipController] = useState(null)
     const [error, setError] = useState(null)
+    const [selectionCount, setSelectionCount] = useState(0)
 
     const dispatch = useDispatch()
     const selectorRef = useRef()
@@ -88,41 +90,56 @@ function BrowserTab(props) {
                         <Typography className={clsx(c.p, c.subtitle)}>
                             Select the products to include in your download:
                         </Typography>
-                        <ProductDownloadSelector ref={selectorRef} />
-                        <Button
-                            className={clsx(c.button1, {
-                                [c.downloadingButton]: isDownloading,
-                            })}
-                            variant="contained"
-                            aria-label="browser zip download button"
-                            onClick={() => {
-                                if (selectorRef && selectorRef.current) {
-                                    const sel = selectorRef.current.getSelected() || []
-                                    const summary = selectorRef.current.getSummary()
-                                    if (sel.length == 0) {
-                                        dispatch(setSnackBarText('Nothing to download', 'warning'))
-                                    } else {
-                                        setIsDownloading(true)
-                                        setDownloadId(downloadId + 1)
-                                        setError(null)
-                                        dispatch(
-                                            ZipStreamCart(
-                                                setStatus,
-                                                setIsDownloading,
-                                                setZipController,
-                                                sel,
-                                                (err) => {
-                                                    setError(err)
-                                                    setIsDownloading(false)
-                                                }
-                                            )
-                                        )
-                                    }
-                                }
-                            }}
+                        <ProductDownloadSelector
+                            ref={selectorRef}
+                            onSelection={setSelectionCount}
+                        />
+                        <Tooltip
+                            title={selectionCount === 0 ? 'Select products above to download.' : ''}
+                            arrow
                         >
-                            {isDownloading ? 'Download in Progress' : 'Download ZIP'}
-                        </Button>
+                            <span>
+                                <Button
+                                    className={clsx(c.button1, {
+                                        [c.downloadingButton]: isDownloading,
+                                    })}
+                                    variant="contained"
+                                    aria-label="browser zip download button"
+                                    disabled={selectionCount === 0}
+                                    onClick={() => {
+                                        if (selectorRef && selectorRef.current) {
+                                            const sel = selectorRef.current.getSelected() || []
+                                            if (sel.length === 0) {
+                                                dispatch(
+                                                    setSnackBarText(
+                                                        'Please select products to download',
+                                                        'warning'
+                                                    )
+                                                )
+                                            } else {
+                                                setIsDownloading(true)
+                                                setDownloadId(downloadId + 1)
+                                                setError(null)
+                                                dispatch(
+                                                    ZipStreamCart(
+                                                        setStatus,
+                                                        setIsDownloading,
+                                                        setZipController,
+                                                        sel,
+                                                        (err) => {
+                                                            setError(err)
+                                                            setIsDownloading(false)
+                                                        }
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    }}
+                                >
+                                    {isDownloading ? 'Download in Progress' : 'Download ZIP'}
+                                </Button>
+                            </span>
+                        </Tooltip>
                     </Box>
                     <div className={c.downloading}>
                         <div className={clsx(c.error, { [c.errorOn]: error != null })}>{error}</div>

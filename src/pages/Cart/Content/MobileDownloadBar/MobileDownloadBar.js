@@ -142,9 +142,13 @@ const MobileDownloadBar = (props) => {
                         onClick={() => {
                             if (selectorRef && selectorRef.current) {
                                 const sel = selectorRef.current.getSelected() || []
-                                const summary = selectorRef.current.getSummary()
                                 if (sel.length == 0) {
-                                    dispatch(setSnackBarText('Nothing to download', 'warning'))
+                                    dispatch(
+                                        setSnackBarText(
+                                            'Please select products to download',
+                                            'warning'
+                                        )
+                                    )
                                 } else {
                                     setIsDownloading(true)
                                     setDownloadId(downloadId + 1)

@@ -5,6 +5,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles'
 
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import Tooltip from '@material-ui/core/Tooltip'
 import clsx from 'clsx'
 
 import ProductDownloadSelector from '../../../../../../components/ProductDownloadSelector/ProductDownloadSelector'
@@ -78,6 +79,7 @@ function CURLTab(props) {
     const [downloadId, setDownloadId] = useState(0)
     const [status, setStatus] = useState(null)
     const [error, setError] = useState(null)
+    const [selectionCount, setSelectionCount] = useState(0)
 
     const [datestamp, setDatestamp] = useState()
 
@@ -104,43 +106,61 @@ function CURLTab(props) {
                         <Typography className={c.p}>
                             Select the products to include in your download:
                         </Typography>
-                        <ProductDownloadSelector ref={selectorRef} />
-                        <Button
-                            className={clsx(c.button1, {
-                                [c.downloadingButton]: isDownloading,
-                            })}
-                            variant="contained"
-                            aria-label="curl download button"
-                            onClick={() => {
-                                if (selectorRef && selectorRef.current) {
-                                    const sel = selectorRef.current.getSelected() || {}
-                                    if (sel.length == 0) {
-                                        dispatch(setSnackBarText('Nothing to download', 'warning'))
-                                    } else {
-                                        setIsDownloading(true)
-                                        setDownloadId(downloadId + 1)
-                                        setError(null)
-                                        const datestamp = new Date()
-                                            .toISOString()
-                                            .replace(/:/g, '_')
-                                            .replace(/\./g, '_')
-                                            .replace(/Z/g, '')
-                                        dispatch(
-                                            CURLCart(
-                                                setStatus,
-                                                setIsDownloading,
-                                                setOnStop,
-                                                sel,
-                                                datestamp
-                                            )
-                                        )
-                                        setDatestamp(datestamp)
-                                    }
-                                }
-                            }}
+                        <ProductDownloadSelector
+                            ref={selectorRef}
+                            onSelection={setSelectionCount}
+                        />
+                        <Tooltip
+                            title={selectionCount === 0 ? 'Select products above to download.' : ''}
+                            arrow
                         >
-                            {isDownloading ? 'Download in Progress' : 'Download CURL Script'}
-                        </Button>
+                            <span>
+                                <Button
+                                    className={clsx(c.button1, {
+                                        [c.downloadingButton]: isDownloading,
+                                    })}
+                                    variant="contained"
+                                    aria-label="curl download button"
+                                    disabled={selectionCount === 0}
+                                    onClick={() => {
+                                        if (selectorRef && selectorRef.current) {
+                                            const sel = selectorRef.current.getSelected() || {}
+                                            if (sel.length == 0) {
+                                                dispatch(
+                                                    setSnackBarText(
+                                                        'Please select products to download',
+                                                        'warning'
+                                                    )
+                                                )
+                                            } else {
+                                                setIsDownloading(true)
+                                                setDownloadId(downloadId + 1)
+                                                setError(null)
+                                                const datestamp = new Date()
+                                                    .toISOString()
+                                                    .replace(/:/g, '_')
+                                                    .replace(/\./g, '_')
+                                                    .replace(/Z/g, '')
+                                                dispatch(
+                                                    CURLCart(
+                                                        setStatus,
+                                                        setIsDownloading,
+                                                        setOnStop,
+                                                        sel,
+                                                        datestamp
+                                                    )
+                                                )
+                                                setDatestamp(datestamp)
+                                            }
+                                        }
+                                    }}
+                                >
+                                    {isDownloading
+                                        ? 'Download in Progress'
+                                        : 'Download CURL Script'}
+                                </Button>
+                            </span>
+                        </Tooltip>
                         <Typography className={c.p2}>Requires: curl 7.73.0+</Typography>
                         <Typography className={c.p}>
                             To provide bulk downloading of PDS Imaging products, we have provided a

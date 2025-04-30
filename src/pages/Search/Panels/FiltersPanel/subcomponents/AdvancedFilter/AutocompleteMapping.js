@@ -79,6 +79,8 @@ export const basicToAdvancedFilters = (activeFilters) => {
     let adv = []
 
     for (let b in activeFilters) {
+        let advFilter = []
+
         let filter = activeFilters[b]
         if (b == '_text') continue
 
@@ -90,11 +92,15 @@ export const basicToAdvancedFilters = (activeFilters) => {
                         if (state) {
                             let value = s
                             if (value.includes(' ')) value = `"${value}"`
-                            adv.push(`${facet.field}:${value}`)
+                            advFilter.push(`${facet.field}:${value}`)
                         }
                     }
                 }
             })
+        }
+        if (advFilter.length > 0) {
+            if (advFilter.length == 1) adv.push(`${advFilter.join(' OR ') || ''}`)
+            else adv.push(`(${advFilter.join(' OR ') || ''})`)
         }
     }
     return adv.join(' AND ') || ''

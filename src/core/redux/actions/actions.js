@@ -374,6 +374,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
             Object.keys(activeFilters).forEach((filter) => {
                 let geo_bounding_boxContinuity = -1
 
+                let toAddToMust = []
                 activeFilters[filter].facets.forEach((facet, idx) => {
                     let field = facet.field
 
@@ -462,7 +463,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                     }
 
                                     let qs_input = '.*' + facet.state.input + '.*'
-                                    query.bool.must.push({
+                                    toAddToMust.push({
                                         regexp: {
                                             uri: {
                                                 value: qs_input,
@@ -478,7 +479,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                     query.bool = query.bool || {
                                         must: [],
                                     }
-                                    query.bool.must.push({
+                                    toAddToMust.push({
                                         match: {
                                             [field]: facet.state.input,
                                         },
@@ -497,7 +498,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                     }
 
                                     if (facet.nestedPath) {
-                                        query.bool.must.push({
+                                        toAddToMust.push({
                                             nested: {
                                                 path: facet.nestedPath,
                                                 query: {
@@ -517,7 +518,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                             },
                                         })
                                     } else {
-                                        query.bool.must.push({
+                                        toAddToMust.push({
                                             range: {
                                                 [field]: {
                                                     gte: facet.state.range[0],
@@ -537,7 +538,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                     query.bool = query.bool || {
                                         must: [],
                                     }
-                                    query.bool.must.push({
+                                    toAddToMust.push({
                                         range: {
                                             [field]: {
                                                 gte:
@@ -590,7 +591,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                             }
                                         }
                                     } else {
-                                        query.bool.must.push({
+                                        toAddToMust.push({
                                             geo_bounding_box: {
                                                 [field]: {
                                                     top_left: {
@@ -627,7 +628,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                             must: [],
                                         }
                                         if (facet.nestedPath) {
-                                            query.bool.must.push({
+                                            toAddToMust.push({
                                                 nested: {
                                                     path: facet.nestedPath,
                                                     query: {
@@ -644,7 +645,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                                 },
                                             })
                                         } else {
-                                            query.bool.must.push({
+                                            toAddToMust.push({
                                                 match: {
                                                     [field]: value,
                                                 },
@@ -655,6 +656,13 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                         }
                     }
                 })
+                if (toAddToMust.length > 0) {
+                    query.bool.must.push({
+                        bool: {
+                            should: toAddToMust,
+                        },
+                    })
+                }
             })
         }
 

@@ -31,6 +31,7 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import ImageSearchIcon from '@material-ui/icons/ImageSearch'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined'
+import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 
 import {
     setModal,
@@ -42,7 +43,7 @@ import {
 
 import { publicUrl, HASH_PATHS } from '../../core/constants'
 
-const drawerWidth = 220
+const drawerWidth = 230
 
 const useStyles = makeStyles((theme) => ({
     Toolbar: {
@@ -230,7 +231,7 @@ const useStyles = makeStyles((theme) => ({
 const drawerItems = [
     {
         name: 'Home',
-        path: '/',
+        path: 'https://pds-imaging.jpl.nasa.gov/',
     },
     {
         name: 'Atlas',
@@ -253,28 +254,44 @@ const drawerItems = [
         showLength: true,
     },
     {
-        name: 'News',
-        path: '/news',
-    },
-    {
-        name: 'Missions',
-        path: '/missions',
-    },
-    {
-        name: 'Tools',
-        path: '/tools',
-    },
-    {
         name: 'Documentation',
         path: '/documentation',
+        isAtlas: true,
     },
     {
-        name: 'Help',
-        path: '/help',
+        name: 'Data',
+        isHeader: true,
     },
     {
-        name: 'About',
-        path: '/about',
+        name: 'Volumes',
+        path: 'https://pds-imaging.jpl.nasa.gov/volumes/',
+        isData: true,
+    },
+    {
+        name: 'Holdings',
+        path: 'https://pds-imaging.jpl.nasa.gov/holdings/',
+        isData: true,
+    },
+    {
+        name: 'Portal',
+        path: 'https://pds-imaging.jpl.nasa.gov/portal/',
+        isData: true,
+    },
+    {
+        name: 'PDS',
+        isHeader: true,
+    },
+    {
+        name: 'Home',
+        path: 'https://pds.nasa.gov/',
+        isPDS: true,
+        isExternal: true,
+    },
+    {
+        name: 'Release Calendar',
+        path: 'https://pds.nasa.gov/datasearch/subscription-service/data-release-calendar.shtml',
+        isPDS: true,
+        isExternal: true,
     },
 ]
 
@@ -338,7 +355,7 @@ const Toolbar = (props) => {
                         <ListItem
                             className={clsx(c.listItem, {
                                 [c.listItemNoClick]: item.isHeader,
-                                [c.listIndent]: item.isAtlas,
+                                [c.listIndent]: item.isAtlas || item.isData || item.isPDS,
                             })}
                             key={idx}
                         >
@@ -357,6 +374,7 @@ const Toolbar = (props) => {
                                         history.push(`${item.path}`)
                                     }
                                 }}
+                                target="__blank"
                                 href={item.path}
                                 rel="noopener"
                             >
@@ -373,6 +391,24 @@ const Toolbar = (props) => {
                                 {item.name === 'Cart' && (
                                     <div className={c.navIcon}>
                                         <ShoppingCartOutlinedIcon />
+                                    </div>
+                                )}
+                                {item.name === 'Documentation' && (
+                                    <div className={c.navIcon}>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            style={{
+                                                fill: 'currentColor',
+                                            }}
+                                        >
+                                            <path d="M7 7H5A2 2 0 0 0 3 9V17H5V13H7V17H9V9A2 2 0 0 0 7 7M7 11H5V9H7M14 7H10V17H12V13H14A2 2 0 0 0 16 11V9A2 2 0 0 0 14 7M14 11H12V9H14M20 9V15H21V17H17V15H18V9H17V7H21V9Z" />
+                                        </svg>
+                                    </div>
+                                )}
+                                {item.isExternal && (
+                                    <div className={c.navIcon}>
+                                        <OpenInNewIcon />
                                     </div>
                                 )}
                                 <ListItemText primary={item.name}> </ListItemText>

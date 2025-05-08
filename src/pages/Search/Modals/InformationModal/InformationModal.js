@@ -107,10 +107,11 @@ const useStyles = makeStyles((theme) => ({
     message: {
         margin: `${theme.spacing(4)}px 0px`,
     },
-    feedback: {
+    aLink: {
         color: 'link',
         cursor: 'pointer',
         textDecoration: 'underline',
+        fontWeight: 'bold',
     },
     metadata: {
         '& > p': {
@@ -152,7 +153,7 @@ const InformationModal = (props) => {
         dispatch(setModal('feedback'))
     }
 
-    const newsPath = `${(publicUrl != null && publicUrl.length > 0 ? publicUrl : '') + '/news'}`
+    const newsPath = `https://pds-imaging.jpl.nasa.gov/`
 
     return (
         <Dialog
@@ -201,18 +202,18 @@ const InformationModal = (props) => {
                             data products that have been collected from a variety NASA's planetary
                             space missions. Through the use of these tools, users have access to
                             petabytes of imaging data in one central location. This collection of
-                            data is updated periodically and is reported on our{' '}
-                            <a href={newsPath} rel="noopener">
-                                news
+                            data is updated periodically and is reported within the{' '}
+                            <a className={c.aLink} href={newsPath} rel="noopener">
+                                Latest News
                             </a>{' '}
-                            page.
+                            section of our home page.
                         </Typography>
                     </div>
                     <div className={c.message}>
                         <Typography>
                             If you have questions, want to share feedback, or need support,{' '}
                             <a
-                                className={c.feedback}
+                                className={c.aLink}
                                 aria-label="give feedback"
                                 onClick={openFeedback}
                             >

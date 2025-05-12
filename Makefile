@@ -18,8 +18,6 @@ update-secrets-baseline:	## Updates .secrets.baseline
 		--exclude-files 'build' \
 		--exclude-files 'src/external/react-filter-box-REPO/react-filter-box-mod/src/example' > .secrets.baseline
 
-#--exclude-files 'src\/external\/react\-filter\-box-REPO\/react\-filter\-box\-mod\/src\/example' > .secrets.baseline
-
 # ----------------------------------------------------------------------------
 # Self-Documented Makefile
 # ref: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html

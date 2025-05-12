@@ -278,20 +278,18 @@ const drawerItems = [
         isData: true,
     },
     {
-        name: 'PDS',
-        isHeader: true,
-    },
-    {
-        name: 'Home',
-        path: 'https://pds.nasa.gov/',
-        isPDS: true,
-        isExternal: true,
-    },
-    {
         name: 'Release Calendar',
         path: 'https://pds.nasa.gov/datasearch/subscription-service/data-release-calendar.shtml',
-        isPDS: true,
+        isData: true,
         isExternal: true,
+    },
+    {
+        name: 'Tools & Tutorials',
+        path: 'https://pds-imaging.jpl.nasa.gov/software/',
+    },
+    {
+        name: 'Help',
+        path: 'https://pds-imaging.jpl.nasa.gov/help/help.html',
     },
 ]
 

@@ -1,11 +1,3 @@
-export NAME_PREFIX = pds-portal
-export DB_CONTAINER_NAME = $(NAME_PREFIX)-db
-export FRONTEND_CONTAINER_NAME = $(NAME_PREFIX)-frontend
-export WORDPRESS_CONTAINER_NAME = ${NAME_PREFIX}-wordpress
-export WPCLI_CONTAINER_NAME = ${NAME_PREFIX}-wpcli
-export RUN_OPTIONS = 
-export DOCKER_COMPOSE_YML = ./apps/docker-compose.yml
-
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 # Secrets Detection Receipes

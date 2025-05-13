@@ -431,8 +431,10 @@ const ProductLabel = (props) => {
 
     const release_id = getIn(recordData, ES_PATHS.release_id)
 
+    const uri = getIn(recordData, ES_PATHS.uri)
+
     const browse_uri = getIn(recordData, ES_PATHS.browse)
-    const imgURL = getPDSUrl(browse_uri, release_id)
+    let imgURL = getPDSUrl(browse_uri, release_id)
 
     let type = getExtension(imgURL, true)
     if (!IMAGE_EXTENSIONS.includes(type)) {

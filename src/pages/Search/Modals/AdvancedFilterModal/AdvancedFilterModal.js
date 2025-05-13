@@ -107,9 +107,11 @@ const AdvancedFilterModal = (props) => {
             <DialogContent className={c.content}>
                 <ReactMarkdown>
                     {[
-                        `Atlas' Advanced Filtering uses Elasticsearch's Query String (Apache's Lucene) query syntax.`,
-                        `#### Subsection`,
-                        `Lorem Ipsum`,
+                        `Atlas' Advanced Filtering uses Elasticsearch's Query String (Apache's Lucene) query syntax:  \n`,
+                        `https://www.elastic.co/guide/en/elasticsearch/reference/7.10/query-dsl-query-string-query.html#query-string-syntax  \n`,
+                        `#### Shortcuts`,
+                        `Submit Query: *ctrl/cmd + enter*  \n`,
+                        `Autocomplete: *ctrl/cmd + shift*`,
                     ].join('\n')}
                 </ReactMarkdown>
             </DialogContent>

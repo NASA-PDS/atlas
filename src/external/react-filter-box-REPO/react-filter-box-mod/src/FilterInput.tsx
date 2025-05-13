@@ -112,8 +112,8 @@ export default class FilterInput extends React.Component<any, any> {
             //this.handlePressingAnyCharacter()
         })
         ref.editor.on('keydown', (cm: ExtendedCodeMirror, e?: KeyboardEvent) => {
-            // ctrl + space
-            if (e.ctrlKey && e.keyCode == 32) {
+            // ctrl + shift
+            if (e.ctrlKey && e.keyCode == 16) {
                 this.handlePressingAnyCharacter()
             }
         })

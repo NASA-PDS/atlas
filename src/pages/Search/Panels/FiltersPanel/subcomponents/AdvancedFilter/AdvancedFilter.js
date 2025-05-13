@@ -254,7 +254,7 @@ const AdvancedFilter = (props) => {
             ` * Press the play button above when your query is ready`,
             ` * to be executed or use ('ctrl/cmd + enter').`,
             ` *`,
-            ` * Autocompletion can be triggered with 'ctrl/cmd + space'.`,
+            ` * Autocompletion can be triggered with 'ctrl/cmd + shift'.`,
             ` *`,
             ` * Queries use the Lucene query string syntax.`,
             ` */`,
@@ -262,7 +262,7 @@ const AdvancedFilter = (props) => {
             (advancedFilters == null || advancedFilters === '') ? basicToAdvancedFilters(activeFilters) : removeComments(advancedFilters),
             ``,
             `// Example queries:`,
-            `# gather.common.mission:"cassini" AND gather.common.target:(*ring OR dione)`,
+            `# gather.common.mission:"cas" AND gather.common.target:(*ring OR dione)`,
             `# gather.common.target:(dione AND tethys AND NOT saturn)`
         ].join('\n') : ''
 

@@ -1728,13 +1728,13 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                         aggs[i] = {
                             terms: {
                                 field: ES_PATHS.archive.volume_id.join('.'),
-                                size: 1000,
+                                size: 10000,
                             },
                         }
                         aggs[`${i}_a`] = {
                             terms: {
                                 field: ES_PATHS.archive.bundle_id.join('.'),
-                                size: 1000,
+                                size: 10000,
                             },
                         }
                         break

@@ -9,6 +9,7 @@ import {
     removeActiveFilters,
     clearResults,
     search,
+    setFieldState,
 } from '../../core/redux/actions/actions.js'
 
 import MuiAccordion from '@material-ui/core/Accordion'
@@ -18,11 +19,16 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Badge from '@material-ui/core/Badge'
+import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import SettingsIcon from '@material-ui/icons/Settings'
+import FilterListIcon from '@material-ui/icons/FilterList'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import CloseIcon from '@material-ui/icons/Close'
 
 import InputFilter from './subcomponents/InputFilter/InputFilter'
 import ListFilter from './subcomponents/ListFilter/ListFilter'
@@ -164,6 +170,60 @@ const useStyles = makeStyles((theme) => ({
             padding: '0px 4px 0px 3px',
         },
     },
+    filterDownWrapper: {
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    filterDown: {
+        'flex': 1,
+        'height': '40px',
+        '& > div': {
+            height: '40px',
+        },
+        '& .MuiFilledInput-input': {
+            paddingTop: '13px',
+        },
+        '& .MuiInputAdornment-positionStart': {
+            marginTop: '3px !important',
+        },
+        '& .MuiFilledInput-underline:after': {
+            borderBottom: `2px solid ${theme.palette.accent.main}`,
+        },
+    },
+    filterDownSubmit: {
+        'height': '40px',
+        'width': '32px',
+        'background': theme.palette.accent.main,
+        'color': theme.palette.text.secondary,
+        'fontSize': '16px',
+        'position': 'absolute',
+        'right': '0px',
+        '&:hover': {
+            background: theme.palette.swatches.blue.blue600,
+        },
+    },
+    filterDownClear: {
+        position: 'absolute',
+        height: '40px',
+        width: '38px',
+        right: '32px',
+    },
+    accordionHead: {
+        '& > div:first-child': {
+            display: 'flex',
+            flexFlow: 'column',
+        },
+    },
+    accordionHeadOpen: {
+        'height': '80px',
+        '& > div:first-child': {
+            height: '80px',
+            margin: '0px !important',
+        },
+        '& > div:first-child > div:first-child': {
+            paddingTop: '5px',
+        },
+    },
 }))
 
 const getSubFilters = (filter, filterKey, settingsActive) => {
@@ -253,6 +313,8 @@ const Filter = (props) => {
     const dispatch = useDispatch()
 
     const [settingsActive, setSettingsActive] = useState(false)
+    const [isFilterDownOpen, setIsFilterDownOpen] = useState(false)
+    const [filterDownValue, setFilterDownValue] = useState('')
 
     const subFilters = getSubFilters(filter, filterKey, settingsActive)
 
@@ -263,6 +325,20 @@ const Filter = (props) => {
         // stop expand/collapse
         e.stopPropagation()
         if (expanded) setSettingsActive(!settingsActive)
+    }
+    const handleFilterDown = (e) => {
+        // stop expand/collapse
+        e.stopPropagation()
+        if (expanded) setIsFilterDownOpen(!isFilterDownOpen)
+    }
+    const handleFilterDownSubmit = (e, clearFilterDownValue) => {
+        filter.facets.forEach((facet, i) => {
+            dispatch(
+                setFieldState(filterKey, i, {
+                    __filter: clearFilterDownValue ? null : filterDownValue,
+                })
+            )
+        })
     }
     const handleInfo = (e) => {
         // stop expand/collapse
@@ -302,11 +378,15 @@ const Filter = (props) => {
                 })
         })
 
+    const isListFilter = filter?.facets?.[0]?.component === 'list'
+
     return (
         <div className={c.Filter}>
             <Accordion expanded={expanded}>
                 <AccordionSummary
-                    className="stickyHeader"
+                    className={clsx(c.accordionHead, {
+                        [c.accordionHeadOpen]: expanded && isFilterDownOpen,
+                    })}
                     expandIcon={<ExpandMoreIcon />}
                     onClick={onExpand}
                     role=""
@@ -318,6 +398,7 @@ const Filter = (props) => {
                             </Tooltip>
                         </Badge>
                         <div className={c.headerButtons}>
+                            {/*
                             {expanded && (
                                 <Tooltip title="Settings" arrow>
                                     <IconButton
@@ -329,6 +410,21 @@ const Filter = (props) => {
                                         onClick={handleSettings}
                                     >
                                         <SettingsIcon fontSize="inherit" />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                            */}
+                            {expanded && isListFilter && (
+                                <Tooltip title="Filter Down" arrow>
+                                    <IconButton
+                                        className={clsx(c.settingsButton, {
+                                            [c.settingsButtonActive]: isFilterDownOpen,
+                                        })}
+                                        aria-label={`filter down ${filterName} filter`}
+                                        size="small"
+                                        onClick={handleFilterDown}
+                                    >
+                                        <FilterListIcon fontSize="inherit" />
                                     </IconButton>
                                 </Tooltip>
                             )}
@@ -356,6 +452,52 @@ const Filter = (props) => {
                             ) : null}
                         </div>
                     </div>
+                    {expanded && isFilterDownOpen && (
+                        <div
+                            className={c.filterDownWrapper}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                            }}
+                        >
+                            <TextField
+                                className={c.filterDown}
+                                placeholder="Filter further..."
+                                value={filterDownValue}
+                                variant="filled"
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <FilterListIcon fontSize="small" />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                onChange={(e) => {
+                                    setFilterDownValue(e.target.value)
+                                }}
+                                onKeyDown={(e) => {
+                                    // Search when enter pressed
+                                    if (e.keyCode == 13) regexSearch()
+                                }}
+                            />
+                            <IconButton
+                                className={c.filterDownClear}
+                                aria-label="clear filter down"
+                                onClick={() => {
+                                    setFilterDownValue('')
+                                    handleFilterDownSubmit(null, true)
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                            <IconButton
+                                className={c.filterDownSubmit}
+                                aria-label="submit filter down"
+                                onClick={handleFilterDownSubmit}
+                            >
+                                <ArrowForwardIcon fontSize="inherit" />
+                            </IconButton>
+                        </div>
+                    )}
                 </AccordionSummary>
                 <AccordionDetails>{subFilters}</AccordionDetails>
             </Accordion>

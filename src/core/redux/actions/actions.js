@@ -623,7 +623,24 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                 break
                             default:
                                 Object.keys(facet.state).forEach((value) => {
-                                    if (facet.state[value]) {
+                                    if (
+                                        value === '__filter' &&
+                                        facet.state[value] != null &&
+                                        facet.state[value] != ''
+                                    ) {
+                                        query.bool = query.bool || {
+                                            must: [],
+                                        }
+                                        let qs_input = '.*' + facet.state[value] + '.*'
+                                        toAddToMust.push({
+                                            regexp: {
+                                                [field]: {
+                                                    value: qs_input,
+                                                    case_insensitive: true,
+                                                },
+                                            },
+                                        })
+                                    } else if (facet.state[value]) {
                                         query.bool = query.bool || {
                                             must: [],
                                         }
@@ -822,6 +839,13 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                             nextActiveFilters[filter].facets.forEach((facet, i) => {
                                 if (facet.type == 'keyword') {
                                     let buckets = aggs[filter].buckets
+
+                                    // Since we'ew filtering, clear the existing bucket aggs
+                                    if (
+                                        facet?.state?.__filter != null &&
+                                        facet?.state?.__filter != ''
+                                    )
+                                        nextActiveFilters[filter].facets[i].fields = []
 
                                     // Account for nested buckets
                                     if (aggs[filter].nested) {

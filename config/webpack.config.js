@@ -280,6 +280,16 @@ module.exports = function (webpackEnv) {
             modules: ['node_modules', paths.appNodeModules].concat(
                 modules.additionalModulePaths || []
             ),
+            fallback: {
+              module: false,
+              dgram: false,
+              dns: false,
+              fs: false,
+              http2: false,
+              net: false,
+              tls: false,
+              child_process: false,
+            },
             // These are the reasonable defaults supported by the Node ecosystem.
             // We also include JSX as a common component filename extension to support
             // some tools, although we do not recommend using it, see:
@@ -657,16 +667,7 @@ module.exports = function (webpackEnv) {
         ].filter(Boolean),
         // Some libraries import Node modules but don't use them in the browser.
         // Tell Webpack to provide empty mocks for them so importing them works.
-        node: {
-            module: 'empty',
-            dgram: 'empty',
-            dns: 'mock',
-            fs: 'empty',
-            http2: 'empty',
-            net: 'empty',
-            tls: 'empty',
-            child_process: 'empty',
-        },
+        node: {},
         // Turn off performance processing because we utilize
         // our own hints via the FileSizeReporter
         performance: false,

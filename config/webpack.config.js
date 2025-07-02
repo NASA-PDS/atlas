@@ -164,7 +164,7 @@ module.exports = function (webpackEnv) {
         ].filter(Boolean),
         output: {
             // The build folder.
-            path: isEnvProduction ? paths.appBuild : undefined,
+            path: isEnvProduction ? paths.appBuild : paths.appBuild,
             // Add /* filename */ comments to generated require()s in the output.
             pathinfo: isEnvDevelopment,
             // There will be one main bundle, and one file per asynchronous chunk.
@@ -172,8 +172,6 @@ module.exports = function (webpackEnv) {
             filename: isEnvProduction
                 ? 'static/js/[name].[contenthash:8].js'
                 : isEnvDevelopment && 'static/js/bundle.js',
-            // TODO: remove this when upgrading to webpack 5
-            futureEmitAssets: true,
             // There are also additional JS chunk files if you use code splitting.
             chunkFilename: isEnvProduction
                 ? 'static/js/[name].[contenthash:8].chunk.js'
@@ -189,7 +187,7 @@ module.exports = function (webpackEnv) {
                   ((info) => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
             // Prevents conflicts when multiple Webpack runtimes (from different apps)
             // are used on the same page.
-            jsonpFunction: `webpackJsonp${appPackageJson.name}`,
+            chunkLoadingGlobal: `webpackJsonp${appPackageJson.name}`,
             // this defaults to 'window', but by setting it to 'this' then
             // module chunks which are built will work in web workers as well.
             globalObject: 'this',

@@ -11,12 +11,11 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const safePostCssParser = require('postcss-safe-parser')
-const ManifestPlugin = require('webpack-manifest-plugin')
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
-const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const paths = require('./paths')
@@ -24,7 +23,6 @@ const modules = require('./modules')
 const getClientEnvironment = require('./env')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin')
-const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
 const html2pug = require('html2pug')
 
 const postcssNormalize = require('postcss-normalize')
@@ -171,7 +169,7 @@ module.exports = function (webpackEnv) {
             // In development, it does not produce real files.
             filename: isEnvProduction
                 ? 'static/js/[name].[contenthash:8].js'
-                : isEnvDevelopment && 'static/js/bundle.js',
+                : isEnvDevelopment && 'static/js/[name].js',
             // There are also additional JS chunk files if you use code splitting.
             chunkFilename: isEnvProduction
                 ? 'static/js/[name].[contenthash:8].chunk.js'
@@ -233,28 +231,11 @@ module.exports = function (webpackEnv) {
                             // https://github.com/facebook/create-react-app/issues/2488
                             ascii_only: true,
                         },
+                        sourceMap: shouldUseSourceMap,
                     },
-                    sourceMap: shouldUseSourceMap,
                 }),
                 // This is only used in production mode
-                new OptimizeCSSAssetsPlugin({
-                    cssProcessorOptions: {
-                        parser: safePostCssParser,
-                        map: shouldUseSourceMap
-                            ? {
-                                  // `inline: false` forces the sourcemap to be output into a
-                                  // separate file
-                                  inline: false,
-                                  // `annotation: true` appends the sourceMappingURL to the end of
-                                  // the css file, helping the browser find the sourcemap
-                                  annotation: true,
-                              }
-                            : false,
-                    },
-                    cssProcessorPluginOptions: {
-                        preset: ['default', { minifyFontValues: { removeQuotes: false } }],
-                    },
-                }),
+                new CssMinimizerPlugin(),
             ],
             // Automatically split vendor and commons
             // https://twitter.com/wSokra/status/969633336732905474
@@ -288,6 +269,8 @@ module.exports = function (webpackEnv) {
               tls: false,
               child_process: false,
             },
+            // Fix for webpack 5 module resolution with @babel/runtime
+            mainFields: ['browser', 'module', 'main'],
             // These are the reasonable defaults supported by the Node ecosystem.
             // We also include JSX as a common component filename extension to support
             // some tools, although we do not recommend using it, see:
@@ -317,7 +300,12 @@ module.exports = function (webpackEnv) {
                 // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
                 // please link the files into your node_modules/ and let module-resolution kick in.
                 // Make sure your source files are compiled, as they will not be processed in any way.
-                new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+                new ModuleScopePlugin(paths.appSrc, [
+                    paths.appPackageJson, 
+                    paths.appNodeModules,
+                    // Allow @babel/runtime imports to resolve properly
+                    path.resolve(paths.appNodeModules, '@babel/runtime')
+                ]),
             ],
         },
         resolveLoader: {
@@ -423,6 +411,27 @@ module.exports = function (webpackEnv) {
                                 // Babel sourcemaps are needed for debugging into node_modules
                                 // code.  Without the options below, debuggers like VSCode
                                 // show incorrect code and set breakpoints on the wrong lines.
+                                sourceMaps: shouldUseSourceMap,
+                                inputSourceMap: shouldUseSourceMap,
+                            },
+                        },
+                        // Handle @babel/runtime helpers for webpack 5 compatibility
+                        {
+                            test: /\.(js|mjs)$/,
+                            include: /@babel\/runtime/,
+                            loader: require.resolve('babel-loader'),
+                            options: {
+                                babelrc: false,
+                                configFile: false,
+                                compact: false,
+                                presets: [
+                                    [
+                                        require.resolve('babel-preset-react-app/dependencies'),
+                                        { helpers: false },
+                                    ],
+                                ],
+                                cacheDirectory: true,
+                                cacheCompression: false,
                                 sourceMaps: shouldUseSourceMap,
                                 inputSourceMap: shouldUseSourceMap,
                             },
@@ -571,11 +580,6 @@ module.exports = function (webpackEnv) {
             // See https://github.com/facebook/create-react-app/issues/240
             isEnvDevelopment && new CaseSensitivePathsPlugin(),
             isEnvDevAnalyze && new BundleAnalyzerPlugin(),
-            // If you require a missing module and then `npm install` it, you still have
-            // to restart the development server for Webpack to discover it. This plugin
-            // makes the discovery automatic so you don't have to restart.
-            // See https://github.com/facebook/create-react-app/issues/186
-            isEnvDevelopment && new WatchMissingNodeModulesPlugin(paths.appNodeModules),
             isEnvProduction &&
                 new MiniCssExtractPlugin({
                     // Options similar to the same options in webpackOptions.output
@@ -589,7 +593,7 @@ module.exports = function (webpackEnv) {
             //   `index.html`
             // - "entrypoints" key: Array of files which are included in `index.html`,
             //   can be used to reconstruct the HTML if necessary
-            new ManifestPlugin({
+            new WebpackManifestPlugin({
                 fileName: 'asset-manifest.json',
                 publicPath: publicPath,
                 generate: (seed, files, entrypoints) => {
@@ -658,8 +662,6 @@ module.exports = function (webpackEnv) {
                         '!**/src/setupTests.*',
                     ],
                     silent: true,
-                    // The formatter is invoked directly in WebpackDevServerUtils during development
-                    formatter: isEnvProduction ? typescriptFormatter : undefined,
                 }),
             new HTML2PugPlugin(paths.appBuild),
         ].filter(Boolean),

@@ -67,7 +67,8 @@ const AccordionSummary = withStyles((theme) => ({
         'zIndex': 2,
         'borderLeft': '2px solid rgba(0,0,0,0)',
         'borderRight': `1px solid ${theme.palette.swatches.grey.grey200}`,
-        'transition': 'background 0.2s ease-out, border 0.2s ease-out',
+        'transition': 'unset',
+        'alignItems': 'flex-start',
         '&:hover': {
             background: theme.palette.swatches.grey.grey150,
         },
@@ -78,8 +79,9 @@ const AccordionSummary = withStyles((theme) => ({
         },
     },
     content: {
+        'margin': '4px 0',
         '&$expanded': {
-            margin: '12px 0',
+            margin: '4px 0',
         },
     },
     expandIcon: {
@@ -173,6 +175,9 @@ const useStyles = makeStyles((theme) => ({
     filterDownWrapper: {
         display: 'flex',
         justifyContent: 'space-between',
+        position: 'relative',
+        left: '-41px',
+        width: 'calc(100% + 41px)',
     },
     filterDown: {
         'flex': 1,
@@ -415,7 +420,7 @@ const Filter = (props) => {
                             )}
                             */}
                             {expanded && isListFilter && (
-                                <Tooltip title="Filter Down" arrow>
+                                <Tooltip title="Filter Further" arrow>
                                     <IconButton
                                         className={clsx(c.settingsButton, {
                                             [c.settingsButtonActive]: isFilterDownOpen,

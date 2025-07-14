@@ -13,7 +13,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const InterpolateHtmlPlugin = require("react-dev-utils/InterpolateHtmlPlugin");
-const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
 const getCSSModuleLocalIdent = require("react-dev-utils/getCSSModuleLocalIdent");
 const paths = require("./paths");
@@ -616,24 +615,6 @@ module.exports = function (webpackEnv) {
               resourceRegExp: /^\.\/locale$/,
               contextRegExp: /moment$/
             }),
-            // Generate a service worker script that will precache, and keep up to date,
-            // the HTML & assets that are part of the Webpack build.
-            isEnvProduction &&
-                new WorkboxWebpackPlugin.GenerateSW({
-                    clientsClaim: true,
-                    exclude: [/\.map$/, /asset-manifest\.json$/],
-                    importWorkboxFrom: "cdn",
-                    navigateFallback: publicUrl + "/index.html",
-                    navigateFallbackBlacklist: [
-                        // Exclude URLs starting with /_, as they're likely an API call
-                        new RegExp("^/_"),
-                        // Exclude any URLs whose last part seems to be a file extension
-                        // as they're likely a resource and not a SPA route.
-                        // URLs containing a "?" character won't be blacklisted as they're likely
-                        // a route with query params (e.g. auth callbacks).
-                        new RegExp("/[^/?]+\\.[^/]+$"),
-                    ],
-                }),
             // TypeScript type checking
             useTypeScript &&
                 new ForkTsCheckerWebpackPlugin({

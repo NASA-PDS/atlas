@@ -190,7 +190,6 @@
     "jest-watch-typeahead": "^0.4.2",
     "jsdoc": "^3.6.3",
     "mini-css-extract-plugin": "^2.9.2",
-    "pnp-webpack-plugin": "^1.6.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
     "postcss-normalize": "^8.0.1",

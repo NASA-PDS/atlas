@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
 const resolve = require("resolve");
-const PnpWebpackPlugin = require("pnp-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
@@ -286,9 +285,6 @@ module.exports = function (webpackEnv) {
                 ...(modules.webpackAliases || {}),
             },
             plugins: [
-                // Adds support for installing with Plug'n'Play, leading to faster installs and adding
-                // guards against forgotten dependencies and such.
-                PnpWebpackPlugin,
                 // Prevents users from importing files from outside of src/ (or node_modules/).
                 // This often causes confusion because we only process files within src/ with babel.
                 // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
@@ -312,13 +308,7 @@ module.exports = function (webpackEnv) {
               child_process: false,
             },
         },
-        resolveLoader: {
-            plugins: [
-                // Also related to Plug'n'Play, but this time it tells Webpack to load its loaders
-                // from the current package.
-                PnpWebpackPlugin.moduleLoader(module),
-            ],
-        },
+        resolveLoader: {},
         module: {
             strictExportPresence: true,
             rules: [

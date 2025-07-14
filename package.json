@@ -163,7 +163,6 @@
     "@types/postcss-safe-parser": "^5.0.4",
     "@types/react-dev-utils": "^9.0.15",
     "@types/webpack-bundle-analyzer": "^4.7.0",
-    "@werkzeugkiste/prettier-config": "^2.0.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^30.0.4",
     "babel-loader": "^10.0.0",

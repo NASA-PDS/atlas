@@ -305,6 +305,7 @@ module.exports = function (webpackEnv) {
               net: false,
               tls: false,
               child_process: false,
+              url: require.resolve("url/")
             },
         },
         resolveLoader: {},

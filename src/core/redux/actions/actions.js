@@ -1513,6 +1513,7 @@ export const updateFilexColumn = (columnId, options, stopPropagate, forcePropaga
                     const instrument = url.query.instrument
                     const uriPrefix = splitUri(url.query.uri, 'spacecraft')
                     let volume = url.query.bundle || splitUri(url.query.uri).bundle
+                    const pdsStandard = url.query.pds
 
                     if (columnId === 0) {
                         dispatch(
@@ -1542,7 +1543,13 @@ export const updateFilexColumn = (columnId, options, stopPropagate, forcePropaga
                     if (!usedURLState && isFinalFilter) {
                         usedURLState = true
                         // Set the value if one came from the url
-                        const nextVolActive = volume != null ? { active: { key: volume } } : null
+                        const nextVolActive = volume != null ? { 
+                            active: { 
+                                key: volume,
+                                type: pdsStandard === '3' ? 'volume' : 'bundle',
+                                uniqueKey: `${pdsStandard === '3' ? 'volume' : 'bundle'}-${volume}`
+                            } 
+                        } : null
                         if (nextVolActive) dispatch(updateFilexColumn(2, nextVolActive))
 
                         let rawPath = url.query.uri || ''
@@ -1654,13 +1661,24 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                         })
                         break
                     case 'volume':
-                        if (i == columnId - 1)
+                        if (i == columnId - 1) {
                             query.bool.must.push({
                                 query_string: {
                                     query: `*\\:\\/${col.active.key}`,
                                     default_field: ES_PATHS.archive.parent_uri.join('.'),
                                 },
                             })
+                        }
+                        
+                                                    // Add pds_standard filter to distinguish between bundles (pds4) and volumes (pds3)
+                            // Default to 'pds3' for backward compatibility if no type is specified
+                            const pdsStandard = col.active.type === 'volume' ? 'pds3' : 'pds4'
+                            query.bool.must.push({
+                                match: {
+                                    [ES_PATHS.archive.pds_standard.join('.')]: pdsStandard,
+                                },
+                            })
+                        
                         /*
                             query.bool.must.push({
                                 match: {
@@ -1784,8 +1802,22 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                         false
                     )
                     results.sampleEntry = getIn(response, ['data', 'hits', 'hits', '0'], {})
-                    if (secondAgg != false) {
-                        results.buckets = results.buckets.concat(secondAgg.buckets)
+                    
+                    // Add type property to volume buckets
+                    if (results.buckets) {
+                        results.buckets = results.buckets.map(bucket => ({
+                            ...bucket,
+                            type: "volume"
+                        }))
+                    }
+                    
+                    if (secondAgg != false && secondAgg.buckets) {
+                        // Add type property to bundle buckets
+                        const bundleBuckets = secondAgg.buckets.map(bucket => ({
+                            ...bucket,
+                            type: "bundle"
+                        }))
+                        results.buckets = results.buckets.concat(bundleBuckets)
                     }
                     results.buckets = results.buckets.sort((a, b) => a.key.localeCompare(b.key))
                 }

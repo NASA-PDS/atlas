@@ -341,11 +341,15 @@ module.exports = function (webpackEnv) {
                         // A missing `test` is equivalent to a match.
                         {
                             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-                            loader: require.resolve("url-loader"),
-                            options: {
-                                limit: imageInlineSizeLimit,
-                                name: "static/media/[name].[hash:8].[ext]",
+                            generator: {
+                                filename: "static/media/[name].[hash:8].[ext]",
                             },
+                            parser: {
+                                dataUrlCondition: {
+                                    maxSize: imageInlineSizeLimit,
+                                },
+                            },
+                            type: "asset",
                         },
                         // Process application JS with Babel.
                         // The preset includes JSX, Flow, TypeScript, and some ESnext features.
@@ -494,20 +498,16 @@ module.exports = function (webpackEnv) {
                                 "sass-loader"
                             ),
                         },
-                        // "file" loader makes sure those assets get served by WebpackDevServer.
+                        // "asset/resource" module makes sure those assets get served by WebpackDevServer.
                         // When you `import` an asset, you get its (virtual) filename.
                         // In production, they would get copied to the `build` folder.
-                        // This loader doesn't use a "test" so it will catch all modules
+                        // This loader doesn't use a "test" so it will catch all modules 
                         // that fall through the other loaders.
                         {
-                            loader: require.resolve("file-loader"),
-                            // Exclude `js` files to keep "css" loader working as it injects
-                            // its runtime that would otherwise be processed through "file" loader.
-                            // Also exclude `html` and `json` extensions so they get processed
-                            // by webpacks internal loaders.
+                            type: "asset/resource",
                             exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
-                            options: {
-                                name: "static/media/[name].[hash:8].[ext]",
+                            generator: {
+                                filename: "static/media/[name].[hash:8].[ext]",
                             },
                         },
                         // ** STOP ** Are you adding a new loader?

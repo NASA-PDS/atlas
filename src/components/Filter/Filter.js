@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
@@ -24,11 +24,12 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import SettingsIcon from '@material-ui/icons/Settings'
-import FilterListIcon from '@material-ui/icons/FilterList'
+import SearchIcon from '@material-ui/icons/Search'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import CloseIcon from '@material-ui/icons/Close'
+import ClearAllIcon from '@material-ui/icons/ClearAll'
 
 import InputFilter from './subcomponents/InputFilter/InputFilter'
 import ListFilter from './subcomponents/ListFilter/ListFilter'
@@ -157,6 +158,17 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.text.secondary,
         },
     },
+    clearButton: {
+        'fontSize': 16,
+        'padding': '7px',
+        'color': theme.palette.swatches.grey.grey400,
+        'borderRadius': '3px',
+        'transition': 'color 0.2s ease-out, background 0.2s ease-out',
+        '&:hover': {
+            background: theme.palette.swatches.orange.orange500,
+            color: theme.palette.text.secondary,
+        },
+    },
     list: {
         padding: theme.spacing(1),
         margin: 0,
@@ -177,7 +189,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         position: 'relative',
         left: '-41px',
-        width: 'calc(100% + 41px)',
+        width: 'calc(100% + 50px)',
     },
     filterDown: {
         'flex': 1,
@@ -186,7 +198,7 @@ const useStyles = makeStyles((theme) => ({
             height: '40px',
         },
         '& .MuiFilledInput-input': {
-            paddingTop: '13px',
+            paddingTop: '9px',
         },
         '& .MuiInputAdornment-positionStart': {
             marginTop: '3px !important',
@@ -213,10 +225,27 @@ const useStyles = makeStyles((theme) => ({
         width: '38px',
         right: '32px',
     },
+    filterDownCount: {
+        position: 'absolute',
+        right: '75px',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        color: theme.palette.swatches.grey.grey600,
+        padding: '2px 0px',
+        fontSize: '11px',
+        minWidth: '40px',
+        textAlign: 'center',
+        whiteSpace: 'nowrap',
+        pointerEvents: 'none',
+    },
     accordionHead: {
         '& > div:first-child': {
             display: 'flex',
             flexFlow: 'column',
+            transition: 'unset',
+        },
+        '& > div:first-child > div:first-child': {
+            transition: 'unset',
         },
     },
     accordionHeadOpen: {
@@ -226,7 +255,7 @@ const useStyles = makeStyles((theme) => ({
             margin: '0px !important',
         },
         '& > div:first-child > div:first-child': {
-            paddingTop: '5px',
+            paddingTop: '4px',
         },
     },
 }))
@@ -320,8 +349,17 @@ const Filter = (props) => {
     const [settingsActive, setSettingsActive] = useState(false)
     const [isFilterDownOpen, setIsFilterDownOpen] = useState(false)
     const [filterDownValue, setFilterDownValue] = useState('')
+    const [maxFieldsCount, setMaxFieldsCount] = useState(0)
 
     const subFilters = getSubFilters(filter, filterKey, settingsActive)
+
+    // Track the maximum number of fields seen for this facet
+    useEffect(() => {
+        const currentFieldsCount = filter.facets?.[0]?.fields?.length || 0
+        if (currentFieldsCount > maxFieldsCount) {
+            setMaxFieldsCount(currentFieldsCount)
+        }
+    }, [filter.facets?.[0]?.fields?.length, maxFieldsCount])
 
     // Hide delete button?
     let permanent = filterKey[0] === '_' ? true : false
@@ -364,6 +402,29 @@ const Filter = (props) => {
         dispatch(clearResults())
         dispatch(search(0, true))
     }
+    
+    const handleClearSelections = (e) => {
+        // stop expand/collapse
+        e.stopPropagation()
+
+        // Clear the search filter input
+        setFilterDownValue('')
+
+        // Clear all selections in this facet by setting all state values to false/null
+        filter.facets.forEach((facet, i) => {
+            if (facet.state) {
+                const clearedState = {}
+                Object.keys(facet.state).forEach((key) => {
+                    if (key === '__filter') {
+                        clearedState[key] = null
+                    } else {
+                        clearedState[key] = false
+                    }
+                })
+                dispatch(setFieldState(filterKey, i, clearedState))
+            }
+        })
+    }
 
     const filterName = filter.display_name || filterKey
 
@@ -384,6 +445,27 @@ const Filter = (props) => {
         })
 
     const isListFilter = filter?.facets?.[0]?.component === 'list'
+
+    // Calculate filtered results count for filter down
+    const getFilteredResultsInfo = () => {
+        const currentFields = filter.facets?.[0]?.fields?.length || 0
+        const totalFields = Math.max(maxFieldsCount, currentFields) // Use the max seen
+        
+        if (!filterDownValue || !isListFilter || currentFields === 0) {
+            const totalDisplay = totalFields === 500 ? '500+' : totalFields.toString()
+            return `${currentFields}/${totalDisplay}`
+        }
+        
+        const searchTerm = filterDownValue.toLowerCase()
+        const filteredCount = filter.facets[0].fields.filter(field => 
+            field.key.toLowerCase().includes(searchTerm)
+        ).length
+        
+        const totalDisplay = totalFields === 500 ? '500+' : totalFields.toString()
+        return `${filteredCount}/${totalDisplay}`
+    }
+    
+    const filteredResultsDisplay = getFilteredResultsInfo()
 
     return (
         <div className={c.Filter}>
@@ -420,16 +502,16 @@ const Filter = (props) => {
                             )}
                             */}
                             {expanded && isListFilter && (
-                                <Tooltip title="Filter Further" arrow>
+                                <Tooltip title="Search" arrow>
                                     <IconButton
                                         className={clsx(c.settingsButton, {
                                             [c.settingsButtonActive]: isFilterDownOpen,
                                         })}
-                                        aria-label={`filter down ${filterName} filter`}
+                                        aria-label={`search ${filterName} options`}
                                         size="small"
                                         onClick={handleFilterDown}
                                     >
-                                        <FilterListIcon fontSize="inherit" />
+                                        <SearchIcon fontSize="inherit" />
                                     </IconButton>
                                 </Tooltip>
                             )}
@@ -443,6 +525,18 @@ const Filter = (props) => {
                                     <InfoOutlinedIcon fontSize="inherit" />
                                 </IconButton>
                             </Tooltip>
+                            {count > 0 && (
+                                <Tooltip title="Clear All Selections" arrow>
+                                    <IconButton
+                                        className={c.clearButton}
+                                        aria-label={`clear all selections in ${filterName} filter`}
+                                        size="small"
+                                        onClick={handleClearSelections}
+                                    >
+                                        <ClearAllIcon fontSize="inherit" />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
                             {!permanent ? (
                                 <Tooltip title="Remove" arrow>
                                     <IconButton
@@ -466,13 +560,13 @@ const Filter = (props) => {
                         >
                             <TextField
                                 className={c.filterDown}
-                                placeholder="Filter further..."
+                                placeholder="Search (regex supported)"
                                 value={filterDownValue}
                                 variant="filled"
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <FilterListIcon fontSize="small" />
+                                            <SearchIcon fontSize="small" />
                                         </InputAdornment>
                                     ),
                                 }}
@@ -481,9 +575,14 @@ const Filter = (props) => {
                                 }}
                                 onKeyDown={(e) => {
                                     // Search when enter pressed
-                                    if (e.keyCode == 13) regexSearch()
+                                    if (e.keyCode == 13) handleFilterDownSubmit()
                                 }}
                             />
+                            {isListFilter && (
+                                <div className={c.filterDownCount}>
+                                    {filteredResultsDisplay}
+                                </div>
+                            )}
                             <IconButton
                                 className={c.filterDownClear}
                                 aria-label="clear filter down"

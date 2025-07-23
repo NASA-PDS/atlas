@@ -375,6 +375,9 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 let geo_bounding_boxContinuity = -1
 
                 let toAddToMust = []
+                let filterConditions = [] // For __filter (AND logic)
+                let checkedItems = [] // For checked items (OR logic within AND)
+                
                 activeFilters[filter].facets.forEach((facet, idx) => {
                     let field = facet.field
 
@@ -632,7 +635,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                             must: [],
                                         }
                                         let qs_input = '.*' + facet.state[value] + '.*'
-                                        toAddToMust.push({
+                                        filterConditions.push({
                                             regexp: {
                                                 [field]: {
                                                     value: qs_input,
@@ -645,7 +648,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                             must: [],
                                         }
                                         if (facet.nestedPath) {
-                                            toAddToMust.push({
+                                            checkedItems.push({
                                                 nested: {
                                                     path: facet.nestedPath,
                                                     query: {
@@ -662,7 +665,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                                 },
                                             })
                                         } else {
-                                            toAddToMust.push({
+                                            checkedItems.push({
                                                 match: {
                                                     [field]: value,
                                                 },
@@ -673,6 +676,22 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                         }
                     }
                 })
+                
+                // Add filter conditions directly to must clause (AND logic)
+                filterConditions.forEach(condition => {
+                    query.bool.must.push(condition)
+                })
+                
+                // Add checked items as should clause (OR logic within the AND)
+                if (checkedItems.length > 0) {
+                    query.bool.must.push({
+                        bool: {
+                            should: checkedItems,
+                        },
+                    })
+                }
+                
+                // Legacy support: if no separate arrays were used, fall back to original logic
                 if (toAddToMust.length > 0) {
                     query.bool.must.push({
                         bool: {

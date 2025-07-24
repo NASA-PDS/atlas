@@ -375,6 +375,9 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 let geo_bounding_boxContinuity = -1
 
                 let toAddToMust = []
+                let filterConditions = [] // For __filter (AND logic)
+                let checkedItems = [] // For checked items (OR logic within AND)
+                
                 activeFilters[filter].facets.forEach((facet, idx) => {
                     let field = facet.field
 
@@ -623,12 +626,29 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                 break
                             default:
                                 Object.keys(facet.state).forEach((value) => {
-                                    if (facet.state[value]) {
+                                    if (
+                                        value === '__filter' &&
+                                        facet.state[value] != null &&
+                                        facet.state[value] != ''
+                                    ) {
+                                        query.bool = query.bool || {
+                                            must: [],
+                                        }
+                                        let qs_input = '.*' + facet.state[value] + '.*'
+                                        filterConditions.push({
+                                            regexp: {
+                                                [field]: {
+                                                    value: qs_input,
+                                                    case_insensitive: true,
+                                                },
+                                            },
+                                        })
+                                    } else if (facet.state[value]) {
                                         query.bool = query.bool || {
                                             must: [],
                                         }
                                         if (facet.nestedPath) {
-                                            toAddToMust.push({
+                                            checkedItems.push({
                                                 nested: {
                                                     path: facet.nestedPath,
                                                     query: {
@@ -645,7 +665,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                                 },
                                             })
                                         } else {
-                                            toAddToMust.push({
+                                            checkedItems.push({
                                                 match: {
                                                     [field]: value,
                                                 },
@@ -656,6 +676,22 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                         }
                     }
                 })
+                
+                // Add filter conditions directly to must clause (AND logic)
+                filterConditions.forEach(condition => {
+                    query.bool.must.push(condition)
+                })
+                
+                // Add checked items as should clause (OR logic within the AND)
+                if (checkedItems.length > 0) {
+                    query.bool.must.push({
+                        bool: {
+                            should: checkedItems,
+                        },
+                    })
+                }
+                
+                // Legacy support: if no separate arrays were used, fall back to original logic
                 if (toAddToMust.length > 0) {
                     query.bool.must.push({
                         bool: {
@@ -822,6 +858,13 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                             nextActiveFilters[filter].facets.forEach((facet, i) => {
                                 if (facet.type == 'keyword') {
                                     let buckets = aggs[filter].buckets
+
+                                    // Since we'ew filtering, clear the existing bucket aggs
+                                    if (
+                                        facet?.state?.__filter != null &&
+                                        facet?.state?.__filter != ''
+                                    )
+                                        nextActiveFilters[filter].facets[i].fields = []
 
                                     // Account for nested buckets
                                     if (aggs[filter].nested) {
@@ -1513,6 +1556,7 @@ export const updateFilexColumn = (columnId, options, stopPropagate, forcePropaga
                     const instrument = url.query.instrument
                     const uriPrefix = splitUri(url.query.uri, 'spacecraft')
                     let volume = url.query.bundle || splitUri(url.query.uri).bundle
+                    const pdsStandard = url.query.pds
 
                     if (columnId === 0) {
                         dispatch(
@@ -1542,7 +1586,13 @@ export const updateFilexColumn = (columnId, options, stopPropagate, forcePropaga
                     if (!usedURLState && isFinalFilter) {
                         usedURLState = true
                         // Set the value if one came from the url
-                        const nextVolActive = volume != null ? { active: { key: volume } } : null
+                        const nextVolActive = volume != null ? { 
+                            active: { 
+                                key: volume,
+                                type: pdsStandard === '3' ? 'volume' : 'bundle',
+                                uniqueKey: `${pdsStandard === '3' ? 'volume' : 'bundle'}-${volume}`
+                            } 
+                        } : null
                         if (nextVolActive) dispatch(updateFilexColumn(2, nextVolActive))
 
                         let rawPath = url.query.uri || ''
@@ -1654,13 +1704,24 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                         })
                         break
                     case 'volume':
-                        if (i == columnId - 1)
+                        if (i == columnId - 1) {
                             query.bool.must.push({
                                 query_string: {
                                     query: `*\\:\\/${col.active.key}`,
                                     default_field: ES_PATHS.archive.parent_uri.join('.'),
                                 },
                             })
+                        }
+                        
+                                                    // Add pds_standard filter to distinguish between bundles (pds4) and volumes (pds3)
+                            // Default to 'pds3' for backward compatibility if no type is specified
+                            const pdsStandard = col.active.type === 'volume' ? 'pds3' : 'pds4'
+                            query.bool.must.push({
+                                match: {
+                                    [ES_PATHS.archive.pds_standard.join('.')]: pdsStandard,
+                                },
+                            })
+                        
                         /*
                             query.bool.must.push({
                                 match: {
@@ -1784,8 +1845,22 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                         false
                     )
                     results.sampleEntry = getIn(response, ['data', 'hits', 'hits', '0'], {})
-                    if (secondAgg != false) {
-                        results.buckets = results.buckets.concat(secondAgg.buckets)
+                    
+                    // Add type property to volume buckets
+                    if (results.buckets) {
+                        results.buckets = results.buckets.map(bucket => ({
+                            ...bucket,
+                            type: "volume"
+                        }))
+                    }
+                    
+                    if (secondAgg != false && secondAgg.buckets) {
+                        // Add type property to bundle buckets
+                        const bundleBuckets = secondAgg.buckets.map(bucket => ({
+                            ...bucket,
+                            type: "bundle"
+                        }))
+                        results.buckets = results.buckets.concat(bundleBuckets)
                     }
                     results.buckets = results.buckets.sort((a, b) => a.key.localeCompare(b.key))
                 }

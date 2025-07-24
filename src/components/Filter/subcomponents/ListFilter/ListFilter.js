@@ -56,6 +56,12 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.swatches.grey.grey600,
         textAlign: 'center',
     },
+    moreResults: {
+        textAlign: 'center',
+        background: theme.palette.swatches.red.red500,
+        color: theme.palette.swatches.grey.grey100,
+        padding: '4px 0px',
+    },
 }))
 
 const ListFilter = (props) => {
@@ -106,6 +112,9 @@ const ListFilter = (props) => {
                     ))
                 ) : (
                     <div className={c.noData}>No aggregation data</div>
+                )}
+                {facet?.fields?.length >= 500 && (
+                    <li className={c.moreResults}>Only showing the first 500 results.</li>
                 )}
             </ul>
         </div>

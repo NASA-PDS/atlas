@@ -100,7 +100,12 @@ const Heading = (props) => {
             v = v[v.length - 1]
             if (c.active) getParams.push({ key: v, value: c.active.key })
         } else if (c.type === 'volume') {
-            if (c.active) getParams.push({ key: 'bundle', value: c.active.key })
+            if (c.active) {
+                getParams.push({ key: 'bundle', value: c.active.key })
+                // Add pds_standard parameter to distinguish bundles from volumes
+                const pdsStandard = (c.active.type === 'volume') ? '3' : '4'
+                getParams.push({ key: 'pds', value: pdsStandard })
+            }
         }
     })
 

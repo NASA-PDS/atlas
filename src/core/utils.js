@@ -155,6 +155,8 @@ export const mergeFields = (currentFields, returnedFields) => {
         }
     })
 
+    newFields.sort((a, b) => a.key.localeCompare(b.key))
+
     return newFields
 }
 

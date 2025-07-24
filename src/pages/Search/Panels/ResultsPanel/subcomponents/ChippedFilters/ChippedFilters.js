@@ -45,6 +45,7 @@ const ChippedFilters = (props) => {
                     if (facet.state) {
                         Object.keys(facet.state).forEach((key) => {
                             let value = facet.state[key]
+                            if (key === '__filter' && (value == '' || value == null)) return
                             if (value === false) return
                             if (value === true) value = key
 
@@ -66,7 +67,7 @@ const ChippedFilters = (props) => {
                                     className={c.chip}
                                     label={`${capitalize(
                                         activeFilters[filterKey].display_name || filterKey
-                                    )}${subName}: ${value}`}
+                                    )}${subName}: ${key === '__filter' ? `*${value}*` : value}`}
                                     key={chips.length}
                                     onDelete={() => {
                                         dispatch(

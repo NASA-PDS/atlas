@@ -187,7 +187,7 @@ export const getInitialActiveFilters = (mapping) => {
                 "A textual search over product names. Regular expressions are supported using ElasticSearch's regexp syntax.",
             facets: [
                 {
-                    field_name: 'Search Product Names',
+                    field_name: 'Search Product Names (regex supported)',
                     field: '*',
                     component: 'text',
                     type: 'query_string',

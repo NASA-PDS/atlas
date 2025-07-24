@@ -375,6 +375,9 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 let geo_bounding_boxContinuity = -1
 
                 let toAddToMust = []
+                let filterConditions = [] // For __filter (AND logic)
+                let checkedItems = [] // For checked items (OR logic within AND)
+                
                 activeFilters[filter].facets.forEach((facet, idx) => {
                     let field = facet.field
 
@@ -623,12 +626,29 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                 break
                             default:
                                 Object.keys(facet.state).forEach((value) => {
-                                    if (facet.state[value]) {
+                                    if (
+                                        value === '__filter' &&
+                                        facet.state[value] != null &&
+                                        facet.state[value] != ''
+                                    ) {
+                                        query.bool = query.bool || {
+                                            must: [],
+                                        }
+                                        let qs_input = '.*' + facet.state[value] + '.*'
+                                        filterConditions.push({
+                                            regexp: {
+                                                [field]: {
+                                                    value: qs_input,
+                                                    case_insensitive: true,
+                                                },
+                                            },
+                                        })
+                                    } else if (facet.state[value]) {
                                         query.bool = query.bool || {
                                             must: [],
                                         }
                                         if (facet.nestedPath) {
-                                            toAddToMust.push({
+                                            checkedItems.push({
                                                 nested: {
                                                     path: facet.nestedPath,
                                                     query: {
@@ -645,7 +665,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                                 },
                                             })
                                         } else {
-                                            toAddToMust.push({
+                                            checkedItems.push({
                                                 match: {
                                                     [field]: value,
                                                 },
@@ -656,6 +676,22 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                         }
                     }
                 })
+                
+                // Add filter conditions directly to must clause (AND logic)
+                filterConditions.forEach(condition => {
+                    query.bool.must.push(condition)
+                })
+                
+                // Add checked items as should clause (OR logic within the AND)
+                if (checkedItems.length > 0) {
+                    query.bool.must.push({
+                        bool: {
+                            should: checkedItems,
+                        },
+                    })
+                }
+                
+                // Legacy support: if no separate arrays were used, fall back to original logic
                 if (toAddToMust.length > 0) {
                     query.bool.must.push({
                         bool: {
@@ -822,6 +858,13 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                             nextActiveFilters[filter].facets.forEach((facet, i) => {
                                 if (facet.type == 'keyword') {
                                     let buckets = aggs[filter].buckets
+
+                                    // Since we'ew filtering, clear the existing bucket aggs
+                                    if (
+                                        facet?.state?.__filter != null &&
+                                        facet?.state?.__filter != ''
+                                    )
+                                        nextActiveFilters[filter].facets[i].fields = []
 
                                     // Account for nested buckets
                                     if (aggs[filter].nested) {

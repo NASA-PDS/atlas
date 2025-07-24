@@ -108,30 +108,28 @@ app.get('/robots.txt', (req, res) => {
     res.send('User-agent: *\nAllow: /')
 })
 
-app.get('/atlas/streamsaver/mitm.html', (req, res) => {
+app.get('/streamsaver/mitm.html', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache')
     fs.readFile(
-        path.join(paths.appBuild, '/atlas/streamsaver/mitm.html'),
+        path.join(paths.appBuild, '/streamsaver/mitm.html'),
         'utf8',
         function (err, html) {
-            console.log(err, html)
-            let newHTML = html
+            let newHTML = typeof html === 'string' ? html
                 .replace(/<script/g, '<script nonce="' + res.locals.nonce + '"')
-                .replace(/<style/g, '<style nonce="' + res.locals.nonce + '"')
+                .replace(/<style/g, '<style nonce="' + res.locals.nonce + '"') : 'Not Found'
             res.send(newHTML)
         }
     )
 })
-app.get('/atlas/streamsaver/ping.html', (req, res) => {
+app.get('/streamsaver/ping.html', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache')
     fs.readFile(
-        path.join(paths.appBuild, '/atlas/streamsaver/ping.html'),
+        path.join(paths.appBuild, '/streamsaver/ping.html'),
         'utf8',
         function (err, html) {
-            console.log(err, html)
-            let newHTML = html
+            let newHTML = typeof html === 'string' ? html
                 .replace(/<script/g, '<script nonce="' + res.locals.nonce + '"')
-                .replace(/<style/g, '<style nonce="' + res.locals.nonce + '"')
+                .replace(/<style/g, '<style nonce="' + res.locals.nonce + '"') : 'Not Found'
             res.send(newHTML)
         }
     )

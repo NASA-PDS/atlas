@@ -70,7 +70,7 @@
     "redux-thunk": "^2.3.0",
     "resolve": "1.15.0",
     "resolve-url-loader": "^5.0.0",
-    "semver": "6.3.0",
+    "semver": "^7.7.2",
     "streamsaver": "^2.0.6",
     "styled-components": "^5.0.1",
     "svg-overlay": "git+https://git@github.com/openseadragon/svg-overlay.git",

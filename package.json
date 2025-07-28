@@ -32,7 +32,6 @@
     "express": "^4.16.4",
     "express-manifest-helpers": "^0.6.0",
     "file-saver": "^2.0.5",
-    "filter-suggest": "^3.5.5",
     "flat": "^5.0.2",
     "fs-extra": "^8.1.0",
     "helmet": "^4.5.0",

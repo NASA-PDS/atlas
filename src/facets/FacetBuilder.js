@@ -179,6 +179,32 @@ const augmentFacets = (facets) => {
     return facets
 }
 
+// Define the intended order of filters
+const FILTER_ORDER_PRIORITY = [
+    '_text',                        // Text Search
+    'gather.common.mission',        // Mission  
+    'gather.common.spacecraft',     // Spacecraft
+    'gather.common.instrument',     // Instrument
+    'gather.common.target',         // Target
+    'gather.common.product_type',   // Product Type
+    'gather.common.kind',           // Kind
+    'archive.bundle_id',            // Bundle ID
+]
+
+/**
+ * Gets the intended order value for a filter key
+ * @param {string} filterKey - The filter key
+ * @returns {number} - Order value (lower = appears first)
+ */
+export const getFilterOrderValue = (filterKey) => {
+    const priorityIndex = FILTER_ORDER_PRIORITY.indexOf(filterKey)
+    if (priorityIndex >= 0) {
+        return priorityIndex
+    }
+    // Non-default filters get appended to the end
+    return FILTER_ORDER_PRIORITY.length + 1000
+}
+
 export const getInitialActiveFilters = (mapping) => {
     return {
         '_text': {

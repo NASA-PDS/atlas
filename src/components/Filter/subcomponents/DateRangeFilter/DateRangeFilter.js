@@ -195,8 +195,18 @@ const DateRangeFilter = (props) => {
         if (facet.state?.daterange === false) {
             handleStartDateChange('')
             handleEndDateChange('')
+        } else if (facet.state?.daterange?.start || facet.state?.daterange?.end) {
+            // Update local state when daterange is set (e.g., from deeplink)
+            const start = facet.state.daterange.start?.length > 0
+                ? moment.utc(facet.state.daterange.start).format(dateFormat)
+                : ''
+            const end = facet.state.daterange.end?.length > 0
+                ? moment.utc(facet.state.daterange.end).format(dateFormat)
+                : ''
+            handleStartDateChange(start)
+            handleEndDateChange(end)
         }
-    }, [JSON.stringify(facet.state)])
+    }, [JSON.stringify(facet.state), dateFormat])
 
     useEffect(() => {
         if (facet.fields && facet.fields.length > 0) {

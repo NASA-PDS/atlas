@@ -35,6 +35,23 @@ const getSearchURL = (activeFilters) => {
                                 if (f.state[s] === true) values.push(`${encodeURI(s)}`)
                             })
                         break
+                    case 'input_range':
+                    case 'slider_range':
+                        if (f.state && f.state.range && Array.isArray(f.state.range) && 
+                            (f.state.range[0] != null || f.state.range[1] != null)) {
+                            const min = f.state.range[0] != null ? f.state.range[0] : ''
+                            const max = f.state.range[1] != null ? f.state.range[1] : ''
+                            values.push(`${encodeURI(min)}_to_${encodeURI(max)}`)
+                        }
+                        break
+                    case 'date_range':
+                        if (f.state && f.state.daterange && 
+                            (f.state.daterange.start || f.state.daterange.end)) {
+                            const start = f.state.daterange.start || ''
+                            const end = f.state.daterange.end || ''
+                            values.push(`${encodeURI(start)}_to_${encodeURI(end)}`)
+                        }
+                        break
                     default:
                         break
                 }

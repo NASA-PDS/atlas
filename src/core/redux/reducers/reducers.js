@@ -2,6 +2,7 @@ import { INITIAL } from '../store/initial'
 import { fromJS } from 'immutable'
 import { getIn } from '../../utils'
 import { localStorageCart, ES_PATHS } from '../../constants'
+import { getFilterOrderValue } from '../../../facets/FacetBuilder'
 
 const reducerFuncs = {
     // ==================== SEARCH RELATED ====================
@@ -143,19 +144,16 @@ function setInitialActiveFilters(state, payload) {
 function addActiveFilters(state, payload) {
     let nextActiveFilters = state.get('activeFilters').toJS()
 
-    const sortedActiveFilterKeys = Object.keys(nextActiveFilters).sort((a, b) => {
-        return nextActiveFilters[a].order - nextActiveFilters[b].order
-    })
-
-    sortedActiveFilterKeys.forEach((key, idx) => {
-        nextActiveFilters[key].order = idx
-    })
-
+    // Add new filters
     Object.keys(payload.filters).forEach((key) => {
         if (nextActiveFilters[key] == null) {
             nextActiveFilters[key] = payload.filters[key]
-            nextActiveFilters[key].order = Object.keys(nextActiveFilters).length
         }
+    })
+
+    // Assign proper order values to all filters
+    Object.keys(nextActiveFilters).forEach((key) => {
+        nextActiveFilters[key].order = getFilterOrderValue(key)
     })
 
     return state.setIn(['activeFilters'], fromJS(nextActiveFilters))
@@ -174,6 +172,12 @@ function addActiveFilters(state, payload) {
 function updateActiveFilters(state, payload) {
     let nextActiveFilters = state.get('activeFilters').toJS()
     nextActiveFilters = { ...nextActiveFilters, ...payload.filters }
+    
+    // Ensure proper order values are maintained
+    Object.keys(nextActiveFilters).forEach((key) => {
+        nextActiveFilters[key].order = getFilterOrderValue(key)
+    })
+    
     return state.setIn(['activeFilters'], fromJS(nextActiveFilters))
 }
 

@@ -955,7 +955,29 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                 filterState.input = url.query[q]
                             } else {
                                 url.query[q].split(',').forEach((v) => {
-                                    filterState[v] = true
+                                    // Check if this is a range parameter (contains _to_)
+                                    if (v.includes('_to_')) {
+                                        const [min, max] = v.split('_to_').map(decodeURI)
+                                        const filter = getIn(atlasMapping.groups, qSplit) || {}
+                                        const facet = filter?.facets?.[qIdx]
+                                        
+                                        if (facet?.component === 'date_range') {
+                                            // Date range format
+                                            filterState.daterange = {
+                                                start: min || '',
+                                                end: max || ''
+                                            }
+                                        } else if (facet?.component === 'input_range' || facet?.component === 'slider_range') {
+                                            // Numeric range format
+                                            filterState.range = [
+                                                min !== '' ? parseFloat(min) : null,
+                                                max !== '' ? parseFloat(max) : null
+                                            ]
+                                        }
+                                    } else {
+                                        // Regular keyword filter
+                                        filterState[v] = true
+                                    }
                                 })
                             }
                             if (

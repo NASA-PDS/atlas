@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import Input from '@mui/material/Input'
 import InputAdornment from '@mui/material/InputAdornment'
-import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
+import { useSpring, animated } from '@react-spring/web'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'

@@ -20,7 +20,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TreeView from '@material-ui/lab/TreeView'
 import TreeItem from '@material-ui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
-import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
+import { useSpring, animated } from '@react-spring/web'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import MoreVertIcon from '@mui/icons-material/MoreVert'

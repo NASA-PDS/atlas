@@ -15,7 +15,6 @@ import {
     useScrollToIndex,
 } from 'masonic'
 
-import LazyLoad from 'react-lazy-load'
 import Image from 'mui-image'
 
 import { makeStyles } from '@mui/material/styles'
@@ -345,35 +344,34 @@ const GridCard = ({ index, data, width }) => {
                 images.map((image, idx) => {
                     const imgURL = getPDSUrl(image, release_id, AVAILABLE_URI_SIZES.sm)
                     return (
-                        <LazyLoad offset={600} key={idx} once>
-                            <Image
-                                className={c.gridItemImage}
-                                wrapperStyle={{
-                                    height: '100%',
-                                    paddingTop: 'unset',
-                                    background: '#192028',
-                                    position: 'initial',
-                                }}
-                                style={
-                                    data.type === 'query'
-                                        ? {
-                                              left: `-${idx * 16}px`,
-                                              borderRight: '1px solid #FFF',
-                                              top: `${(data.item.images.length - (idx + 1)) * 3}px`,
-                                              height: `calc(100% - ${
-                                                  (images.length - (idx + 1)) * 3 * 2
-                                              }px)`,
-                                              boxShadow: '0 1px 5px rgba(0,0,0,0.5)',
-                                          }
-                                        : null
-                                }
-                                shiftDuration={1200}
-                                iconWrapperStyle={{ opacity: 0.6 }}
-                                errorIcon={<ImageIcon className={c.errorIcon} />}
-                                src={imgURL || ''}
-                                alt={imgAlt}
-                            />
-                        </LazyLoad>
+                        <Image
+                            className={c.gridItemImage}
+                            wrapperStyle={{
+                                height: '100%',
+                                paddingTop: 'unset',
+                                background: '#192028',
+                                position: 'initial',
+                            }}
+                            style={
+                                data.type === 'query'
+                                    ? {
+                                          left: `-${idx * 16}px`,
+                                          borderRight: '1px solid #FFF',
+                                          top: `${(data.item.images.length - (idx + 1)) * 3}px`,
+                                          height: `calc(100% - ${
+                                              (images.length - (idx + 1)) * 3 * 2
+                                          }px)`,
+                                          boxShadow: '0 1px 5px rgba(0,0,0,0.5)',
+                                      }
+                                    : null
+                            }
+                            shiftDuration={1200}
+                            iconWrapperStyle={{ opacity: 0.6 }}
+                            errorIcon={<ImageIcon className={c.errorIcon} />}
+                            src={imgURL || ''}
+                            alt={imgAlt}
+                            loading="lazy"
+                        />
                     )
                 })}
             {data.item.total ? (

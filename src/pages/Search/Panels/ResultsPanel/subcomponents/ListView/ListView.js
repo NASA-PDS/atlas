@@ -18,7 +18,6 @@ import {
     useScrollToIndex,
 } from 'masonic'
 
-import LazyLoad from 'react-lazy-load'
 import Image from 'mui-image'
 
 import { makeStyles } from '@mui/material/styles'
@@ -317,24 +316,23 @@ const ListCard = ({ index, data, width }) => {
             }}
         >
             <div className={c.listItemLeft}>
-                <LazyLoad offset={600} once>
-                    <Image
-                        className={c.listItemImage}
-                        wrapperStyle={{
-                            height: '100%',
-                            paddingTop: 'unset',
-                            background: 'linear-gradient(to bottom, #060606, #000000)',
-                            position: 'initial',
-                        }}
-                        shiftDuration={1200}
-                        iconWrapperStyle={{ opacity: 0.6 }}
-                        src={
-                            IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'
-                        }
-                        alt={fileName}
-                        errorIcon={<ProductIcons filename={fileName} />}
-                    />
-                </LazyLoad>
+                <Image
+                    className={c.listItemImage}
+                    wrapperStyle={{
+                        height: '100%',
+                        paddingTop: 'unset',
+                        background: 'linear-gradient(to bottom, #060606, #000000)',
+                        position: 'initial',
+                    }}
+                    shiftDuration={1200}
+                    iconWrapperStyle={{ opacity: 0.6 }}
+                    src={
+                        IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'
+                    }
+                    alt={fileName}
+                    errorIcon={<ProductIcons filename={fileName} />}
+                    loading="lazy"
+                />
                 <ProductToolbar result={data} />
             </div>
             <div className={c.listItemRight}>

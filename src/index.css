@@ -82,7 +82,3 @@ body > #root > div:first-child {
 .MuiFormLabel-root.Mui-focused {
     color: black !important;
 }
-
-.LazyLoad > div > div {
-    opacity: 1 !important;
-}

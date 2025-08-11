@@ -12,7 +12,6 @@ import { List, AutoSizer, InfiniteLoader } from 'react-virtualized'
 import Draggable from 'react-draggable'
 
 import clsx from 'clsx'
-import LazyLoad from 'react-lazy-load'
 import Image from 'mui-image'
 
 import { makeStyles } from '@mui/material/styles'
@@ -402,26 +401,25 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
                         <div className={clsx(c.thumbnailIcon, 'thumbnailIcon')}>
                             <ImageIcon />
                         </div>
-                        <LazyLoad offset={100} once>
-                            <Image
-                                className={clsx(c.cellImage, 'hoverImage')}
-                                wrapperStyle={{
-                                    height: '100%',
-                                    paddingTop: 'unset',
-                                    position: 'initial',
-                                }}
-                                shiftDuration={1200}
-                                src={
-                                    IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
-                                        ? imgURL
-                                        : 'null'
-                                }
-                                alt={fileName}
-                                errorIcon={
-                                    <ProductIcons filename={fileName} size="small" color="dark" />
-                                }
-                            />
-                        </LazyLoad>
+                        <Image
+                            className={clsx(c.cellImage, 'hoverImage')}
+                            wrapperStyle={{
+                                height: '100%',
+                                paddingTop: 'unset',
+                                position: 'initial',
+                            }}
+                            shiftDuration={1200}
+                            src={
+                                IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
+                                    ? imgURL
+                                    : 'null'
+                            }
+                            alt={fileName}
+                            errorIcon={
+                                <ProductIcons filename={fileName} size="small" color="dark" />
+                            }
+                            loading="lazy"
+                        />
                     </div>
                 )
                 break

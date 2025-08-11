@@ -18,7 +18,6 @@ import {
     useScrollToIndex,
 } from 'masonic'
 
-import LazyLoad from 'react-lazy-load'
 import Image from 'mui-image'
 
 import { makeStyles } from '@mui/material/styles'
@@ -309,28 +308,27 @@ const GridCard = ({ index, data, width }) => {
                 sASet(sAKeys.HOVERED_RESULT, null)
             }}
         >
-            <LazyLoad offset={600} once>
-                <Image
-                    className={`${c.gridItemImage} ResultsPanelImage`}
-                    wrapperStyle={{
-                        height: '100%',
-                        paddingTop: 'unset',
-                        background: '#192028',
-                        position: 'initial',
-                    }}
-                    style={{
-                        transition:
-                            'filterBrightness 900ms cubic-bezier(0.4, 0, 0.2, 1) 0s, filterSaturate 1200ms cubic-bezier(0.4, 0, 0.2, 1) 0s, opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 0s, transform 0.15s ease-out 0s',
-                        transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
-                        height: `${gridItemHeight}px`,
-                    }}
-                    shiftDuration={1200}
-                    iconWrapperStyle={{ opacity: 0.6 }}
-                    src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
-                    alt={fileName}
-                    errorIcon={<ProductIcons filename={fileName} />}
-                />
-            </LazyLoad>
+            <Image
+                className={`${c.gridItemImage} ResultsPanelImage`}
+                wrapperStyle={{
+                    height: '100%',
+                    paddingTop: 'unset',
+                    background: '#192028',
+                    position: 'initial',
+                }}
+                style={{
+                    transition:
+                        'filterBrightness 900ms cubic-bezier(0.4, 0, 0.2, 1) 0s, filterSaturate 1200ms cubic-bezier(0.4, 0, 0.2, 1) 0s, opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 0s, transform 0.15s ease-out 0s',
+                    transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
+                    height: `${gridItemHeight}px`,
+                }}
+                shiftDuration={1200}
+                iconWrapperStyle={{ opacity: 0.6 }}
+                src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
+                alt={fileName}
+                errorIcon={<ProductIcons filename={fileName} />}
+                loading="lazy"
+            />
             <ProductToolbar result={data} />
             <div className={c.fileExt}>{getExtension(fileName, true)}</div>
             {getIn(s, ES_PATHS.ml, false) ? <div className={c.hasML}>ML</div> : null}

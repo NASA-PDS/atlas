@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import { makeStyles, useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import withWidth from '@mui/material/withWidth'
 
 import { getIn, getPDSUrl, getRedirectedUrl, prettify } from '../../../../../core/utils.js'
 import { getDataByURI, setData } from '../../../../../core/redux/actions/actions'
@@ -56,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const MLClassification = (props) => {
+
     const { recordData } = props
     const c = useStyles()
 
@@ -193,4 +193,4 @@ MLClassification.propTypes = {
     recordData: PropTypes.object,
 }
 
-export default withWidth()(MLClassification)
+export default MLClassification;

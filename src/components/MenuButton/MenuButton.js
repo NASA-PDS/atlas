@@ -4,11 +4,8 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import { makeStyles, useTheme } from '@mui/material/styles'
-import withWidth from '@mui/material/withWidth'
 
 import IconButton from '@mui/material/IconButton'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
 import Checkbox from '@mui/material/Checkbox'
 
 import ClickAwayListener from '@mui/material/ClickAwayListener'

@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-
-import Button from '@mui/material/Button'
-import ButtonGroup from '@mui/material/ButtonGroup'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { makeStyles, useTheme } from '@mui/material/styles'
-import withWidth from '@mui/material/withWidth'
 
 import Title from './Title/Title'
 import Content from './Content/Content'
@@ -21,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Cart = (props) => {
-    const { width } = props
+
     const c = useStyles()
 
     const theme = useTheme()
@@ -37,4 +30,4 @@ const Cart = (props) => {
 
 Cart.propTypes = {}
 
-export default withWidth()(Cart)
+export default Cart;

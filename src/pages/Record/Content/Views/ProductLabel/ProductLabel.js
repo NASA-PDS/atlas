@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import  { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { setSnackBarText } from '../../../../../core/redux/actions/actions'
@@ -14,12 +14,9 @@ import { ES_PATHS, IMAGE_EXTENSIONS } from '../../../../../core/constants.js'
 
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
-import Snackbar from '@mui/material/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
 import TreeView from '@material-ui/lab/TreeView'
 import TreeItem from '@material-ui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
@@ -33,7 +30,6 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import { makeStyles, withStyles, useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import withWidth from '@mui/material/withWidth'
 
 import OpenSeadragonViewer from '../../../../../components/OpenSeadragonViewer/OpenSeadragonViewer'
 import MenuButton from '../../../../../components/MenuButton/MenuButton'
@@ -418,6 +414,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ProductLabel = (props) => {
+
     const { recordData } = props
 
     const c = useStyles()
@@ -590,4 +587,4 @@ const ProductLabel = (props) => {
 
 ProductLabel.propTypes = {}
 
-export default withWidth()(ProductLabel)
+export default ProductLabel;

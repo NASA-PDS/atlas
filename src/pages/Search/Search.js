@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
-import Button from '@mui/material/Button'
-import ButtonGroup from '@mui/material/ButtonGroup'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { makeStyles, useTheme } from '@mui/material/styles'
-import withWidth from '@mui/material/withWidth'
 
 import FiltersPanel from './Panels/FiltersPanel/FiltersPanel'
 import SecondaryPanel from './Panels/SecondaryPanel/SecondaryPanel'
@@ -36,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Search = (props) => {
-    const { width } = props
+
     const c = useStyles()
 
     const mobileWorkspace = useSelector((state) => {
@@ -91,4 +86,4 @@ const Search = (props) => {
 
 Search.propTypes = {}
 
-export default withWidth()(Search)
+export default Search;

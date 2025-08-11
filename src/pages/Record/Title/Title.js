@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { HASH_PATHS, ES_PATHS, RELATED_MAPPINGS } from '../../../core/constants'
 
 import {
@@ -20,13 +20,10 @@ import SplitButton from '../../../components/SplitButton/SplitButton'
 
 import { makeStyles } from '@mui/material/styles'
 
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import Snackbar from '@mui/material/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import LinkIcon from '@mui/icons-material/Link'

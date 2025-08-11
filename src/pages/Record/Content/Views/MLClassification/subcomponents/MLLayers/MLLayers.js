@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import { makeStyles, useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import withWidth from '@mui/material/withWidth'
 import Checkbox from '@mui/material/Checkbox'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
@@ -113,6 +111,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const MLLayers = (props) => {
+  
     const { features, classes, onChange } = props
     const c = useStyles()
     const theme = useTheme()
@@ -266,4 +265,4 @@ MLLayers.propTypes = {
     onChange: PropTypes.func,
 }
 
-export default withWidth()(MLLayers)
+export default MLLayers;

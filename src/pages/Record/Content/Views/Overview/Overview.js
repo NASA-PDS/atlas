@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { makeStyles, useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import withWidth from '@mui/material/withWidth'
 
 import { getIn, getPDSUrl, prettify, getExtension } from '../../../../../core/utils.js'
 import { HASH_PATHS, ES_PATHS, IMAGE_EXTENSIONS } from '../../../../../core/constants.js'
@@ -156,6 +153,7 @@ const fields = [
 ]
 
 const Overview = (props) => {
+
     const { recordData, versions, activeVersion } = props
     const c = useStyles()
     const history = useHistory()
@@ -264,4 +262,4 @@ Overview.propTypes = {
     recordData: PropTypes.object,
 }
 
-export default withWidth()(Overview)
+export default Overview;

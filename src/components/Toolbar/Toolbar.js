@@ -16,7 +16,6 @@ import Tooltip from '@mui/material/Tooltip'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { makeStyles, useTheme } from '@mui/material/styles'
-import withWidth from '@mui/material/withWidth'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
@@ -700,4 +699,4 @@ const Toolbar = (props) => {
     )
 }
 
-export default withWidth()(Toolbar)
+export default Toolbar;

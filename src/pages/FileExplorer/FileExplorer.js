@@ -1,11 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-
-import { getIn } from '../../core/utils'
-import { addFilexColumn } from '../../core/redux/actions/actions'
-
-import { HASH_PATHS } from '../../core/constants'
 
 import Heading from './Heading/Heading'
 import Columns from './Columns/Columns'
@@ -15,17 +9,10 @@ import RegexModal from './Modals/RegexModal/RegexModal'
 
 import MenuButton from '../../components/MenuButton/MenuButton'
 
-import Button from '@mui/material/Button'
-import ButtonGroup from '@mui/material/ButtonGroup'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { makeStyles, useTheme } from '@mui/material/styles'
-import withWidth from '@mui/material/withWidth'
 
 import SortIcon from '@mui/icons-material/Sort'
-import IconButton from '@mui/material/IconButton'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
-import LinkIcon from '@mui/icons-material/Link'
 
 import clsx from 'clsx'
 import Draggable from 'react-draggable'
@@ -111,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 let slidingRight = false
 
 const FileExplorer = (props) => {
-    const { width } = props
+
     const c = useStyles()
 
     const dispatch = useDispatch()
@@ -281,4 +268,4 @@ const FileExplorer = (props) => {
 
 FileExplorer.propTypes = {}
 
-export default withWidth()(FileExplorer)
+export default FileExplorer;

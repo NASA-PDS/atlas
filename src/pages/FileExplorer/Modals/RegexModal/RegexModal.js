@@ -36,7 +36,7 @@ import Tooltip from '@mui/material/Tooltip'
 import InputAdornment from '@mui/material/InputAdornment'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import SpellcheckIcon from '@mui/icons-material/Spellcheck'
-import Pagination from '@material-ui/lab/Pagination'
+import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 
 import { makeStyles, useTheme } from '@mui/material/styles'

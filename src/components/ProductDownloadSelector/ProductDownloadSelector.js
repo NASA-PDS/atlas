@@ -7,7 +7,7 @@ import { domain, endpoints, ES_PATHS } from '../../core/constants'
 import { getIn, getHeader, getFilename, humanFileSize, setIn } from '../../core/utils'
 
 import clsx from 'clsx'
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox'
 
 const useStyles = makeStyles((theme) => ({

@@ -8,10 +8,10 @@ import {
     copyToClipboardAction,
 } from '../../../../core/redux/actions/actions.js'
 
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip'
 
 import AddIcon from '@material-ui/icons/Add'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -21,7 +21,7 @@ import AdvancedFilter from './subcomponents/AdvancedFilter/AdvancedFilter'
 
 import MenuButton from '../../../../components/MenuButton/MenuButton'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
 const useStyles = makeStyles((theme) => ({
     FiltersPanel: {

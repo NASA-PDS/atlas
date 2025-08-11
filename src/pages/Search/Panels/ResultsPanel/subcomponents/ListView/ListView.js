@@ -23,8 +23,8 @@ import clsx from 'clsx'
 import LazyLoad from 'react-lazy-load'
 import Image from 'material-ui-image'
 
-import Checkbox from '@material-ui/core/Checkbox'
-import { makeStyles } from '@material-ui/core/styles'
+import Checkbox from '@mui/material/Checkbox'
+import { makeStyles } from '@mui/material/styles'
 
 import {
     search,

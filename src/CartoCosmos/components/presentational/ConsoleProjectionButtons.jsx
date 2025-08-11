@@ -1,9 +1,9 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
-import ButtonBase from '@material-ui/core/ButtonBase'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles, withStyles, fade } from '@material-ui/core/styles'
-import Zoom from '@material-ui/core/Zoom'
+import Grid from '@mui/material/Grid'
+import ButtonBase from '@mui/material/ButtonBase'
+import Typography from '@mui/material/Typography'
+import { makeStyles, withStyles, fade } from '@mui/material/styles'
+import Zoom from '@mui/material/Zoom'
 import StyledTooltip from './StyledTooltip.jsx'
 
 /**

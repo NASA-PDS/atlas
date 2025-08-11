@@ -16,10 +16,10 @@ import clsx from 'clsx'
 import LazyLoad from 'react-lazy-load'
 import Image from 'material-ui-image'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Checkbox from '@material-ui/core/Checkbox'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import { makeStyles } from '@mui/material/styles'
+import Checkbox from '@mui/material/Checkbox'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
 import {
     search,

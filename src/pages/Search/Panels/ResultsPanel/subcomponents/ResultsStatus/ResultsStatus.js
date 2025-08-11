@@ -9,12 +9,12 @@ import { setFieldState } from '../../../../../../core/redux/actions/actions'
 import { getIn, capitalize, prettify, isObject, objectToString } from '../../../../../../core/utils'
 import { resultsStatuses } from '../../../../../../core/constants'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
-import Paper from '@material-ui/core/Paper'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import Tooltip from '@material-ui/core/Tooltip'
+import Paper from '@mui/material/Paper'
+import CircularProgress from '@mui/material/CircularProgress'
+import LinearProgress from '@mui/material/LinearProgress'
+import Tooltip from '@mui/material/Tooltip'
 
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined'
 import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined'

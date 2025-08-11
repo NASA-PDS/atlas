@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
+import { makeStyles } from '@mui/material/styles'
+import Paper from '@mui/material/Paper'
 
 import { getExtension, getPDSUrl, getRedirectedUrl } from '../../core/utils'
 import { IMAGE_EXTENSIONS } from '../../core/constants'

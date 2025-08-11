@@ -1,6 +1,6 @@
 import React from 'react'
 import ConsoleAppBar from '../presentational/ConsoleAppBar.jsx'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
 /**
  * Controls css styling for this component using js to css

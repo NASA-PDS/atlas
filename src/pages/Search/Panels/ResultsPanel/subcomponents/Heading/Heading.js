@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { makeStyles, withStyles, useTheme } from '@mui/material/styles'
 
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import RotateRightIcon from '@material-ui/icons/RotateRight'

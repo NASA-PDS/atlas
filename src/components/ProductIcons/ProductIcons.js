@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@mui/material/styles'
 import { getExtension } from '../../core/utils'
 
 import ImageIcon from '@material-ui/icons/Image'

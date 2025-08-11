@@ -7,7 +7,7 @@ import Url from 'url-parse'
 
 import Filter from '../../../../../../components/Filter/Filter'
 import { HASH_PATHS } from '../../../../../../core/constants'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
 const useStyles = makeStyles((theme) => ({
     FilterList: {

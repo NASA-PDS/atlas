@@ -6,13 +6,13 @@ import { HASH_PATHS } from '../../../core/constants'
 
 import { getIn } from '../../../core/utils'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 

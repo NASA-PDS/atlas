@@ -6,8 +6,8 @@ import { setFieldState } from '../../../../../../core/redux/actions/actions'
 
 import { getIn, capitalize, prettify, isObject, objectToString } from '../../../../../../core/utils'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Chip from '@material-ui/core/Chip'
+import { makeStyles } from '@mui/material/styles'
+import Chip from '@mui/material/Chip'
 
 const useStyles = makeStyles((theme) => ({
     ChippedFilters: {

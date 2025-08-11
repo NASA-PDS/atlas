@@ -28,11 +28,11 @@ import { streamDownloadFile } from '../../../core/downloaders/ZipStream.js'
 
 import ProductIcons from '../../../components/ProductIcons/ProductIcons'
 
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Button from '@material-ui/core/Button'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Button from '@mui/material/Button'
 
 import PageviewIcon from '@material-ui/icons/Pageview'
 import GetAppIcon from '@material-ui/icons/GetApp'
@@ -43,13 +43,13 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import WarningIcon from '@material-ui/icons/Warning'
 
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
-import FormControl from '@material-ui/core/FormControl'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import FormControl from '@mui/material/FormControl'
 
 import Image from 'material-ui-image'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
 import './Preview.css'
 

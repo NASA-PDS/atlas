@@ -19,11 +19,11 @@ import {
 import LazyLoad from 'react-lazy-load'
 import Image from 'material-ui-image'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
+import { makeStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
 
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'

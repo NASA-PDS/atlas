@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 
 import { setSnackBarText } from '../../core/redux/actions/actions.js'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert from '@mui/material/Alert'
 
 const useStyles = makeStyles((theme) => ({
     snackbar: {

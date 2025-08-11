@@ -2,15 +2,15 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { makeStyles, useTheme } from '@mui/material/styles'
 
 import clsx from 'clsx'
 
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
-import Badge from '@material-ui/core/Badge'
+import Badge from '@mui/material/Badge'
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined'
 import ImageSearchIcon from '@material-ui/icons/ImageSearch'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'

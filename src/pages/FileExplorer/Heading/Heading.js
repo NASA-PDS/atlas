@@ -6,15 +6,15 @@ import PropTypes from 'prop-types'
 import Url from 'url-parse'
 import clsx from 'clsx'
 
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Snackbar from '@material-ui/core/Snackbar'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 
 import LinkIcon from '@material-ui/icons/Link'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
 import { copyToClipboard, splitUri } from '../../../core/utils'
 import { HASH_PATHS, ES_PATHS } from '../../../core/constants'

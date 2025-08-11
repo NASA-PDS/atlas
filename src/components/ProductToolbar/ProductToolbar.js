@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/material/styles'
 
-import IconButton from '@material-ui/core/IconButton'
-import Checkbox from '@material-ui/core/Checkbox'
-import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import Checkbox from '@mui/material/Checkbox'
+import Tooltip from '@mui/material/Tooltip'
 
 import GetAppIcon from '@material-ui/icons/GetApp'
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'

@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
-import IconButton from '@material-ui/core/IconButton'
+import IconButton from '@mui/material/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import HomeIcon from '@material-ui/icons/Home'
@@ -16,8 +16,8 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft'
 import RotateRightIcon from '@material-ui/icons/RotateRight'
 import LayersIcon from '@material-ui/icons/Layers'
 
-import Paper from '@material-ui/core/Paper'
-import Tooltip from '@material-ui/core/Tooltip'
+import Paper from '@mui/material/Paper'
+import Tooltip from '@mui/material/Tooltip'
 
 import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined'
 

@@ -1,14 +1,14 @@
 import React from "react";
-import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
-import Zoom from "@material-ui/core/Zoom";
-import Grid from "@material-ui/core/Grid";
+import { fade, makeStyles, withStyles } from "@mui/material/styles";
+import Zoom from "@mui/material/Zoom";
+import Grid from "@mui/material/Grid";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 import AddBoxIcon from "@material-ui/icons/AddBoxOutlined";
 import ExposureIcon from "@material-ui/icons/Exposure";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 import StyledTooltip from "./StyledTooltip.jsx";
 
 /**

@@ -8,7 +8,7 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 
 import { setResultSorting } from '../../core/redux/actions/actions.js'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 import { Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({

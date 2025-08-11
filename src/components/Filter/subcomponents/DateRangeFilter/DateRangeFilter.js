@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 
 import moment from 'moment'
 
 import { setFieldState } from '../../../../core/redux/actions/actions.js'
 import { getIn, prettify } from '../../../../core/utils.js'
 
-import InputLabel from '@material-ui/core/InputLabel'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
+import InputLabel from '@mui/material/InputLabel'
+import FormHelperText from '@mui/material/FormHelperText'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 
 import { KeyboardDateTimePicker } from '@material-ui/pickers'
 

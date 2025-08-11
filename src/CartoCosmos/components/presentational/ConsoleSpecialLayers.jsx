@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
-import Tooltip from '@material-ui/core/Tooltip'
+import Tooltip from '@mui/material/Tooltip'
 
 import GpsOnIcon from '@material-ui/icons/GpsNotFixed'
 import GpsOffIcon from '@material-ui/icons/GpsOff'

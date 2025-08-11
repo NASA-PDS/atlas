@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import withWidth from '@material-ui/core/withWidth'
+import { makeStyles, useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import withWidth from '@mui/material/withWidth'
 
 import { getIn, getPDSUrl, getRedirectedUrl, prettify } from '../../../../../core/utils.js'
 import { getDataByURI, setData } from '../../../../../core/redux/actions/actions'

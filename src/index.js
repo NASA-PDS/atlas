@@ -6,7 +6,7 @@ import { store } from './core/redux/store/store'
 
 import { Routes } from './core/routes/routes'
 
-import { ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from '@mui/material/styles'
 import muiTheme from './themes/light.js'
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'

@@ -19,8 +19,8 @@ import {
     basicToAdvancedFilters,
 } from './AutocompleteMapping'
 
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import InfoIcon from '@material-ui/icons/Info'
@@ -31,7 +31,7 @@ import ReactFilterBox, {
 } from './react-filter-box-customized/react-filter-box'
 import './react-filter-box-customized/react-filter-box.css'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 
 const literals = [
     {

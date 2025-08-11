@@ -3,17 +3,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import Url from 'url-parse'
 
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles, withStyles, useTheme } from '@mui/material/styles'
 
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
 
 import Heading from './subcomponents/Heading/Heading'
 import ResultsStatus from './subcomponents/ResultsStatus/ResultsStatus'
 import GridView from './subcomponents/GridView/GridView'
 import ListView from './subcomponents/ListView/ListView'
 import TableView from './subcomponents/TableView/TableView'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 
 import { search } from '../../../../core/redux/actions/actions.js'
 import { abbreviateNumber } from '../../../../core/utils.js'

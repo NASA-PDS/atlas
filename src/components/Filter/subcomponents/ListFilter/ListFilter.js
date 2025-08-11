@@ -1,11 +1,11 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import Checkbox from '@material-ui/core/Checkbox'
+import Checkbox from '@mui/material/Checkbox'
 
 import { setFieldState } from '../../../../core/redux/actions/actions.js'
 import { DISPLAY_NAME_MAPPINGS } from '../../../../core/constants.js'

@@ -1,14 +1,14 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/material/styles'
 
 import { domain, endpoints, ES_PATHS } from '../../core/constants'
 import { getIn, getHeader, getFilename, humanFileSize, setIn } from '../../core/utils'
 
 import clsx from 'clsx'
 import { Typography } from '@material-ui/core'
-import Checkbox from '@material-ui/core/Checkbox'
+import Checkbox from '@mui/material/Checkbox'
 
 const useStyles = makeStyles((theme) => ({
     root: {},

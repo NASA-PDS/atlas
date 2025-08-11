@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { HASH_PATHS, AVAILABLE_URI_SIZES, ES_PATHS } from '../../../../core/constants'
 
 import clsx from 'clsx'
 
 import { useResizeDetector } from 'react-resize-detector'
-import { useSize, useScroller } from 'mini-virtual-list'
+import { useScroller } from 'mini-virtual-list'
 import {
     usePositioner,
     useResizeObserver,
@@ -17,11 +16,10 @@ import {
 } from 'masonic'
 
 import LazyLoad from 'react-lazy-load'
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
 import { makeStyles } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 
@@ -215,9 +213,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const CartView = (props) => {
-    const c = useStyles()
 
-    const dispatch = useDispatch()
+    const c = useStyles()
 
     const history = useHistory()
 
@@ -227,7 +224,6 @@ const CartView = (props) => {
 
     const gridContainerRef = useRef(null)
     const { width, height, ref } = useResizeDetector()
-    const { widthR, heightR } = useSize(gridContainerRef)
     const positioner = usePositioner(
         {
             width: Math.max(width - gridItemGap, 0),
@@ -352,13 +348,13 @@ const GridCard = ({ index, data, width }) => {
                         <LazyLoad offset={600} key={idx} once>
                             <Image
                                 className={c.gridItemImage}
-                                style={{
+                                wrapperStyle={{
                                     height: '100%',
                                     paddingTop: 'unset',
                                     background: '#192028',
                                     position: 'initial',
                                 }}
-                                imageStyle={
+                                style={
                                     data.type === 'query'
                                         ? {
                                               left: `-${idx * 16}px`,
@@ -371,9 +367,8 @@ const GridCard = ({ index, data, width }) => {
                                           }
                                         : null
                                 }
-                                disableSpinner={true}
-                                animationDuration={1200}
-                                iconContainerStyle={{ opacity: 0.6 }}
+                                shiftDuration={1200}
+                                iconWrapperStyle={{ opacity: 0.6 }}
                                 errorIcon={<ImageIcon className={c.errorIcon} />}
                                 src={imgURL || ''}
                                 alt={imgAlt}

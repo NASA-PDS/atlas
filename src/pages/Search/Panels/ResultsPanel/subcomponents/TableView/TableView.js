@@ -1,7 +1,6 @@
-import React, { useState, useEffect, memo } from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
@@ -14,7 +13,7 @@ import Draggable from 'react-draggable'
 
 import clsx from 'clsx'
 import LazyLoad from 'react-lazy-load'
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
 import { makeStyles } from '@mui/material/styles'
 import Checkbox from '@mui/material/Checkbox'
@@ -406,13 +405,12 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
                         <LazyLoad offset={100} once>
                             <Image
                                 className={clsx(c.cellImage, 'hoverImage')}
-                                style={{
+                                wrapperStyle={{
                                     height: '100%',
                                     paddingTop: 'unset',
                                     position: 'initial',
                                 }}
-                                disableSpinner={true}
-                                animationDuration={1200}
+                                shiftDuration={1200}
                                 src={
                                     IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
                                         ? imgURL

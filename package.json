@@ -42,6 +42,7 @@
     "match-sorter": "^4.2.1",
     "mini-virtual-list": "^0.3.2",
     "moment": "^2.30.1",
+    "mui-image": "^1.0.9",
     "ngeohash": "^0.6.3",
     "openseadragon": "^2.4.2",
     "proj4": "^2.19.10",

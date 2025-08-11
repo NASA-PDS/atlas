@@ -1,7 +1,6 @@
-import React, { useState, useEffect, version } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 import axios from 'axios'
@@ -37,7 +36,6 @@ import Button from '@mui/material/Button'
 import PageviewIcon from '@mui/icons-material/Pageview'
 import GetAppIcon from '@mui/icons-material/GetApp'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
-import LinkIcon from '@mui/icons-material/Link'
 import LaunchIcon from '@mui/icons-material/Launch'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -47,7 +45,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import FormControl from '@mui/material/FormControl'
 
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
 import { makeStyles } from '@mui/material/styles'
 
@@ -660,15 +658,14 @@ const Preview = (props) => {
                     {imageUrl != 'null' && hasBrowse !== false ? (
                         <Image
                             className={c.previewImage}
-                            style={{
+                            wrapperStyle={{
                                 height: '100%',
                                 paddingTop: 'unset',
                                 position: 'initial',
                                 background:
                                     'radial-gradient(ellipse, rgb(46, 46, 50), rgb(10, 10, 10))',
                             }}
-                            disableSpinner={false}
-                            animationDuration={1200}
+                            shiftDuration={1200}
                             src={imageUrl}
                             alt={imageUrl}
                             errorIcon={<ProductIcons filename={imageUrl} type={preview.fs_type} />}

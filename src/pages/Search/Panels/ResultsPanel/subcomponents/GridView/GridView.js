@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
@@ -19,11 +18,8 @@ import {
     useScrollToIndex,
 } from 'masonic'
 
-import clsx from 'clsx'
 import LazyLoad from 'react-lazy-load'
-import Image from 'material-ui-image'
-
-import Checkbox from '@mui/material/Checkbox'
+import Image from 'mui-image'
 
 import { makeStyles } from '@mui/material/styles'
 
@@ -274,8 +270,6 @@ const GridView = (props) => {
 const GridCard = ({ index, data, width }) => {
     const c = useStyles()
 
-    const dispatch = useDispatch()
-
     // let's change pages by updating the history
     const history = useHistory()
     const s = data._source
@@ -318,21 +312,20 @@ const GridCard = ({ index, data, width }) => {
             <LazyLoad offset={600} once>
                 <Image
                     className={`${c.gridItemImage} ResultsPanelImage`}
-                    style={{
+                    wrapperStyle={{
                         height: '100%',
                         paddingTop: 'unset',
                         background: '#192028',
                         position: 'initial',
                     }}
-                    imageStyle={{
+                    style={{
                         transition:
                             'filterBrightness 900ms cubic-bezier(0.4, 0, 0.2, 1) 0s, filterSaturate 1200ms cubic-bezier(0.4, 0, 0.2, 1) 0s, opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 0s, transform 0.15s ease-out 0s',
                         transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
                         height: `${gridItemHeight}px`,
                     }}
-                    disableSpinner={true}
-                    animationDuration={1200}
-                    iconContainerStyle={{ opacity: 0.6 }}
+                    shiftDuration={1200}
+                    iconWrapperStyle={{ opacity: 0.6 }}
                     src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
                     alt={fileName}
                     errorIcon={<ProductIcons filename={fileName} />}

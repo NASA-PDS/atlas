@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
@@ -19,11 +18,9 @@ import {
     useScrollToIndex,
 } from 'masonic'
 
-import clsx from 'clsx'
 import LazyLoad from 'react-lazy-load'
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
-import Checkbox from '@mui/material/Checkbox'
 import { makeStyles } from '@mui/material/styles'
 
 import {
@@ -323,15 +320,14 @@ const ListCard = ({ index, data, width }) => {
                 <LazyLoad offset={600} once>
                     <Image
                         className={c.listItemImage}
-                        style={{
+                        wrapperStyle={{
                             height: '100%',
                             paddingTop: 'unset',
                             background: 'linear-gradient(to bottom, #060606, #000000)',
                             position: 'initial',
                         }}
-                        disableSpinner={true}
-                        animationDuration={1200}
-                        iconContainerStyle={{ opacity: 0.6 }}
+                        shiftDuration={1200}
+                        iconWrapperStyle={{ opacity: 0.6 }}
                         src={
                             IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'
                         }

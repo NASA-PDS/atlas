@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@mui/material/Grid'
 import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
-import { makeStyles, withStyles, fade } from '@mui/material/styles'
+import { makeStyles, alpha } from '@mui/material/styles'
 import Zoom from '@mui/material/Zoom'
 import StyledTooltip from './StyledTooltip.jsx'
 
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
             },
         },
         '&:active': {
-            background: fade('#1971c2', 0.5),
+            background: alpha('#1971c2', 0.5),
         },
         '&:hover, &$focusVisible': {
             background: 'black',

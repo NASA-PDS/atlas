@@ -1,9 +1,8 @@
-import React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Zoom from "@mui/material/Zoom";
-import { makeStyles, withStyles, fade } from "@mui/material/styles";
+import { makeStyles, alpha } from "@mui/material/styles";
 import Link from "@mui/material/Link";
 import StyledTooltip from "./StyledTooltip.jsx";
 
@@ -42,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "1rem",
     alignSelf: "center",
     "&:hover": {
-      backgroundColor: fade("#1971c2", 0.7)
+      backgroundColor: alpha("#1971c2", 0.7)
     }
   },
   title: {

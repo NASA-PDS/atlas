@@ -6,9 +6,9 @@ import clsx from 'clsx'
 import { makeStyles, useTheme } from '@mui/material/styles'
 import { getExtension } from '../../core/utils'
 
-import ImageIcon from '@material-ui/icons/Image'
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
-import FolderIcon from '@material-ui/icons/Folder'
+import ImageIcon from '@mui/icons-material/Image'
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
+import FolderIcon from '@mui/icons-material/Folder'
 
 const useStyles = makeStyles((theme) => ({
     ProductIcons: {

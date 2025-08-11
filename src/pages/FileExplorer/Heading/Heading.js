@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 
-import LinkIcon from '@material-ui/icons/Link'
+import LinkIcon from '@mui/icons-material/Link'
 
 import { makeStyles } from '@mui/material/styles'
 

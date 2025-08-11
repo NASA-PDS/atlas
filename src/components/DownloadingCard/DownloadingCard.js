@@ -9,9 +9,9 @@ import Paper from '@mui/material/Paper'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
-import PauseIcon from '@material-ui/icons/Pause'
-import PlayIcon from '@material-ui/icons/PlayArrow'
-import StopIcon from '@material-ui/icons/Stop'
+import PauseIcon from '@mui/icons-material/Pause'
+import PlayIcon from '@mui/icons-material/PlayArrow'
+import StopIcon from '@mui/icons-material/Stop'
 
 import { abbreviateNumber } from '../../core/utils.js'
 

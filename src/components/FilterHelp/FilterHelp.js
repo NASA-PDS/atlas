@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
 import axios from 'axios'
 

@@ -34,9 +34,9 @@ import { getIn, getPDSUrl, getExtension } from '../../../../../../core/utils.js'
 import ProductToolbar from '../../../../../../components/ProductToolbar/ProductToolbar'
 import ProductIcons from '../../../../../../components/ProductIcons/ProductIcons'
 
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
-import ImageIcon from '@material-ui/icons/Image'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import ImageIcon from '@mui/icons-material/Image'
 
 const rowItemHeight = 32
 

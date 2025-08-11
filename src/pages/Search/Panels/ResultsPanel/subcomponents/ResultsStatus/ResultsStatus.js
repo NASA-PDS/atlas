@@ -16,9 +16,9 @@ import CircularProgress from '@mui/material/CircularProgress'
 import LinearProgress from '@mui/material/LinearProgress'
 import Tooltip from '@mui/material/Tooltip'
 
-import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined'
-import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined'
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const useStyles = makeStyles((theme) => ({
     ResultsStatus: {

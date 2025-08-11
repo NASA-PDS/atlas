@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import SplitButton from '../SplitButton/SplitButton'
 
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 
 import { setResultSorting } from '../../core/redux/actions/actions.js'
 

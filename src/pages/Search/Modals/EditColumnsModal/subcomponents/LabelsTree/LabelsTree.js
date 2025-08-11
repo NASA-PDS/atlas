@@ -14,12 +14,12 @@ import Input from '@mui/material/Input'
 import InputAdornment from '@mui/material/InputAdornment'
 import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import FilterListIcon from '@material-ui/icons/FilterList'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
-import DeleteIcon from '@material-ui/icons/Delete'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import FilterListIcon from '@mui/icons-material/FilterList'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import { List, arrayMove, arrayRemove } from 'react-movable'
 

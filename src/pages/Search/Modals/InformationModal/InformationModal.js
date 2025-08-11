@@ -13,7 +13,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
 import { makeStyles, useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'

@@ -25,11 +25,11 @@ import TreeItem from '@material-ui/lab/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import SearchIcon from '@material-ui/icons/Search'
-import CloseIcon from '@material-ui/icons/Close'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import SearchIcon from '@mui/icons-material/Search'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { makeStyles, withStyles, useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'

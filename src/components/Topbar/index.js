@@ -11,9 +11,9 @@ import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
 import Badge from '@mui/material/Badge'
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined'
-import ImageSearchIcon from '@material-ui/icons/ImageSearch'
-import AccountTreeIcon from '@material-ui/icons/AccountTree'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
+import ImageSearchIcon from '@mui/icons-material/ImageSearch'
+import AccountTreeIcon from '@mui/icons-material/AccountTree'
 
 import { HASH_PATHS } from '../../core/constants'
 

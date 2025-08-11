@@ -25,10 +25,10 @@ import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import FolderIcon from '@material-ui/icons/Folder'
-import ImageIcon from '@material-ui/icons/Image'
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import FolderIcon from '@mui/icons-material/Folder'
+import ImageIcon from '@mui/icons-material/Image'
 
 import { setRecordData, setSnackBarText } from '../../../../core/redux/actions/actions'
 

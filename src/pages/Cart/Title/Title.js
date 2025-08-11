@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 
 import { removeFromCart, setModal } from '../../../core/redux/actions/actions.js'
 

@@ -13,8 +13,8 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 
-import AddIcon from '@material-ui/icons/Add'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import AddIcon from '@mui/icons-material/Add'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import FilterList from './subcomponents/FilterList/FilterList'
 import AdvancedFilter from './subcomponents/AdvancedFilter/AdvancedFilter'

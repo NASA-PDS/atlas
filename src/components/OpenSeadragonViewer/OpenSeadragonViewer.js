@@ -8,18 +8,18 @@ import clsx from 'clsx'
 import { makeStyles } from '@mui/material/styles'
 
 import IconButton from '@mui/material/IconButton'
-import AddIcon from '@material-ui/icons/Add'
-import RemoveIcon from '@material-ui/icons/Remove'
-import HomeIcon from '@material-ui/icons/Home'
-import FullscreenIcon from '@material-ui/icons/Fullscreen'
-import RotateLeftIcon from '@material-ui/icons/RotateLeft'
-import RotateRightIcon from '@material-ui/icons/RotateRight'
-import LayersIcon from '@material-ui/icons/Layers'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
+import HomeIcon from '@mui/icons-material/Home'
+import FullscreenIcon from '@mui/icons-material/Fullscreen'
+import RotateLeftIcon from '@mui/icons-material/RotateLeft'
+import RotateRightIcon from '@mui/icons-material/RotateRight'
+import LayersIcon from '@mui/icons-material/Layers'
 
 import Paper from '@mui/material/Paper'
 import Tooltip from '@mui/material/Tooltip'
 
-import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined'
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
 
 import './OpenSeadragon.css'
 

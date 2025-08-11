@@ -19,8 +19,8 @@ import IconButton from '@mui/material/IconButton'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
-import SendSharpIcon from '@material-ui/icons/SendSharp'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
+import SendSharpIcon from '@mui/icons-material/SendSharp'
 
 const useStyles = makeStyles((theme) => ({
     root: {},

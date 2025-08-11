@@ -22,8 +22,8 @@ import {
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
-import PlayArrowIcon from '@material-ui/icons/PlayArrow'
-import InfoIcon from '@material-ui/icons/Info'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import InfoIcon from '@mui/icons-material/Info'
 
 import ReactFilterBox, {
     AutoCompleteOption,

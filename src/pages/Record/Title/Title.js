@@ -28,9 +28,9 @@ import Divider from '@mui/material/Divider'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import LinkIcon from '@material-ui/icons/Link'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import LinkIcon from '@mui/icons-material/Link'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 
 const useStyles = makeStyles((theme) => ({
     Title: {

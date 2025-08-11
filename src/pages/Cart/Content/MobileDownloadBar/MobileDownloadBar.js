@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
-import CloseIcon from '@material-ui/icons/Close'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { ZipStreamCart } from '../../../../core/downloaders/ZipStream'
 import { setSnackBarText } from '../../../../core/redux/actions/actions.js'

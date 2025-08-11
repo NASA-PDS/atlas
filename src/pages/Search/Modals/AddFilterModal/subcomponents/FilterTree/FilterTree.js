@@ -14,11 +14,11 @@ import Input from '@mui/material/Input'
 import InputAdornment from '@mui/material/InputAdornment'
 import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import FilterListIcon from '@material-ui/icons/FilterList'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import FilterListIcon from '@mui/icons-material/FilterList'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
 import Highlighter from 'react-highlight-words'
 

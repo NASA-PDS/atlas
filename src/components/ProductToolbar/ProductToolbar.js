@@ -9,10 +9,10 @@ import IconButton from '@mui/material/IconButton'
 import Checkbox from '@mui/material/Checkbox'
 import Tooltip from '@mui/material/Tooltip'
 
-import GetAppIcon from '@material-ui/icons/GetApp'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart'
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import GetAppIcon from '@mui/icons-material/GetApp'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 import {
     checkItemInResults,

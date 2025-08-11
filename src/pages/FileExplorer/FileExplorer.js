@@ -21,11 +21,11 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { makeStyles, useTheme } from '@mui/material/styles'
 import withWidth from '@mui/material/withWidth'
 
-import SortIcon from '@material-ui/icons/Sort'
+import SortIcon from '@mui/icons-material/Sort'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import LinkIcon from '@material-ui/icons/Link'
+import LinkIcon from '@mui/icons-material/Link'
 
 import clsx from 'clsx'
 import Draggable from 'react-draggable'

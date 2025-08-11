@@ -5,12 +5,12 @@ import { makeStyles } from '@mui/material/styles'
 
 import Tooltip from '@mui/material/Tooltip'
 
-import GpsOnIcon from '@material-ui/icons/GpsNotFixed'
-import GpsOffIcon from '@material-ui/icons/GpsOff'
-import PanoramaVerticalIcon from '@material-ui/icons/PanoramaVertical';
-import MobileOffIcon from '@material-ui/icons/MobileOff';
-import GridOnIcon from '@material-ui/icons/GridOn'
-import GridOffIcon from '@material-ui/icons/GridOff'
+import GpsOnIcon from '@mui/icons-material/GpsNotFixed'
+import GpsOffIcon from '@mui/icons-material/GpsOff'
+import PanoramaVerticalIcon from '@mui/icons-material/PanoramaVertical';
+import MobileOffIcon from '@mui/icons-material/MobileOff';
+import GridOnIcon from '@mui/icons-material/GridOn'
+import GridOffIcon from '@mui/icons-material/GridOff'
 
 /**
  * Controls css styling for this component using js to css

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useLocation, useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useLocation, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import Url from 'url-parse'
 
@@ -303,7 +302,7 @@ const Toolbar = (props) => {
 
     // the current page we're on
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const theme = useTheme()
     const mobile = useMediaQuery(theme.breakpoints.down('sm'))
@@ -368,7 +367,7 @@ const Toolbar = (props) => {
                                     if (item.isAtlas) {
                                         e.preventDefault()
                                         setDrawer(0)
-                                        history.push(`${item.path}`)
+                                        navigate(`${item.path}`)
                                     }
                                 }}
                                 target="__blank"
@@ -456,7 +455,7 @@ const Toolbar = (props) => {
 
                                             dispatch(setFilexPreview({}))
                                             if (Object.keys(currentURL.query).length > 0)
-                                                history.replace(newPath)
+                                                navigate(newPath, { replace: true })
                                             dispatch(removeFilexColumn(0))
                                         }}
                                     >

@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
-import { HASH_PATHS } from '../../../core/constants'
-
-import { getIn } from '../../../core/utils'
+import { useNavigate } from 'react-router-dom'
 
 import { makeStyles } from '@mui/material/styles'
 
@@ -68,7 +64,7 @@ const Title = (props) => {
 
     const c = useStyles()
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
 
@@ -90,7 +86,7 @@ const Title = (props) => {
                             className={c.backButton}
                             aria-label="return"
                             onClick={() => {
-                                history.goBack()
+                                navigate(-1)
                             }}
                         >
                             <ChevronLeftIcon className={c.backIcon} />

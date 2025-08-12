@@ -1,6 +1,5 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { makeStyles, useTheme } from '@mui/material/styles'
@@ -144,7 +143,7 @@ const Topbar = () => {
     const c = useStyles()
 
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const theme = useTheme()
     const isMobileSm = useMediaQuery(theme.breakpoints.down('sm'))
@@ -224,7 +223,7 @@ const Topbar = () => {
                         })}
                         aria-label="go to image search"
                         onClick={() => {
-                            history.push(HASH_PATHS.search)
+                            navigate(HASH_PATHS.search)
                         }}
                     >
                         <ImageSearchIcon fontSize="inherit" />
@@ -238,7 +237,7 @@ const Topbar = () => {
                         })}
                         aria-label="go to archive explorer"
                         onClick={() => {
-                            history.push(HASH_PATHS.fileExplorer)
+                            navigate(HASH_PATHS.fileExplorer)
                         }}
                     >
                         <AccountTreeIcon fontSize="inherit" />
@@ -250,7 +249,7 @@ const Topbar = () => {
                         className={clsx(c.button, { [c.buttonActive]: pageName === 'Cart' })}
                         aria-label="go to cart"
                         onClick={() => {
-                            history.push(HASH_PATHS.cart)
+                            navigate(HASH_PATHS.cart)
                         }}
                     >
                         <Badge className={c.cartBadge} badgeContent={cartLength}>

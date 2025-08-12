@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 import {
     setModal,
@@ -398,8 +396,6 @@ let regexSearchValue = null
 const RegexModal = (props) => {
     const { modal } = props
     const c = useStyles()
-
-    const history = useHistory()
 
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down('md'))

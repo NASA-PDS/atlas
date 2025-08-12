@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { HASH_PATHS, AVAILABLE_URI_SIZES, ES_PATHS } from '../../../../core/constants'
 
 import clsx from 'clsx'
@@ -215,7 +215,7 @@ const CartView = (props) => {
 
     const c = useStyles()
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const cart = useSelector((state) => {
         return state.get('cart').toJS() || []
@@ -268,7 +268,7 @@ const CartView = (props) => {
                             aria-label="search images button"
                             size="small"
                             onClick={() => {
-                                history.push(HASH_PATHS.search)
+                                navigate(HASH_PATHS.search)
                             }}
                         >
                             Search Images
@@ -280,7 +280,7 @@ const CartView = (props) => {
                             aria-label="search files button"
                             size="small"
                             onClick={() => {
-                                history.push(HASH_PATHS.fileExplorer)
+                                navigate(HASH_PATHS.fileExplorer)
                             }}
                         >
                             Search Files
@@ -296,7 +296,7 @@ const GridCard = ({ index, data, width }) => {
     const c = useStyles()
 
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
     data.item = data.item || {}
 
     let images
@@ -326,7 +326,7 @@ const GridCard = ({ index, data, width }) => {
                 if (data.item?.uri) {
                     // force a uri query
                     dispatch(setRecordData({}))
-                    history.push(`${HASH_PATHS.record}?uri=${data.item?.uri}`)
+                    navigate(`${HASH_PATHS.record}?uri=${data.item?.uri}`)
                 }
             }}
         >

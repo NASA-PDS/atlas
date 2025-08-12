@@ -1,7 +1,4 @@
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { setModal } from '../../../../core/redux/actions/actions.js'
 
@@ -10,8 +7,6 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
@@ -131,8 +126,6 @@ const useStyles = makeStyles((theme) => ({
 const InformationModal = (props) => {
     const {} = props
     const c = useStyles()
-
-    const history = useHistory()
 
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down('md'))

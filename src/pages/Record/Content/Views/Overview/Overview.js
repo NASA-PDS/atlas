@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { makeStyles, useTheme } from '@mui/material/styles'
@@ -156,7 +156,7 @@ const Overview = (props) => {
 
     const { recordData, versions, activeVersion } = props
     const c = useStyles()
-    const history = useHistory()
+    const navigate = useNavigate()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
@@ -220,7 +220,7 @@ const Overview = (props) => {
                                         <Select
                                             className={c.select}
                                             onChange={(e) => {
-                                                history.push(
+                                                navigate(
                                                     `${HASH_PATHS.record}?uri=${
                                                         versions[e.target.value].uri
                                                     }`

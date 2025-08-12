@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
@@ -269,8 +269,7 @@ const GridView = (props) => {
 const GridCard = ({ index, data, width }) => {
     const c = useStyles()
 
-    // let's change pages by updating the history
-    const history = useHistory()
+    const navigate = useNavigate()
     const s = data._source
 
     const gridItemHeight = useSelector((state) => state.getIn(['gridSize'])) || 170
@@ -299,7 +298,7 @@ const GridCard = ({ index, data, width }) => {
                 maxHeight: `${gridItemHeight}px`,
             }}
             onClick={() => {
-                history.push(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
+                navigate(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
             }}
             onMouseEnter={() => {
                 sASet(sAKeys.HOVERED_RESULT, data)

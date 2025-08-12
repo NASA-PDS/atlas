@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { HASH_PATHS, ES_PATHS, RELATED_MAPPINGS } from '../../../core/constants'
 
 import {
@@ -111,15 +111,15 @@ const Title = (props) => {
     const { mobile, recordData } = props
 
     const c = useStyles()
-    // let's change pages by updating the history
-    const history = useHistory()
+
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
 
     // Hidden Feature: Ctrl-Z to quickly go back to search. Could just use Alt <-
     useEffect(() => {
         const toSearch = (e) => {
-            if (e.ctrlKey && e.key === 'z') history.push(HASH_PATHS.search)
+            if (e.ctrlKey && e.key === 'z') navigate(HASH_PATHS.search)
         }
         document.addEventListener('keydown', toSearch)
         return () => {
@@ -182,8 +182,8 @@ const Title = (props) => {
                             className={c.backButton}
                             aria-label={back === 'page' ? 'go back a page' : 'return to search'}
                             onClick={() => {
-                                if (back === 'page') history.goBack()
-                                else history.push(HASH_PATHS.search)
+                                if (back === 'page') navigate(-1)
+                                else navigate(HASH_PATHS.search)
                             }}
                         >
                             <ChevronLeftIcon className={c.backIcon} />

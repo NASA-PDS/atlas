@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import Url from 'url-parse'
 import clsx from 'clsx'
@@ -79,7 +78,7 @@ const Heading = (props) => {
 
     const c = useStyles()
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const preview = useSelector((state) => {
         const filexPreview = state.get('filexPreview')
@@ -128,7 +127,7 @@ const Heading = (props) => {
             const newPath = HASH_PATHS.fileExplorer + url
             const currentURL = new Url(window.location, true)
             if (currentURL.pathname !== newPath) {
-                history.replace(newPath)
+                navigate(newPath, { replace: true })
             }
         }
     }, [url])

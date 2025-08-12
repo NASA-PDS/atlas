@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import Url from 'url-parse'
 
@@ -51,8 +50,8 @@ const getSearchURL = (activeFilters) => {
 
 const FilterList = (props) => {
     const c = useStyles()
-    const dispatch = useDispatch()
-    const history = useHistory()
+    
+    const navigate = useNavigate()
 
     const [expandedFilter, setExpandedFilter] = useState('_text')
     const activeFilters = useSelector((state) => {
@@ -62,7 +61,7 @@ const FilterList = (props) => {
         const currentURL = new Url(window.location)
         const desiredSearchUrl = getSearchURL(activeFilters)
         if (currentURL.pathname + currentURL.query !== desiredSearchUrl) {
-            history.replace(desiredSearchUrl)
+            navigate(desiredSearchUrl, { replace: true })
         }
     }, [activeFilters])
 

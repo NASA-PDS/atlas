@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
 import Url from 'url-parse'
@@ -203,7 +202,7 @@ const toHumanFriendlyErrorMessage = (errorMessage) => {
 const AdvancedFilter = (props) => {
     const c = useStyles()
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const activeFilters = useSelector((state) => {
         return state.getIn(['activeFilters']).toJS()
@@ -225,7 +224,7 @@ const AdvancedFilter = (props) => {
         const desiredSearchUrl = `?_adv=${encodeURI(removeComments(advancedFilters))}`
         const currentURL = new Url(window.location)
         if (currentURL.pathname + currentURL.query !== desiredSearchUrl) {
-            history.replace(desiredSearchUrl)
+            navigate(desiredSearchUrl, { replace: true })
         }
     }, [advancedFilters])
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
 import axios from 'axios'
@@ -327,7 +327,7 @@ const ButtonBar = (props) => {
     const { isMobile, preview, related } = props
     const c = useStyles()
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     let iconSize = isMobile ? 'inherit' : 'inherit'
 
@@ -343,7 +343,7 @@ const ButtonBar = (props) => {
                         }
                         onClick={() => {
                             if (related && related.uri)
-                                history.push(`${HASH_PATHS.record}?uri=${related.uri}&back=page`)
+                                navigate(`${HASH_PATHS.record}?uri=${related.uri}&back=page`)
                         }}
                     >
                         <PageviewIcon className={c.buttonIcon} fontSize={iconSize} />
@@ -419,7 +419,7 @@ const Preview = (props) => {
     const { isMobile, showMobilePreview, setShowMobilePreview, forcedPreview } = props
 
     const c = useStyles()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
 
@@ -652,7 +652,7 @@ const Preview = (props) => {
                     style={imageUrl == 'null' ? { height: '100px' } : {}}
                     onClick={() => {
                         if (imageUrl != null && preview.uri)
-                            history.push(`${HASH_PATHS.record}?uri=${preview.uri}&back=page`)
+                            navigate(`${HASH_PATHS.record}?uri=${preview.uri}&back=page`)
                     }}
                 >
                     {imageUrl != 'null' && hasBrowse !== false ? (

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
@@ -287,8 +287,7 @@ const ListCard = ({ index, data, width }) => {
     const c = useStyles()
     const s = data._source
 
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const release_id = getIn(s, ES_PATHS.release_id)
 
@@ -306,7 +305,7 @@ const ListCard = ({ index, data, width }) => {
             result-key={data.result_key}
             className={c.listItem}
             onClick={() => {
-                history.push(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
+                navigate(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
             }}
             onMouseEnter={() => {
                 sASet(sAKeys.HOVERED_RESULT, data)

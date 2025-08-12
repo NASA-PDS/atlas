@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
@@ -290,15 +290,14 @@ const TableView = (props) => {
     const RowItem = ({ index, data }) => {
         const c = useStyles()
 
-        const dispatch = useDispatch()
-        const history = useHistory()
+        const navigate = useNavigate()
 
         if (data == null) return null
 
         const s = data._source
 
         function toRecord() {
-            history.push(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
+            navigate(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
         }
 
         return (
@@ -365,8 +364,6 @@ const TableView = (props) => {
 
 const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
     const c = useStyles()
-
-    const dispatch = useDispatch()
 
     const s = data._source
 

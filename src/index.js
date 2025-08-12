@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { store } from './core/redux/store/store'
 
-import { Routes } from './core/routes/routes'
+import { AppRoutes } from './core/routes/routes'
 
 import { ThemeProvider } from '@mui/material/styles'
 import muiTheme from './themes/light.js'
@@ -20,7 +20,7 @@ ReactDOM.render(
     <Provider store={store}>
         <ThemeProvider theme={muiTheme}>
             <MuiPickersUtilsProvider utils={MomentUtils}>
-                <Routes />
+                <AppRoutes />
             </MuiPickersUtilsProvider>
         </ThemeProvider>
     </Provider>,

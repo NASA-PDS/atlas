@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Topbar from '../../components/Topbar'
 import Toolbar from '../../components/Toolbar/Toolbar'
@@ -19,7 +19,7 @@ import { loadMappings } from '../redux/actions/actions.js'
 
 import './routes.css'
 
-export const Routes = () => {
+export const AppRoutes = () => {
     const dispatch = useDispatch()
     // On first load, grab all the atlas index mappings
     useEffect(() => {
@@ -32,11 +32,10 @@ export const Routes = () => {
                 <Toolbar />
                 <div className="routeMain">
                     <Topbar />
-                    <Switch location={location}>
+                    <Routes location>
                         <Route
-                            exact
                             path={HASH_PATHS.root}
-                            component={() => {
+                            element={() => {
                                 return (
                                     <div className="routeContent">
                                         <Search />
@@ -45,9 +44,8 @@ export const Routes = () => {
                             }}
                         />
                         <Route
-                            exact
                             path={HASH_PATHS.search}
-                            component={() => {
+                            element={() => {
                                 return (
                                     <div className="routeContent">
                                         <Search />
@@ -56,9 +54,8 @@ export const Routes = () => {
                             }}
                         />
                         <Route
-                            exact
                             path={HASH_PATHS.record}
-                            component={() => {
+                            element={() => {
                                 return (
                                     <div className="routeContent">
                                         <Record />
@@ -67,9 +64,8 @@ export const Routes = () => {
                             }}
                         />
                         <Route
-                            exact
                             path={HASH_PATHS.cart}
-                            component={() => {
+                            element={() => {
                                 return (
                                     <div className="routeContent">
                                         <Cart />
@@ -79,7 +75,7 @@ export const Routes = () => {
                         />
                         <Route
                             path={HASH_PATHS.fileExplorer}
-                            component={() => {
+                            element={() => {
                                 return (
                                     <div className="routeContent">
                                         <FileExplorer />
@@ -87,7 +83,7 @@ export const Routes = () => {
                                 )
                             }}
                         />
-                    </Switch>
+                    </Routes>
                 </div>
             </Router>
             <InformationModal />

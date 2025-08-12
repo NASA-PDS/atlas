@@ -17,8 +17,8 @@ import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
-import TreeView from '@mui/x-tree-view/SimpleTreeView'
-import TreeItem from '@mui/x-tree-view/TreeItem'
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
+import { TreeItem } from '@mui/x-tree-view/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import { useSpring, animated } from '@react-spring/web'
 
@@ -569,7 +569,7 @@ const ProductLabel = (props) => {
                         )}
                     </div>
                     <div className={c.bottom}>
-                        <TreeView
+                        <SimpleTreeView
                             defaultCollapseIcon={<ExpandMoreIcon />}
                             defaultExpandIcon={<ChevronRightIcon />}
                             defaultExpanded={Array(labelTree.numOfKeys)
@@ -577,7 +577,7 @@ const ProductLabel = (props) => {
                                 .map((x, i) => String(i))}
                         >
                             {labelTree.tree}
-                        </TreeView>
+                        </SimpleTreeView>
                     </div>
                 </div>
             </div>

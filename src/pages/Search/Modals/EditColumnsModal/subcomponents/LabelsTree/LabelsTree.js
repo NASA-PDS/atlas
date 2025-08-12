@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import { fade, makeStyles, withStyles, useTheme } from '@mui/material/styles'
-import TreeView from '@mui/x-tree-view/SimpleTreeView'
-import TreeItem from '@mui/x-tree-view/TreeItem'
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
+import { TreeItem } from '@mui/x-tree-view/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
@@ -351,7 +351,7 @@ const LabelsTree = (props) => {
                     />
                 </div>
                 <div className={c.leftBottom}>
-                    <TreeView
+                    <SimpleTreeView
                         defaultCollapseIcon={<ExpandMoreIcon />}
                         defaultExpandIcon={<ChevronRightIcon />}
                     >
@@ -362,7 +362,7 @@ const LabelsTree = (props) => {
                             setSelected,
                             addRemoveColumn
                         )}
-                    </TreeView>
+                    </SimpleTreeView>
                 </div>
             </div>
             <div className={c.right}>

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import { fade, makeStyles, withStyles } from '@mui/material/styles'
-import TreeView from '@mui/x-tree-view/SimpleTreeView'
-import TreeItem from '@mui/x-tree-view/TreeItem'
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
+import { TreeItem } from '@mui/x-tree-view/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
@@ -475,7 +475,7 @@ const FilterTree = (props) => {
                         Clear
                     </Button>
                 </div>
-                <TreeView
+                <SimpleTreeView
                     className={c.tree}
                     defaultCollapseIcon={<ExpandMoreIcon />}
                     defaultExpandIcon={<ChevronRightIcon />}
@@ -490,7 +490,7 @@ const FilterTree = (props) => {
                         setSelected,
                         toggleExpanded
                     )}
-                </TreeView>
+                </SimpleTreeView>
             </div>
             <div
                 className={clsx(c.right, {

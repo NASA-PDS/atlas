@@ -2,7 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { makeStyles, useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import FiltersPanel from './Panels/FiltersPanel/FiltersPanel'
 import SecondaryPanel from './Panels/SecondaryPanel/SecondaryPanel'

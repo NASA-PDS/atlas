@@ -9,7 +9,7 @@ import { setFieldState } from '../../../../../../core/redux/actions/actions'
 import { getIn, capitalize, prettify, isObject, objectToString } from '../../../../../../core/utils'
 import { resultsStatuses } from '../../../../../../core/constants'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import Paper from '@mui/material/Paper'
 import CircularProgress from '@mui/material/CircularProgress'

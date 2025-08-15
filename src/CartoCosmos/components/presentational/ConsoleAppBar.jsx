@@ -6,7 +6,7 @@ import ConsoleCoordinates from './ConsoleCoordinates.jsx'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Grid from '@mui/material/Grid'
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 import Divider from '@mui/material/Divider'
 
 /**

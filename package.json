@@ -13,9 +13,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.28.2",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.18.0",
-    "@mui/styles": "^6.5.0",
+    "@mui/styles": "^5.18.0",
     "@mui/x-date-pickers": "^5.0.20",
     "@mui/x-tree-view": "^7.29.1",
     "@react-spring/web": "^10.0.1",

@@ -20,7 +20,7 @@ import {
 
 import Image from 'mui-image'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import {
     search,

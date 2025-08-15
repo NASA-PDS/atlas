@@ -37,7 +37,8 @@ import SpellcheckIcon from '@mui/icons-material/Spellcheck'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 
-import { makeStyles, useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { publicUrl, ES_PATHS, IMAGE_EXTENSIONS } from '../../../../core/constants'

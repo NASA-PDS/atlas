@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import { makeStyles, withStyles } from '@mui/material/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 import { prettify } from '../../../../core/utils.js'
 
 import { setRecordViewTab } from '../../../../core/redux/actions/actions.js'

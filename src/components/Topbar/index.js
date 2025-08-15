@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { makeStyles, useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import clsx from 'clsx'
 

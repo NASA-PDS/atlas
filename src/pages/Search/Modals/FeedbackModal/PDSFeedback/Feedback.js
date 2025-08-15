@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
-import { makeStyles, useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'

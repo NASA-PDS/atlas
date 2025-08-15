@@ -30,7 +30,7 @@ import ReactFilterBox, {
 } from './react-filter-box-customized/react-filter-box'
 import './react-filter-box-customized/react-filter-box.css'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 const literals = [
     {

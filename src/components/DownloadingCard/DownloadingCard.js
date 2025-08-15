@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles, withStyles } from '@mui/material/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
 import clsx from 'clsx'
 import moment from 'moment'

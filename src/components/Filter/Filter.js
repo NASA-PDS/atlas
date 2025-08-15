@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { makeStyles, withStyles } from '@mui/material/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 

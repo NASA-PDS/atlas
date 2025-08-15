@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import { setWorkspace } from '../../../core/redux/actions/actions.js'
 

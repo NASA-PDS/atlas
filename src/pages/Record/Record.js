@@ -7,7 +7,7 @@ import axios from 'axios'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import { searchRecordByURI, setRecordData } from '../../core/redux/actions/actions'
 import { ES_PATHS, domain, endpoints } from '../../core/constants'

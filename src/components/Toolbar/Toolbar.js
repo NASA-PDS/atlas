@@ -14,7 +14,8 @@ import Switch from '@mui/material/Switch'
 import Tooltip from '@mui/material/Tooltip'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { makeStyles, useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'

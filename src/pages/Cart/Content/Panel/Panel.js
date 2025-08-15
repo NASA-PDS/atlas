@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { makeStyles, withStyles } from '@mui/material/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
 import Typography from '@mui/material/Typography'
 import Tabs from '@mui/material/Tabs'

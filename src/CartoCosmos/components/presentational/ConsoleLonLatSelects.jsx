@@ -1,5 +1,6 @@
 import React from "react";
-import { alpha, makeStyles, withStyles } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
+import { makeStyles, withStyles } from "@mui/styles";
 import Zoom from "@mui/material/Zoom";
 import Grid from "@mui/material/Grid";
 import AutorenewIcon from "@mui/icons-material/Autorenew";

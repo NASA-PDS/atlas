@@ -13,7 +13,7 @@ import MuiAlert from '@mui/material/Alert'
 
 import LinkIcon from '@mui/icons-material/Link'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import { copyToClipboard, splitUri } from '../../../core/utils'
 import { HASH_PATHS, ES_PATHS } from '../../../core/constants'

@@ -11,7 +11,8 @@ import RegexModal from './Modals/RegexModal/RegexModal'
 import MenuButton from '../../components/MenuButton/MenuButton'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { makeStyles, useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import SortIcon from '@mui/icons-material/Sort'
 

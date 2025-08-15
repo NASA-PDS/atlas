@@ -6,7 +6,7 @@ import { setFieldState } from '../../../../../../core/redux/actions/actions'
 
 import { getIn, capitalize, prettify, isObject, objectToString } from '../../../../../../core/utils'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 import Chip from '@mui/material/Chip'
 
 const useStyles = makeStyles((theme) => ({

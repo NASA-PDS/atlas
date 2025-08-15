@@ -18,7 +18,7 @@ import { streamDownloadFile } from '../../../core/downloaders/ZipStream.js'
 import { addToCart, setSnackBarText } from '../../../core/redux/actions/actions'
 import SplitButton from '../../../components/SplitButton/SplitButton'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'

@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles'
 
 export const palette = {
     type: 'light',
@@ -241,6 +241,6 @@ export const theme = {
     },
 }
 
-const light = createMuiTheme(theme)
+const light = createTheme(theme)
 
 export default light

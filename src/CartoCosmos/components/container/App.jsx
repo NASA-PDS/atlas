@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Paper from '@mui/material/Paper'
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Input from '@mui/material/Input'

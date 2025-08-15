@@ -14,7 +14,7 @@ import Draggable from 'react-draggable'
 import clsx from 'clsx'
 import Image from 'mui-image'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'

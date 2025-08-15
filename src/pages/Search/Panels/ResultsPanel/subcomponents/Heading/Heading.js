@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { makeStyles, withStyles, useTheme } from '@mui/material/styles'
+import { useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'

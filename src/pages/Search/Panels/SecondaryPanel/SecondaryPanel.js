@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import CartoCosmos from '../../../../CartoCosmos/CartoCosmos'
 
 import MapListener from './subcomponents/MapListener/MapListener'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
     SecondaryPanel: {

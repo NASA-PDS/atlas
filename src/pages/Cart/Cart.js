@@ -1,6 +1,7 @@
 import React from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { makeStyles, useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import Title from './Title/Title'
 import Content from './Content/Content'

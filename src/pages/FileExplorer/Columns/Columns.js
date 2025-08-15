@@ -28,7 +28,7 @@ import {
     setSnackBarText,
 } from '../../../core/redux/actions/actions'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import MenuButton from '../../../components/MenuButton/MenuButton'
 import IconButton from '@mui/material/IconButton'

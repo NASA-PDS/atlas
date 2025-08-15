@@ -1,7 +1,7 @@
 import React from 'react'
+import { makeStyles } from '@mui/styles'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
-import { makeStyles } from '@mui/material/styles'
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 import GitHubIcon from '@mui/icons-material/GitHub'

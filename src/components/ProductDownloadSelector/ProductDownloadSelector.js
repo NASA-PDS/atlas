@@ -1,7 +1,7 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { makeStyles, withStyles } from '@mui/material/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
 import { domain, endpoints, ES_PATHS } from '../../core/constants'
 import { getIn, getHeader, getFilename, humanFileSize, setIn } from '../../core/utils'

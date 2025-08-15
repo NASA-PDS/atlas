@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import Url from 'url-parse'
 
-import { makeStyles, withStyles, useTheme } from '@mui/material/styles'
-
 import Paper from '@mui/material/Paper'
+import { makeStyles, withStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import Heading from './subcomponents/Heading/Heading'
 import ResultsStatus from './subcomponents/ResultsStatus/ResultsStatus'

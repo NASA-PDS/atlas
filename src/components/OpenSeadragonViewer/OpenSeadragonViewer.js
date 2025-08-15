@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { makeStyles } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
 import IconButton from '@mui/material/IconButton'
 import AddIcon from '@mui/icons-material/Add'

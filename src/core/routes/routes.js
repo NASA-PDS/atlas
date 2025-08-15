@@ -28,52 +28,34 @@ export const AppRoutes = () => {
 
     return (
         <div className="Routes">
-            <Router>
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                 <Toolbar />
                 <div className="routeMain">
                     <Topbar />
-                    <Routes location>
-                        <Route
-                            path={HASH_PATHS.root}
-                            element={
-                                <div className="routeContent">
-                                    <Search />
-                                </div>
-                            }
-                        />
-                        <Route
-                            path={HASH_PATHS.search}
-                            element={
-                                <div className="routeContent">
-                                    <Search />
-                                </div>
-                            }
-                        />
-                        <Route
-                            path={HASH_PATHS.record}
-                            element={
-                                <div className="routeContent">
-                                    <Record />
-                                </div>
-                            }
-                        />
-                        <Route
-                            path={HASH_PATHS.cart}
-                            element={
-                                <div className="routeContent">
-                                    <Cart />
-                                </div>
-                            }
-                        />
-                        <Route
-                            path={HASH_PATHS.fileExplorer}
-                            element={
-                                <div className="routeContent">
-                                    <FileExplorer />
-                                </div>
-                            }
-                        />
-                    </Routes>
+                    <div className="routeContent">
+                        <Routes location>
+                            <Route
+                                path={HASH_PATHS.root}
+                                element={ <Search /> }
+                            />
+                            <Route
+                                path={HASH_PATHS.search}
+                                element={ <Search /> }
+                            />
+                            <Route
+                                path={HASH_PATHS.record}
+                                element={ <Record /> }
+                            />
+                            <Route
+                                path={HASH_PATHS.cart}
+                                element={ <Cart /> }
+                            />
+                            <Route
+                                path={HASH_PATHS.fileExplorer}
+                                element={ <FileExplorer /> }
+                            />
+                        </Routes>
+                    </div>
                 </div>
             </Router>
             <InformationModal />

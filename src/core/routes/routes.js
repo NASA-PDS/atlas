@@ -35,53 +35,43 @@ export const AppRoutes = () => {
                     <Routes location>
                         <Route
                             path={HASH_PATHS.root}
-                            element={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <Search />
-                                    </div>
-                                )
-                            }}
+                            element={
+                                <div className="routeContent">
+                                    <Search />
+                                </div>
+                            }
                         />
                         <Route
                             path={HASH_PATHS.search}
-                            element={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <Search />
-                                    </div>
-                                )
-                            }}
+                            element={
+                                <div className="routeContent">
+                                    <Search />
+                                </div>
+                            }
                         />
                         <Route
                             path={HASH_PATHS.record}
-                            element={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <Record />
-                                    </div>
-                                )
-                            }}
+                            element={
+                                <div className="routeContent">
+                                    <Record />
+                                </div>
+                            }
                         />
                         <Route
                             path={HASH_PATHS.cart}
-                            element={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <Cart />
-                                    </div>
-                                )
-                            }}
+                            element={
+                                <div className="routeContent">
+                                    <Cart />
+                                </div>
+                            }
                         />
                         <Route
                             path={HASH_PATHS.fileExplorer}
-                            element={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <FileExplorer />
-                                    </div>
-                                )
-                            }}
+                            element={
+                                <div className="routeContent">
+                                    <FileExplorer />
+                                </div>
+                            }
                         />
                     </Routes>
                 </div>

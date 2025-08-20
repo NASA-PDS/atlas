@@ -23,21 +23,21 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.primary.light,
     },
     p: {
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
     },
     p2: {
         fontWeight: 'bold',
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
     },
     p3: {
         color: theme.palette.swatches.blue.blue900,
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
         fontWeight: 'bold',
         fontSize: '13px',
     },
     pCode: {
         background: theme.palette.swatches.grey.grey200,
-        padding: `${theme.spacing(3)}px`,
+        padding: theme.spacing(3),
         fontFamily: 'monospace',
         marginBottom: '5px',
     },
@@ -208,7 +208,7 @@ function WGETTab(props) {
                 </>
             )}
         </div>
-    )
+    );
 }
 
 WGETTab.propTypes = {}

@@ -1939,7 +1939,7 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                 console.error('DSL Error')
                 console.dir(err)
             })
-    }
+    };
 }
 
 /**
@@ -2363,7 +2363,7 @@ export const addToCart = (type, item) => {
                 },
             })
         }
-    }
+    };
 }
 
 /**

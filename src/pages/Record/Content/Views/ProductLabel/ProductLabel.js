@@ -147,14 +147,14 @@ const FilterTreeLabel = withStyles((theme) => ({
     key: {
         fontSize: '14px',
         fontWeight: 'bold',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             fontSize: '12px',
         },
     },
     value: {
         marginLeft: '40px',
         fontSize: '14px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             fontSize: '12px',
         },
     },
@@ -341,10 +341,10 @@ const useStyles = makeStyles((theme) => ({
         borderLeft: `1px solid ${theme.palette.swatches.grey.grey150}`,
         width: '960px',
         background: theme.palette.swatches.grey.grey100,
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('lg')]: {
             width: '660px',
         },
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             width: '100%',
         },
     },
@@ -360,7 +360,7 @@ const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden',
         overflowY: 'auto',
         height: `calc(100% - ${theme.headHeights[2]}px)`,
-        padding: `4px 0px ${theme.spacing(8)}px 2px`,
+        padding: `4px 0px ${theme.spacing(8)} 2px`,
         boxSizing: 'border-box',
     },
     viewer: {
@@ -421,7 +421,7 @@ const ProductLabel = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const dispatch = useDispatch()
 

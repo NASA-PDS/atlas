@@ -237,7 +237,7 @@ const useStyles = makeStyles((theme) => ({
     LabelsTree: {
         display: 'flex',
         height: '100%',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             flexFlow: 'column',
         },
     },
@@ -248,7 +248,7 @@ const useStyles = makeStyles((theme) => ({
         transition: 'width 0.2s ease-out',
         display: 'flex',
         flexFlow: 'column',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             width: '100%',
         },
     },
@@ -260,7 +260,7 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
         overflowY: 'auto',
         overflowX: 'hidden',
-        padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+        padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
     },
     right: {
         overflowX: 'hidden',
@@ -271,7 +271,7 @@ const useStyles = makeStyles((theme) => ({
         opacity: 1,
         pointerEvents: 'inherit',
         borderLeft: `1px solid ${theme.palette.swatches.grey.grey200}`,
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             minHeight: 'unset',
             maxHeight: '40%',
             borderTop: `1px solid ${theme.palette.swatches.grey.grey600}`,
@@ -280,7 +280,7 @@ const useStyles = makeStyles((theme) => ({
     },
     input: {
         'width': '100%',
-        'padding': `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+        'padding': `${theme.spacing(1)} ${theme.spacing(2)}`,
         '&:before': {
             borderBottom: `1px solid rgba(255,255,255,0.2)`,
         },

@@ -124,7 +124,7 @@ const Heading = (props) => {
     const dispatch = useDispatch()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const filterType = useSelector((state) => state.getIn(['filterType']))
     const gridSize = useSelector((state) => state.getIn(['gridSize']))

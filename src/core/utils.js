@@ -320,7 +320,7 @@ export const capitalize = (str, eachWord) => {
                 words[i] = words[i][0].toUpperCase() + words[i].substr(1)
 
             return words.join(' ')
-        } else return str.replace(/^\w/, (c) => c.toUpperCase())
+        } else return str.replace(/^\w/, (c) => c.toUpperCase());
     } else {
         return ''
     }
@@ -392,5 +392,5 @@ export const linearScale = (domain, range, value) => {
 export const removeComments = (string) => {
     if (string == null) return ''
     //Takes a string of code, not an actual function.
-    return string.replace(/\/\*[\s\S]*?\*\/|\/\/.*|\#.*/g, '').trim() //Strip comments
+    return string.replace(/\/\*[\s\S]*?\*\/|\/\/.*|\#.*/g, '').trim(); //Strip comments
 }

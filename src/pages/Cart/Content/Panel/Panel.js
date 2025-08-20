@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     header: {
         height: theme.headHeights[2],
         width: '100%',
-        padding: `0px ${theme.spacing(2)}px`,
+        padding: `0px ${theme.spacing(2)}`,
         boxSizing: 'border-box',
     },
     panelTitle: {

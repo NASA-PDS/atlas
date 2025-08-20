@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     InputFilter: {
         display: 'flex',
         flexFlow: 'column',
-        padding: `0px ${theme.spacing(2)}px`,
+        padding: `0px ${theme.spacing(2)}`,
     },
     input: {
         flex: 1,

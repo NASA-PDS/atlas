@@ -243,14 +243,14 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemFilter: {
         justifyContent: 'space-between',
-        padding: `0px ${theme.spacing(2)}px 0px 0px`,
+        padding: `0px ${theme.spacing(2)} 0px 0px`,
     },
     liType: {
         fontSize: '24px',
         padding: '2px',
     },
     liName: {
-        margin: `0px ${theme.spacing(1.5)}px`,
+        margin: `0px ${theme.spacing(1.5)}`,
         lineHeight: '30px',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -269,7 +269,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '16px',
     },
     footer: {
-        padding: `0px ${theme.spacing(1.5)}px`,
+        padding: `0px ${theme.spacing(1.5)}`,
         height: `${theme.headHeights[4]}px`,
         lineHeight: `${theme.headHeights[4]}px`,
         color: theme.palette.swatches.grey.grey500,
@@ -693,7 +693,7 @@ const Column = (props) => {
                                     onClick={() => {
                                         mobileBack()
                                     }}
-                                >
+                                    size="large">
                                     <ArrowBackIcon fontSize="small" />
                                 </IconButton>
                             )}
@@ -724,14 +724,14 @@ const Column = (props) => {
                                         ))}
                                     </Select>
                                     */
-                                    <Typography
+                                    (<Typography
                                         className={clsx(c.volumeTitle, {
                                             [c.volumeTitleMobile]: isMobile,
                                         })}
                                         variant="h6"
                                     >
                                         {params.display_name}
-                                    </Typography>
+                                    </Typography>)
                                 ) : null}
                                 {params.type === 'volume' ? (
                                     <div className={c.flex2}>
@@ -743,7 +743,7 @@ const Column = (props) => {
                                                     onClick={() => {
                                                         setShowFilterColumns(true)
                                                     }}
-                                                >
+                                                    size="large">
                                                     <ArrowBackIcon fontSize="small" />
                                                 </IconButton>
                                             )}
@@ -793,7 +793,7 @@ const Column = (props) => {
                                                             })
                                                         )
                                                     }}
-                                                >
+                                                    size="large">
                                                     <SearchIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
@@ -839,7 +839,7 @@ const Column = (props) => {
                                                     onClick={() => {
                                                         setFilterSearchOpen(!filterSearchOpen)
                                                     }}
-                                                >
+                                                    size="large">
                                                     <FilterListIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
@@ -855,7 +855,7 @@ const Column = (props) => {
                                                             })
                                                         )
                                                     }}
-                                                >
+                                                    size="large">
                                                     <SearchIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
@@ -889,7 +889,7 @@ const Column = (props) => {
                                     onClick={() => {
                                         setShowMobilePreview(true, prevColumn.active)
                                     }}
-                                >
+                                    size="large">
                                     <InfoOutlinedIcon fontSize="small" />
                                 </IconButton>
                             )}
@@ -1247,7 +1247,7 @@ const Column = (props) => {
                                                                           )
                                                                       }
                                                                   }}
-                                                              >
+                                                                  size="large">
                                                                   <GetAppIcon size="small" />
                                                               </IconButton>
                                                           </Tooltip>
@@ -1299,14 +1299,14 @@ const Column = (props) => {
                                                                       )
                                                                   )
                                                               }}
-                                                          >
+                                                              size="large">
                                                               <AddShoppingCartIcon size="small" />
                                                           </IconButton>
                                                       </Tooltip>
                                                   </div>
                                               </div>
                                           </li>
-                                      )
+                                      );
                                   })}
                         </ul>
                     ) : null}
@@ -1324,7 +1324,7 @@ const Column = (props) => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 let slideTimeout

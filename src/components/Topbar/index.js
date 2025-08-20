@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 400,
         fontSize: 11,
         margin: 0,
-        padding: `0px ${theme.spacing(1)}px`,
+        padding: `0px ${theme.spacing(1)}`,
         lineHeight: '22px',
         textTransform: 'uppercase',
     },
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 500,
         fontSize: 20,
         margin: 0,
-        padding: `0px ${theme.spacing(0.5)}px`,
+        padding: `0px ${theme.spacing(0.5)}`,
         lineHeight: '22px',
     },
     appNameBeta: {
@@ -94,17 +94,17 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 14,
         letterSpacing: '1px',
         margin: 0,
-        padding: `0px ${theme.spacing(0.5)}px`,
+        padding: `0px ${theme.spacing(0.5)}`,
         lineHeight: '22px',
         textTransform: 'uppercase',
     },
     dividerV1: {
         background: theme.palette.swatches.grey.grey600,
-        margin: `${theme.spacing(0.5)}px ${theme.spacing(2)}px`,
+        margin: `${theme.spacing(0.5)} ${theme.spacing(2)}`,
     },
     dividerV2: {
         background: theme.palette.swatches.grey.grey600,
-        margin: `${theme.spacing(0.5)}px`,
+        margin: theme.spacing(0.5),
     },
     dividerH: {
         background: theme.palette.swatches.grey.grey600,
@@ -148,8 +148,8 @@ const Topbar = () => {
     const navigate = useNavigate()
 
     const theme = useTheme()
-    const isMobileSm = useMediaQuery(theme.breakpoints.down('sm'))
-    const isMobileXs = useMediaQuery(theme.breakpoints.down('xs'))
+    const isMobileSm = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobileXs = useMediaQuery(theme.breakpoints.down('sm'))
 
     const cart = useSelector((state) => {
         return state.get('cart').toJS() || []
@@ -208,7 +208,7 @@ const Topbar = () => {
                         onClick={() => {
                             window.open(HASH_PATHS.apiDocumentation, '_blank').focus()
                         }}
-                    >
+                        size="large">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -227,7 +227,7 @@ const Topbar = () => {
                         onClick={() => {
                             navigate(HASH_PATHS.search)
                         }}
-                    >
+                        size="large">
                         <ImageSearchIcon fontSize="inherit" />
                     </IconButton>
                 </Tooltip>
@@ -241,7 +241,7 @@ const Topbar = () => {
                         onClick={() => {
                             navigate(HASH_PATHS.fileExplorer)
                         }}
-                    >
+                        size="large">
                         <AccountTreeIcon fontSize="inherit" />
                     </IconButton>
                 </Tooltip>
@@ -253,7 +253,7 @@ const Topbar = () => {
                         onClick={() => {
                             navigate(HASH_PATHS.cart)
                         }}
-                    >
+                        size="large">
                         <Badge className={c.cartBadge} badgeContent={cartLength}>
                             <ShoppingCartOutlinedIcon fontSize="inherit" />
                         </Badge>
@@ -261,7 +261,7 @@ const Topbar = () => {
                 </Tooltip>
             </div>
         </div>
-    )
+    );
 }
 
 export default Topbar

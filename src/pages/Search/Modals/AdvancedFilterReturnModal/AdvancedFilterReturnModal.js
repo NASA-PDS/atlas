@@ -34,12 +34,12 @@ const useStyles = makeStyles((theme) => ({
     heading: {
         position: 'relative',
         boxSizing: 'border-box',
-        padding: `0 ${theme.spacing(2)}px 0 ${theme.spacing(4)}px`,
+        padding: `0 ${theme.spacing(2)} 0 ${theme.spacing(4)}`,
     },
     title: {
         width: '100%',
-        padding: `${theme.spacing(2.5)}px 0`,
-        margin: `${theme.spacing(3)}px 0px ${theme.spacing(1)}px 0px`,
+        padding: `${theme.spacing(2.5)} 0`,
+        margin: `${theme.spacing(3)} 0px ${theme.spacing(1)} 0px`,
         fontSize: theme.typography.pxToRem(20),
         fontWeight: 'bold',
         textAlign: 'center',
@@ -58,12 +58,12 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
     },
     content: {
-        'padding': `0px ${theme.spacing(8)}px ${theme.spacing(2)}px ${theme.spacing(8)}px`,
+        'padding': `0px ${theme.spacing(8)} ${theme.spacing(2)} ${theme.spacing(8)}`,
         'height': `calc(100% - ${theme.headHeights[2]}px)`,
         '& > div': {
             display: 'flex',
             justifyContent: 'space-between',
-            margin: `${theme.spacing(6)}px 0px ${theme.spacing(3)}px 0px`,
+            margin: `${theme.spacing(6)} 0px ${theme.spacing(3)} 0px`,
         },
         '& > p': {
             marginTop: '0px',
@@ -121,7 +121,7 @@ const AdvancedFilterReturnModal = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
     const modal = useSelector((state) => {
@@ -180,7 +180,7 @@ const AdvancedFilterReturnModal = (props) => {
                     title="Close"
                     aria-label="close"
                     onClick={handleClose}
-                >
+                    size="large">
                     <CloseSharpIcon fontSize="inherit" />
                 </IconButton>
             </DialogTitle>
@@ -213,7 +213,7 @@ const AdvancedFilterReturnModal = (props) => {
                 </div>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
 
 AdvancedFilterReturnModal.propTypes = {}

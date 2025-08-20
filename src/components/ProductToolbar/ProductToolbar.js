@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         opacity: 0,
         zIndex: 2,
         transition: 'opacity 0.2s ease-out',
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('lg')]: {
             'opacity': '1 !important',
             '& .ProductToolbarInner': {
                 display: 'flex !important',

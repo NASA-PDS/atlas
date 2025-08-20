@@ -96,7 +96,7 @@ const AccordionSummary = withStyles((theme) => ({
 
 const AccordionDetails = withStyles((theme) => ({
     root: {
-        padding: `${theme.spacing(2)}px 0px`,
+        padding: `${theme.spacing(2)} 0px`,
         background: theme.palette.swatches.grey.grey0,
         boxShadow: `inset 2px 2px 3px 0px rgba(0,0,0,0.12)`,
         flexFlow: 'column',
@@ -590,14 +590,14 @@ const Filter = (props) => {
                                     setFilterDownValue('')
                                     handleFilterDownSubmit(null, true)
                                 }}
-                            >
+                                size="large">
                                 <CloseIcon fontSize="inherit" />
                             </IconButton>
                             <IconButton
                                 className={c.filterDownSubmit}
                                 aria-label="submit filter down"
                                 onClick={handleFilterDownSubmit}
-                            >
+                                size="large">
                                 <ArrowForwardIcon fontSize="inherit" />
                             </IconButton>
                         </div>
@@ -606,7 +606,7 @@ const Filter = (props) => {
                 <AccordionDetails>{subFilters}</AccordionDetails>
             </Accordion>
         </div>
-    )
+    );
 }
 
 Filter.propTypes = {

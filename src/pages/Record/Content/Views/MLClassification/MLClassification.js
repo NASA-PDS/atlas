@@ -22,14 +22,14 @@ const useStyles = makeStyles((theme) => ({
         color: '#666',
         display: 'flex',
         background: theme.palette.swatches.grey.grey800,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             flexFlow: 'column',
         },
     },
     viewer: {
         height: '100%',
         flex: 1,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             minHeight: '60%',
             flex: 'unset',
             height: 'unset',
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         boxSizing: 'border-box',
         overflowY: 'auto',
         background: theme.palette.swatches.grey.grey100,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             width: '100%',
             borderLeft: 'none',
             borderTop: `2px solid ${theme.palette.swatches.grey.grey200}`,
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
     layersOpen: {
         width: '300px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             width: '100%',
         },
     },
@@ -64,7 +64,7 @@ const MLClassification = (props) => {
     const dispatch = useDispatch()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const [layersOpen, setLayersOpen] = useState(true)
     const [checkedClasses, setCheckedClasses] = useState({})

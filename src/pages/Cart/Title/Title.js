@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
     },
     name: {
-        margin: `0px ${theme.spacing(1)}px`,
+        margin: `0px ${theme.spacing(1)}`,
     },
     nameTitle: {
         fontSize: 18,
@@ -89,7 +89,7 @@ const Title = (props) => {
                             onClick={() => {
                                 navigate(-1)
                             }}
-                        >
+                            size="large">
                             <ChevronLeftIcon className={c.backIcon} />
                         </IconButton>
                     </Tooltip>
@@ -125,7 +125,7 @@ const Title = (props) => {
                 </Button>
             </div>
         </div>
-    )
+    );
 }
 
 Title.propTypes = {

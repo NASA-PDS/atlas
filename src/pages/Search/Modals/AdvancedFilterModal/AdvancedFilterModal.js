@@ -38,15 +38,15 @@ const useStyles = makeStyles((theme) => ({
         height: theme.headHeights[2],
         boxSizing: 'border-box',
         background: theme.palette.swatches.grey.grey150,
-        padding: `0 ${theme.spacing(2)}px 0 ${theme.spacing(4)}px`,
+        padding: `0 ${theme.spacing(2)} 0 ${theme.spacing(4)}`,
     },
     title: {
-        padding: `${theme.spacing(2.5)}px 0`,
+        padding: `${theme.spacing(2.5)} 0`,
         fontSize: theme.typography.pxToRem(16),
         fontWeight: 'bold',
     },
     content: {
-        padding: `${theme.spacing(2)}px ${theme.spacing(4)}px`,
+        padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
         height: `calc(100% - ${theme.headHeights[2]}px)`,
     },
     closeIcon: {
@@ -65,7 +65,7 @@ const AdvancedFilterModal = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
     const modal = useSelector((state) => {
@@ -100,7 +100,7 @@ const AdvancedFilterModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                    >
+                        size="large">
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -117,7 +117,7 @@ const AdvancedFilterModal = (props) => {
                 </ReactMarkdown>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
 
 AdvancedFilterModal.propTypes = {}

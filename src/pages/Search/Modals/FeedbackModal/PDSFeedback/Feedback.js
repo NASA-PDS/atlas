@@ -185,7 +185,7 @@ const Feedback = ({ open, verify, handleClose, links, site_key, logoUrl }) => {
     const [submitted, setSubmitted] = useState(false)
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const handleChange = () => {}
 
@@ -271,7 +271,7 @@ const Feedback = ({ open, verify, handleClose, links, site_key, logoUrl }) => {
                         className={c.closeButton}
                         aria-label={'close feedback'}
                         onClick={handleClose}
-                    >
+                        size="large">
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -385,7 +385,7 @@ const Feedback = ({ open, verify, handleClose, links, site_key, logoUrl }) => {
                 )}
             </DialogActions>
         </Dialog>
-    )
+    );
 }
 
 const FEEDBACK_URL = 'https://pds.nasa.gov/email-service/SubmitFeedback'

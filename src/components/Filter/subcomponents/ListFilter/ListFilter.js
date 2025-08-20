@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         listStyleType: 'none',
     },
     listItem: {
-        'padding': `0px ${theme.spacing(2)}px`,
+        'padding': `0px ${theme.spacing(2)}`,
         'display': 'flex',
         'height': '24px',
         'lineHeight': '24px',

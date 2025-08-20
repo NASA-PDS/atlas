@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     },
     bottom: {
         marginTop: theme.spacing(2),
-        padding: `0px ${theme.spacing(2)}px`,
+        padding: `0px ${theme.spacing(2)}`,
     },
     clear: {
         'background': theme.palette.swatches.grey.grey500,

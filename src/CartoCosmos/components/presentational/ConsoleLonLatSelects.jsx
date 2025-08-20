@@ -150,7 +150,7 @@ export default function ConsoleLonLatSelects() {
       container
       item
       wrap="nowrap"
-      justify="center"
+      justifyContent="center"
       alignItems="center"
       className={classes.grid}
       xs={7}

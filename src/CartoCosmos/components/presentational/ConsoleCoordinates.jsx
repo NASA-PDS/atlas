@@ -69,7 +69,7 @@ export default function ConsoleCoordinates() {
     const classes = useStyles()
 
     const theme = useTheme()
-    const isMobileXS = useMediaQuery(theme.breakpoints.down('xs'))
+    const isMobileXS = useMediaQuery(theme.breakpoints.down('sm'))
 
     return (
         <div id="coordContainer" className={classes.container}>

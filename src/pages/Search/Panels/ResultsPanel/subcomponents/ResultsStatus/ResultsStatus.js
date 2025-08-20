@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
         'transform': 'translateX(-50%) translateY(-50%)',
         'background': theme.palette.primary.main,
         '& > div': {
-            padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+            padding: `${theme.spacing(4)} ${theme.spacing(6)}`,
         },
     },
     waiting: {

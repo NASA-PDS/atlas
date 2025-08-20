@@ -297,7 +297,7 @@ const useStyles = makeStyles((theme) => ({
     },
     emptyPreview: {
         textAlign: 'center',
-        margin: `${theme.spacing(10)}px 0px`,
+        margin: `${theme.spacing(10)} 0px`,
         color: theme.palette.swatches.grey.grey500,
         fontSize: '16px',
     },
@@ -345,7 +345,7 @@ const ButtonBar = (props) => {
                             if (related && related.uri)
                                 navigate(`${HASH_PATHS.record}?uri=${related.uri}&back=page`)
                         }}
-                    >
+                        size="large">
                         <PageviewIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
                 </span>
@@ -363,7 +363,7 @@ const ButtonBar = (props) => {
                                     '_blank'
                                 )
                         }}
-                    >
+                        size="large">
                         <LaunchIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
                 </span>
@@ -382,7 +382,7 @@ const ButtonBar = (props) => {
                                 )
                             }
                         }}
-                    >
+                        size="large">
                         <GetAppIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
                 </span>
@@ -406,13 +406,13 @@ const ButtonBar = (props) => {
                             )
                             dispatch(setSnackBarText('Added to Cart!', 'success'))
                         }}
-                    >
+                        size="large">
                         <AddShoppingCartIcon size="small" />
                     </IconButton>
                 </span>
             </Tooltip>
         </div>
-    )
+    );
 }
 
 const Preview = (props) => {
@@ -584,7 +584,7 @@ const Preview = (props) => {
                                             })
                                         )
                                 }}
-                            >
+                                size="large">
                                 <ArrowBackIcon fontSize="small" />
                             </IconButton>
                         </div>
@@ -1034,7 +1034,7 @@ const Preview = (props) => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 Preview.propTypes = {}

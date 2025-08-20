@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, adaptV4Theme } from '@mui/material/styles';
 
 export const palette = {
     type: 'dark',
@@ -186,6 +186,6 @@ export const theme = {
     },
 }
 
-const muiTheme = createTheme(theme)
+const muiTheme = createTheme(adaptV4Theme(theme))
 
 export default muiTheme

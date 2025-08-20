@@ -343,7 +343,7 @@ const useStyles = makeStyles((theme) => ({
     tree: {
         flex: 1,
         overflowX: 'hidden',
-        padding: `0 ${theme.spacing(2)}px 0 ${theme.spacing(2)}px`,
+        padding: `0 ${theme.spacing(2)} 0 ${theme.spacing(2)}`,
     },
     helpOpenLeft: {
         transition: 'width 0.2s ease-out',
@@ -369,8 +369,8 @@ const useStyles = makeStyles((theme) => ({
     },
     input: {
         'width': '100%',
-        'margin': `${theme.spacing(1)}px 0 ${theme.spacing(2)}px 0`,
-        'padding': `0 ${theme.spacing(2)}px 0 ${theme.spacing(2)}px`,
+        'margin': `${theme.spacing(1)} 0 ${theme.spacing(2)} 0`,
+        'padding': `0 ${theme.spacing(2)} 0 ${theme.spacing(2)}`,
         'borderBottom': `1px solid ${theme.palette.swatches.grey.grey200}`,
         '&:before': {
             borderBottom: `1px solid rgba(255,255,255,0.2)`,

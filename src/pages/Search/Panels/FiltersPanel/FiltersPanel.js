@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
         borderRight: `1px solid ${theme.palette.swatches.grey.grey200}`,
     },
     contents: {
-        width: '100%', //`calc(100% - ${theme.spacing(2)}px)`,
-        height: '100%', //`calc(100% - ${theme.spacing(4)}px)`,
-        margin: 0, //`${theme.spacing(2)}px ${theme.spacing(1)}px`,
+        width: '100%', //`calc(100% - ${theme.spacing(2)})`,
+        height: '100%', //`calc(100% - ${theme.spacing(4)})`,
+        margin: 0, //`${theme.spacing(2)} ${theme.spacing(1)}`,
         display: 'flex',
         flexFlow: 'column',
     },

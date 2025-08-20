@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
     },
     name: {
-        margin: `0px ${theme.spacing(1)}px`,
+        margin: `0px ${theme.spacing(1)}`,
     },
     nameTitle: {
         fontSize: 16,
@@ -90,13 +90,13 @@ const useStyles = makeStyles((theme) => ({
     },
     splitButton: {
         margin: '4px 5px 3px 5px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             display: 'none',
         },
     },
     divider: {
         background: theme.palette.swatches.grey.grey200,
-        margin: `${theme.spacing(0.5)}px ${theme.spacing(2)}px`,
+        margin: `${theme.spacing(0.5)} ${theme.spacing(2)}`,
     },
     addToCart: {
         width: 34,
@@ -185,7 +185,7 @@ const Title = (props) => {
                                 if (back === 'page') navigate(-1)
                                 else navigate(HASH_PATHS.search)
                             }}
-                        >
+                            size="large">
                             <ChevronLeftIcon className={c.backIcon} />
                         </IconButton>
                     </Tooltip>
@@ -204,7 +204,7 @@ const Title = (props) => {
                                 copyToClipboard(window.location.href)
                                 handleOpenSnackbar('Copied URL to clipboard!')
                             }}
-                        >
+                            size="large">
                             <LinkIcon className={c.copyIcon} />
                         </IconButton>
                     </Tooltip>
@@ -248,7 +248,7 @@ const Title = (props) => {
                 </Tooltip>
             </div>
         </div>
-    )
+    );
 }
 
 Title.propTypes = {

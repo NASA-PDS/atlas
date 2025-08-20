@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     InputRangeFilter: {
         display: 'flex',
         flexFlow: 'column',
-        padding: `0px ${theme.spacing(2)}px`,
+        padding: `0px ${theme.spacing(2)}`,
     },
     input: {
         flex: 1,
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
     outOfOrder: {
         textAlign: 'center',
-        margin: `${theme.spacing(2)}px 0px`,
+        margin: `${theme.spacing(2)} 0px`,
         color: theme.palette.swatches.red.red500,
         fontWeight: 'bold',
     },

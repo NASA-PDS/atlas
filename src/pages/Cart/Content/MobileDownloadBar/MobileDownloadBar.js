@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.accent.main,
     },
     p: {
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
     },
     downloadButton: {
         display: 'flex',
@@ -124,7 +124,7 @@ const MobileDownloadBar = (props) => {
                     onClick={() => {
                         setError(null)
                     }}
-                >
+                    size="large">
                     <CloseIcon />
                 </IconButton>
             </div>
@@ -186,7 +186,7 @@ const MobileDownloadBar = (props) => {
                 </div>
             )}
         </div>
-    )
+    );
 }
 
 MobileDownloadBar.propTypes = {}

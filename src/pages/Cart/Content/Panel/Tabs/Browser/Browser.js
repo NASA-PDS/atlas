@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.primary.light,
     },
     p: {
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
     },
     downloadingButton: {
         background: theme.palette.swatches.grey.grey300,

@@ -46,7 +46,7 @@ export default function CreditsDisplay() {
                 container
                 alignItems="center"
                 alignContent="center"
-                justify="space-evenly"
+                justifyContent="space-evenly"
                 className={classes.root}
                 wrap="nowrap"
             >
@@ -123,5 +123,5 @@ export default function CreditsDisplay() {
                 </Grid>
             </Grid>
         </div>
-    )
+    );
 }

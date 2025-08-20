@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     statusInner: {
         display: 'flex',
         justifyContent: 'space-between',
-        padding: `${theme.spacing(1.5)}px`,
+        padding: theme.spacing(1.5),
         height: '48px',
     },
     statusLeft: {
@@ -247,7 +247,7 @@ function DownloadingCard(props) {
                                     resume()
                                 }
                             }}
-                        >
+                            size="large">
                             {mode === modes.paused ? (
                                 <PlayIcon fontSize="inherit" />
                             ) : (
@@ -257,14 +257,14 @@ function DownloadingCard(props) {
                     </Tooltip>
 
                     <Tooltip title="Stop Download" arrow>
-                        <IconButton className={c.statusButtonRed} onClick={stop}>
+                        <IconButton className={c.statusButtonRed} onClick={stop} size="large">
                             <StopIcon fontSize="inherit" />
                         </IconButton>
                     </Tooltip>
                 </div>
             </div>
         </Paper>
-    )
+    );
 }
 
 DownloadingCard.propTypes = {}

@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
     path: {
         margin: 0,
-        padding: `0px ${theme.spacing(1)}px 0px ${theme.spacing(3)}px`,
+        padding: `0px ${theme.spacing(1)} 0px ${theme.spacing(3)}`,
         boxSizing: 'border-box',
         width: 'calc(100% - 40px)',
     },
@@ -165,7 +165,7 @@ const Heading = (props) => {
                                 copyToClipboard(window.location.href)
                                 handleOpenSnackbar()
                             }}
-                        >
+                            size="large">
                             <LinkIcon className={c.copyIcon} />
                         </IconButton>
                     </Tooltip>
@@ -192,7 +192,7 @@ const Heading = (props) => {
                 </MuiAlert>
             </Snackbar>
         </div>
-    )
+    );
 }
 
 Heading.propTypes = {}

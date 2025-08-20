@@ -273,14 +273,14 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemFilter: {
         justifyContent: 'space-between',
-        padding: `0px ${theme.spacing(2)}px 0px 0px`,
+        padding: `0px ${theme.spacing(2)} 0px 0px`,
     },
     liType: {
         fontSize: '24px',
         padding: '2px',
     },
     liName: {
-        margin: `0px ${theme.spacing(1.5)}px`,
+        margin: `0px ${theme.spacing(1.5)}`,
         lineHeight: '32px',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -399,7 +399,7 @@ const RegexModal = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
 
@@ -466,7 +466,7 @@ const RegexModal = (props) => {
                                 onClick={() => {
                                     setHelpOpen(!helpOpen)
                                 }}
-                            >
+                                size="large">
                                 <HelpOutlineIcon size="small" />
                             </IconButton>
                         </Tooltip>
@@ -494,7 +494,7 @@ const RegexModal = (props) => {
                                 className={c.closeIcon}
                                 aria-label="close"
                                 onClick={handleClose}
-                            >
+                                size="large">
                                 <CloseSharpIcon fontSize="inherit" />
                             </IconButton>
                         </Tooltip>
@@ -539,7 +539,7 @@ const RegexModal = (props) => {
                                             onClick={() => {
                                                 setCaseSensitive(!caseSensitive)
                                             }}
-                                        >
+                                            size="large">
                                             <SpellcheckIcon fontSize="inherit" />
                                         </IconButton>
                                     </Tooltip>
@@ -557,7 +557,7 @@ const RegexModal = (props) => {
                                             onClick={() => {
                                                 setIncludeDirectories(!includeDirectories)
                                             }}
-                                        >
+                                            size="large">
                                             <FolderIcon fontSize="inherit" />
                                         </IconButton>
                                     </Tooltip>
@@ -708,7 +708,7 @@ const RegexModal = (props) => {
                                 onClick={() => {
                                     setHelpOpen(false)
                                 }}
-                            >
+                                size="large">
                                 <CloseSharpIcon fontSize="inherit" />
                             </IconButton>
                         </Tooltip>
@@ -799,7 +799,7 @@ const RegexModal = (props) => {
                                                                     )
                                                                 }
                                                             }}
-                                                        >
+                                                            size="large">
                                                             <GetAppIcon size="small" />
                                                         </IconButton>
                                                     </Tooltip>
@@ -848,14 +848,14 @@ const RegexModal = (props) => {
                                                                 )
                                                             )
                                                         }}
-                                                    >
+                                                        size="large">
                                                         <AddShoppingCartIcon size="small" />
                                                     </IconButton>
                                                 </Tooltip>
                                             </div>
                                         </div>
                                     </li>
-                                )
+                                );
                             })
                         ) : !loading ? (
                             <Paper className={c.noResults}>
@@ -917,7 +917,7 @@ const RegexModal = (props) => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 RegexModal.propTypes = {}

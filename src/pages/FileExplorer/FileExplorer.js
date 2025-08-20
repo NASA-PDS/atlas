@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '16px',
         fontWeight: 500,
         margin: 0,
-        padding: `0 ${theme.spacing(3)}px`,
+        padding: `0 ${theme.spacing(3)}`,
     },
     topMenu: {},
     sort: {
@@ -119,8 +119,8 @@ const FileExplorer = (props) => {
     let [forcedPreview, setForcedPreview] = useState(null)
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-    const isLarge = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isLarge = useMediaQuery(theme.breakpoints.down('lg'))
 
     const slideToRight = () => {
         if (slidingRight || slideRef == null || slideRef.current == null) return

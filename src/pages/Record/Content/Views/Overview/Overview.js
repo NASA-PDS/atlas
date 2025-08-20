@@ -23,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.swatches.grey.grey900,
         color: theme.palette.swatches.grey.grey150,
         display: 'flex',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             flexFlow: 'column',
         },
     },
     viewer: {
         height: '100%',
         flex: 1,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             minHeight: '60%',
             flex: 'unset',
             height: 'unset',
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         background: '#101013',
         borderLeft: `1px solid ${theme.palette.swatches.grey.grey700}`,
         padding: '0px 0px 32px 0px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             width: '100%',
             borderLeft: 'none',
             borderTop: `2px solid ${theme.palette.swatches.grey.grey900}`,
@@ -160,7 +160,7 @@ const Overview = (props) => {
     const c = useStyles()
     const navigate = useNavigate()
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const release_id = getIn(recordData, ES_PATHS.release_id)
 

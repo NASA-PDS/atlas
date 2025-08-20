@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.swatches.grey.grey600,
     },
     checkbox: {
-        'padding': `0px ${theme.spacing(2)}px 0px 0px`,
+        'padding': `0px ${theme.spacing(2)} 0px 0px`,
         '&.Mui-checked': {
             color: theme.palette.swatches.grey.grey100,
         },
@@ -113,7 +113,7 @@ const MenuButton = (props) => {
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
                 onClick={handleToggle}
-            >
+                size="large">
                 {buttonComponent}
             </IconButton>
             <Popper
@@ -185,7 +185,7 @@ const MenuButton = (props) => {
                 )}
             </Popper>
         </div>
-    )
+    );
 }
 
 MenuButton.propTypes = {

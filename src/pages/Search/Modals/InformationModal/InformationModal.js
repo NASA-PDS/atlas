@@ -22,7 +22,7 @@ import { publicUrl } from '../../../../core/constants'
 const useStyles = makeStyles((theme) => ({
     InformationModal: {
         margin: theme.headHeights[1],
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             margin: '6px',
         },
     },
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     head: {
         display: 'flex',
         justifyContent: 'center',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             flexFlow: 'column',
         },
     },
@@ -73,25 +73,25 @@ const useStyles = makeStyles((theme) => ({
     pdsAndNode: {
         textAlign: 'left',
         padding: '26px 0px',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             paddingTop: '4px',
         },
     },
     pds: {
         fontSize: '18px',
         textTransform: 'uppercase',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
         },
     },
     node: {
         fontSize: '24px',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
         },
     },
     title: {
-        margin: `0px 0px ${theme.spacing(6)}px 0px`,
+        margin: `0px 0px ${theme.spacing(6)} 0px`,
         padding: '0px 2px',
         fontSize: '30px',
         fontWeight: 'bold',
@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'justify',
     },
     message: {
-        margin: `${theme.spacing(4)}px 0px`,
+        margin: `${theme.spacing(4)} 0px`,
     },
     aLink: {
         color: 'link',
@@ -130,7 +130,7 @@ const InformationModal = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
     const modal = useSelector((state) => {
@@ -184,7 +184,7 @@ const InformationModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                    >
+                        size="large">
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -242,7 +242,7 @@ const InformationModal = (props) => {
                 </div>
             </DialogActions>
         </Dialog>
-    )
+    );
 }
 
 InformationModal.propTypes = {}

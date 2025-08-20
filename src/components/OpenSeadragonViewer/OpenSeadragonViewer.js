@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
         'background': theme.palette.primary.main,
         'opacity': 0.75,
         '& > div': {
-            padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+            padding: `${theme.spacing(4)} ${theme.spacing(6)}`,
         },
     },
     statusError: {
@@ -237,7 +237,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         onClick={() => {
                             viewer.viewport.setRotation(0)
                         }}
-                    >
+                        size="large">
                         <HomeIcon fontSize="inherit" />
                     </IconButton>
                     <IconButton
@@ -245,7 +245,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={clsx(c.button, c.gap)}
                         title="Fullscreen"
                         aria-label="image view fullscreen"
-                    >
+                        size="large">
                         <FullscreenIcon fontSize="inherit" />
                     </IconButton>
                     <IconButton
@@ -253,7 +253,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={clsx(c.button, c.joiner)}
                         title="Rotate Counter-Clockwise"
                         aria-label="image view rotate counter clockwise"
-                    >
+                        size="large">
                         <RotateLeftIcon fontSize="inherit" />
                     </IconButton>
                     <IconButton
@@ -261,7 +261,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={c.button}
                         title="Rotate Clockwise"
                         aria-label="image view rotate clockwise"
-                    >
+                        size="large">
                         <RotateRightIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -272,7 +272,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                             title="Layers"
                             aria-label="image view layers"
                             onClick={onLayers}
-                        >
+                            size="large">
                             <LayersIcon fontSize="inherit" />
                         </IconButton>
                     ) : null}
@@ -283,7 +283,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={clsx(c.button, c.joiner)}
                         title="Zoom In"
                         aria-label="image view zoom in"
-                    >
+                        size="large">
                         <AddIcon fontSize="inherit" />
                     </IconButton>
                     <IconButton
@@ -291,7 +291,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={c.button}
                         title="Zoom Out"
                         aria-label="image view zoom out"
-                    >
+                        size="large">
                         <RemoveIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -315,7 +315,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 function drawFeatures(overlay, features) {

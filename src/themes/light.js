@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, adaptV4Theme } from '@mui/material/styles';
 
 export const palette = {
     type: 'light',
@@ -241,6 +241,6 @@ export const theme = {
     },
 }
 
-const light = createTheme(theme)
+const light = createTheme(adaptV4Theme(theme))
 
 export default light

@@ -6,7 +6,7 @@ import { store } from './core/redux/store/store'
 
 import { AppRoutes } from './core/routes/routes'
 
-import { ThemeProvider } from '@mui/material/styles'
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import muiTheme from './themes/light.js'
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
@@ -21,10 +21,12 @@ const root = createRoot(container);
 
 root.render(
     <Provider store={store}>
-        <ThemeProvider theme={muiTheme}>
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-                <AppRoutes />
-            </MuiPickersUtilsProvider>
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={muiTheme}>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <AppRoutes />
+                </MuiPickersUtilsProvider>
+            </ThemeProvider>
+        </StyledEngineProvider>
     </Provider>
 )

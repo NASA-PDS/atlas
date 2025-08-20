@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     EditColumnsModal: {
         margin: theme.headHeights[1],
         height: `calc(100% - ${theme.headHeights[1] * 2}px)`,
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             margin: '6px',
             height: `calc(100% - 12px)`,
         },
@@ -41,10 +41,10 @@ const useStyles = makeStyles((theme) => ({
         height: theme.headHeights[2],
         boxSizing: 'border-box',
         background: theme.palette.swatches.grey.grey150,
-        padding: `0 ${theme.spacing(2)}px 0 ${theme.spacing(4)}px`,
+        padding: `0 ${theme.spacing(2)} 0 ${theme.spacing(4)}`,
     },
     title: {
-        padding: `${theme.spacing(2.5)}px 0`,
+        padding: `${theme.spacing(2.5)} 0`,
         fontSize: theme.typography.pxToRem(16),
         fontWeight: 'bold',
     },
@@ -87,7 +87,7 @@ const EditColumnsModal = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
     const open = useSelector((state) => {
@@ -134,7 +134,7 @@ const EditColumnsModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                    >
+                        size="large">
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -166,7 +166,7 @@ const EditColumnsModal = (props) => {
                 </div>
             </DialogActions>
         </Dialog>
-    )
+    );
 }
 
 EditColumnsModal.propTypes = {}

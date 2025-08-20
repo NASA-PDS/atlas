@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
     },
     chip: {
-        'margin': `0 ${theme.spacing(1)}px`,
+        'margin': `0 ${theme.spacing(1)}`,
         'color': theme.palette.text.primary,
         'border': `1px solid rgba(0,0,0,0.23)`,
         '& svg': {

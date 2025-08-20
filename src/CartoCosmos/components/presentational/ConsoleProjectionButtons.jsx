@@ -141,7 +141,7 @@ export default function ConsoleProjectionButtons() {
             container
             item
             direction="column"
-            justify="center"
+            justifyContent="center"
             alignItems="center"
             xs
         >
@@ -242,5 +242,5 @@ export default function ConsoleProjectionButtons() {
                 </StyledTooltip>
             </Grid>
         </Grid>
-    )
+    );
 }

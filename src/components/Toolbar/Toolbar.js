@@ -120,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
     aLink: {
         'width': '100%',
         'height': '100% !important',
-        'padding': `9px 0px 9px ${theme.spacing(3)}px`,
+        'padding': `9px 0px 9px ${theme.spacing(3)}`,
         'color': theme.palette.text.secondary,
         'textDecoration': 'none',
         'boxSizing': 'border-box',
@@ -165,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
     buttonActive: {
         color: theme.palette.active.main,
         borderLeft: `2px solid ${theme.palette.active.main}`,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             background: `${theme.palette.active.main} !important`,
             color: theme.palette.swatches.grey.grey800,
         },
@@ -306,7 +306,7 @@ const Toolbar = (props) => {
     const navigate = useNavigate()
 
     const theme = useTheme()
-    const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const mobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const dispatch = useDispatch()
     const w = useSelector((state) => {

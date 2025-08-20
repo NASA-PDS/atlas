@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         'pointerEvents': 'none',
         'transition': 'opacity 1s ease-out',
         '& > div': {
-            padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+            padding: `${theme.spacing(4)} ${theme.spacing(6)}`,
         },
     },
 }))

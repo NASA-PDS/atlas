@@ -1,7 +1,7 @@
 import { createTheme, adaptV4Theme } from '@mui/material/styles';
 
 export const palette = {
-    type: 'light',
+    mode: 'light',
     primary: {
         main: '#FFFFFF',
         light: '#1C67E3', //'#62c6f5', //'#D5EBFD',

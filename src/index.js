@@ -9,8 +9,8 @@ import { AppRoutes } from './core/routes/routes'
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import muiTheme from './themes/light.js'
 
-import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import MomentUtils from '@date-io/moment'
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 import './index.css'
 
@@ -23,9 +23,9 @@ root.render(
     <Provider store={store}>
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={muiTheme}>
-                <MuiPickersUtilsProvider utils={MomentUtils}>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
                     <AppRoutes />
-                </MuiPickersUtilsProvider>
+                </LocalizationProvider>
             </ThemeProvider>
         </StyledEngineProvider>
     </Provider>

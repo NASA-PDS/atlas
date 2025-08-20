@@ -251,8 +251,8 @@ const makeTree = (
                 keyI++
                 tree.push(
                     <StyledTreeItem
+                        itemId={`${keyI}`}
                         key={keyI}
-                        nodeId={`${keyI}`}
                         style={{
                             display: shown.shown ? 'inherit' : 'none',
                         }}
@@ -282,8 +282,8 @@ const makeTree = (
                 if (shown.shown) groupIds.push(keyI + '')
                 tree.push(
                     <StyledTreeGroup
+                        itemId={`${keyI}`}
                         key={keyI}
-                        nodeId={`${keyI}`}
                         label={
                             <Highlighter
                                 searchWords={[filterString]}

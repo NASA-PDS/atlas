@@ -263,8 +263,8 @@ const makeTree = (data, filterString, classes) => {
             if (isObject(node[iter[i]])) {
                 tree.push(
                     <StyledTreeGroup
+                        itemId={`${keyI}`}
                         key={keyI}
-                        nodeId={`${keyI}`}
                         label={
                             <Highlighter
                                 highlightClassName={classes.highlight}
@@ -284,8 +284,8 @@ const makeTree = (data, filterString, classes) => {
             } else {
                 tree.push(
                     <StyledTreeItem
+                        itemId={`${keyI}`}
                         key={keyI}
-                        nodeId={`${keyI}`}
                         style={{
                             display: shown.shown ? 'inherit' : 'none',
                         }}

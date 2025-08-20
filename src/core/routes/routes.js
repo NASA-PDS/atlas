@@ -33,7 +33,7 @@ export const AppRoutes = () => {
                 <div className="routeMain">
                     <Topbar />
                     <div className="routeContent">
-                        <Routes location>
+                        <Routes location={location}>
                             <Route
                                 path={HASH_PATHS.root}
                                 element={ <Search /> }

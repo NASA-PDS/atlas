@@ -44,7 +44,6 @@ export default function ConsoleAppBar(props) {
         <div className={classes.root} id="consoleToolbarParent">
             <AppBar
                 className={classes.appbar}
-                variant="outlined"
                 position="static"
                 color="inherit"
                 id="consoleToolbar"

@@ -78,7 +78,6 @@ export default function WellKnownTextInput() {
         }
         enterDelay={800}
         leaveDelay={250}
-        interactive
         arrow
         TransitionComponent={Zoom}
       >

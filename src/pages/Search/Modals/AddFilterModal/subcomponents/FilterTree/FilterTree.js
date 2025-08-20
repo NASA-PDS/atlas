@@ -477,8 +477,10 @@ const FilterTree = (props) => {
                 </div>
                 <SimpleTreeView
                     className={c.tree}
-                    defaultCollapseIcon={<ExpandMoreIcon />}
-                    defaultExpandIcon={<ChevronRightIcon />}
+                    slots={{
+                      collapseIcon: ExpandMoreIcon,
+                      expandIcon: ChevronRightIcon
+                    }}
                     expanded={finalExpandeds}
                 >
                     {makeTree(

@@ -353,8 +353,10 @@ const LabelsTree = (props) => {
                 </div>
                 <div className={c.leftBottom}>
                     <SimpleTreeView
-                        defaultCollapseIcon={<ExpandMoreIcon />}
-                        defaultExpandIcon={<ChevronRightIcon />}
+                        slots={{
+                          collapseIcon: ExpandMoreIcon,
+                          expandIcon: ChevronRightIcon
+                        }}
                     >
                         {makeTree(
                             firstResult?._source,

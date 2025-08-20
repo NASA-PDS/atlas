@@ -571,11 +571,13 @@ const ProductLabel = (props) => {
                     </div>
                     <div className={c.bottom}>
                         <SimpleTreeView
-                            defaultCollapseIcon={<ExpandMoreIcon />}
-                            defaultExpandIcon={<ChevronRightIcon />}
                             defaultExpanded={Array(labelTree.numOfKeys)
                                 .fill()
                                 .map((x, i) => String(i))}
+                            slots={{
+                              collapseIcon: ExpandMoreIcon,
+                              expandIcon: ChevronRightIcon
+                            }}
                         >
                             {labelTree.tree}
                         </SimpleTreeView>

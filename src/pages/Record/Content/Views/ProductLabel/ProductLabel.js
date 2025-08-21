@@ -574,10 +574,6 @@ const ProductLabel = (props) => {
                             defaultExpanded={Array(labelTree.numOfKeys)
                                 .fill()
                                 .map((x, i) => String(i))}
-                            slots={{
-                              collapseIcon: ExpandMoreIcon,
-                              expandIcon: ChevronRightIcon
-                            }}
                         >
                             {labelTree.tree}
                         </SimpleTreeView>

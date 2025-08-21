@@ -352,12 +352,7 @@ const LabelsTree = (props) => {
                     />
                 </div>
                 <div className={c.leftBottom}>
-                    <SimpleTreeView
-                        slots={{
-                          collapseIcon: ExpandMoreIcon,
-                          expandIcon: ChevronRightIcon
-                        }}
-                    >
+                    <SimpleTreeView>
                         {makeTree(
                             firstResult?._source,
                             columns,

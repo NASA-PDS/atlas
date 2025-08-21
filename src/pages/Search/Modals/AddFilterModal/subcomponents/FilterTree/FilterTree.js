@@ -52,21 +52,16 @@ const StyledTreeGroup = withStyles((theme) => ({
     },
     content: {
         height: theme.headHeights[3],
-    },
-    iconContainer: {
-        '& .close': {
-            opacity: 0.3,
-        },
+        flex: 1,
+        justifyContent: 'left',
+        alignItems: 'center',
+        "&.Mui-selected:hover": {
+          backgroundColor: "rgba(0, 0, 0, 0.04)"
+        }
     },
     label: {
-        fontSize: 14,
-        height: theme.headHeights[3],
-        lineHeight: `${theme.headHeights[3]}px`,
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 12,
-    },
+        minheight: theme.headHeights[3],
+    }
 }))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
 
 const StyledTreeItem = withStyles((theme) => ({

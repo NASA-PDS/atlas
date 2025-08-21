@@ -407,6 +407,11 @@ const useStyles = makeStyles((theme) => ({
         height: 30,
         margin: '0px 3px',
         color: theme.palette.text.primary,
+        border: "1px solid rgba(0, 0, 0, 0.23)",
+        "&:hover": {
+          border: "1px solid rgba(0, 0, 0, 0.23)",
+          'background': "#0000000a",
+        },
     },
     snackbar: {
         fontSize: 14,

@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
     listItemZero: {
         opacity: 0.4,
     },
-    checkbox: {},
+    checkbox: {
+        borderRadius: 0,
+    },
     label: {
         display: 'flex',
         lineHeight: '26px',

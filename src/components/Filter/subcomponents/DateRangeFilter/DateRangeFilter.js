@@ -17,26 +17,27 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import { TextField } from '@mui/material'
 
-import { KeyboardDateTimePicker } from '@material-ui/pickers'
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 
 const useStyles = makeStyles((theme) => ({
-    DateRangeFilter: {
-        width: '100%',
-        display: 'flex',
-        flexFlow: 'column',
-    },
-    notAlone: {
-        paddingTop: '10px',
-        position: 'relative',
-    },
-    title: {
-        position: 'absolute',
-        left: '50%',
-        top: '146px',
-        transform: 'translateX(-50%)',
-        color: theme.palette.swatches.grey.grey400,
-    },
+    // DateRangeFilter: {
+    //     width: '100%',
+    //     display: 'flex',
+    //     flexFlow: 'column',
+    // },
+    // notAlone: {
+    //     paddingTop: '10px',
+    //     position: 'relative',
+    // },
+    // title: {
+    //     position: 'absolute',
+    //     left: '50%',
+    //     top: '146px',
+    //     transform: 'translateX(-50%)',
+    //     color: theme.palette.swatches.grey.grey400,
+    // },
     wrapper: {
         width: '100%',
         padding: `4px ${theme.spacing(2)}`,
@@ -49,8 +50,7 @@ const useStyles = makeStyles((theme) => ({
         borderBottom: `1px solid ${theme.palette.swatches.grey.grey300}`,
         boxSizing: 'border-box',
         opacity: '0',
-        transition:
-            'height 0.2s ease-out, opacity 0.2s ease-out, padding 0.2s ease-out, margin 0.2s ease-out',
+        transition: 'height 0.2s ease-out, opacity 0.2s ease-out, padding 0.2s ease-out, margin 0.2s ease-out',
     },
     settingsActive: {
         height: '66px',
@@ -58,91 +58,99 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '8px',
         marginBottom: '8px',
     },
-    formControl: {
-        width: '100%',
-        marginBottom: '8px',
-    },
-    formHelperText: {
-        color: theme.palette.swatches.grey.grey600,
-        marginTop: '1px',
-        marginLeft: '9px',
-    },
-    gap: {
-        textAlign: 'center',
-        position: 'relative',
-        top: '-9px',
-        fontWeight: 'bold',
-        fontSize: '12px',
-        color: theme.palette.swatches.grey.grey500,
-    },
+    // formControl: {
+    //     width: '100%',
+    //     marginBottom: '8px',
+    // },
+    // formHelperText: {
+    //     color: theme.palette.swatches.grey.grey600,
+    //     marginTop: '1px',
+    //     marginLeft: '9px',
+    // },
+    // gap: {
+    //     textAlign: 'center',
+    //     position: 'relative',
+    //     top: '-9px',
+    //     fontWeight: 'bold',
+    //     fontSize: '12px',
+    //     color: theme.palette.swatches.grey.grey500,
+    // },
     picker: {
-        'display': 'flex',
-        'justifyContent': 'space-between',
-        '& .MuiOutlinedInput-input': {
-            padding: '8px',
-        },
-        '& .MuiOutlinedInput-adornedEnd': {
-            paddingRight: '0px',
-        },
-        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.accent.main,
-        },
+    //     'display': 'flex',
+    //     'justifyContent': 'space-between',
+    //     '& .MuiOutlinedInput-input': {
+    //         padding: '8px',
+    //     },
+    //     '& .MuiOutlinedInput-adornedEnd': {
+    //         paddingRight: '0px',
+    //     },
+    //     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    //         borderColor: theme.palette.accent.main,
+    //     },
     },
     datePicker: {
         width: '100%',
-    },
-    pickerModal: {
-        '& .MuiPickersToolbar-toolbar': {
-            background: theme.palette.swatches.grey.grey150,
+        '& .MuiOutlinedInput-input': {
+          padding: 8
         },
-        '& .MuiDialogActions-root': {
-            'background': theme.palette.swatches.grey.grey150,
-            '& .MuiButton-label': {
-                color: theme.palette.text.primary,
-            },
-        },
-        '& .MuiPickersYear-root': {
-            height: '30px',
-        },
-        '& .MuiPickersYear-root:focus': {
-            color: theme.palette.text.primary,
-        },
-        '& .MuiPickersYear-yearSelected': {
-            color: theme.palette.accent.main,
-        },
-        '& .MuiPickersClock-pin': {
-            background: theme.palette.swatches.grey.grey800,
-        },
-        '& .MuiPickersClockPointer-pointer': {
-            background: theme.palette.swatches.grey.grey400,
-        },
-        '& .MuiPickersClockPointer-thumb': {
-            borderColor: theme.palette.accent.main,
-        },
-        '& .MuiPickersClockPointer-noPoint': {
-            background: theme.palette.accent.main,
-        },
-        '& .MuiPickersClockNumber-clockNumberSelected': {
-            color: 'white',
+        '& .MuiFormLabel-root': {
+          top: -8
         },
     },
-    datesOutOfOrder: {
-        textAlign: 'center',
-        marginTop: '8px',
-        color: theme.palette.swatches.red.red500,
-        fontWeight: 'bold',
-    },
-    dateLimit: {
-        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-        lineHeight: '1.66',
-        fontSize: '10.5px',
-        color: theme.palette.swatches.grey.grey500,
-        padding: '1px 0px',
-        marginLeft: '9px',
-    },
+    // pickerModal: {
+    //     '& .MuiPickersToolbar-toolbar': {
+    //         background: theme.palette.swatches.grey.grey150,
+    //     },
+    //     '& .MuiDialogActions-root': {
+    //         'background': theme.palette.swatches.grey.grey150,
+    //         '& .MuiButton-label': {
+    //             color: theme.palette.text.primary,
+    //         },
+    //     },
+    //     '& .MuiPickersYear-root': {
+    //         height: '30px',
+    //     },
+    //     '& .MuiPickersYear-root:focus': {
+    //         color: theme.palette.text.primary,
+    //     },
+    //     '& .MuiPickersYear-yearSelected': {
+    //         color: theme.palette.accent.main,
+    //     },
+    //     '& .MuiPickersClock-pin': {
+    //         background: theme.palette.swatches.grey.grey800,
+    //     },
+    //     '& .MuiPickersClockPointer-pointer': {
+    //         background: theme.palette.swatches.grey.grey400,
+    //     },
+    //     '& .MuiPickersClockPointer-thumb': {
+    //         borderColor: theme.palette.accent.main,
+    //     },
+    //     '& .MuiPickersClockPointer-noPoint': {
+    //         background: theme.palette.accent.main,
+    //     },
+    //     '& .MuiPickersClockNumber-clockNumberSelected': {
+    //         color: 'white',
+    //     },
+    // },
+    // datesOutOfOrder: {
+    //     textAlign: 'center',
+    //     marginTop: '8px',
+    //     color: theme.palette.swatches.red.red500,
+    //     fontWeight: 'bold',
+    // },
+    // dateLimit: {
+    //     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    //     lineHeight: '1.66',
+    //     fontSize: '10.5px',
+    //     color: theme.palette.swatches.grey.grey500,
+    //     padding: '1px 0px',
+    //     marginLeft: '9px',
+    // },
     bottom: {
         marginTop: theme.spacing(2),
         padding: `0px ${theme.spacing(2)}`,
+        display: 'flex',
+        justifyContent: 'space-between'
     },
     clear: {
         'background': theme.palette.swatches.grey.grey500,
@@ -150,10 +158,7 @@ const useStyles = makeStyles((theme) => ({
             background: theme.palette.swatches.red.red500,
         },
     },
-    submit: {
-        width: '80px',
-        float: 'right',
-    },
+    submit: {}
 }))
 
 const DateRangeFilter = (props) => {
@@ -283,25 +288,26 @@ const DateRangeFilter = (props) => {
                     </FormControl>
                 </div>
                 <div className={c.picker}>
-                    <KeyboardDateTimePicker
+                    <DateTimePicker
                         className={c.datePicker}
-                        clearable
-                        inputVariant="outlined"
                         ampm={false}
                         value={selectedStartDate.length === 0 ? null : selectedStartDate}
                         onChange={(m, val) => {
                             handleStartDateChange(val || '')
                         }}
-                        format={dateFormat}
+                        inputFormat={dateFormat}
                         openTo="year"
                         disableFuture={true}
                         minDate={minDate}
                         maxDate={maxDate}
-                        placeholder="Start Date"
                         invalidDateMessage={`Invalid Format. Use ${dateFormat}`}
                         DialogProps={{
                             className: c.pickerModal,
                         }}
+                        label="Start Date"
+                        renderInput={
+                          (props) => <TextField {...props} />
+                        }
                     />
                 </div>
                 <div className={c.dateLimit}>{`Min: ~${moment
@@ -309,25 +315,27 @@ const DateRangeFilter = (props) => {
                     .format(dateFormat)}`}</div>
                 <div className={c.gap}>to</div>
                 <div className={c.picker}>
-                    <KeyboardDateTimePicker
+                    <DateTimePicker
                         className={c.datePicker}
-                        clearable
                         inputVariant="outlined"
                         ampm={false}
                         value={selectedEndDate.length === 0 ? null : selectedEndDate}
                         onChange={(m, val) => {
                             handleEndDateChange(val || '')
                         }}
-                        format={dateFormat}
+                        inputFormat={dateFormat}
                         openTo="year"
                         disableFuture={true}
                         minDate={minDate}
                         maxDate={maxDate}
-                        placeholder="End Date"
                         invalidDateMessage={`Invalid Format. Use ${dateFormat}`}
                         DialogProps={{
                             className: c.pickerModal,
                         }}
+                        label="End Date"
+                        renderInput={
+                          (props) => <TextField {...props} />
+                        }
                     />
                 </div>
                 <div className={c.dateLimit}>{`Max: ~${moment

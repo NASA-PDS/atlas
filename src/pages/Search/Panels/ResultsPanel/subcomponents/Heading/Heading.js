@@ -115,6 +115,9 @@ const useStyles = makeStyles((theme) => ({
             background: theme.palette.swatches.red.red400,
         },
     },
+    menuButton: {
+      fontSize: '21px',
+    }
 }))
 
 const Heading = (props) => {
@@ -299,7 +302,7 @@ const Heading = (props) => {
                                   'Rotate Images 90°',
                               ]
                     }
-                    buttonComponent={<MoreVertIcon fontSize="inherit" />}
+                    buttonComponent={<MoreVertIcon className={c.menuButton} />}
                     onChange={(option, idx) => {
                         switch (option) {
                             case 'Add Selected Results to Cart':

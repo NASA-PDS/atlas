@@ -18,7 +18,7 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
-import { TreeItem } from '@mui/x-tree-view/TreeItem'
+import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import { useSpring, animated } from '@react-spring/web'
 
@@ -29,7 +29,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
 
 import { makeStyles, withStyles } from '@mui/styles'
-import { useTheme } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 import OpenSeadragonViewer from '../../../../../components/OpenSeadragonViewer/OpenSeadragonViewer'
@@ -57,92 +57,81 @@ TransitionComponent.propTypes = {
     in: PropTypes.bool,
 }
 
-const StyledTreeGroup = withStyles((theme) => ({
-    root: {
-        'minHeight': theme.headHeights[3],
-        '& > div > .MuiTreeItem-label': {
-            '&:hover': {
-                background: 'unset',
-            },
-        },
+const StyledTreeGroup = styled(TreeItem)(({theme}) => ({
+  'minHeight': theme.headHeights[3],
+  'margin': '8px 0px',
+  [`& .${treeItemClasses.content}`]: {
+    'minHeight': theme.headHeights[3],
+    'flex': 1,
+    'justifyContent': 'left',
+    'alignItems': 'center',
+    'background': theme.palette.swatches.grey.grey0,
+    'border': `1px solid ${theme.palette.swatches.grey.grey200}`,
+    'boxShadow': '0px 1px 4px 0px rgba(0,0,0,0)',
+    'borderRadius': '0px',
+    'padding': '0px 8px',
+    'boxSizing': 'border-box',
+    'width': 'auto',
+    'transition': 'box-shadow 0.2s ease-in-out',
+    '&:hover': {
+        background: "#FFFFFF",
+        boxShadow: '0px 2px 5px 0px rgba(0,0,0,0.15)',
     },
-    content: {
-        'height': theme.headHeights[3],
-        'margin': '4px',
-        'background': theme.palette.swatches.grey.grey0,
-        'border': `1px solid ${theme.palette.swatches.grey.grey200}`,
-        'boxShadow': '0px 1px 4px 0px rgba(0,0,0,0.1)',
-        'padding': '0px 8px',
-        'boxSizing': 'border-box',
-        'width': 'auto',
-        'transition': 'box-shadow 0.2s ease-in-out',
-        '&:hover': {
-            boxShadow: '0px 2px 5px 0px rgba(0,0,0,0.15)',
-        },
+    [`&.${treeItemClasses.selected}`]: {
+      background: "#FFFFFF !important",
+    }
+  },
+  [`& .${treeItemClasses.iconContainer}`]: {
+    '& .close': {
+        opacity: 0.3,
     },
-    iconContainer: {
-        '& .close': {
-            opacity: 0.3,
-        },
-        '& svg': {
-            fontSize: '24px',
-            fill: theme.palette.accent.main,
-        },
+    '& svg': {
+        fontSize: '24px !important',
+        fill: theme.palette.accent.main,
     },
-    label: {
-        fontSize: 14,
-        height: theme.headHeights[3],
-        lineHeight: `${theme.headHeights[3]}px`,
-    },
-    group: {
-        marginLeft: 19,
-        paddingLeft: 12,
-        borderLeft: `1px solid ${theme.palette.swatches.grey.grey200}`,
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+  },
+  [`& .${treeItemClasses.label}`]: {
+      fontSize: 14,
+      lineHeight: `${theme.headHeights[3]}px`,
+  },
+  [`& .${treeItemClasses.groupTransition}`]: {
+    marginLeft: 17,
+    paddingLeft: 12,
+    borderLeft: `1px solid ${theme.palette.swatches.grey.grey200}`,
+  }
+}));
 
-const StyledTreeItem = withStyles((theme) => ({
-    root: {
-        '& > div > .MuiTreeItem-label': {
-            'paddingLeft': '8px',
-            '&:hover': {
-                background: 'inherit',
-            },
-        },
-        'borderLeft': '4px solid rgba(0,0,0,0)',
+const StyledTreeItem = styled(StyledTreeGroup)(({theme}) => ({
+  'minHeight': theme.headHeights[3],
+  [`& .${treeItemClasses.iconContainer}`]: {
+    display: "none"
+  },
+  [`& .${treeItemClasses.label}`]: {
+    paddingLeft: "8px"
+  },
+  [`& .${treeItemClasses.content}`]: {
+    '&:hover': {
+      cursor: 'default',
     },
-    iconContainer: {
-        display: 'none',
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 12,
-        height: '32px',
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+  }
+}));
+
+// TODO: consolidate StyledTreeItem and FilterTreeLabel into single component
+/*const FilterTreeLabel = styled(StyledTreeItem)(({theme}) => ({
+  label: {
+      'display': 'flex',
+      'justifyContent': 'space-between',
+      'flexWrap': 'wrap',
+      'wordBreak': 'break-all',
+  }
+}));*/
 
 const FilterTreeLabel = withStyles((theme) => ({
-    FilterTreeLabel: {
-        display: 'flex',
-        marginLeft: '-15px',
-        padding: '0px 4px 0px 6px',
-    },
     label: {
         'display': 'flex',
         'justifyContent': 'space-between',
         'flexWrap': 'wrap',
         'wordBreak': 'break-all',
-        'width': '100%',
-        'lineHeight': `${theme.headHeights[3]}px`,
-        'border': `1px solid ${theme.palette.swatches.grey.grey200}`,
-        'padding': '0px 8px 0px 16px',
-        'margin': '3px 0px',
-        'background': 'white',
-        'transition': 'all 0.2s ease-in-out',
-        '&:hover': {
-            boxShadow: '0px 2px 5px 0px rgba(0,0,0,0.15)',
-            background: theme.palette.swatches.grey.grey50,
-        },
     },
     key: {
         fontSize: '14px',
@@ -153,25 +142,28 @@ const FilterTreeLabel = withStyles((theme) => ({
     },
     value: {
         marginLeft: '40px',
+        marginRight: '8px',
         fontSize: '14px',
         [theme.breakpoints.down('md')]: {
             fontSize: '12px',
         },
     },
     highlight: {
-        fontWeight: 'bold',
+         fontWeight: 'bold',
     },
     more: {
-        'position': 'absolute',
-        'top': '9px',
-        'right': '10px',
-        'padding': '2px 10px',
-        'fontSize': '11px',
-        'border': 'none',
-        'background': theme.palette.swatches.grey.grey150,
-        '&:hover': {
-            background: theme.palette.swatches.blue.blue100,
-        },
+        'color': '#000000',
+         'position': 'absolute',
+         'top': '9px',
+         'right': '10px',
+         'padding': '2px 10px',
+         'fontSize': '11px',
+         'border': 'none',
+         'background': theme.palette.swatches.grey.grey150,
+         '&:hover': {
+            border: 'none',
+             background: theme.palette.swatches.blue.blue100,
+         },
     },
 }))((props) => {
     const { classes, id, valueKey, value, filterString } = props
@@ -273,6 +265,9 @@ const makeTree = (data, filterString, classes) => {
                                 textToHighlight={String(iter[i])}
                             />
                         }
+                        slots={{
+                          groupTransition: TransitionComponent
+                        }}
                     >
                         {depthTraversal(
                             node[iter[i]],
@@ -297,6 +292,9 @@ const makeTree = (data, filterString, classes) => {
                                 filterString={filterString}
                             />
                         }
+                        slots={{
+                          groupTransition: TransitionComponent
+                        }}
                     />
                 )
             }
@@ -360,7 +358,7 @@ const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden',
         overflowY: 'auto',
         height: `calc(100% - ${theme.headHeights[2]}px)`,
-        padding: `4px 0px ${theme.spacing(8)} 2px`,
+        padding: `4px 8px`,
         boxSizing: 'border-box',
     },
     viewer: {

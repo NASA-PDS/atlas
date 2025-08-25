@@ -85,14 +85,17 @@ const StyledTreeItem = withStyles((theme) => ({
     },
 }))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
 
+// TODO: Investigation consolidation of StyledTreeItem with FilterTreeLabel
 const FilterTreeLabel = withStyles((theme) => ({
     FilterTreeLabel: {
         display: 'flex',
         height: theme.headHeights[3],
     },
-    checkbox: {},
+    checkbox: {
+        borderRadius: 0,
+    },
     infoIcon: {
-        fontSize: '18px',
+        fontSize: '18px', 
         padding: '12px 7px',
         color: theme.palette.accent.main,
     },

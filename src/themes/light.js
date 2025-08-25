@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { adaptV4Theme, createTheme } from '@mui/material/styles';
 
 export const palette = {
     mode: 'light',

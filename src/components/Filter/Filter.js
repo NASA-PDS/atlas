@@ -46,7 +46,7 @@ const Accordion = withStyles({
         '&:before': {
             display: 'none',
         },
-        '&$expanded': {
+        '&.Mui-expanded': {
             margin: 'auto',
         },
         'position': 'inherit',
@@ -73,7 +73,7 @@ const AccordionSummary = withStyles((theme) => ({
         '&:hover': {
             background: theme.palette.swatches.grey.grey150,
         },
-        '&$expanded': {
+        '&.Mui-expanded': {
             minHeight: theme.headHeights[2],
             background: theme.palette.swatches.grey.grey150,
             borderLeft: `4px solid ${theme.palette.swatches.yellow.yellow600}`,
@@ -81,7 +81,8 @@ const AccordionSummary = withStyles((theme) => ({
     },
     content: {
         'margin': '4px 0',
-        '&$expanded': {
+        '&.Mui-expanded': {
+            height: '100%',
             margin: '4px 0',
         },
     },
@@ -92,6 +93,10 @@ const AccordionSummary = withStyles((theme) => ({
         padding: '9px 12px',
     },
     expanded: {},
+    expandIconWrapper: {
+      alignItems: 'center',
+      height: '100%'
+    }
 }))(MuiAccordionSummary)
 
 const AccordionDetails = withStyles((theme) => ({

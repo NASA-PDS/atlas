@@ -18,7 +18,7 @@
     "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.18.0",
     "@mui/styles": "^5.18.0",
-    "@mui/x-date-pickers": "^5.0.20",
+    "@mui/x-date-pickers": "^6.20.2",
     "@mui/x-tree-view": "^7.29.1",
     "@react-spring/web": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^2.34.0",

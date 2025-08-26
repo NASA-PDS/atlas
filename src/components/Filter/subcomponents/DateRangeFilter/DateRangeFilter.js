@@ -17,9 +17,9 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { TextField } from '@mui/material'
 
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 
 const useStyles = makeStyles((theme) => ({
     // DateRangeFilter: {
@@ -67,14 +67,14 @@ const useStyles = makeStyles((theme) => ({
     //     marginTop: '1px',
     //     marginLeft: '9px',
     // },
-    // gap: {
-    //     textAlign: 'center',
-    //     position: 'relative',
-    //     top: '-9px',
-    //     fontWeight: 'bold',
-    //     fontSize: '12px',
-    //     color: theme.palette.swatches.grey.grey500,
-    // },
+    gap: {
+        textAlign: 'center',
+        position: 'relative',
+        top: '-9px',
+        fontWeight: 'bold',
+        fontSize: '12px',
+        color: theme.palette.swatches.grey.grey500,
+    },
     picker: {
     //     'display': 'flex',
     //     'justifyContent': 'space-between',
@@ -87,6 +87,12 @@ const useStyles = makeStyles((theme) => ({
     //     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
     //         borderColor: theme.palette.accent.main,
     //     },
+        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.accent.main,
+        },
+        '& .MuiFormLabel-root.MuiInputLabel-root': {
+          color: theme.palette.swatches.grey.grey600,
+        }
     },
     datePicker: {
         width: '100%',
@@ -94,7 +100,12 @@ const useStyles = makeStyles((theme) => ({
           padding: 8
         },
         '& .MuiFormLabel-root': {
-          top: -8
+          top: -8,
+          color: "rgba(0,0,0,0.54)"
+        },
+        '& .MuiFormHelperText-root': {
+          color: theme.palette.swatches.grey.grey500,
+          marginLeft: '8px',
         },
     },
     // pickerModal: {
@@ -138,14 +149,6 @@ const useStyles = makeStyles((theme) => ({
     //     color: theme.palette.swatches.red.red500,
     //     fontWeight: 'bold',
     // },
-    // dateLimit: {
-    //     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    //     lineHeight: '1.66',
-    //     fontSize: '10.5px',
-    //     color: theme.palette.swatches.grey.grey500,
-    //     padding: '1px 0px',
-    //     marginLeft: '9px',
-    // },
     bottom: {
         marginTop: theme.spacing(2),
         padding: `0px ${theme.spacing(2)}`,
@@ -174,9 +177,9 @@ const DateRangeFilter = (props) => {
     const facetName = facet.field_name || filterKey
 
     const formats = [
-        { format: 'yyyy-MM-DD', example: '2022-02-10' },
-        { format: 'yyyy-MM-DD HH:mm', example: '2022-02-10 19:59' },
-        { format: 'yyyy-DDDD', example: '2022-078' },
+        { format: 'YYYY-MM-DD', example: '2022-02-10', time: false, views: ['year', 'month', 'day'] },
+        { format: 'YYYY-MM-DD HH:mm', example: '2022-02-10 19:59', time: true, views: ['year', 'month', 'day', 'hours', 'minutes'] },
+        { format: 'YYYY-DDDD', example: '2022-078', time: false, views: ['year', 'day'] },
     ]
 
     const [minDate, setMinDate] = useState('1965-01-01')
@@ -282,20 +285,22 @@ const DateRangeFilter = (props) => {
                                 )
                             })}
                         </Select>
-                        <FormHelperText
-                            className={c.formHelperText}
-                        >{`For example, "${formats[dateFormatIdx].example}"`}</FormHelperText>
+                        <FormHelperText className={c.formHelperText}>
+                          {`For example, "${formats[dateFormatIdx].example}"`}
+                        </FormHelperText>
                     </FormControl>
                 </div>
                 <div className={c.picker}>
+                    <InputLabel htmlFor="start-date-picker">Start Date</InputLabel>
                     <DateTimePicker
+                        id={'start-date-picker'}
                         className={c.datePicker}
                         ampm={false}
                         value={selectedStartDate.length === 0 ? null : selectedStartDate}
                         onChange={(m, val) => {
                             handleStartDateChange(val || '')
                         }}
-                        inputFormat={dateFormat}
+                        format={dateFormat}
                         openTo="year"
                         disableFuture={true}
                         minDate={minDate}
@@ -303,19 +308,27 @@ const DateRangeFilter = (props) => {
                         invalidDateMessage={`Invalid Format. Use ${dateFormat}`}
                         DialogProps={{
                             className: c.pickerModal,
+                        slotProps={{
+                          textField: {
+                            InputLabelProps: {
+                              shrink: false
+                            }, 
+                            helperText: `Min: ~${moment.utc(minDate).format(dateFormat)}`,
+                          }
                         }}
-                        label="Start Date"
-                        renderInput={
-                          (props) => <TextField {...props} />
-                        }
+                        views={formats[dateFormatIdx].views}
+                        viewRenderers={{
+                          hours: formats[dateFormatIdx].time ? renderTimeViewClock : null,
+                          minutes: formats[dateFormatIdx].time ? renderTimeViewClock : null,
+                          seconds: formats[dateFormatIdx].time ? renderTimeViewClock : null
+                        }}
                     />
                 </div>
-                <div className={c.dateLimit}>{`Min: ~${moment
-                    .utc(minDate)
-                    .format(dateFormat)}`}</div>
                 <div className={c.gap}>to</div>
                 <div className={c.picker}>
+                    <InputLabel htmlFor="end-date-picker">End Date</InputLabel>
                     <DateTimePicker
+                        id={'end-date-picker'}
                         className={c.datePicker}
                         inputVariant="outlined"
                         ampm={false}
@@ -323,7 +336,7 @@ const DateRangeFilter = (props) => {
                         onChange={(m, val) => {
                             handleEndDateChange(val || '')
                         }}
-                        inputFormat={dateFormat}
+                        format={dateFormat}
                         openTo="year"
                         disableFuture={true}
                         minDate={minDate}
@@ -331,16 +344,22 @@ const DateRangeFilter = (props) => {
                         invalidDateMessage={`Invalid Format. Use ${dateFormat}`}
                         DialogProps={{
                             className: c.pickerModal,
+                        slotProps={{
+                          textField: { 
+                            InputLabelProps: {
+                              shrink: false
+                            }, 
+                            helperText: `Max: ~${moment.utc(maxDate).format(dateFormat)}`,
+                          }
                         }}
-                        label="End Date"
-                        renderInput={
-                          (props) => <TextField {...props} />
-                        }
+                        views={formats[dateFormatIdx].views}
+                        viewRenderers={{
+                          hours: formats[dateFormatIdx].time ? renderTimeViewClock : null,
+                          minutes: formats[dateFormatIdx].time ? renderTimeViewClock : null,
+                          seconds: formats[dateFormatIdx].time ? renderTimeViewClock : null
+                        }}
                     />
                 </div>
-                <div className={c.dateLimit}>{`Max: ~${moment
-                    .utc(maxDate)
-                    .format(dateFormat)}`}</div>
                 {bothDates && selectedStartDate > selectedEndDate && (
                     <div className={c.datesOutOfOrder}>Start Date occurs after End Date!</div>
                 )}

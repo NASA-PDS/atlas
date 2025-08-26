@@ -238,11 +238,11 @@ const DateRangeFilter = (props) => {
         let formattedStartDate = selectedStartDate
         let formattedEndDate = selectedEndDate
         if (facet.field_format === 'ISO') {
-            if (formattedStartDate.length > 0)
+            if (formattedStartDate !== null)
                 formattedStartDate = moment(
                     moment.utc(formattedStartDate, dateFormat).valueOf()
                 ).toISOString()
-            if (formattedEndDate.length > 0)
+            if (formattedEndDate !== null)
                 formattedEndDate = moment(
                     moment.utc(formattedEndDate, dateFormat).valueOf()
                 ).toISOString()

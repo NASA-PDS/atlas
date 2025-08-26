@@ -143,12 +143,12 @@ const useStyles = makeStyles((theme) => ({
     //         color: 'white',
     //     },
     // },
-    // datesOutOfOrder: {
-    //     textAlign: 'center',
-    //     marginTop: '8px',
-    //     color: theme.palette.swatches.red.red500,
-    //     fontWeight: 'bold',
-    // },
+    datesOutOfOrder: {
+        textAlign: 'center',
+        marginTop: '8px',
+        color: theme.palette.swatches.red.red500,
+        fontWeight: 'bold',
+    },
     bottom: {
         marginTop: theme.spacing(2),
         padding: `0px ${theme.spacing(2)}`,
@@ -177,32 +177,33 @@ const DateRangeFilter = (props) => {
     const facetName = facet.field_name || filterKey
 
     const formats = [
-        { format: 'YYYY-MM-DD', example: '2022-02-10', time: false, views: ['year', 'month', 'day'] },
-        { format: 'YYYY-MM-DD HH:mm', example: '2022-02-10 19:59', time: true, views: ['year', 'month', 'day', 'hours', 'minutes'] },
-        { format: 'YYYY-DDDD', example: '2022-078', time: false, views: ['year', 'day'] },
+        { format: 'YYYY-MM-DD', example: '2022-02-10', useTime: false, views: ['year', 'month', 'day'] },
+        { format: 'YYYY-MM-DD HH:mm', example: '2022-02-10 19:59', useTime: true, views: ['year', 'month', 'day', 'hours', 'minutes'] },
+        { format: 'YYYY-DDDD', example: '2022-078', useTime: false, views: ['year', 'day'] },
     ]
 
-    const [minDate, setMinDate] = useState('1965-01-01')
-    const [maxDate, setMaxDate] = useState(`${moment().year()}-12-31`)
+    const [minDate, setMinDate] = useState(moment('1965-01-01'))
+    const [maxDate, setMaxDate] = useState(moment(`${moment().year()}-12-31`))
     const [dateFormatIdx, setDateFormatIdx] = useState(0)
     const dateFormat = formats[dateFormatIdx].format
     const [selectedStartDate, handleStartDateChange] = useState(
         facet.state?.daterange?.start?.length > 0
-            ? moment.utc(facet.state.daterange.start).format(dateFormat)
-            : ''
+            ? moment.utc(facet.state.daterange.start)
+            : null
     )
     const [selectedEndDate, handleEndDateChange] = useState(
         facet.state?.daterange?.end?.length > 0
-            ? moment.utc(facet.state.daterange.end).format(dateFormat)
-            : ''
+            ? moment.utc(facet.state.daterange.end)
+            : null
     )
-    const noDates = selectedStartDate.length === 0 && selectedEndDate.length === 0
-    const bothDates = selectedStartDate.length > 0 && selectedEndDate.length > 0
+    const noDates = selectedStartDate === null && selectedEndDate === null
+    const bothDates = selectedStartDate && selectedEndDate ? true : false
+    const validDates = bothDates ? selectedStartDate.utc() < selectedEndDate.utc() : false
 
     useEffect(() => {
         if (facet.state?.daterange === false) {
-            handleStartDateChange('')
-            handleEndDateChange('')
+            handleStartDateChange(null)
+            handleEndDateChange(null)
         }
     }, [JSON.stringify(facet.state)])
 
@@ -214,13 +215,13 @@ const DateRangeFilter = (props) => {
     }, [JSON.stringify(facet.fields)])
 
     const handleDateFormatChange = (nextIdx) => {
-        if (selectedStartDate.length > 0)
+        if (selectedStartDate !== null)
             handleStartDateChange(
-                moment.utc(selectedStartDate, dateFormat).format(formats[nextIdx].format)
+                moment.utc(selectedStartDate, dateFormat)
             )
-        if (selectedEndDate.length > 0)
+        if (selectedEndDate !== null)
             handleEndDateChange(
-                moment.utc(selectedEndDate, dateFormat).format(formats[nextIdx].format)
+                moment.utc(selectedEndDate, dateFormat)
             )
         setDateFormatIdx(nextIdx)
     }
@@ -231,8 +232,8 @@ const DateRangeFilter = (props) => {
                     daterange: false,
                 })
             )
-        handleStartDateChange('')
-        handleEndDateChange('')
+        handleStartDateChange(null)
+        handleEndDateChange(null)
     }
     const handleSubmit = () => {
         let formattedStartDate = selectedStartDate
@@ -296,9 +297,10 @@ const DateRangeFilter = (props) => {
                         id={'start-date-picker'}
                         className={c.datePicker}
                         ampm={false}
-                        value={selectedStartDate.length === 0 ? null : selectedStartDate}
-                        onChange={(m, val) => {
-                            handleStartDateChange(val || '')
+                        value={selectedStartDate}
+                        onChange={(val, context) => {
+                            if( context.validationError === null )
+                              handleStartDateChange(val)
                         }}
                         format={dateFormat}
                         openTo="year"
@@ -318,9 +320,9 @@ const DateRangeFilter = (props) => {
                         }}
                         views={formats[dateFormatIdx].views}
                         viewRenderers={{
-                          hours: formats[dateFormatIdx].time ? renderTimeViewClock : null,
-                          minutes: formats[dateFormatIdx].time ? renderTimeViewClock : null,
-                          seconds: formats[dateFormatIdx].time ? renderTimeViewClock : null
+                          hours: formats[dateFormatIdx].useTime ? renderTimeViewClock : null,
+                          minutes: formats[dateFormatIdx].useTime ? renderTimeViewClock : null,
+                          seconds: formats[dateFormatIdx].useTime ? renderTimeViewClock : null
                         }}
                     />
                 </div>
@@ -330,11 +332,11 @@ const DateRangeFilter = (props) => {
                     <DateTimePicker
                         id={'end-date-picker'}
                         className={c.datePicker}
-                        inputVariant="outlined"
                         ampm={false}
-                        value={selectedEndDate.length === 0 ? null : selectedEndDate}
-                        onChange={(m, val) => {
-                            handleEndDateChange(val || '')
+                        value={selectedEndDate}
+                        onChange={(val, context) => {
+                          if( context.validationError === null )
+                            handleEndDateChange(val)
                         }}
                         format={dateFormat}
                         openTo="year"
@@ -354,13 +356,13 @@ const DateRangeFilter = (props) => {
                         }}
                         views={formats[dateFormatIdx].views}
                         viewRenderers={{
-                          hours: formats[dateFormatIdx].time ? renderTimeViewClock : null,
-                          minutes: formats[dateFormatIdx].time ? renderTimeViewClock : null,
-                          seconds: formats[dateFormatIdx].time ? renderTimeViewClock : null
+                          hours: formats[dateFormatIdx].useTime ? renderTimeViewClock : null,
+                          minutes: formats[dateFormatIdx].useTime ? renderTimeViewClock : null,
+                          seconds: formats[dateFormatIdx].useTime ? renderTimeViewClock : null
                         }}
                     />
                 </div>
-                {bothDates && selectedStartDate > selectedEndDate && (
+                {bothDates && selectedStartDate.utc() > selectedEndDate.utc() && (
                     <div className={c.datesOutOfOrder}>Start Date occurs after End Date!</div>
                 )}
             </div>
@@ -370,7 +372,7 @@ const DateRangeFilter = (props) => {
                     size="small"
                     variant="contained"
                     onClick={handleClear}
-                    disabled={noDates}
+                    disabled={!validDates}
                 >
                     Clear
                 </Button>
@@ -379,7 +381,7 @@ const DateRangeFilter = (props) => {
                     size="small"
                     variant="contained"
                     onClick={handleSubmit}
-                    disabled={noDates}
+                    disabled={!validDates}
                 >
                     Search
                 </Button>

@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     buttonMore: {
-      "& .MuiButtonBase-root": {
+      "& .MuiIconButton-root": {
         color: theme.palette.swatches.grey.grey600,
         fontSize: '21px',
       },

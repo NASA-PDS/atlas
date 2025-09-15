@@ -91,13 +91,17 @@ const useStyles = makeStyles((theme) => ({
         opacity: 0,
     },
     checkbox: {
-        'padding': '5px',
-        'color': theme.palette.swatches.grey.grey50,
-        'transition': 'background 0.2s ease-out, color 0.2s ease-out',
+        padding: '5px',
+        color: theme.palette.swatches.grey.grey50,
+        transition: 'background 0.2s ease-out, color 0.2s ease-out',
         '&:hover': {
             background: 'rgba(0,0,0,0.2)',
             color: 'white',
         },
+        borderRadius: "0px",
+        "& .MuiTouchRipple-child": { 
+          borderRadius: "inherit" 
+        }
     },
     noHoverCheckbox: {
         'color': theme.palette.swatches.grey.grey300,

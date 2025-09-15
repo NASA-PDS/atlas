@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -428,6 +428,8 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
 const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort) => {
     const c = useStyles()
 
+    const nodeRef = useRef(null);
+
     let colHeader = []
     cols.forEach((col, index) => {
         switch (col.type) {
@@ -500,6 +502,7 @@ const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort)
                             </div>
                         </div>
                         <Draggable
+                            nodeRef={nodeRef}
                             axis="x"
                             position={{ x: 0, y: 0 }}
                             onStop={(e, d) => {
@@ -512,7 +515,7 @@ const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort)
                                 setColumnWidths(newColumnWidths)
                             }}
                         >
-                            <div className={c.cellHeaderDrag}>
+                            <div ref={nodeRef} className={c.cellHeaderDrag}>
                                 <div></div>
                             </div>
                         </Draggable>

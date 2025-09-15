@@ -179,7 +179,9 @@ const DateRangeFilter = (props) => {
     const formats = [
         { format: 'YYYY-MM-DD', example: '2022-02-10', useTime: false, views: ['year', 'month', 'day'] },
         { format: 'YYYY-MM-DD HH:mm', example: '2022-02-10 19:59', useTime: true, views: ['year', 'month', 'day', 'hours', 'minutes'] },
-        { format: 'YYYY-DDDD', example: '2022-078', useTime: false, views: ['year', 'day'] },
+        // Commenting out day of year format because the newer MUI DateTimePicker does not support day of year
+        // date formats. If support is added in the future we can try enabling this format again
+        // { format: 'YYYY-DDDD', example: '2022-078', useTime: false, views: ['year', 'day'] },
     ]
 
     const [minDate, setMinDate] = useState(moment('1965-01-01'))

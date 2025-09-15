@@ -73,6 +73,14 @@ const useStyles = makeStyles((theme) => ({
     proceed: {
         color: theme.palette.text.secondary,
     },
+    continue: {
+        color: theme.palette.text.primary,
+        border: '1px solid rgba(0, 0, 0, 0.23)',
+        '&:hover': {
+          border: '1px solid rgba(0, 0, 0, 0.23)',
+          backgroundColor: 'rgba(0, 0, 0, 0.04)'
+        }
+    }
 }))
 
 const getBasicFiltersFromAdvanced = (activeFilters, advancedFiltersExpression, atlasMapping) => {

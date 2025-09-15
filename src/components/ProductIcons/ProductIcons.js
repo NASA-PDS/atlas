@@ -124,7 +124,6 @@ const ProductIcons = (props) => {
                     </svg>
                 )
                 break
-                break
             case 'volume':
                 Icon = (
                     <svg className={clsx(c.default, c.iconSvg)} viewBox="0 0 24 24">

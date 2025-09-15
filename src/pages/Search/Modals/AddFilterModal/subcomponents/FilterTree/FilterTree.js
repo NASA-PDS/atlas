@@ -56,9 +56,6 @@ const StyledTreeGroup = styled(TreeItem)(({theme}) => ({
         [`&.${treeItemClasses.selected}:hover`]: {
           backgroundColor: "rgba(0, 0, 0, 0.04)"
         }
-    },
-    [`& .${treeItemClasses.label}`]: {
-        minheight: theme.headHeights[3],
     }
 }));
 

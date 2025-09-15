@@ -114,6 +114,8 @@ const AccordionDetails = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
     Filter: {},
     title: {
+        fontSize: '0.875rem',
+        fontWeight: 400,
         lineHeight: '30px',
         textTransform: 'capitalize',
         maxWidth: '190px',
@@ -124,6 +126,7 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
         display: 'flex',
         justifyContent: 'space-between',
+        marginLeft: '8px'
     },
     headerButtons: {},
     settingsButton: {

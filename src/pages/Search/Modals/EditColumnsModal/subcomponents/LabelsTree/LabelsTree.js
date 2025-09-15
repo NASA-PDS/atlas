@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import clsx from 'clsx'
 
 import { makeStyles, withStyles } from '@mui/styles'
+import { styled } from '@mui/material/styles'
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
-import { TreeItem } from '@mui/x-tree-view/TreeItem'
+import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem'
 import { useTheme } from '@mui/material/styles'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
@@ -15,8 +15,6 @@ import Input from '@mui/material/Input'
 import InputAdornment from '@mui/material/InputAdornment'
 import { useSpring, animated } from '@react-spring/web'
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
@@ -46,48 +44,28 @@ TransitionComponent.propTypes = {
     in: PropTypes.bool,
 }
 
-const StyledTreeGroup = withStyles((theme) => ({
-    root: {
-        minHeight: theme.headHeights[3],
-    },
-    content: {
+const StyledTreeGroup = styled(TreeItem)(({theme}) => ({
+    minHeight: theme.headHeights[3],
+    textTransform: 'uppercase',
+    paddingLeft: '6px',
+    [`& .${treeItemClasses.content}`]: {
         height: theme.headHeights[3],
-    },
-    iconContainer: {
-        '& .close': {
-            opacity: 0.3,
-        },
-    },
-    label: {
-        fontSize: 16,
-        height: theme.headHeights[3],
-        lineHeight: `${theme.headHeights[3]}px`,
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 12,
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+        flex: 1,
+        justifyContent: 'left',
+        alignItems: 'center',
+        [`&.${treeItemClasses.selected}:hover`]: {
+          backgroundColor: "rgba(0, 0, 0, 0.04)"
+        }
+    }
+}));
 
-const StyledTreeItem = withStyles((theme) => ({
-    root: {
-        'height': theme.headHeights[3],
-        'marginLeft': '-20px',
-        '& > div > .MuiTreeItem-label': {
-            padding: '0px',
-        },
-    },
-    iconContainer: {
-        '& .close': {
-            opacity: 0.3,
-        },
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 12,
-        height: '32px',
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+const StyledTreeItem = styled(TreeItem)(({theme}) => ({
+    height: theme.headHeights[3],
+    marginLeft: '-20px',
+    [`& > div > .${treeItemClasses.label}`]: {
+        padding: '0px',
+    }
+}));
 
 const LabelsTreeLabel = withStyles((theme) => ({
     LabelsTreeLabel: {
@@ -104,8 +82,9 @@ const LabelsTreeLabel = withStyles((theme) => ({
         flex: 1,
         lineHeight: `${theme.headHeights[3]}px`,
         paddingLeft: '3px',
-        fontSize: '16px',
-    },
+        fontSize: '14px',
+        textTransform: 'none',
+    }
 }))((props) => {
     const { classes, id, label, active, onCheck, onInfoClick } = props
     return (
@@ -185,6 +164,9 @@ const makeTree = (source, activeColumnFields, filterString, setSelected, addRemo
                         itemId={`${keyI}`}
                         key={keyI}
                         label={iter[i]}
+                        slots={{
+                          groupTransition: TransitionComponent
+                        }}
                         style={{ display: shown.shown ? 'inherit' : 'none' }}
                     >
                         {depthTraversal(
@@ -201,14 +183,17 @@ const makeTree = (source, activeColumnFields, filterString, setSelected, addRemo
                     <StyledTreeItem
                         itemId={`${keyI}`}
                         key={keyI}
+                        slots={{
+                          groupTransition: TransitionComponent
+                        }}
                         style={{
                             display: shown.shown ? 'inherit' : 'none',
                         }}
                         label={
                             <LabelsTreeLabel
                                 id={iter[i]}
-                                label={iter[i]}
                                 active={activeColumnFields.includes(currentPath)}
+                                label={iter[i]}
                                 onCheck={() => {
                                     addRemoveColumn(
                                         currentPath,

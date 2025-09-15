@@ -184,7 +184,8 @@ const DateRangeFilter = (props) => {
         // { format: 'YYYY-DDDD', example: '2022-078', useTime: false, views: ['year', 'day'] },
     ]
 
-    const [minDate, setMinDate] = useState(moment('1965-01-01'))
+    const defaultMinDate = '1965-01-01';
+    const [minDate, setMinDate] = useState(moment(defaultMinDate))
     const [maxDate, setMaxDate] = useState(moment(`${moment().year()}-12-31`))
     const [dateFormatIdx, setDateFormatIdx] = useState(0)
     const dateFormat = formats[dateFormatIdx].format
@@ -210,8 +211,8 @@ const DateRangeFilter = (props) => {
 
     useEffect(() => {
         if (facet.fields && facet.fields.length > 0) {
-            setMinDate(facet.fields[0].key)
-            setMaxDate(facet.fields[facet.fields.length - 1].key + 2592000000) //+ 30day to fill out bucket
+            setMinDate(moment(Math.max(facet.fields[0].key, moment(defaultMinDate).utc())))
+            setMaxDate(moment(facet.fields[facet.fields.length - 1].key + 2592000000)) //+ 30day to fill out bucket
         }
     }, [JSON.stringify(facet.fields)])
 

@@ -22,9 +22,7 @@ import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import { useSpring, animated } from '@react-spring/web'
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -82,9 +80,6 @@ const StyledTreeGroup = styled(TreeItem)(({theme}) => ({
     }
   },
   [`& .${treeItemClasses.iconContainer}`]: {
-    '& .close': {
-        opacity: 0.3,
-    },
     '& svg': {
         fontSize: '24px !important',
         fill: theme.palette.accent.main,

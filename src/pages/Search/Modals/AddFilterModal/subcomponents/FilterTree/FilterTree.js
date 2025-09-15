@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import { makeStyles, withStyles } from '@mui/styles'
+import { styled } from '@mui/material/styles'
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
-import { TreeItem } from '@mui/x-tree-view/TreeItem'
+import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
@@ -45,47 +46,36 @@ TransitionComponent.propTypes = {
     in: PropTypes.bool,
 }
 
-const StyledTreeGroup = withStyles((theme) => ({
-    root: {
-        textTransform: 'uppercase',
-        minHeight: theme.headHeights[3],
-    },
-    content: {
+const StyledTreeGroup = styled(TreeItem)(({theme}) => ({
+    minHeight: theme.headHeights[3],
+    textTransform: 'uppercase',
+    paddingLeft: '6px',
+    [`& .${treeItemClasses.content}`]: {
         height: theme.headHeights[3],
         flex: 1,
         justifyContent: 'left',
         alignItems: 'center',
-        "&.Mui-selected:hover": {
+        [`&.${treeItemClasses.selected}:hover`]: {
           backgroundColor: "rgba(0, 0, 0, 0.04)"
         }
     },
-    label: {
+    [`& .${treeItemClasses.label}`]: {
         minheight: theme.headHeights[3],
     }
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+}));
 
-const StyledTreeItem = withStyles((theme) => ({
-    root: {
-        'height': theme.headHeights[3],
-        'textTransform': 'uppercase',
-        'marginLeft': '-20px',
-        '& > div > .MuiTreeItem-label': {
-            padding: '0px',
-        },
-    },
-    iconContainer: {
-        '& .close': {
-            opacity: 0.3,
-        },
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 12,
-        height: '32px',
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+const StyledTreeItem = styled(TreeItem)(({theme}) => ({
+    height: theme.headHeights[3],
+    marginLeft: '-20px',
+    textTransform: 'uppercase',
+    [`& > div > .${treeItemClasses.label}`]: {
+        padding: '0px',
+    }
+}));
 
 // TODO: Investigation consolidation of StyledTreeItem with FilterTreeLabel
+// The two noted component appear to be redundant, investigate how they can 
+// merged to reduce code complexity
 const FilterTreeLabel = withStyles((theme) => ({
     FilterTreeLabel: {
         display: 'flex',
@@ -273,6 +263,9 @@ const makeTree = (
                                 }}
                             />
                         }
+                        slots={{
+                          groupTransition: TransitionComponent
+                        }}
                     />
                 )
             } else if (type === 'groups') {
@@ -289,6 +282,9 @@ const makeTree = (
                                 textToHighlight={String(node[iter[i]].display_name || iter[i])}
                             />
                         }
+                        slots={{
+                          groupTransition: TransitionComponent
+                        }}
                         style={{ display: shown.shown ? 'inherit' : 'none' }}
                         onClick={(function (kI) {
                             return function () {

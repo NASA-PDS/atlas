@@ -15,7 +15,6 @@ import clsx from 'clsx'
 import Image from 'mui-image'
 
 import { makeStyles } from '@mui/styles'
-import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
@@ -201,22 +200,6 @@ const useStyles = makeStyles((theme) => ({
         'borderRight': `1px solid ${theme.palette.swatches.grey.grey200}`,
         'box-sizing': 'border-box',
         'display': 'inline-block',
-    },
-    checkbox: {
-        'width': '100%',
-        'height': '30px',
-        'padding': '0',
-        'transition': 'background 0.2s ease-out',
-        '&:hover': {
-            background: 'rgba(0,0,0,0.1)',
-        },
-    },
-    checkboxChecked: {
-        'background': theme.palette.swatches.red.red500,
-        'color': `${theme.palette.text.secondary} !important`,
-        '&:hover': {
-            background: `${theme.palette.swatches.red.red500} !important`,
-        },
     },
     sortButton: {
         position: 'absolute',

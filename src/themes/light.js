@@ -107,7 +107,7 @@ export const theme = {
       MuiButton: {
         styleOverrides: {
             contained: {
-                'fontSize': '13px',
+                'fontSize': '11.375px',
                 'padding': '3px 10px',
                 'backgroundColor': palette.primary.light,
                 'borderRadius': '2px',

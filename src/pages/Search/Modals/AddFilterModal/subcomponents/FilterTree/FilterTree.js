@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
@@ -15,8 +15,6 @@ import Input from '@mui/material/Input'
 import InputAdornment from '@mui/material/InputAdornment'
 import { useSpring, animated } from '@react-spring/web'
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import CloseSharpIcon from '@mui/icons-material/CloseSharp'

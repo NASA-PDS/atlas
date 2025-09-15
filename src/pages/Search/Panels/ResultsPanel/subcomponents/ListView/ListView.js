@@ -320,16 +320,19 @@ const ListCard = ({ index, data, width }) => {
                     wrapperStyle={{
                         height: '100%',
                         paddingTop: 'unset',
-                        background: 'linear-gradient(to bottom, #060606, #000000)',
+                        background: '#000000',
                         position: 'initial',
                     }}
-                    shiftDuration={1200}
-                    iconWrapperStyle={{ opacity: 0.6 }}
-                    src={
-                        IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'
-                    }
+                    style={{
+                        transition: 'opacity 600ms ease-in-out 0s, transform 0.15s ease-out 0s',
+                        transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
+                    }}
+                    duration={0}
+                    src={ IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null' }
                     alt={fileName}
-                    errorIcon={<ProductIcons filename={fileName} />}
+                    errorIcon={
+                      <ProductIcons filename={fileName} />
+                    }
                     loading="lazy"
                 />
                 <ProductToolbar result={data} />

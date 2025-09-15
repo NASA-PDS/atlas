@@ -312,20 +312,20 @@ const GridCard = ({ index, data, width }) => {
                 wrapperStyle={{
                     height: '100%',
                     paddingTop: 'unset',
-                    background: '#192028',
+                    background: '#000000',
                     position: 'initial',
                 }}
                 style={{
-                    transition:
-                        'filterBrightness 900ms cubic-bezier(0.4, 0, 0.2, 1) 0s, filterSaturate 1200ms cubic-bezier(0.4, 0, 0.2, 1) 0s, opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 0s, transform 0.15s ease-out 0s',
+                    transition: 'opacity 600ms ease-in-out 0s, transform 0.15s ease-out 0s',
                     transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
                     height: `${gridItemHeight}px`,
                 }}
-                shiftDuration={1200}
-                iconWrapperStyle={{ opacity: 0.6 }}
-                src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
+                duration={0}
+                src={ IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null' }
                 alt={fileName}
-                errorIcon={<ProductIcons filename={fileName} />}
+                errorIcon={
+                  <ProductIcons filename={fileName} />
+                }
                 loading="lazy"
             />
             <ProductToolbar result={data} />

@@ -309,9 +309,10 @@ const DateRangeFilter = (props) => {
                         disableFuture={true}
                         minDate={minDate}
                         maxDate={maxDate}
-                        invalidDateMessage={`Invalid Format. Use ${dateFormat}`}
-                        DialogProps={{
-                            className: c.pickerModal,
+                        //invalidDateMessage={`Invalid Format. Use ${dateFormat}`}
+                        //DialogProps={{
+                        //    className: c.pickerModal,
+                        //}}
                         slotProps={{
                           textField: {
                             InputLabelProps: {
@@ -345,9 +346,10 @@ const DateRangeFilter = (props) => {
                         disableFuture={true}
                         minDate={minDate}
                         maxDate={maxDate}
-                        invalidDateMessage={`Invalid Format. Use ${dateFormat}`}
-                        DialogProps={{
-                            className: c.pickerModal,
+                        //invalidDateMessage={`Invalid Format. Use ${dateFormat}`}
+                        //DialogProps={{
+                        //    className: c.pickerModal,
+                        //}}
                         slotProps={{
                           textField: { 
                             InputLabelProps: {

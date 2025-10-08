@@ -377,7 +377,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 let toAddToMust = []
                 let filterConditions = [] // For __filter (AND logic)
                 let checkedItems = [] // For checked items (OR logic within AND)
-                
+
                 activeFilters[filter].facets.forEach((facet, idx) => {
                     let field = facet.field
 
@@ -676,12 +676,12 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                         }
                     }
                 })
-                
+
                 // Add filter conditions directly to must clause (AND logic)
-                filterConditions.forEach(condition => {
+                filterConditions.forEach((condition) => {
                     query.bool.must.push(condition)
                 })
-                
+
                 // Add checked items as should clause (OR logic within the AND)
                 if (checkedItems.length > 0) {
                     query.bool.must.push({
@@ -690,7 +690,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                         },
                     })
                 }
-                
+
                 // Legacy support: if no separate arrays were used, fall back to original logic
                 if (toAddToMust.length > 0) {
                     query.bool.must.push({
@@ -730,6 +730,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
             sort: [
                 {
                     [resultSorting.field]: resultSorting.direction,
+                    [ES_PATHS.uri.join('.')]: 'asc',
                     [ES_PATHS.release_id.join('.')]: 'desc',
                 },
             ],
@@ -960,18 +961,21 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                         const [min, max] = v.split('_to_').map(decodeURI)
                                         const filter = getIn(atlasMapping.groups, qSplit) || {}
                                         const facet = filter?.facets?.[qIdx]
-                                        
+
                                         if (facet?.component === 'date_range') {
                                             // Date range format
                                             filterState.daterange = {
                                                 start: min || '',
-                                                end: max || ''
+                                                end: max || '',
                                             }
-                                        } else if (facet?.component === 'input_range' || facet?.component === 'slider_range') {
+                                        } else if (
+                                            facet?.component === 'input_range' ||
+                                            facet?.component === 'slider_range'
+                                        ) {
                                             // Numeric range format
                                             filterState.range = [
                                                 min !== '' ? parseFloat(min) : null,
-                                                max !== '' ? parseFloat(max) : null
+                                                max !== '' ? parseFloat(max) : null,
                                             ]
                                         }
                                     } else {
@@ -1608,13 +1612,18 @@ export const updateFilexColumn = (columnId, options, stopPropagate, forcePropaga
                     if (!usedURLState && isFinalFilter) {
                         usedURLState = true
                         // Set the value if one came from the url
-                        const nextVolActive = volume != null ? { 
-                            active: { 
-                                key: volume,
-                                type: pdsStandard === '3' ? 'volume' : 'bundle',
-                                uniqueKey: `${pdsStandard === '3' ? 'volume' : 'bundle'}-${volume}`
-                            } 
-                        } : null
+                        const nextVolActive =
+                            volume != null
+                                ? {
+                                      active: {
+                                          key: volume,
+                                          type: pdsStandard === '3' ? 'volume' : 'bundle',
+                                          uniqueKey: `${
+                                              pdsStandard === '3' ? 'volume' : 'bundle'
+                                          }-${volume}`,
+                                      },
+                                  }
+                                : null
                         if (nextVolActive) dispatch(updateFilexColumn(2, nextVolActive))
 
                         let rawPath = url.query.uri || ''
@@ -1734,16 +1743,16 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                                 },
                             })
                         }
-                        
-                                                    // Add pds_standard filter to distinguish between bundles (pds4) and volumes (pds3)
-                            // Default to 'pds3' for backward compatibility if no type is specified
-                            const pdsStandard = col.active.type === 'volume' ? 'pds3' : 'pds4'
-                            query.bool.must.push({
-                                match: {
-                                    [ES_PATHS.archive.pds_standard.join('.')]: pdsStandard,
-                                },
-                            })
-                        
+
+                        // Add pds_standard filter to distinguish between bundles (pds4) and volumes (pds3)
+                        // Default to 'pds3' for backward compatibility if no type is specified
+                        const pdsStandard = col.active.type === 'volume' ? 'pds3' : 'pds4'
+                        query.bool.must.push({
+                            match: {
+                                [ES_PATHS.archive.pds_standard.join('.')]: pdsStandard,
+                            },
+                        })
+
                         /*
                             query.bool.must.push({
                                 match: {
@@ -1867,20 +1876,20 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                         false
                     )
                     results.sampleEntry = getIn(response, ['data', 'hits', 'hits', '0'], {})
-                    
+
                     // Add type property to volume buckets
                     if (results.buckets) {
-                        results.buckets = results.buckets.map(bucket => ({
+                        results.buckets = results.buckets.map((bucket) => ({
                             ...bucket,
-                            type: "volume"
+                            type: 'volume',
                         }))
                     }
-                    
+
                     if (secondAgg != false && secondAgg.buckets) {
                         // Add type property to bundle buckets
-                        const bundleBuckets = secondAgg.buckets.map(bucket => ({
+                        const bundleBuckets = secondAgg.buckets.map((bucket) => ({
                             ...bucket,
-                            type: "bundle"
+                            type: 'bundle',
                         }))
                         results.buckets = results.buckets.concat(bundleBuckets)
                     }

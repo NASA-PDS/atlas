@@ -730,7 +730,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
             sort: [
                 {
                     [resultSorting.field]: resultSorting.direction,
-                    [ES_PATHS.uri.join('.')]: 'desc',
+                    [ES_PATHS.uri.join('.')]: 'asc',
                     [ES_PATHS.release_id.join('.')]: 'desc',
                 },
             ],

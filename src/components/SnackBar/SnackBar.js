@@ -25,8 +25,8 @@ const SnackBar = (props) => {
     const dispatch = useDispatch()
 
     const snackBarText = useSelector((state) => {
-        return state.getIn(['snackBarText']).toJS()
-    })
+        return state.getIn(['snackBarText'])
+    }).toJS()
 
     const openSnackbar = snackBarText.text != false
 

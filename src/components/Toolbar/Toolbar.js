@@ -310,8 +310,8 @@ const Toolbar = (props) => {
 
     const dispatch = useDispatch()
     const w = useSelector((state) => {
-        return state.getIn(['workspace', 'main']).toJS()
-    })
+        return state.getIn(['workspace', 'main'])
+    }).toJS()
     const mW = useSelector((state) => {
         return state.getIn(['workspace', 'mobile'])
     })
@@ -699,4 +699,4 @@ const Toolbar = (props) => {
     )
 }
 
-export default Toolbar;
+export default Toolbar

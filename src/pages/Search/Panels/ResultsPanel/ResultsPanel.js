@@ -171,11 +171,10 @@ const ResultsPanel = (props) => {
         return state.getIn(['filterType'])
     })
 
-    const results = useSelector((state) => {
-        const r = state.getIn(['results'])
-        if (typeof r.toJS === 'function') return r.toJS()
-        return r
+    let results = useSelector((state) => {
+        return state.getIn(['results'])
     })
+    if (typeof results.toJS === 'function') results = results.toJS()
 
     const paging = useSelector((state) => state.getIn(['resultsPaging'])).toJS()
 

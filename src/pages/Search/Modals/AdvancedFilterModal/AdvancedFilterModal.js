@@ -100,7 +100,8 @@ const AdvancedFilterModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                        size="large">
+                        size="large"
+                    >
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -117,7 +118,7 @@ const AdvancedFilterModal = (props) => {
                 </ReactMarkdown>
             </DialogContent>
         </Dialog>
-    );
+    )
 }
 
 AdvancedFilterModal.propTypes = {}

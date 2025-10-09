@@ -238,14 +238,13 @@ const TableView = (props) => {
     ]
 
     const resultSorting = useSelector((state) => {
-        return state.getIn(['resultSorting']).toJS()
-    })
+        return state.getIn(['resultSorting'])
+    }).toJS()
 
-    const resultsTable = useSelector((state) => {
-        const r = state.getIn(['resultsTable'])
-        if (typeof r.toJS === 'function') return r.toJS()
-        return r
+    let resultsTable = useSelector((state) => {
+        return state.getIn(['resultsTable'])
     })
+    if (typeof resultsTable.toJS === 'function') resultsTable = resultsTable.toJS()
 
     resultsTable.columns.forEach((path) => {
         cols.push({ type: 'label', path: path.split('.') })
@@ -428,7 +427,7 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
 const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort) => {
     const c = useStyles()
 
-    const nodeRef = useRef(null);
+    const nodeRef = useRef(null)
 
     let colHeader = []
     cols.forEach((col, index) => {

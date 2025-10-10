@@ -305,6 +305,8 @@ const ListCard = ({ index, data, width }) => {
 
     const pds_standard = getIn(s, ES_PATHS.pds_standard)
 
+    const target = getIn(s, ES_PATHS.target, [])
+
     return (
         <div
             // Index relative to current pages
@@ -365,7 +367,7 @@ const ListCard = ({ index, data, width }) => {
                 </div>
                 <div className={c.listItemProperty}>
                     <div>Targets:</div>
-                    <div>{getIn(s, ES_PATHS.target, []).join(', ')}</div>
+                    <div>{Array.isArray(target) ? target.join(', ') : target}</div>
                 </div>
                 <div className={c.listItemProperty}>
                     <div>{pds_standard === 'pds4' ? 'Bundle:' : 'Volume:'}</div>

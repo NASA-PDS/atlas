@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Cart = (props) => {
+    useEffect(() => {
+        document.title = 'Atlas - Cart | PDS-IMG'
+    }, [])
 
     const c = useStyles()
 
@@ -32,4 +35,4 @@ const Cart = (props) => {
 
 Cart.propTypes = {}
 
-export default Cart;
+export default Cart

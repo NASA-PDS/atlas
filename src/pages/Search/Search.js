@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Search = (props) => {
+    useEffect(() => {
+        document.title = 'Atlas - Search | PDS-IMG'
+    }, [])
 
     const c = useStyles()
 
@@ -88,4 +91,4 @@ const Search = (props) => {
 
 Search.propTypes = {}
 
-export default Search;
+export default Search

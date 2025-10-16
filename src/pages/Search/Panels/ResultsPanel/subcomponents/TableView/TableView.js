@@ -6,6 +6,7 @@ import {
     ES_PATHS,
     AVAILABLE_URI_SIZES,
     IMAGE_EXTENSIONS,
+    MODEL_EXTENSIONS,
 } from '../../../../../../core/constants'
 
 import { List, AutoSizer, InfiniteLoader } from 'react-virtualized'
@@ -140,6 +141,10 @@ const useStyles = makeStyles((theme) => ({
         boxSizing: 'border-box',
         padding: '6px',
     },
+    modelIcon: {
+        width: '100%',
+        height: '100%',
+    },
     header: {
         'borderBottom': `1px solid ${theme.palette.swatches.grey.grey300}`,
         'min-height': `${theme.headHeights[3]}px`,
@@ -254,7 +259,7 @@ const TableView = (props) => {
     if (results.length != resultsLength) loadedMore = true
     resultsLength = results.length
 
-    const [columnWidths, setColumnWidths] = useState([32, 32].concat(Array(498).fill(200)))
+    const [columnWidths, setColumnWidths] = useState([32, 32, 520].concat(Array(497).fill(200)))
 
     const headerRef = React.useRef(null)
     const tableContainerRef = React.useRef(null)
@@ -352,7 +357,14 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
 
     const release_id = getIn(s, ES_PATHS.release_id)
 
-    const thumb_id = getIn(s, ES_PATHS.thumb)
+    let thumb_id = getIn(s, ES_PATHS.thumb)
+
+    if (MODEL_EXTENSIONS.includes(getExtension(thumb_id).toLowerCase())) {
+        thumb_id =
+            getIn(s, ES_PATHS.supplemental, []).find((f) =>
+                IMAGE_EXTENSIONS.includes(getExtension(f))
+            ) || thumb_id
+    }
 
     const imgURL = getPDSUrl(thumb_id, release_id, AVAILABLE_URI_SIZES.xs)
 
@@ -400,6 +412,15 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
                             }
                             loading="lazy"
                         />
+
+                        {MODEL_EXTENSIONS.includes(getExtension(fileName, true)) && (
+                            <ProductIcons
+                                filename={fileName}
+                                size="small"
+                                color="dark"
+                                fit={true}
+                            />
+                        )}
                     </div>
                 )
                 break
@@ -428,7 +449,7 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
 const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort) => {
     const c = useStyles()
 
-    const nodeRef = useRef(null);
+    const nodeRef = useRef(null)
 
     let colHeader = []
     cols.forEach((col, index) => {

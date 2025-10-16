@@ -108,6 +108,8 @@ export const IMAGE_EXTENSIONS = [
     'heic',
     'svg',
 ]
+export const MODEL_EXTENSIONS = ['obj', 'dae']
+
 export const MISSIONS_TO_BODIES = {
     cassini: {
         main: 'Saturn',

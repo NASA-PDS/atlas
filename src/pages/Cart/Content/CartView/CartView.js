@@ -1,7 +1,12 @@
 import React, { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { HASH_PATHS, AVAILABLE_URI_SIZES, ES_PATHS } from '../../../../core/constants'
+import {
+    HASH_PATHS,
+    AVAILABLE_URI_SIZES,
+    ES_PATHS,
+    MODEL_EXTENSIONS,
+} from '../../../../core/constants'
 
 import clsx from 'clsx'
 
@@ -33,11 +38,13 @@ import {
     getIn,
     getPDSUrl,
     getFilename,
+    getExtension,
     abbreviateNumber,
     copyToClipboard,
 } from '../../../../core/utils.js'
 
 import ProductToolbar from '../../../../components/ProductToolbar/ProductToolbar'
+import ProductIcons from '../../../../components/ProductIcons/ProductIcons'
 
 const gridItemHeight = 170
 const gridItemGap = 10
@@ -83,6 +90,11 @@ const useStyles = makeStyles((theme) => ({
             '& .ProductToolbarInCart': {
                 opacity: 0,
             },
+        },
+        '& .mui-image-wrapper': {
+            height: '100%',
+            paddingTop: 'unset',
+            background: '#192028',
         },
     },
     gridItemDirectory: {
@@ -212,7 +224,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const CartView = (props) => {
-
     const c = useStyles()
 
     const navigate = useNavigate()
@@ -313,7 +324,6 @@ const GridCard = ({ index, data, width }) => {
     else title = data.item.uri
 
     const release_id = getIn(data, 'item.release_id', null)
-
     return (
         <div
             cart-index={index}
@@ -344,34 +354,34 @@ const GridCard = ({ index, data, width }) => {
                 images.map((image, idx) => {
                     const imgURL = getPDSUrl(image, release_id, AVAILABLE_URI_SIZES.sm)
                     return (
-                        <Image
-                            className={c.gridItemImage}
-                            wrapperStyle={{
-                                height: '100%',
-                                paddingTop: 'unset',
-                                background: '#192028',
-                                position: 'initial',
-                            }}
-                            style={
-                                data.type === 'query'
-                                    ? {
-                                          left: `-${idx * 16}px`,
-                                          borderRight: '1px solid #FFF',
-                                          top: `${(data.item.images.length - (idx + 1)) * 3}px`,
-                                          height: `calc(100% - ${
-                                              (images.length - (idx + 1)) * 3 * 2
-                                          }px)`,
-                                          boxShadow: '0 1px 5px rgba(0,0,0,0.5)',
-                                      }
-                                    : null
-                            }
-                            shiftDuration={1200}
-                            iconWrapperStyle={{ opacity: 0.6 }}
-                            errorIcon={<ImageIcon className={c.errorIcon} />}
-                            src={imgURL || ''}
-                            alt={imgAlt}
-                            loading="lazy"
-                        />
+                        <>
+                            <Image
+                                className={c.gridItemImage}
+                                style={
+                                    data.type === 'query'
+                                        ? {
+                                              left: `-${idx * 16}px`,
+                                              borderRight: '1px solid #FFF',
+                                              top: `${(data.item.images.length - (idx + 1)) * 3}px`,
+                                              height: `calc(100% - ${
+                                                  (images.length - (idx + 1)) * 3 * 2
+                                              }px)`,
+                                              boxShadow: '0 1px 5px rgba(0,0,0,0.5)',
+                                          }
+                                        : null
+                                }
+                                shiftDuration={1200}
+                                iconWrapperStyle={{ opacity: 0.6 }}
+                                errorIcon={<ProductIcons filename={imgURL} />}
+                                src={imgURL || ''}
+                                alt={imgAlt}
+                                loading="lazy"
+                            />
+
+                            {MODEL_EXTENSIONS.includes(getExtension(imgURL, true)) && (
+                                <ProductIcons filename={imgURL} />
+                            )}
+                        </>
                     )
                 })}
             {data.item.total ? (

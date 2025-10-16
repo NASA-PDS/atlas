@@ -6,6 +6,7 @@ import {
     ES_PATHS,
     AVAILABLE_URI_SIZES,
     IMAGE_EXTENSIONS,
+    MODEL_EXTENSIONS,
 } from '../../../../../../core/constants'
 
 import { useResizeDetector } from 'react-resize-detector'
@@ -291,7 +292,14 @@ const ListCard = ({ index, data, width }) => {
 
     const release_id = getIn(s, ES_PATHS.release_id)
 
-    const thumb_id = getIn(s, ES_PATHS.thumb)
+    let thumb_id = getIn(s, ES_PATHS.thumb)
+
+    if (MODEL_EXTENSIONS.includes(getExtension(thumb_id).toLowerCase())) {
+        thumb_id =
+            getIn(s, ES_PATHS.supplemental, []).find((f) =>
+                IMAGE_EXTENSIONS.includes(getExtension(f))
+            ) || thumb_id
+    }
 
     const imgURL = getPDSUrl(thumb_id, release_id, AVAILABLE_URI_SIZES.sm)
 
@@ -328,14 +336,15 @@ const ListCard = ({ index, data, width }) => {
                         transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
                     }}
                     duration={0}
-                    src={ IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null' }
+                    src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
                     alt={fileName}
-                    errorIcon={
-                      <ProductIcons filename={fileName} />
-                    }
+                    errorIcon={<ProductIcons filename={fileName} />}
                     loading="lazy"
                 />
                 <ProductToolbar result={data} />
+                {MODEL_EXTENSIONS.includes(getExtension(fileName, true)) && (
+                    <ProductIcons filename={fileName} />
+                )}
             </div>
             <div className={c.listItemRight}>
                 <div className={c.listItemTitle}>{getIn(s, ES_PATHS.file_name)}</div>

@@ -105,7 +105,7 @@ window.addEventListener('mousemove', function (e) {
 })
 
 const ProductIcons = (props) => {
-    const { filename, size, color, type } = props
+    const { filename, size, color, type, fit } = props
     const c = useStyles()
 
     let Icon
@@ -172,6 +172,7 @@ const ProductIcons = (props) => {
                 [c.dark]: color === 'dark',
                 [c.missing]: isMissing === true,
             })}
+            style={fit ? { width: '100%', height: '100%' } : {}}
         >
             {Icon}
         </div>

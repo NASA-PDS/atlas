@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
     component: {
         flex: 1,
-        overflowY: 'auto',
+        overflowY: 'hidden',
     },
 }))
 

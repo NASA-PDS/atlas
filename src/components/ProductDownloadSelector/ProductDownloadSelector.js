@@ -3,12 +3,20 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { makeStyles, withStyles } from '@mui/styles'
 
-import { domain, endpoints, ES_PATHS } from '../../core/constants'
+import {
+    domain,
+    endpoints,
+    ES_PATHS,
+    MAX_BULK_DOWNLOAD_COUNT,
+    EMAIL_CONTACT,
+} from '../../core/constants'
 import { getIn, getHeader, getFilename, humanFileSize, setIn } from '../../core/utils'
 
 import clsx from 'clsx'
-import { Typography } from '@mui/material';
+import { Typography } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
+
+import WarningIcon from '@mui/icons-material/Warning'
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -43,6 +51,33 @@ const useStyles = makeStyles((theme) => ({
     },
     hidden: {
         display: 'none',
+    },
+    sizeWarning: {
+        display: 'flex',
+        width: '100%',
+        background: theme.palette.swatches.yellow.yellow700,
+        padding: '16px 16px 16px 0px',
+        boxSizing: 'border-box',
+        marginTop: '16px',
+        marginBottom: '8px',
+        borderRadius: '3px',
+        boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.1)',
+    },
+    sizeWarningIcon: {
+        'width': '80px',
+        'margin': 'auto',
+        'textAlign': 'center',
+        '& svg': {
+            fontSize: '42px',
+        },
+    },
+    sizeWarningMessage: {
+        'flex': 1,
+        'fontSize': '15px',
+        'letterSpacing': '0.25px',
+        '& a': {
+            fontWeight: 'bold',
+        },
     },
 }))
 
@@ -169,6 +204,21 @@ const ProductDownloadSelector = forwardRef((props, ref) => {
                 <div>&nbsp;|&nbsp;</div>
                 <div className={c.size}>{humanFileSize(summary.size)}</div>
             </div>
+            {summary.total > MAX_BULK_DOWNLOAD_COUNT && (
+                <div className={c.sizeWarning}>
+                    <div className={c.sizeWarningIcon}>
+                        <WarningIcon />
+                    </div>
+                    <div className={c.sizeWarningMessage}>
+                        Your download exceeds {MAX_BULK_DOWNLOAD_COUNT} items and may be throttled.
+                        If you need to perform a large download within a reasonable time, please
+                        reach out to the PDS-IMG node at{' '}
+                        <a href={`mailto:${EMAIL_CONTACT}?subject=Bulk%20Download%20Request`}>
+                            {EMAIL_CONTACT}
+                        </a>
+                    </div>
+                </div>
+            )}
         </div>
     )
 })

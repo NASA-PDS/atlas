@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -46,11 +46,15 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
     },
     content: {
-        'height': `calc(100% - ${theme.headHeights[3]}px)`,
-        'overflowY': 'auto',
+        'height': '100%',
+        'overflowY': 'hidden',
         'background': 'white',
         '& > div': {
             whiteSpace: 'nowrap',
+        },
+        '& .ReactVirtualize__List': {
+            overflowX: 'hidden',
+            overflowY: 'auto',
         },
     },
     rowItem: {
@@ -148,7 +152,7 @@ const useStyles = makeStyles((theme) => ({
         'display': 'inline-block',
         'whiteSpace': 'nowrap',
         'box-sizing': 'border-box',
-        'width': '100%',
+        'min-width': '100%',
         'background': theme.palette.swatches.grey.grey150,
     },
     cellHeader: {
@@ -303,17 +307,10 @@ const TableView = (props) => {
 
     return (
         <div className={`${c.TableView} fade-in`}>
-            <div className={c.header} ref={headerRef}>
-                {makeHeader(cols, columnWidths, setColumnWidths, resultSorting, setSort)}
-            </div>
-            <div
-                className={c.content}
-                id="TableViewContent"
-                onScroll={(e) => {
-                    if (e.target.classList.contains('ReactVirtualized__List'))
-                        headerRef.current.style.marginLeft = -e.target.scrollLeft + 'px'
-                }}
-            >
+            <div className={c.content} id="TableViewContent">
+                <div className={c.header} ref={headerRef}>
+                    {makeHeader(cols, columnWidths, setColumnWidths, resultSorting, setSort)}
+                </div>
                 <InfiniteLoader
                     isRowLoaded={({ index }) => results[index]}
                     loadMoreRows={loadData}
@@ -325,7 +322,12 @@ const TableView = (props) => {
                                 <List
                                     ref={registerChild}
                                     onRowsRendered={onRowsRendered}
-                                    width={width}
+                                    width={Math.max(
+                                        width,
+                                        columnWidths
+                                            .slice(0, cols.length)
+                                            .reduce((a, b) => a + b, 0) + 64
+                                    )}
                                     height={height}
                                     overscanRowCount={10}
                                     rowCount={results.length}
@@ -428,7 +430,7 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
 const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort) => {
     const c = useStyles()
 
-    const nodeRef = useRef(null);
+    const nodeRef = useRef(null)
 
     let colHeader = []
     cols.forEach((col, index) => {

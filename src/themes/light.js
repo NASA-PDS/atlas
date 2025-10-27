@@ -1,4 +1,4 @@
-import { adaptV4Theme, createTheme } from '@mui/material/styles';
+import { adaptV4Theme, createTheme } from '@mui/material/styles'
 
 export const palette = {
     mode: 'light',
@@ -97,191 +97,198 @@ export const theme = {
         },
     },
     components: {
-      MuiIconButton: {
-        styleOverrides: {
-            root: {
-                borderRadius: '0px',
-            }
-        }
-      },
-      MuiButton: {
-        styleOverrides: {
-            contained: {
-                'fontSize': '11.375px',
-                'padding': '3px 10px',
-                'backgroundColor': palette.primary.light,
-                'borderRadius': '2px',
-                'color': palette.text.secondary,
-                '&:hover': {
-                    backgroundColor: palette.accent.tertiary,
+        MuiIconButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '0px',
                 },
             },
-            startIcon: {
-                marginRight: '4px',
+        },
+        MuiButton: {
+            styleOverrides: {
+                contained: {
+                    'fontSize': '11.375px',
+                    'padding': '3px 10px',
+                    'backgroundColor': palette.primary.light,
+                    'borderRadius': '2px',
+                    'color': palette.text.secondary,
+                    '&:hover': {
+                        backgroundColor: palette.accent.tertiary,
+                    },
+                },
+                startIcon: {
+                    marginRight: '4px',
+                },
             },
-        }
-      },
-      MuiInput: {
-        styleOverrides: {
-          underline: {
-              '&:after': {
-                  borderBottom: `2px solid ${palette.accent.main}`,
-              },
-          },
-        }
-      },
-      MuiListSubheader: {
-        styleOverrides: {
-          root: {
-              color: palette.text.main,
-              fontWeight: 700,
-              background: `${palette.swatches.grey.grey100} !important`,
-          },
-        }
-      },
-      MuiTooltip: {
-        styleOverrides: {
-          tooltip: {
-              fontSize: '1em',
-              color: palette.text.secondary,
-              backgroundColor: palette.swatches.grey.grey800,
-              maxWidth: '1400px',
-          },
-          arrow: {
-              color: palette.secondary.main,
-          },
-        }
-      },
-      MuiBadge: {
-        styleOverrides: {
-          colorPrimary: {
-              backgroundColor: palette.accent.secondary,
-          },
-        }
-      },
-      MuiTabs: {
-        styleOverrides: {
-          root: {
-              minHeight: '40px',
-          },
-        }
-      },
-      MuiTab: {
-        styleOverrides: {
-          root: {
-              color: palette.text.primary,
-              opacity: "0.7",
-              minHeight: '40px',
-              "&.Mui-selected": {
-                color: palette.text.primary,
-                opacity: "1.0",
-              }
-          },
-        }
-      },
-      MuiCheckbox: {
-        styleOverrides: {
-          root: {
-              'color': palette.swatches.grey.grey300,
-              '&.Mui-checked': {
-                  color: palette.active.main,
-              },
-              'padding': '3.25px',
-          },
-        }
-      },
-      MuiPagination: {
-        styleOverrides: {
-          root: {},
-          ul: {},
-        }
-      },
-      MuiPaginationItem: {
-        styleOverrides: {
-          root: {
-              height: '24px',
-              minWidth: '24px',
-          },
-        }
-      },
-      MuiCircularProgress: {
-        styleOverrides: {
-          colorPrimary: {
-              color: palette.accent.main,
-          },
-        }
-      },
-      MuiSwitch: {
-        styleOverrides: {
-          root: {
-              '& > span': {
-                  'color': palette.primary.light,
-                  '&.Mui-checked': {
-                      color: palette.accent.main,
-                  },
-                  '&.Mui-checked + .MuiSwitch-track': {
-                      backgroundColor: palette.accent.main,
-                  },
-              },
-          },
-        }
-      },
-      MuiDialogActions: {
-        styleOverrides: {
-          root: {
-              backgroundColor: palette.swatches.grey.grey150,
-              padding: '4px',
-              justifyContent: 'space-between',
-          },
-        }
-      },
-      MuiSlider: {
-        styleOverrides: {
-          root: {
-              color: palette.accent.main,
-          },
-          rail: {
-              color: palette.swatches.grey.grey500,
-          },
-          valueLabel: {
-              '& > span > span': {
-                  color: 'black',
-                  fontWeight: 'bold',
-              },
-          },
-        }
-      },
-      MuiTypography: {
-        styleOverrides: {
-          root: {
-              fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
-          },
-          h2: {
-              fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
-          },
-        }
-      },
-      MuiSnackbar: {
-        styleOverrides: {
-          anchorOriginTopCenter: {
-              top: '16px !important',
-          },
-        }
-      },
-      MuiInputLabel: {
-        styleOverrides: {
-          outlined: {
-              color: palette.text.primary,
-          },
-        }
-      },
-      MuiSelect: {
-        styleOverrides: {
-          outlined: {
-              padding: '8px 32px 8px 14px',
-          },
-        }
-      }
+        },
+        MuiInput: {
+            styleOverrides: {
+                underline: {
+                    '&:after': {
+                        borderBottom: `2px solid ${palette.accent.main}`,
+                    },
+                },
+            },
+        },
+        MuiListSubheader: {
+            styleOverrides: {
+                root: {
+                    color: palette.text.main,
+                    fontWeight: 700,
+                    background: `${palette.swatches.grey.grey100} !important`,
+                },
+            },
+        },
+        MuiTooltip: {
+            styleOverrides: {
+                tooltip: {
+                    fontSize: '1em',
+                    color: palette.text.secondary,
+                    backgroundColor: palette.swatches.grey.grey800,
+                    maxWidth: '1400px',
+                },
+                arrow: {
+                    color: palette.secondary.main,
+                },
+            },
+        },
+        MuiBadge: {
+            styleOverrides: {
+                colorPrimary: {
+                    backgroundColor: palette.accent.secondary,
+                },
+            },
+        },
+        MuiTabs: {
+            styleOverrides: {
+                root: {
+                    minHeight: '40px',
+                },
+            },
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    'color': palette.text.primary,
+                    'opacity': '0.7',
+                    'minHeight': '40px',
+                    '&.Mui-selected': {
+                        color: palette.text.primary,
+                        opacity: '1.0',
+                    },
+                },
+            },
+        },
+        MuiCheckbox: {
+            styleOverrides: {
+                root: {
+                    'color': palette.swatches.grey.grey300,
+                    '&.Mui-checked': {
+                        color: palette.active.main,
+                    },
+                    'padding': '3.25px',
+                },
+            },
+        },
+        MuiPagination: {
+            styleOverrides: {
+                root: {},
+                ul: {},
+            },
+        },
+        MuiPaginationItem: {
+            styleOverrides: {
+                root: {
+                    height: '24px',
+                    minWidth: '24px',
+                },
+            },
+        },
+        MuiCircularProgress: {
+            styleOverrides: {
+                colorPrimary: {
+                    color: palette.accent.main,
+                },
+            },
+        },
+        MuiSwitch: {
+            styleOverrides: {
+                root: {
+                    '& > span': {
+                        'color': palette.primary.light,
+                        '&.Mui-checked': {
+                            color: palette.accent.main,
+                        },
+                        '&.Mui-checked + .MuiSwitch-track': {
+                            backgroundColor: palette.accent.main,
+                        },
+                    },
+                },
+            },
+        },
+        MuiDialogActions: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: palette.swatches.grey.grey150,
+                    padding: '4px',
+                    justifyContent: 'space-between',
+                },
+            },
+        },
+        MuiSlider: {
+            styleOverrides: {
+                root: {
+                    color: palette.accent.main,
+                },
+                rail: {
+                    color: palette.swatches.grey.grey500,
+                },
+                valueLabel: {
+                    '& > span > span': {
+                        color: 'black',
+                        fontWeight: 'bold',
+                    },
+                },
+            },
+        },
+        MuiTypography: {
+            styleOverrides: {
+                root: {
+                    fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
+                },
+                h2: {
+                    fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
+                },
+            },
+        },
+        MuiSnackbar: {
+            styleOverrides: {
+                anchorOriginTopCenter: {
+                    top: '16px !important',
+                },
+            },
+        },
+        MuiInputLabel: {
+            styleOverrides: {
+                outlined: {
+                    color: palette.text.primary,
+                },
+            },
+        },
+        MuiSelect: {
+            styleOverrides: {
+                outlined: {
+                    padding: '8px 32px 8px 14px',
+                },
+            },
+        },
+        MuiCollapse: {
+            styleOverrides: {
+                wrapper: {
+                    borderLeft: '1px solid rgba(0,0,0,0.1)',
+                },
+            },
+        },
     },
 }
 

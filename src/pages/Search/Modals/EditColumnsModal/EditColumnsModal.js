@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
     contents: {
         background: theme.palette.primary.main,
         height: '100%',
-        maxWidth: '800px',
+        maxWidth: '1500px',
+        minWidth: '800px',
         overflow: 'hidden',
     },
     heading: {
@@ -134,7 +135,8 @@ const EditColumnsModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                        size="large">
+                        size="large"
+                    >
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -166,7 +168,7 @@ const EditColumnsModal = (props) => {
                 </div>
             </DialogActions>
         </Dialog>
-    );
+    )
 }
 
 EditColumnsModal.propTypes = {}

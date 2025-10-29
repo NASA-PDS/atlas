@@ -178,14 +178,15 @@ const makeTree = (mapping, activeColumnFields, filterString, setSelected, addRem
 
     // Iterate this to conveniently make keys in order
     let keyI = 0
+
     // A depth first traversal through the facet json tree to construct the react elements
     const depthTraversal = (node, type, depth, path, forceShown) => {
         let tree = []
-        // Bubbles groups (i.e. those with "properties" objects to the top)
 
+        // Bubbles groups (i.e. those with "properties" objects to the top)
         let iter = Object.keys(node).sort((keyA, keyB) => {
-            const hasPropsA = isObject(node[keyA])
-            const hasPropsB = isObject(node[keyB])
+            const hasPropsA = isObject(node[keyA]) && node[keyA].groups
+            const hasPropsB = isObject(node[keyB]) && node[keyB].groups
 
             if (hasPropsA && !hasPropsB) return -1
             if (!hasPropsA && hasPropsB) return 1
@@ -278,6 +279,8 @@ const makeTree = (mapping, activeColumnFields, filterString, setSelected, addRem
     const returnValue = depthTraversal(mapping.groups, 'groups', 0, '')
     shownExpandedIds = groupIds
     return returnValue
+
+    return depthTraversal(source, 0, '')
 }
 
 const useStyles = makeStyles((theme) => ({

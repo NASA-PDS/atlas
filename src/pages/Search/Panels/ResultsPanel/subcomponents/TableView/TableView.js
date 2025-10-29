@@ -403,7 +403,25 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
                 )
                 break
             case 'label':
-                const value = getIn(s, col.path, '--')
+                const rawValue = getIn(s, col.path, '--');
+
+                let value = "";
+                switch( typeof rawValue ) {
+                  case 'string':
+                    value = rawValue;
+                    break;
+                  case 'object':
+                    if( Array.isArray(rawValue) ) {
+                      value = rawValue.join(",")
+                    } else {
+                      value = rawValue;
+                    }
+                    break;
+                  default:
+                    value = rawValue;
+                    break;
+                }
+
                 colElements.push(
                     <div
                         key={`${index}_${index}`}

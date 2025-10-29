@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
     contents: {
         background: theme.palette.primary.main,
         height: '100%',
-        maxWidth: '800px',
+        maxWidth: '1500px',
+        minWidth: '800px',
         overflow: 'hidden',
     },
     heading: {

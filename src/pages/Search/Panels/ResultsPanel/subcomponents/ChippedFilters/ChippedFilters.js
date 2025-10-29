@@ -34,8 +34,8 @@ const ChippedFilters = (props) => {
     const dispatch = useDispatch()
 
     const activeFilters = useSelector((state) => {
-        return state.getIn(['activeFilters']).toJS()
-    })
+        return state.getIn(['activeFilters'])
+    }).toJS()
 
     return (
         <div className={c.ChippedFilters}>

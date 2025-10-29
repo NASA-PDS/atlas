@@ -71,10 +71,10 @@ const ListFilter = (props) => {
     const c = useStyles()
 
     const dispatch = useDispatch()
-    const facet = useSelector((state) => {
-        const sel = state.getIn(['activeFilters', filterKey, 'facets', facetId])
-        return sel ? sel.toJS() : {}
+    let facet = useSelector((state) => {
+        return state.getIn(['activeFilters', filterKey, 'facets', facetId])
     })
+    facet = facet ? facet.toJS() : {}
 
     return (
         <div className={c.ListFilter}>

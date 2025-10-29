@@ -160,8 +160,8 @@ const ResultsStatus = (props) => {
     const dispatch = useDispatch()
 
     const resultsStatus = useSelector((state) => {
-        return state.getIn(['resultsStatus']).toJS()
-    })
+        return state.getIn(['resultsStatus'])
+    }).toJS()
 
     let inner = null
     let outer = null

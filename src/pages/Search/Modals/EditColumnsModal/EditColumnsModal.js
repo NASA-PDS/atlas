@@ -4,7 +4,12 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { setModal, setResultsTableColumns } from '../../../../core/redux/actions/actions.js'
+import {
+    setModal,
+    setResultsTableColumns,
+    clearResults,
+    search,
+} from '../../../../core/redux/actions/actions.js'
 
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -95,11 +100,11 @@ const EditColumnsModal = (props) => {
         return state.getIn(['modals', 'editColumns'])
     })
 
-    const resultsTable = useSelector((state) => {
-        const r = state.getIn(['resultsTable'])
-        if (typeof r.toJS === 'function') return r.toJS()
-        return r
+    let resultsTable = useSelector((state) => {
+        return state.getIn(['resultsTable'])
     })
+    if (typeof resultsTable.toJS === 'function') resultsTable = resultsTable.toJS()
+
     const [columns, setColumns] = useState(resultsTable.columns || [])
 
     const handleReset = () => {
@@ -113,6 +118,8 @@ const EditColumnsModal = (props) => {
     }
     const handleSubmit = () => {
         dispatch(setResultsTableColumns(columns))
+        dispatch(clearResults())
+        dispatch(search())
         // close modal
         dispatch(setModal(false))
     }

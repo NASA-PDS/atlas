@@ -116,8 +116,8 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     menuButton: {
-      fontSize: '21px',
-    }
+        fontSize: '21px',
+    },
 }))
 
 const Heading = (props) => {
@@ -132,7 +132,7 @@ const Heading = (props) => {
     const filterType = useSelector((state) => state.getIn(['filterType']))
     const gridSize = useSelector((state) => state.getIn(['gridSize']))
 
-    const resultKeysChecked = useSelector((state) => state.getIn(['resultKeysChecked']).toJS())
+    const resultKeysChecked = useSelector((state) => state.getIn(['resultKeysChecked'])).toJS()
 
     const gridSizes = isMobile ? [92, 128, 256] : [128, 192, 256]
 

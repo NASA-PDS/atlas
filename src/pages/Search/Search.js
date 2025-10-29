@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Search = (props) => {
-
     const c = useStyles()
 
     const mobileWorkspace = useSelector((state) => {
@@ -88,4 +87,4 @@ const Search = (props) => {
 
 Search.propTypes = {}
 
-export default Search;
+export default Search

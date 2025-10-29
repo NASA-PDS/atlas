@@ -9,7 +9,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { setResultSorting } from '../../core/redux/actions/actions.js'
 
 import { makeStyles } from '@mui/styles'
-import { Typography } from '@mui/material';
+import { Typography } from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
     ResultsSorter: {
@@ -41,16 +41,16 @@ export default function ResultsSorter(props) {
     const dispatch = useDispatch()
 
     const activeFilters = useSelector((state) => {
-        return state.getIn(['activeFilters']).toJS()
-    })
+        return state.getIn(['activeFilters'])
+    }).toJS()
 
     const resultsTable = useSelector((state) => {
-        return state.getIn(['resultsTable']).toJS()
-    })
+        return state.getIn(['resultsTable'])
+    }).toJS()
 
     const resultSorting = useSelector((state) => {
-        return state.getIn(['resultSorting']).toJS()
-    })
+        return state.getIn(['resultSorting'])
+    }).toJS()
 
     const flatFields = [resultSorting.defaultField]
 

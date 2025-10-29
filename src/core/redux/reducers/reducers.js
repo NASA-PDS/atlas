@@ -488,7 +488,7 @@ function checkItemInResults(state, payload) {
  * @return {Object} new state
  */
 function setGridSize(state, payload) {
-    return state.setIn(['gridSize'], payload.gridSize || 170)
+    return state.setIn(['gridSize'], payload.gridSize || 256)
 }
 
 // ==================== RECORD RELATED ====================

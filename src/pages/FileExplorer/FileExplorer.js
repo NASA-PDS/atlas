@@ -100,7 +100,6 @@ const useStyles = makeStyles((theme) => ({
 let slidingRight = false
 
 const FileExplorer = (props) => {
-
     const c = useStyles()
 
     const dispatch = useDispatch()
@@ -170,11 +169,11 @@ const FileExplorer = (props) => {
         } else setForcedPreview(null)
     }
 
-    const modal = useSelector((state) => {
-        const m = state.getIn(['modals', 'regex'])
-        if (typeof m.toJS === 'function') return m.toJS()
-        return m
+    let modal = useSelector((state) => {
+        return state.getIn(['modals', 'regex'])
     })
+
+    if (typeof modal.toJS === 'function') modal = modal.toJS()
 
     // If mobile
     if (isMobile) {
@@ -270,4 +269,4 @@ const FileExplorer = (props) => {
 
 FileExplorer.propTypes = {}
 
-export default FileExplorer;
+export default FileExplorer

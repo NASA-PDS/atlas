@@ -41,8 +41,8 @@ const Record = (props) => {
     const [activeVersion, setActiveVersion] = useState(null)
 
     const recordData = useSelector((state) => {
-        return state.get('recordData').toJS()
-    })
+        return state.get('recordData')
+    }).toJS()
 
     useEffect(() => {
         if (Object.keys(recordData).length === 0) dispatch(searchRecordByURI())

@@ -49,10 +49,10 @@ const InputRangeFilter = (props) => {
     const [filterInputEnd, setFilterInputEnd] = useState(null)
 
     const dispatch = useDispatch()
-    const facet = useSelector((state) => {
-        const sel = state.getIn(['activeFilters', filterKey, 'facets', facetId])
-        return sel ? sel.toJS() : {}
+    let facet = useSelector((state) => {
+        return state.getIn(['activeFilters', filterKey, 'facets', facetId])
     })
+    facet = facet ? facet.toJS() : {}
 
     useEffect(() => {
         setFilterInputStart(

@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const MLClassification = (props) => {
-
     const { recordData } = props
     const c = useStyles()
 
@@ -83,8 +82,8 @@ const MLClassification = (props) => {
 
     const DATA_TAG = 'mlClassification'
     const mlClassificationData = useSelector((state) => {
-        return state.getIn(['data', DATA_TAG]).toJS()
-    })
+        return state.getIn(['data', DATA_TAG])
+    }).toJS()
     const release_id = getIn(recordData, ES_PATHS.release_id)
 
     useEffect(() => {
@@ -195,4 +194,4 @@ MLClassification.propTypes = {
     recordData: PropTypes.object,
 }
 
-export default MLClassification;
+export default MLClassification

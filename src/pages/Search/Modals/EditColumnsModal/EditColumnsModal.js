@@ -4,7 +4,12 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { setModal, setResultsTableColumns } from '../../../../core/redux/actions/actions.js'
+import {
+    setModal,
+    setResultsTableColumns,
+    clearResults,
+    search,
+} from '../../../../core/redux/actions/actions.js'
 
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -34,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
     contents: {
         background: theme.palette.primary.main,
         height: '100%',
-        maxWidth: '800px',
+        maxWidth: '1500px',
+        minWidth: '800px',
         overflow: 'hidden',
     },
     heading: {
@@ -94,11 +100,11 @@ const EditColumnsModal = (props) => {
         return state.getIn(['modals', 'editColumns'])
     })
 
-    const resultsTable = useSelector((state) => {
-        const r = state.getIn(['resultsTable'])
-        if (typeof r.toJS === 'function') return r.toJS()
-        return r
+    let resultsTable = useSelector((state) => {
+        return state.getIn(['resultsTable'])
     })
+    if (typeof resultsTable.toJS === 'function') resultsTable = resultsTable.toJS()
+
     const [columns, setColumns] = useState(resultsTable.columns || [])
 
     const handleReset = () => {
@@ -112,6 +118,8 @@ const EditColumnsModal = (props) => {
     }
     const handleSubmit = () => {
         dispatch(setResultsTableColumns(columns))
+        dispatch(clearResults())
+        dispatch(search())
         // close modal
         dispatch(setModal(false))
     }
@@ -134,7 +142,8 @@ const EditColumnsModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                        size="large">
+                        size="large"
+                    >
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -166,7 +175,7 @@ const EditColumnsModal = (props) => {
                 </div>
             </DialogActions>
         </Dialog>
-    );
+    )
 }
 
 EditColumnsModal.propTypes = {}

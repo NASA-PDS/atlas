@@ -112,11 +112,12 @@ export const getIn = (obj, keyArray, notSetValue) => {
     let object = Object.assign({}, obj)
     for (let i = 0; i < keyArray.length; i++) {
         if (object && object.hasOwnProperty(keyArray[i]))
-            object = object[keyArray[i]] || notSetValue
+            object = object[keyArray[i]] != null ? object[keyArray[i]] : notSetValue
         else return notSetValue != null ? notSetValue : null
     }
     return object
 }
+
 export const setIn = (obj, keyArray, value) => {
     if (keyArray == null || keyArray === []) return null
     let object = obj
@@ -320,7 +321,7 @@ export const capitalize = (str, eachWord) => {
                 words[i] = words[i][0].toUpperCase() + words[i].substr(1)
 
             return words.join(' ')
-        } else return str.replace(/^\w/, (c) => c.toUpperCase());
+        } else return str.replace(/^\w/, (c) => c.toUpperCase())
     } else {
         return ''
     }
@@ -392,5 +393,5 @@ export const linearScale = (domain, range, value) => {
 export const removeComments = (string) => {
     if (string == null) return ''
     //Takes a string of code, not an actual function.
-    return string.replace(/\/\*[\s\S]*?\*\/|\/\/.*|\#.*/g, '').trim(); //Strip comments
+    return string.replace(/\/\*[\s\S]*?\*\/|\/\/.*|\#.*/g, '').trim() //Strip comments
 }

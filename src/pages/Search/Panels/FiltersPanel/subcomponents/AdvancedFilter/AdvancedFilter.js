@@ -205,8 +205,8 @@ const AdvancedFilter = (props) => {
     const navigate = useNavigate()
 
     const activeFilters = useSelector((state) => {
-        return state.getIn(['activeFilters']).toJS()
-    })
+        return state.getIn(['activeFilters'])
+    }).toJS()
     const advancedFilters = useSelector((state) => {
         return state.getIn(['advancedFilters'])
     })

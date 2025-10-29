@@ -164,7 +164,8 @@ const AddFilterModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                        size="large">
+                        size="large"
+                    >
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -187,7 +188,7 @@ const AddFilterModal = (props) => {
                 </Button>
             </DialogActions>
         </Dialog>
-    );
+    )
 }
 
 AddFilterModal.propTypes = {}

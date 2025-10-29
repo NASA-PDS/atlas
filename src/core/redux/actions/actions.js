@@ -347,6 +347,8 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
         const filterType = state.getIn(['filterType'])
         const atlasMapping = state.getIn(['mappings', 'atlas'])
 
+        const resultsTable = state.getIn(['resultsTable']).toJS()
+
         if (page > 0) dispatch(setResultsStatus(resultsStatuses.LOADING))
         else dispatch(setResultsStatus(resultsStatuses.SEARCHING))
 
@@ -377,7 +379,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 let toAddToMust = []
                 let filterConditions = [] // For __filter (AND logic)
                 let checkedItems = [] // For checked items (OR logic within AND)
-                
+
                 activeFilters[filter].facets.forEach((facet, idx) => {
                     let field = facet.field
 
@@ -676,12 +678,12 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                         }
                     }
                 })
-                
+
                 // Add filter conditions directly to must clause (AND logic)
-                filterConditions.forEach(condition => {
+                filterConditions.forEach((condition) => {
                     query.bool.must.push(condition)
                 })
-                
+
                 // Add checked items as should clause (OR logic within the AND)
                 if (checkedItems.length > 0) {
                     query.bool.must.push({
@@ -690,7 +692,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                         },
                     })
                 }
-                
+
                 // Legacy support: if no separate arrays were used, fall back to original logic
                 if (toAddToMust.length > 0) {
                     query.bool.must.push({
@@ -723,6 +725,24 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 },
             }
 
+        let source = [
+            ES_PATHS.uri.join('.'),
+            ES_PATHS.gather_uri.join('.'),
+            ES_PATHS.pds_archive._self.join('.'),
+            ES_PATHS.release_id.join('.'),
+            ES_PATHS.archive.size.join('.'),
+            ES_PATHS.mission.join('.'),
+            ES_PATHS.spacecraft.join('.'),
+            ES_PATHS.target.join('.'),
+            ES_PATHS.instrument.join('.'),
+            ES_PATHS.product_type.join('.'),
+            ES_PATHS.start_time.join('.'),
+        ]
+
+        if (resultsTable?.columns?.length > 0) {
+            source = source.concat(resultsTable.columns)
+        }
+
         const dsl = {
             query,
             from,
@@ -738,13 +758,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 field: 'uri',
             },
             track_total_hits: true,
-            _source: [
-                ES_PATHS.uri.join('.'),
-                ES_PATHS.gather_uri.join('.'),
-                ES_PATHS.pds_archive.join('.'),
-                ES_PATHS.release_id.join('.'),
-                ES_PATHS.archive.size.join('.'),
-            ],
+            _source: [...new Set(source)],
         }
 
         lastDSL = dsl
@@ -1586,13 +1600,18 @@ export const updateFilexColumn = (columnId, options, stopPropagate, forcePropaga
                     if (!usedURLState && isFinalFilter) {
                         usedURLState = true
                         // Set the value if one came from the url
-                        const nextVolActive = volume != null ? { 
-                            active: { 
-                                key: volume,
-                                type: pdsStandard === '3' ? 'volume' : 'bundle',
-                                uniqueKey: `${pdsStandard === '3' ? 'volume' : 'bundle'}-${volume}`
-                            } 
-                        } : null
+                        const nextVolActive =
+                            volume != null
+                                ? {
+                                      active: {
+                                          key: volume,
+                                          type: pdsStandard === '3' ? 'volume' : 'bundle',
+                                          uniqueKey: `${
+                                              pdsStandard === '3' ? 'volume' : 'bundle'
+                                          }-${volume}`,
+                                      },
+                                  }
+                                : null
                         if (nextVolActive) dispatch(updateFilexColumn(2, nextVolActive))
 
                         let rawPath = url.query.uri || ''
@@ -1712,16 +1731,16 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                                 },
                             })
                         }
-                        
-                                                    // Add pds_standard filter to distinguish between bundles (pds4) and volumes (pds3)
-                            // Default to 'pds3' for backward compatibility if no type is specified
-                            const pdsStandard = col.active.type === 'volume' ? 'pds3' : 'pds4'
-                            query.bool.must.push({
-                                match: {
-                                    [ES_PATHS.archive.pds_standard.join('.')]: pdsStandard,
-                                },
-                            })
-                        
+
+                        // Add pds_standard filter to distinguish between bundles (pds4) and volumes (pds3)
+                        // Default to 'pds3' for backward compatibility if no type is specified
+                        const pdsStandard = col.active.type === 'volume' ? 'pds3' : 'pds4'
+                        query.bool.must.push({
+                            match: {
+                                [ES_PATHS.archive.pds_standard.join('.')]: pdsStandard,
+                            },
+                        })
+
                         /*
                             query.bool.must.push({
                                 match: {
@@ -1845,20 +1864,20 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                         false
                     )
                     results.sampleEntry = getIn(response, ['data', 'hits', 'hits', '0'], {})
-                    
+
                     // Add type property to volume buckets
                     if (results.buckets) {
-                        results.buckets = results.buckets.map(bucket => ({
+                        results.buckets = results.buckets.map((bucket) => ({
                             ...bucket,
-                            type: "volume"
+                            type: 'volume',
                         }))
                     }
-                    
+
                     if (secondAgg != false && secondAgg.buckets) {
                         // Add type property to bundle buckets
-                        const bundleBuckets = secondAgg.buckets.map(bucket => ({
+                        const bundleBuckets = secondAgg.buckets.map((bucket) => ({
                             ...bucket,
-                            type: "bundle"
+                            type: 'bundle',
                         }))
                         results.buckets = results.buckets.concat(bundleBuckets)
                     }
@@ -1939,7 +1958,7 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                 console.error('DSL Error')
                 console.dir(err)
             })
-    };
+    }
 }
 
 /**
@@ -2363,7 +2382,7 @@ export const addToCart = (type, item) => {
                 },
             })
         }
-    };
+    }
 }
 
 /**

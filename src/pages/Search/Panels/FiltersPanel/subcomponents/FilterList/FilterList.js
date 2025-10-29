@@ -50,13 +50,13 @@ const getSearchURL = (activeFilters) => {
 
 const FilterList = (props) => {
     const c = useStyles()
-    
+
     const navigate = useNavigate()
 
     const [expandedFilter, setExpandedFilter] = useState('_text')
     const activeFilters = useSelector((state) => {
-        return state.getIn(['activeFilters']).toJS()
-    })
+        return state.getIn(['activeFilters'])
+    }).toJS()
     useEffect(() => {
         const currentURL = new Url(window.location)
         const desiredSearchUrl = getSearchURL(activeFilters)

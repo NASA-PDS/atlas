@@ -74,13 +74,13 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
     continue: {
-        color: theme.palette.text.primary,
-        border: '1px solid rgba(0, 0, 0, 0.23)',
+        'color': theme.palette.text.primary,
+        'border': '1px solid rgba(0, 0, 0, 0.23)',
         '&:hover': {
-          border: '1px solid rgba(0, 0, 0, 0.23)',
-          backgroundColor: 'rgba(0, 0, 0, 0.04)'
-        }
-    }
+            border: '1px solid rgba(0, 0, 0, 0.23)',
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        },
+    },
 }))
 
 const getBasicFiltersFromAdvanced = (activeFilters, advancedFiltersExpression, atlasMapping) => {
@@ -148,19 +148,25 @@ const AdvancedFilterReturnModal = (props) => {
         handleClose()
     }
 
+    /*
     const activeFilters = useSelector((state) => {
         const m = state.getIn(['activeFilters'])
         if (typeof m.toJS === 'function') return m.toJS()
         return m
     })
-    const advancedFiltersExpression = useSelector((state) => {
-        const m = state.getIn(['advancedFiltersExpression'])
-        if (typeof m.toJS === 'function') return m.toJS()
-        return m
+    */
+
+    let advancedFiltersExpression = useSelector((state) => {
+        return state.getIn(['advancedFiltersExpression'])
     })
+    if (typeof advancedFiltersExpression.toJS === 'function')
+        advancedFiltersExpression = advancedFiltersExpression.toJS()
+
+    /*
     const atlasMapping = useSelector((state) => {
         return state.getIn(['mappings', 'atlas'])
     })
+        */
 
     if (open) {
         if (advancedFiltersExpression.isError != true) {
@@ -188,7 +194,8 @@ const AdvancedFilterReturnModal = (props) => {
                     title="Close"
                     aria-label="close"
                     onClick={handleClose}
-                    size="large">
+                    size="large"
+                >
                     <CloseSharpIcon fontSize="inherit" />
                 </IconButton>
             </DialogTitle>
@@ -221,7 +228,7 @@ const AdvancedFilterReturnModal = (props) => {
                 </div>
             </DialogContent>
         </Dialog>
-    );
+    )
 }
 
 AdvancedFilterReturnModal.propTypes = {}

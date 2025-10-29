@@ -29,14 +29,14 @@ import {
     checkItemInResults,
 } from '../../../../../../core/redux/actions/actions.js'
 import { sAKeys, sASet } from '../../../../../../core/redux/actions/subscribableActions.js'
-import { getIn, getPDSUrl, getExtension } from '../../../../../../core/utils.js'
+import { getIn, getPDSUrl, getExtension, humanFileSize } from '../../../../../../core/utils.js'
 
 import ProductToolbar from '../../../../../../components/ProductToolbar/ProductToolbar'
 import ProductIcons from '../../../../../../components/ProductIcons/ProductIcons'
 
-const listItemHeight = 200
-const listItemWidth = 370
-const listItemGap = 10
+const listItemHeight = 243
+const listItemWidth = 520
+const listItemGap = 8
 
 const useStyles = makeStyles((theme) => ({
     ListView: {
@@ -78,12 +78,12 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemLeft: {
         position: 'relative',
-        width: '200px',
-        height: '200px',
+        width: `${listItemHeight}px`,
+        height: `${listItemHeight}px`,
     },
     listItemRight: {
         flex: 1,
-        padding: `${listItemGap}px`,
+        padding: `${listItemGap}px 0px`,
         overflowY: 'auto',
         background: theme.palette.secondary.main,
     },
@@ -101,23 +101,29 @@ const useStyles = makeStyles((theme) => ({
         'background': `linear-gradient(to bottom, #060606, ${theme.palette.swatches.black.black0}) !important`,
     },
     listItemTitle: {
-        fontSize: '14px',
+        fontSize: '15px',
         lineHeight: '20px',
         color: theme.palette.swatches.yellow.yellow500,
         wordBreak: 'break-all',
+        padding: `0px ${listItemGap}px`,
     },
     listItemTime: {
         fontSize: '12px',
-        lineHeight: '14px',
-        color: theme.palette.swatches.grey.grey300,
-        marginBottom: theme.spacing(2),
+        lineHeight: '15px',
+        color: theme.palette.swatches.blue.blue100,
+        padding: `0px ${listItemGap}px`,
+        marginBottom: theme.spacing(1),
     },
     listItemProperty: {
-        'marginBottom': theme.spacing(1),
+        'display': 'flex',
+        'justifyContent': 'space-between',
+        'padding': `0px ${listItemGap}px`,
+        'borderTop': '1px solid rgba(255, 255, 255, 0.2)',
         '& > div:first-child': {
             fontSize: '12px',
-            lineHeight: '14px',
+            lineHeight: '20px',
             color: theme.palette.swatches.grey.grey200,
+            marginRight: '4px',
         },
         '& > div:last-child': {
             fontSize: '14px',
@@ -297,6 +303,10 @@ const ListCard = ({ index, data, width }) => {
 
     const fileName = getIn(s, ES_PATHS.file_name, '')
 
+    const pds_standard = getIn(s, ES_PATHS.pds_standard)
+
+    const target = getIn(s, ES_PATHS.target, [])
+
     return (
         <div
             // Index relative to current pages
@@ -328,11 +338,9 @@ const ListCard = ({ index, data, width }) => {
                         transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
                     }}
                     duration={0}
-                    src={ IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null' }
+                    src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
                     alt={fileName}
-                    errorIcon={
-                      <ProductIcons filename={fileName} />
-                    }
+                    errorIcon={<ProductIcons filename={fileName} />}
                     loading="lazy"
                 />
                 <ProductToolbar result={data} />
@@ -342,18 +350,44 @@ const ListCard = ({ index, data, width }) => {
                 <div className={c.listItemTime}>{getIn(s, ES_PATHS.start_time)}</div>
 
                 <div className={c.listItemProperty}>
-                    <div>Mission/Spacecraft:</div>
-                    <div>
-                        {getIn(s, ES_PATHS.mission)}/{getIn(s, ES_PATHS.spacecraft)}
-                    </div>
+                    <div>Mission:</div>
+                    <div>{getIn(s, ES_PATHS.mission)}</div>
                 </div>
                 <div className={c.listItemProperty}>
-                    <div>Targets:</div>
-                    <div>{getIn(s, ES_PATHS.target, []).join(', ')}</div>
+                    <div>Spacecraft:</div>
+                    <div>{getIn(s, ES_PATHS.spacecraft)}</div>
                 </div>
                 <div className={c.listItemProperty}>
                     <div>Instrument:</div>
                     <div>{getIn(s, ES_PATHS.instrument)}</div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>Product Type:</div>
+                    <div>{getIn(s, ES_PATHS.product_type)}</div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>Targets:</div>
+                    <div>{Array.isArray(target) ? target.join(', ') : target}</div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>{pds_standard === 'pds4' ? 'Bundle:' : 'Volume:'}</div>
+                    <div>
+                        {pds_standard === 'pds4'
+                            ? getIn(s, ES_PATHS.pds_archive.bundle_id)
+                            : getIn(s, ES_PATHS.pds_archive.volume_id)}
+                    </div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>{pds_standard === 'pds4' ? 'Collection:' : 'Dataset Id:'}</div>
+                    <div>
+                        {pds_standard === 'pds4'
+                            ? getIn(s, ES_PATHS.pds_archive.collection_id)
+                            : getIn(s, ES_PATHS.pds_archive.data_set_id)}
+                    </div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>Size:</div>
+                    <div>{humanFileSize(getIn(s, ES_PATHS.archive.size))}</div>
                 </div>
             </div>
             <div className={`${c.selectionIndicator} selectionIndicator`}></div>

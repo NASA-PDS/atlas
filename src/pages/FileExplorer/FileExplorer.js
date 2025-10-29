@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -100,6 +100,10 @@ const useStyles = makeStyles((theme) => ({
 let slidingRight = false
 
 const FileExplorer = (props) => {
+    useEffect(() => {
+        document.title = 'Atlas - Archive Explorer | PDS-IMG'
+    }, [])
+
     const c = useStyles()
 
     const dispatch = useDispatch()

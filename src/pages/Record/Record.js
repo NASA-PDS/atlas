@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Record = (props) => {
     const { width } = props
+
+    useEffect(() => {
+        document.title = 'Atlas - Record | PDS-IMG'
+    }, [])
+
     const c = useStyles()
 
     const location = useLocation()

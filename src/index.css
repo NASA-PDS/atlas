@@ -82,3 +82,7 @@ body > #root > div:first-child {
 .MuiFormLabel-root.Mui-focused {
     color: black !important;
 }
+
+.mui-image-wrapper {
+    position: absolute !important;
+}

@@ -345,7 +345,8 @@ const ButtonBar = (props) => {
                             if (related && related.uri)
                                 navigate(`${HASH_PATHS.record}?uri=${related.uri}&back=page`)
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <PageviewIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
                 </span>
@@ -363,7 +364,8 @@ const ButtonBar = (props) => {
                                     '_blank'
                                 )
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <LaunchIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
                 </span>
@@ -382,7 +384,8 @@ const ButtonBar = (props) => {
                                 )
                             }
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <GetAppIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
                 </span>
@@ -406,13 +409,14 @@ const ButtonBar = (props) => {
                             )
                             dispatch(setSnackBarText('Added to Cart!', 'success'))
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <AddShoppingCartIcon size="small" />
                     </IconButton>
                 </span>
             </Tooltip>
         </div>
-    );
+    )
 }
 
 const Preview = (props) => {
@@ -584,7 +588,8 @@ const Preview = (props) => {
                                             })
                                         )
                                 }}
-                                size="large">
+                                size="large"
+                            >
                                 <ArrowBackIcon fontSize="small" />
                             </IconButton>
                         </div>
@@ -1034,7 +1039,7 @@ const Preview = (props) => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 Preview.propTypes = {}

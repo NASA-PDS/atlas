@@ -55,9 +55,9 @@ const useStyles = makeStyles((theme) => ({
         'lineHeight': '20px',
         'fontSize': '16px',
         'color': theme.palette.text.main,
-        'background': theme.palette.swatches.yellow.yellow800,
+        'background': theme.palette.swatches.yellow.yellow700,
         'margin': theme.spacing(4),
-        'padding': theme.spacing(3),
+        'padding': theme.spacing(4),
         'boxShadow': '0px 2px 4px 0px rgba(0, 0, 0, 0.2)',
         '& > span': {
             position: 'absolute',

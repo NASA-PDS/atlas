@@ -1,5 +1,9 @@
 export const domain = process.env.REACT_APP_DOMAIN
 
+export const MAX_BULK_DOWNLOAD_COUNT = process.env.MAX_BULK_DOWNLOAD_COUNT || 25000
+
+export const EMAIL_CONTACT = process.env.EMAIL_CONTACT || 'pds-img-jpl@jpl.nasa.gov'
+
 export const publicUrl = process.env.REACT_APP_PUBLIC_URL || ''
 
 export const endpoints = {

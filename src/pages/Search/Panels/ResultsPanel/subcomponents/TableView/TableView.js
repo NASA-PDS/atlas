@@ -36,6 +36,8 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import ImageIcon from '@mui/icons-material/Image'
 
+import BrowseImage from '../../../../../../components/BrowseImage/BrowseImage.js'
+
 const rowItemHeight = 32
 
 const useStyles = makeStyles((theme) => ({
@@ -96,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
         height: `${rowItemHeight}px`,
     },
     cellThumbnail: {
+        'background-color': `${theme.palette.swatches.black.black0}`,
         'width': `${rowItemHeight}px`,
         'height': `${rowItemHeight}px`,
         'zIndex': 2,
@@ -391,37 +394,13 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
             case 'thumbnail':
                 colElements.push(
                     <div key={`${index}_${index}`} className={c.cellThumbnail} onClick={toRecord}>
-                        <div className={clsx(c.thumbnailIcon, 'thumbnailIcon')}>
-                            <ImageIcon />
-                        </div>
-                        <Image
-                            className={clsx(c.cellImage, 'hoverImage')}
-                            wrapperStyle={{
-                                height: '100%',
-                                paddingTop: 'unset',
-                                position: 'initial',
-                            }}
-                            shiftDuration={1200}
-                            src={
-                                IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
+                        <BrowseImage
+                          src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
                                     ? imgURL
-                                    : 'null'
-                            }
-                            alt={fileName}
-                            errorIcon={
-                                <ProductIcons filename={fileName} size="small" color="dark" />
-                            }
-                            loading="lazy"
+                                    : 'null'}
+                          className={clsx(c.cellImage, 'hoverImage')}
+                          alt=''
                         />
-
-                        {MODEL_EXTENSIONS.includes(getExtension(fileName, true)) && (
-                            <ProductIcons
-                                filename={fileName}
-                                size="small"
-                                color="dark"
-                                fit={true}
-                            />
-                        )}
                     </div>
                 )
                 break

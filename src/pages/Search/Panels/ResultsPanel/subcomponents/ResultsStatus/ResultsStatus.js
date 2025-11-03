@@ -102,15 +102,7 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .MuiLinearProgress-barColorPrimary': {
             background: theme.palette.accent.main,
-        },
-        '& .MuiLinearProgress-bar1Indeterminate': {
-            animation:
-                'MuiLinearProgress-keyframes-indeterminate1 6.3s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite',
-        },
-        '& .MuiLinearProgress-bar2Indeterminate': {
-            animation:
-                'MuiLinearProgress-keyframes-indeterminate2 6.3s cubic-bezier(0.165, 0.84, 0.44, 1) 3.45s infinite',
-        },
+        }
     },
     none: {
         background: theme.palette.swatches.yellow.yellow700,

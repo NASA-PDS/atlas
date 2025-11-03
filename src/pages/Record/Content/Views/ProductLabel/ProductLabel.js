@@ -15,7 +15,7 @@ import { ES_PATHS, IMAGE_EXTENSIONS } from '../../../../../core/constants.js'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
+import Input from '@mui/material/Input'
 import InputAdornment from '@mui/material/InputAdornment'
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
 import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem'
@@ -361,32 +361,20 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
     },
     search: {
-        'flex': 1,
-        'position': 'relative',
-        'margin': '0px 8px 0px 0px',
-        '& > div': {
-            'width': '100%',
-            '& > div': {
-                width: '100%',
-            },
-        },
-        '& input': {
-            width: '100%',
-            height: `${theme.headHeights[2]}px`,
-            boxSizing: 'border-box',
-        },
-        '& .MuiInputAdornment-root': {
-            'marginLeft': '8px',
-            '& > svg': {
-                fill: theme.palette.swatches.grey.grey600,
-            },
+        flex: 1,
+    },
+    input: {
+        width: '100%',
+        'margin': `${theme.spacing(1)} 0 ${theme.spacing(2)} 0`,
+        'padding': `0 0 0 ${theme.spacing(2)}`,
+        'borderBottom': `1px solid ${theme.palette.swatches.grey.grey200}`,
+        '&:before': {
+            borderBottom: `1px solid rgba(255,255,255,0.2)`,
         },
     },
     searchCancelButton: {
-        width: `${theme.headHeights[2]}px`,
-        height: `${theme.headHeights[2]}px`,
-        position: 'absolute',
-        right: 0,
+        width: `${theme.headHeights[3]}px`,
+        height: `${theme.headHeights[3]}px`,
         color: theme.palette.swatches.grey.grey800,
         transition: 'opacity 0.2s ease-out',
     },
@@ -484,30 +472,32 @@ const ProductLabel = (props) => {
                 <div className={c.right}>
                     <div className={c.top}>
                         <div className={c.search}>
-                            <TextField
+                            <Input
+                                className={c.input}
                                 value={filterString}
                                 placeholder="Search in Label"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchIcon />
-                                        </InputAdornment>
-                                    ),
-                                }}
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                }
+                                endAdornment={
+                                  <InputAdornment>
+                                    <IconButton
+                                        className={c.searchCancelButton}
+                                        aria-label={`clear search`}
+                                        size="small"
+                                        style={{
+                                            opacity: filterString.length > 0 ? '1' : '0',
+                                        }}
+                                        onClick={() => setFilterString('')}
+                                    >
+                                        <CloseIcon />
+                                    </IconButton>
+                                  </InputAdornment>
+                                }
                                 onChange={(e) => setFilterString(e.target.value)}
                             />
-
-                            <IconButton
-                                className={c.searchCancelButton}
-                                aria-label={`clear search`}
-                                size="small"
-                                style={{
-                                    opacity: filterString.length > 0 ? '1' : '0',
-                                }}
-                                onClick={() => setFilterString('')}
-                            >
-                                <CloseIcon />
-                            </IconButton>
                         </div>
 
                         {!isMobile && (

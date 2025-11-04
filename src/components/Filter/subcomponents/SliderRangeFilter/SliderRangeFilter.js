@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
@@ -114,6 +114,16 @@ const SliderRangeFilter = (props) => {
     if (units == 'degrees') units = '°'
 
     const [value, setValue] = useState([null, null])
+
+    // Initialize local state from facet state (for deeplinks)
+    useEffect(() => {
+        if (facet.state?.range && Array.isArray(facet.state.range)) {
+            setValue([
+                facet.state.range[0] != null ? facet.state.range[0] : null,
+                facet.state.range[1] != null ? facet.state.range[1] : null
+            ])
+        }
+    }, [JSON.stringify(facet.state)])
 
     // A value range the replaces nulls with minmax (in case a user cleared an input field)
     const normalizedValue = [value[0] != null ? value[0] : min, value[1] != null ? value[1] : max]

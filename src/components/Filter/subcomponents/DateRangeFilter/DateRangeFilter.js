@@ -201,10 +201,10 @@ const DateRangeFilter = (props) => {
     const [dateFormatIdx, setDateFormatIdx] = useState(0)
     const dateFormat = formats[dateFormatIdx].format
     const [selectedStartDate, handleStartDateChange] = useState(
-        facet.state?.daterange?.start?.length > 0 ? moment.utc(facet.state.daterange.start) : null
+        facet.state?.daterange?.start?.length > 0 ? moment.utc(facet.state.daterange.start, dateFormat) : null
     )
     const [selectedEndDate, handleEndDateChange] = useState(
-        facet.state?.daterange?.end?.length > 0 ? moment.utc(facet.state.daterange.end) : null
+        facet.state?.daterange?.end?.length > 0 ? moment.utc(facet.state.daterange.end, dateFormat) : null
     )
     const noDates = selectedStartDate === null && selectedEndDate === null
     const bothDates = selectedStartDate && selectedEndDate ? true : false
@@ -216,11 +216,11 @@ const DateRangeFilter = (props) => {
         } else if (facet.state?.daterange?.start || facet.state?.daterange?.end) {
             // Update local state when daterange is set (e.g., from deeplink)
             const start = facet.state.daterange.start?.length > 0
-                ? moment.utc(facet.state.daterange.start).format(dateFormat)
-                : ''
+                ? moment.utc(facet.state.daterange.start, dateFormat)
+                : null
             const end = facet.state.daterange.end?.length > 0
-                ? moment.utc(facet.state.daterange.end).format(dateFormat)
-                : ''
+                ? moment.utc(facet.state.daterange.end, dateFormat)
+                : null
             handleStartDateChange(start)
             handleEndDateChange(end)
         }

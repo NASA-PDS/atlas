@@ -44,7 +44,7 @@ TransitionComponent.propTypes = {
     in: PropTypes.bool,
 }
 
-const StyledTreeGroup = styled(TreeItem)(({theme}) => ({
+const StyledTreeGroup = styled(TreeItem)(({ theme }) => ({
     minHeight: theme.headHeights[3],
     textTransform: 'uppercase',
     paddingLeft: '6px',
@@ -54,22 +54,22 @@ const StyledTreeGroup = styled(TreeItem)(({theme}) => ({
         justifyContent: 'left',
         alignItems: 'center',
         [`&.${treeItemClasses.selected}:hover`]: {
-          backgroundColor: "rgba(0, 0, 0, 0.04)"
-        }
-    }
-}));
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        },
+    },
+}))
 
-const StyledTreeItem = styled(TreeItem)(({theme}) => ({
+const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
     height: theme.headHeights[3],
     marginLeft: '-20px',
     textTransform: 'uppercase',
     [`& > div > .${treeItemClasses.label}`]: {
         padding: '0px',
-    }
-}));
+    },
+}))
 
 // TODO: Investigation consolidation of StyledTreeItem with FilterTreeLabel
-// The two noted component appear to be redundant, investigate how they can 
+// The two noted component appear to be redundant, investigate how they can
 // merged to reduce code complexity
 const FilterTreeLabel = withStyles((theme) => ({
     FilterTreeLabel: {
@@ -80,7 +80,7 @@ const FilterTreeLabel = withStyles((theme) => ({
         borderRadius: 0,
     },
     infoIcon: {
-        fontSize: '18px', 
+        fontSize: '18px',
         padding: '12px 7px',
         color: theme.palette.accent.main,
     },
@@ -259,7 +259,7 @@ const makeTree = (
                             />
                         }
                         slots={{
-                          groupTransition: TransitionComponent
+                            groupTransition: TransitionComponent,
                         }}
                     />
                 )
@@ -278,7 +278,7 @@ const makeTree = (
                             />
                         }
                         slots={{
-                          groupTransition: TransitionComponent
+                            groupTransition: TransitionComponent,
                         }}
                         style={{ display: shown.shown ? 'inherit' : 'none' }}
                         onClick={(function (kI) {
@@ -363,6 +363,9 @@ const useStyles = makeStyles((theme) => ({
         'borderBottom': `1px solid ${theme.palette.swatches.grey.grey200}`,
         '&:before': {
             borderBottom: `1px solid rgba(255,255,255,0.2)`,
+        },
+        '& > input': {
+            padding: '5px 0 6px',
         },
     },
     clearInput: {
@@ -464,10 +467,7 @@ const FilterTree = (props) => {
                         Clear
                     </Button>
                 </div>
-                <SimpleTreeView
-                    className={c.tree}
-                    expanded={finalExpandeds}
-                >
+                <SimpleTreeView className={c.tree} expanded={finalExpandeds}>
                     {makeTree(
                         atlasMapping,
                         activeFilterIds,

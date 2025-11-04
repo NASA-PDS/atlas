@@ -335,7 +335,7 @@ const TableView = (props) => {
                                             .slice(0, cols.length)
                                             .reduce((a, b) => a + b, 0) + 64
                                     )}
-                                    height={height}
+                                    height={height - 32}
                                     overscanRowCount={10}
                                     rowCount={results.length}
                                     rowHeight={rowItemHeight}
@@ -395,33 +395,35 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
                 colElements.push(
                     <div key={`${index}_${index}`} className={c.cellThumbnail} onClick={toRecord}>
                         <BrowseImage
-                          src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
+                            src={
+                                IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
                                     ? imgURL
-                                    : 'null'}
-                          className={clsx(c.cellImage, 'hoverImage')}
-                          alt=''
+                                    : 'null'
+                            }
+                            className={clsx(c.cellImage, 'hoverImage')}
+                            alt=""
                         />
                     </div>
                 )
                 break
             case 'label':
-                const rawValue = getIn(s, col.path, '--');
+                const rawValue = getIn(s, col.path, '--')
 
-                let value = "";
-                switch( typeof rawValue ) {
-                  case 'string':
-                    value = rawValue;
-                    break;
-                  case 'object':
-                    if( Array.isArray(rawValue) ) {
-                      value = rawValue.join(",")
-                    } else {
-                      value = rawValue;
-                    }
-                    break;
-                  default:
-                    value = rawValue;
-                    break;
+                let value = ''
+                switch (typeof rawValue) {
+                    case 'string':
+                        value = rawValue
+                        break
+                    case 'object':
+                        if (Array.isArray(rawValue)) {
+                            value = rawValue.join(',')
+                        } else {
+                            value = rawValue
+                        }
+                        break
+                    default:
+                        value = rawValue
+                        break
                 }
 
                 colElements.push(

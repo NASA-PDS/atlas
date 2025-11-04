@@ -66,9 +66,13 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.primary.light,
     },
     button2: {
-        height: 30,
-        margin: '7px 3px',
-        color: theme.palette.text.primary,
+        'height': 30,
+        'margin': '7px 3px',
+        'color': theme.palette.text.primary,
+        'border': '1px solid rgba(0, 0, 0, 0.5)',
+        '&:hover': {
+            border: '1px solid rgba(0, 0, 0, 1)',
+        },
     },
 }))
 

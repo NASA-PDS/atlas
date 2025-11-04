@@ -21,7 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         'color': theme.palette.swatches.grey.grey500,
-        'padding': '9px 10px 10px 10px',
+        'width': '40px',
+        'height': '40px',
+        'fontSize': '1.5rem',
         'background': 'rgba(0,0,0,0)',
         'transition': 'all 0.2s ease-out',
         '&:hover': {
@@ -113,7 +115,8 @@ const MenuButton = (props) => {
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
                 onClick={handleToggle}
-                size="large">
+                size="large"
+            >
                 {buttonComponent}
             </IconButton>
             <Popper
@@ -185,7 +188,7 @@ const MenuButton = (props) => {
                 )}
             </Popper>
         </div>
-    );
+    )
 }
 
 MenuButton.propTypes = {

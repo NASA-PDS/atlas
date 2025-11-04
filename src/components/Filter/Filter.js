@@ -94,9 +94,10 @@ const AccordionSummary = withStyles((theme) => ({
     },
     expanded: {},
     expandIconWrapper: {
-      alignItems: 'center',
-      height: '100%'
-    }
+        alignItems: 'center',
+        height: '100%',
+        color: theme.palette.swatches.grey.grey900,
+    },
 }))(MuiAccordionSummary)
 
 const AccordionDetails = withStyles((theme) => ({
@@ -114,19 +115,20 @@ const AccordionDetails = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
     Filter: {},
     title: {
-        fontSize: '0.875rem',
         fontWeight: 400,
         lineHeight: '30px',
         textTransform: 'capitalize',
         maxWidth: '190px',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+        letterSpacing: '0.00938em',
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     },
     header: {
         flex: 1,
         display: 'flex',
         justifyContent: 'space-between',
-        marginLeft: '8px'
+        marginLeft: '8px',
     },
     headerButtons: {},
     settingsButton: {
@@ -410,7 +412,7 @@ const Filter = (props) => {
         dispatch(clearResults())
         dispatch(search(0, true))
     }
-    
+
     const handleClearSelections = (e) => {
         // stop expand/collapse
         e.stopPropagation()
@@ -458,21 +460,21 @@ const Filter = (props) => {
     const getFilteredResultsInfo = () => {
         const currentFields = filter.facets?.[0]?.fields?.length || 0
         const totalFields = Math.max(maxFieldsCount, currentFields) // Use the max seen
-        
+
         if (!filterDownValue || !isListFilter || currentFields === 0) {
             const totalDisplay = totalFields === 500 ? '500+' : totalFields.toString()
             return `${currentFields}/${totalDisplay}`
         }
-        
+
         const searchTerm = filterDownValue.toLowerCase()
-        const filteredCount = filter.facets[0].fields.filter(field => 
+        const filteredCount = filter.facets[0].fields.filter((field) =>
             field.key.toLowerCase().includes(searchTerm)
         ).length
-        
+
         const totalDisplay = totalFields === 500 ? '500+' : totalFields.toString()
         return `${filteredCount}/${totalDisplay}`
     }
-    
+
     const filteredResultsDisplay = getFilteredResultsInfo()
 
     return (
@@ -587,9 +589,7 @@ const Filter = (props) => {
                                 }}
                             />
                             {isListFilter && (
-                                <div className={c.filterDownCount}>
-                                    {filteredResultsDisplay}
-                                </div>
+                                <div className={c.filterDownCount}>{filteredResultsDisplay}</div>
                             )}
                             <IconButton
                                 className={c.filterDownClear}
@@ -598,14 +598,16 @@ const Filter = (props) => {
                                     setFilterDownValue('')
                                     handleFilterDownSubmit(null, true)
                                 }}
-                                size="large">
+                                size="large"
+                            >
                                 <CloseIcon fontSize="inherit" />
                             </IconButton>
                             <IconButton
                                 className={c.filterDownSubmit}
                                 aria-label="submit filter down"
                                 onClick={handleFilterDownSubmit}
-                                size="large">
+                                size="large"
+                            >
                                 <ArrowForwardIcon fontSize="inherit" />
                             </IconButton>
                         </div>
@@ -614,7 +616,7 @@ const Filter = (props) => {
                 <AccordionDetails>{subFilters}</AccordionDetails>
             </Accordion>
         </div>
-    );
+    )
 }
 
 Filter.propTypes = {

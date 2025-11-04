@@ -362,7 +362,6 @@ const GridCard = ({ index, data, width }) => {
                                         ? {
                                               left: `-${idx * 16}px`,
                                               borderRight: '1px solid #FFF',
-                                              top: `${(data.item.images.length - (idx + 1)) * 3}px`,
                                               height: `calc(100% - ${
                                                   (images.length - (idx + 1)) * 3 * 2
                                               }px)`,
@@ -370,7 +369,7 @@ const GridCard = ({ index, data, width }) => {
                                           }
                                         : null
                                 }
-                                shiftDuration={1200}
+                                duration={250}
                                 iconWrapperStyle={{ opacity: 0.6 }}
                                 errorIcon={<ProductIcons filename={imgURL} />}
                                 src={imgURL || ''}

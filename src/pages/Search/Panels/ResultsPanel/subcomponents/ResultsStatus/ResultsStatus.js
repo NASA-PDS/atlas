@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .MuiLinearProgress-barColorPrimary': {
             background: theme.palette.accent.main,
-        }
+        },
     },
     none: {
         background: theme.palette.swatches.yellow.yellow700,

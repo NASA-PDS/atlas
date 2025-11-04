@@ -190,6 +190,7 @@ const useStyles = makeStyles((theme) => ({
     relatedButton: {
         'background': theme.palette.swatches.grey.grey700,
         'color': theme.palette.swatches.blue.blue400,
+        'border': `1px solid ${theme.palette.swatches.grey.grey900}`,
         'marginLeft': '4px',
         '&:hover': {
             border: `1px solid ${theme.palette.swatches.grey.grey600}`,
@@ -670,7 +671,7 @@ const Preview = (props) => {
                                 background:
                                     'radial-gradient(ellipse, rgb(46, 46, 50), rgb(10, 10, 10))',
                             }}
-                            shiftDuration={1200}
+                            duration={250}
                             src={imageUrl}
                             alt={imageUrl}
                             errorIcon={<ProductIcons filename={imageUrl} type={preview.fs_type} />}

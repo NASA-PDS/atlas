@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1.5),
         height: '100%',
         margin: '4px 0px',
+        fontSize: '1.5rem',
     },
     flexBetween: {
         display: 'flex',

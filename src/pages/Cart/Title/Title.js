@@ -89,7 +89,8 @@ const Title = (props) => {
                             onClick={() => {
                                 navigate(-1)
                             }}
-                            size="large">
+                            size="large"
+                        >
                             <ChevronLeftIcon className={c.backIcon} />
                         </IconButton>
                     </Tooltip>
@@ -114,7 +115,7 @@ const Title = (props) => {
                 </Button>
                 <Button
                     className={c.button1}
-                    variant="outlined"
+                    variant="contained"
                     aria-label="empty cart button"
                     size="small"
                     onClick={() =>
@@ -125,7 +126,7 @@ const Title = (props) => {
                 </Button>
             </div>
         </div>
-    );
+    )
 }
 
 Title.propTypes = {

@@ -36,15 +36,6 @@ const useStyles = makeStyles((theme) => ({
         padding: `0 ${theme.spacing(3)}`,
     },
     topMenu: {},
-    sort: {
-        'color': theme.palette.swatches.grey.grey300,
-        'padding': '9px 10px 10px 10px',
-        'background': 'rgba(0,0,0,0)',
-        'transition': 'background 0.2s ease-out',
-        '&:hover': {
-            background: theme.palette.swatches.grey.grey700,
-        },
-    },
     content: {
         width: '100%',
         height: `calc(100% - ${theme.headHeights[2] + 1}px)`,

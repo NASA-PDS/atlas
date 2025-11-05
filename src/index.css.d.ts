@@ -1,5 +1,4 @@
 declare const styles: {
-  readonly "LazyLoad": string;
   readonly "Mui-focused": string;
   readonly "MuiFormLabel-root": string;
   readonly "ReactVirtualized__Grid__innerScrollContainer": string;

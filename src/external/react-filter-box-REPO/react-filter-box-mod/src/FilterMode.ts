@@ -103,7 +103,7 @@ CodeMirror.defineMode<ModeState>('filter-mode', function (
             stream.eatWhile(/[^\r\n\t\s\(\)\[\]\{\}]+/)
             return 'value'
         },
-    }
+    };
 })
 
 class FieldStates {

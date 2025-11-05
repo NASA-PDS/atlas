@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
     AVAILABLE_URI_SIZES,
     IMAGE_EXTENSIONS,
+    MODEL_EXTENSIONS,
 } from '../../../../../../core/constants'
 
 import { useResizeDetector } from 'react-resize-detector'
@@ -19,12 +19,9 @@ import {
     useScrollToIndex,
 } from 'masonic'
 
-import clsx from 'clsx'
-import LazyLoad from 'react-lazy-load'
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
-import Checkbox from '@material-ui/core/Checkbox'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 import {
     search,
@@ -33,14 +30,14 @@ import {
     checkItemInResults,
 } from '../../../../../../core/redux/actions/actions.js'
 import { sAKeys, sASet } from '../../../../../../core/redux/actions/subscribableActions.js'
-import { getIn, getPDSUrl, getExtension } from '../../../../../../core/utils.js'
+import { getIn, getPDSUrl, getExtension, humanFileSize } from '../../../../../../core/utils.js'
 
 import ProductToolbar from '../../../../../../components/ProductToolbar/ProductToolbar'
 import ProductIcons from '../../../../../../components/ProductIcons/ProductIcons'
 
-const listItemHeight = 200
-const listItemWidth = 370
-const listItemGap = 10
+const listItemHeight = 243
+const listItemWidth = 520
+const listItemGap = 8
 
 const useStyles = makeStyles((theme) => ({
     ListView: {
@@ -82,12 +79,12 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemLeft: {
         position: 'relative',
-        width: '200px',
-        height: '200px',
+        width: `${listItemHeight}px`,
+        height: `${listItemHeight}px`,
     },
     listItemRight: {
         flex: 1,
-        padding: `${listItemGap}px`,
+        padding: `${listItemGap}px 0px`,
         overflowY: 'auto',
         background: theme.palette.secondary.main,
     },
@@ -105,23 +102,29 @@ const useStyles = makeStyles((theme) => ({
         'background': `linear-gradient(to bottom, #060606, ${theme.palette.swatches.black.black0}) !important`,
     },
     listItemTitle: {
-        fontSize: '14px',
+        fontSize: '15px',
         lineHeight: '20px',
         color: theme.palette.swatches.yellow.yellow500,
         wordBreak: 'break-all',
+        padding: `0px ${listItemGap}px`,
     },
     listItemTime: {
         fontSize: '12px',
-        lineHeight: '14px',
-        color: theme.palette.swatches.grey.grey300,
-        marginBottom: theme.spacing(2),
+        lineHeight: '15px',
+        color: theme.palette.swatches.blue.blue100,
+        padding: `0px ${listItemGap}px`,
+        marginBottom: theme.spacing(1),
     },
     listItemProperty: {
-        'marginBottom': theme.spacing(1),
+        'display': 'flex',
+        'justifyContent': 'space-between',
+        'padding': `0px ${listItemGap}px`,
+        'borderTop': '1px solid rgba(255, 255, 255, 0.2)',
         '& > div:first-child': {
             fontSize: '12px',
-            lineHeight: '14px',
+            lineHeight: '20px',
             color: theme.palette.swatches.grey.grey200,
+            marginRight: '4px',
         },
         '& > div:last-child': {
             fontSize: '14px',
@@ -291,16 +294,26 @@ const ListCard = ({ index, data, width }) => {
     const c = useStyles()
     const s = data._source
 
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const release_id = getIn(s, ES_PATHS.release_id)
 
-    const thumb_id = getIn(s, ES_PATHS.thumb)
+    let thumb_id = getIn(s, ES_PATHS.thumb)
+
+    if (MODEL_EXTENSIONS.includes(getExtension(thumb_id).toLowerCase())) {
+        thumb_id =
+            getIn(s, ES_PATHS.supplemental, []).find((f) =>
+                IMAGE_EXTENSIONS.includes(getExtension(f))
+            ) || thumb_id
+    }
 
     const imgURL = getPDSUrl(thumb_id, release_id, AVAILABLE_URI_SIZES.sm)
 
     const fileName = getIn(s, ES_PATHS.file_name, '')
+
+    const pds_standard = getIn(s, ES_PATHS.pds_standard)
+
+    const target = getIn(s, ES_PATHS.target, [])
 
     return (
         <div
@@ -310,7 +323,7 @@ const ListCard = ({ index, data, width }) => {
             result-key={data.result_key}
             className={c.listItem}
             onClick={() => {
-                history.push(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
+                navigate(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
             }}
             onMouseEnter={() => {
                 sASet(sAKeys.HOVERED_RESULT, data)
@@ -320,44 +333,72 @@ const ListCard = ({ index, data, width }) => {
             }}
         >
             <div className={c.listItemLeft}>
-                <LazyLoad offset={600} once>
-                    <Image
-                        className={c.listItemImage}
-                        style={{
-                            height: '100%',
-                            paddingTop: 'unset',
-                            background: 'linear-gradient(to bottom, #060606, #000000)',
-                            position: 'initial',
-                        }}
-                        disableSpinner={true}
-                        animationDuration={1200}
-                        iconContainerStyle={{ opacity: 0.6 }}
-                        src={
-                            IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'
-                        }
-                        alt={fileName}
-                        errorIcon={<ProductIcons filename={fileName} />}
-                    />
-                </LazyLoad>
+                <Image
+                    className={c.listItemImage}
+                    wrapperStyle={{
+                        height: '100%',
+                        paddingTop: 'unset',
+                        background: '#000000',
+                        position: 'initial',
+                    }}
+                    style={{
+                        transition: 'opacity 600ms ease-in-out 0s, transform 0.15s ease-out 0s',
+                        transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
+                    }}
+                    duration={0}
+                    src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
+                    alt={fileName}
+                    errorIcon={<ProductIcons filename={fileName} />}
+                    loading="lazy"
+                />
                 <ProductToolbar result={data} />
+                {MODEL_EXTENSIONS.includes(getExtension(fileName, true)) && (
+                    <ProductIcons filename={fileName} />
+                )}
             </div>
             <div className={c.listItemRight}>
                 <div className={c.listItemTitle}>{getIn(s, ES_PATHS.file_name)}</div>
                 <div className={c.listItemTime}>{getIn(s, ES_PATHS.start_time)}</div>
 
                 <div className={c.listItemProperty}>
-                    <div>Mission/Spacecraft:</div>
-                    <div>
-                        {getIn(s, ES_PATHS.mission)}/{getIn(s, ES_PATHS.spacecraft)}
-                    </div>
+                    <div>Mission:</div>
+                    <div>{getIn(s, ES_PATHS.mission)}</div>
                 </div>
                 <div className={c.listItemProperty}>
-                    <div>Targets:</div>
-                    <div>{getIn(s, ES_PATHS.target, []).join(', ')}</div>
+                    <div>Spacecraft:</div>
+                    <div>{getIn(s, ES_PATHS.spacecraft)}</div>
                 </div>
                 <div className={c.listItemProperty}>
                     <div>Instrument:</div>
                     <div>{getIn(s, ES_PATHS.instrument)}</div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>Product Type:</div>
+                    <div>{getIn(s, ES_PATHS.product_type)}</div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>Targets:</div>
+                    <div>{Array.isArray(target) ? target.join(', ') : target}</div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>{pds_standard === 'pds4' ? 'Bundle:' : 'Volume:'}</div>
+                    <div>
+                        {pds_standard === 'pds4'
+                            ? getIn(s, ES_PATHS.pds_archive.bundle_id)
+                            : getIn(s, ES_PATHS.pds_archive.volume_id)}
+                    </div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>{pds_standard === 'pds4' ? 'Collection:' : 'Dataset Id:'}</div>
+                    <div>
+                        {pds_standard === 'pds4'
+                            ? getIn(s, ES_PATHS.pds_archive.collection_id)
+                            : getIn(s, ES_PATHS.pds_archive.data_set_id)}
+                    </div>
+                </div>
+                <div className={c.listItemProperty}>
+                    <div>Size:</div>
+                    <div>{humanFileSize(getIn(s, ES_PATHS.archive.size))}</div>
                 </div>
             </div>
             <div className={`${c.selectionIndicator} selectionIndicator`}></div>

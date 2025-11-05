@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import withWidth from '@material-ui/core/withWidth'
-import Checkbox from '@material-ui/core/Checkbox'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import Slider from '@material-ui/core/Slider'
-import Button from '@material-ui/core/Button'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
+import Checkbox from '@mui/material/Checkbox'
+import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField'
+import Slider from '@mui/material/Slider'
+import Button from '@mui/material/Button'
 
 import { setSnackBarText } from '../../../../../../../core/redux/actions/actions'
 import {
@@ -113,6 +112,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const MLLayers = (props) => {
+  
     const { features, classes, onChange } = props
     const c = useStyles()
     const theme = useTheme()
@@ -266,4 +266,4 @@ MLLayers.propTypes = {
     onChange: PropTypes.func,
 }
 
-export default withWidth()(MLLayers)
+export default MLLayers;

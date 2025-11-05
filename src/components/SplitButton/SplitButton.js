@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import clsx from 'clsx'
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Grow from '@material-ui/core/Grow'
-import Paper from '@material-ui/core/Paper'
-import Popper from '@material-ui/core/Popper'
-import MenuItem from '@material-ui/core/MenuItem'
-import MenuList from '@material-ui/core/MenuList'
-import Checkbox from '@material-ui/core/Checkbox'
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import ClickAwayListener from '@mui/material/ClickAwayListener'
+import Grow from '@mui/material/Grow'
+import Paper from '@mui/material/Paper'
+import Popper from '@mui/material/Popper'
+import MenuItem from '@mui/material/MenuItem'
+import MenuList from '@mui/material/MenuList'
+import Checkbox from '@mui/material/Checkbox'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
     SplitButton: {

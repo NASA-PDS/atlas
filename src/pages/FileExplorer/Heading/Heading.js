@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import Url from 'url-parse'
 import clsx from 'clsx'
 
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert from '@mui/material/Alert'
 
-import LinkIcon from '@material-ui/icons/Link'
+import LinkIcon from '@mui/icons-material/Link'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 import { copyToClipboard, splitUri } from '../../../core/utils'
 import { HASH_PATHS, ES_PATHS } from '../../../core/constants'
@@ -40,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
     path: {
         margin: 0,
-        padding: `0px ${theme.spacing(1)}px 0px ${theme.spacing(3)}px`,
+        padding: `0px ${theme.spacing(1)} 0px ${theme.spacing(3)}`,
         boxSizing: 'border-box',
         width: 'calc(100% - 40px)',
     },
@@ -79,7 +78,7 @@ const Heading = (props) => {
 
     const c = useStyles()
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const preview = useSelector((state) => {
         const filexPreview = state.get('filexPreview')
@@ -128,7 +127,7 @@ const Heading = (props) => {
             const newPath = HASH_PATHS.fileExplorer + url
             const currentURL = new Url(window.location, true)
             if (currentURL.pathname !== newPath) {
-                history.replace(newPath)
+                navigate(newPath, { replace: true })
             }
         }
     }, [url])
@@ -166,7 +165,7 @@ const Heading = (props) => {
                                 copyToClipboard(window.location.href)
                                 handleOpenSnackbar()
                             }}
-                        >
+                            size="large">
                             <LinkIcon className={c.copyIcon} />
                         </IconButton>
                     </Tooltip>
@@ -193,7 +192,7 @@ const Heading = (props) => {
                 </MuiAlert>
             </Snackbar>
         </div>
-    )
+    );
 }
 
 Heading.propTypes = {}

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
 import clsx from 'clsx'
 
 import ProductDownloadSelector from '../../../../../../components/ProductDownloadSelector/ProductDownloadSelector'
@@ -13,7 +13,7 @@ import DownloadingCard from '../../../../../../components/DownloadingCard/Downlo
 import { setSnackBarText } from '../../../../../../core/redux/actions/actions.js'
 import { TXTCart } from '../../../../../../core/downloaders/TXT'
 
-import Box from '@material-ui/core/Box'
+import Box from '@mui/material/Box'
 
 const useStyles = makeStyles((theme) => ({
     button1: {
@@ -23,21 +23,21 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.primary.light,
     },
     p: {
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
     },
     p2: {
         fontWeight: 'bold',
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
     },
     p3: {
         color: theme.palette.swatches.blue.blue900,
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
         fontWeight: 'bold',
         fontSize: '13px',
     },
     pCode: {
         background: theme.palette.swatches.grey.grey200,
-        padding: `${theme.spacing(3)}px`,
+        padding: theme.spacing(3),
         fontFamily: 'monospace',
         marginBottom: '5px',
     },
@@ -182,7 +182,7 @@ function TXTTab(props) {
                 </>
             )}
         </div>
-    )
+    );
 }
 
 TXTTab.propTypes = {}

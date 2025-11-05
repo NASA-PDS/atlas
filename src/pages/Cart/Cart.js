@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
+import React, { useEffect } from 'react'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import Title from './Title/Title'
 import Content from './Content/Content'
@@ -21,11 +16,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Cart = (props) => {
-    const { width } = props
+    useEffect(() => {
+        document.title = 'Atlas - Cart | PDS-IMG'
+    }, [])
+
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     return (
         <div className={c.Cart}>
@@ -37,4 +35,4 @@ const Cart = (props) => {
 
 Cart.propTypes = {}
 
-export default withWidth()(Cart)
+export default Cart

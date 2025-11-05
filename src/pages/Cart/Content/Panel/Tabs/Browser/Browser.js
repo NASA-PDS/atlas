@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
 import clsx from 'clsx'
 
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Box from '@material-ui/core/Box'
-import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Tooltip from '@mui/material/Tooltip'
 
 import { ZipStreamCart } from '../../../../../../core/downloaders/ZipStream'
 import { setSnackBarText } from '../../../../../../core/redux/actions/actions.js'
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.primary.light,
     },
     p: {
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
     },
     downloadingButton: {
         background: theme.palette.swatches.grey.grey300,

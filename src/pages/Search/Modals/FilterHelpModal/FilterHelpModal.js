@@ -9,18 +9,19 @@ import {
     search,
 } from '../../../../core/redux/actions/actions.js'
 
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import IconButton from '@material-ui/core/IconButton'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import FilterHelp from '../../../../components/FilterHelp/FilterHelp'
 
@@ -43,10 +44,10 @@ const useStyles = makeStyles((theme) => ({
         height: theme.headHeights[2],
         boxSizing: 'border-box',
         background: theme.palette.swatches.grey.grey150,
-        padding: `0 ${theme.spacing(2)}px 0 ${theme.spacing(4)}px`,
+        padding: `0 ${theme.spacing(2)} 0 ${theme.spacing(4)}`,
     },
     title: {
-        padding: `${theme.spacing(2.5)}px 0`,
+        padding: `${theme.spacing(2.5)} 0`,
         fontSize: theme.typography.pxToRem(16),
         fontWeight: 'bold',
     },
@@ -71,7 +72,7 @@ const FilterHelpModal = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
     const modal = useSelector((state) => {
@@ -106,7 +107,7 @@ const FilterHelpModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                    >
+                        size="large">
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -121,7 +122,7 @@ const FilterHelpModal = (props) => {
                 ) : null}
             </DialogContent>
         </Dialog>
-    )
+    );
 }
 
 FilterHelpModal.propTypes = {}

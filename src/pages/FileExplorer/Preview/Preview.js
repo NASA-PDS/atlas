@@ -1,7 +1,6 @@
-import React, { useState, useEffect, version } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
 import axios from 'axios'
@@ -28,28 +27,27 @@ import { streamDownloadFile } from '../../../core/downloaders/ZipStream.js'
 
 import ProductIcons from '../../../components/ProductIcons/ProductIcons'
 
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Button from '@material-ui/core/Button'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Button from '@mui/material/Button'
 
-import PageviewIcon from '@material-ui/icons/Pageview'
-import GetAppIcon from '@material-ui/icons/GetApp'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
-import LinkIcon from '@material-ui/icons/Link'
-import LaunchIcon from '@material-ui/icons/Launch'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
-import WarningIcon from '@material-ui/icons/Warning'
+import PageviewIcon from '@mui/icons-material/Pageview'
+import GetAppIcon from '@mui/icons-material/GetApp'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import LaunchIcon from '@mui/icons-material/Launch'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import WarningIcon from '@mui/icons-material/Warning'
 
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
-import FormControl from '@material-ui/core/FormControl'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import FormControl from '@mui/material/FormControl'
 
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 import './Preview.css'
 
@@ -192,6 +190,7 @@ const useStyles = makeStyles((theme) => ({
     relatedButton: {
         'background': theme.palette.swatches.grey.grey700,
         'color': theme.palette.swatches.blue.blue400,
+        'border': `1px solid ${theme.palette.swatches.grey.grey900}`,
         'marginLeft': '4px',
         '&:hover': {
             border: `1px solid ${theme.palette.swatches.grey.grey600}`,
@@ -299,7 +298,7 @@ const useStyles = makeStyles((theme) => ({
     },
     emptyPreview: {
         textAlign: 'center',
-        margin: `${theme.spacing(10)}px 0px`,
+        margin: `${theme.spacing(10)} 0px`,
         color: theme.palette.swatches.grey.grey500,
         fontSize: '16px',
     },
@@ -329,7 +328,7 @@ const ButtonBar = (props) => {
     const { isMobile, preview, related } = props
     const c = useStyles()
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     let iconSize = isMobile ? 'inherit' : 'inherit'
 
@@ -345,8 +344,9 @@ const ButtonBar = (props) => {
                         }
                         onClick={() => {
                             if (related && related.uri)
-                                history.push(`${HASH_PATHS.record}?uri=${related.uri}&back=page`)
+                                navigate(`${HASH_PATHS.record}?uri=${related.uri}&back=page`)
                         }}
+                        size="large"
                     >
                         <PageviewIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
@@ -365,6 +365,7 @@ const ButtonBar = (props) => {
                                     '_blank'
                                 )
                         }}
+                        size="large"
                     >
                         <LaunchIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
@@ -384,6 +385,7 @@ const ButtonBar = (props) => {
                                 )
                             }
                         }}
+                        size="large"
                     >
                         <GetAppIcon className={c.buttonIcon} fontSize={iconSize} />
                     </IconButton>
@@ -408,6 +410,7 @@ const ButtonBar = (props) => {
                             )
                             dispatch(setSnackBarText('Added to Cart!', 'success'))
                         }}
+                        size="large"
                     >
                         <AddShoppingCartIcon size="small" />
                     </IconButton>
@@ -421,7 +424,7 @@ const Preview = (props) => {
     const { isMobile, showMobilePreview, setShowMobilePreview, forcedPreview } = props
 
     const c = useStyles()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
 
@@ -586,6 +589,7 @@ const Preview = (props) => {
                                             })
                                         )
                                 }}
+                                size="large"
                             >
                                 <ArrowBackIcon fontSize="small" />
                             </IconButton>
@@ -654,21 +658,20 @@ const Preview = (props) => {
                     style={imageUrl == 'null' ? { height: '100px' } : {}}
                     onClick={() => {
                         if (imageUrl != null && preview.uri)
-                            history.push(`${HASH_PATHS.record}?uri=${preview.uri}&back=page`)
+                            navigate(`${HASH_PATHS.record}?uri=${preview.uri}&back=page`)
                     }}
                 >
                     {imageUrl != 'null' && hasBrowse !== false ? (
                         <Image
                             className={c.previewImage}
-                            style={{
+                            wrapperStyle={{
                                 height: '100%',
                                 paddingTop: 'unset',
                                 position: 'initial',
                                 background:
                                     'radial-gradient(ellipse, rgb(46, 46, 50), rgb(10, 10, 10))',
                             }}
-                            disableSpinner={false}
-                            animationDuration={1200}
+                            duration={250}
                             src={imageUrl}
                             alt={imageUrl}
                             errorIcon={<ProductIcons filename={imageUrl} type={preview.fs_type} />}

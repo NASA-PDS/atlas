@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
@@ -12,24 +12,24 @@ import {
     setFieldState,
 } from '../../core/redux/actions/actions.js'
 
-import MuiAccordion from '@material-ui/core/Accordion'
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary'
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails'
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Badge from '@material-ui/core/Badge'
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
+import MuiAccordion from '@mui/material/Accordion'
+import MuiAccordionSummary from '@mui/material/AccordionSummary'
+import MuiAccordionDetails from '@mui/material/AccordionDetails'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Badge from '@mui/material/Badge'
+import TextField from '@mui/material/TextField'
+import InputAdornment from '@mui/material/InputAdornment'
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import SettingsIcon from '@material-ui/icons/Settings'
-import SearchIcon from '@material-ui/icons/Search'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
-import CloseIcon from '@material-ui/icons/Close'
-import ClearAllIcon from '@material-ui/icons/ClearAll'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import SettingsIcon from '@mui/icons-material/Settings'
+import SearchIcon from '@mui/icons-material/Search'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import CloseIcon from '@mui/icons-material/Close'
+import ClearAllIcon from '@mui/icons-material/ClearAll'
 
 import InputFilter from './subcomponents/InputFilter/InputFilter'
 import ListFilter from './subcomponents/ListFilter/ListFilter'
@@ -46,7 +46,7 @@ const Accordion = withStyles({
         '&:before': {
             display: 'none',
         },
-        '&$expanded': {
+        '&.Mui-expanded': {
             margin: 'auto',
         },
         'position': 'inherit',
@@ -73,7 +73,7 @@ const AccordionSummary = withStyles((theme) => ({
         '&:hover': {
             background: theme.palette.swatches.grey.grey150,
         },
-        '&$expanded': {
+        '&.Mui-expanded': {
             minHeight: theme.headHeights[2],
             background: theme.palette.swatches.grey.grey150,
             borderLeft: `4px solid ${theme.palette.swatches.yellow.yellow600}`,
@@ -81,7 +81,8 @@ const AccordionSummary = withStyles((theme) => ({
     },
     content: {
         'margin': '4px 0',
-        '&$expanded': {
+        '&.Mui-expanded': {
+            height: '100%',
             margin: '4px 0',
         },
     },
@@ -92,11 +93,16 @@ const AccordionSummary = withStyles((theme) => ({
         padding: '9px 12px',
     },
     expanded: {},
+    expandIconWrapper: {
+        alignItems: 'center',
+        height: '100%',
+        color: theme.palette.swatches.grey.grey900,
+    },
 }))(MuiAccordionSummary)
 
 const AccordionDetails = withStyles((theme) => ({
     root: {
-        padding: `${theme.spacing(2)}px 0px`,
+        padding: `${theme.spacing(2)} 0px`,
         background: theme.palette.swatches.grey.grey0,
         boxShadow: `inset 2px 2px 3px 0px rgba(0,0,0,0.12)`,
         flexFlow: 'column',
@@ -109,16 +115,20 @@ const AccordionDetails = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
     Filter: {},
     title: {
+        fontWeight: 400,
         lineHeight: '30px',
         textTransform: 'capitalize',
         maxWidth: '190px',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+        letterSpacing: '0.00938em',
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     },
     header: {
         flex: 1,
         display: 'flex',
         justifyContent: 'space-between',
+        marginLeft: '8px',
     },
     headerButtons: {},
     settingsButton: {
@@ -402,7 +412,7 @@ const Filter = (props) => {
         dispatch(clearResults())
         dispatch(search(0, true))
     }
-    
+
     const handleClearSelections = (e) => {
         // stop expand/collapse
         e.stopPropagation()
@@ -450,21 +460,21 @@ const Filter = (props) => {
     const getFilteredResultsInfo = () => {
         const currentFields = filter.facets?.[0]?.fields?.length || 0
         const totalFields = Math.max(maxFieldsCount, currentFields) // Use the max seen
-        
+
         if (!filterDownValue || !isListFilter || currentFields === 0) {
             const totalDisplay = totalFields === 500 ? '500+' : totalFields.toString()
             return `${currentFields}/${totalDisplay}`
         }
-        
+
         const searchTerm = filterDownValue.toLowerCase()
-        const filteredCount = filter.facets[0].fields.filter(field => 
+        const filteredCount = filter.facets[0].fields.filter((field) =>
             field.key.toLowerCase().includes(searchTerm)
         ).length
-        
+
         const totalDisplay = totalFields === 500 ? '500+' : totalFields.toString()
         return `${filteredCount}/${totalDisplay}`
     }
-    
+
     const filteredResultsDisplay = getFilteredResultsInfo()
 
     return (
@@ -579,9 +589,7 @@ const Filter = (props) => {
                                 }}
                             />
                             {isListFilter && (
-                                <div className={c.filterDownCount}>
-                                    {filteredResultsDisplay}
-                                </div>
+                                <div className={c.filterDownCount}>{filteredResultsDisplay}</div>
                             )}
                             <IconButton
                                 className={c.filterDownClear}
@@ -590,6 +598,7 @@ const Filter = (props) => {
                                     setFilterDownValue('')
                                     handleFilterDownSubmit(null, true)
                                 }}
+                                size="large"
                             >
                                 <CloseIcon fontSize="inherit" />
                             </IconButton>
@@ -597,6 +606,7 @@ const Filter = (props) => {
                                 className={c.filterDownSubmit}
                                 aria-label="submit filter down"
                                 onClick={handleFilterDownSubmit}
+                                size="large"
                             >
                                 <ArrowForwardIcon fontSize="inherit" />
                             </IconButton>

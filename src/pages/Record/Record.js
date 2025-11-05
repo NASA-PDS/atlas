@@ -4,10 +4,10 @@ import { useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles } from '@material-ui/core/styles'
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { makeStyles } from '@mui/styles'
 
 import { searchRecordByURI, setRecordData } from '../../core/redux/actions/actions'
 import { ES_PATHS, domain, endpoints } from '../../core/constants'
@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Record = (props) => {
     const { width } = props
+
+    useEffect(() => {
+        document.title = 'Atlas - Record | PDS-IMG'
+    }, [])
+
     const c = useStyles()
 
     const location = useLocation()
@@ -36,8 +41,8 @@ const Record = (props) => {
     const [activeVersion, setActiveVersion] = useState(null)
 
     const recordData = useSelector((state) => {
-        return state.get('recordData').toJS()
-    })
+        return state.get('recordData')
+    }).toJS()
 
     useEffect(() => {
         if (Object.keys(recordData).length === 0) dispatch(searchRecordByURI())

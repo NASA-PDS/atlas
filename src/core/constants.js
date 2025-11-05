@@ -1,5 +1,9 @@
 export const domain = process.env.REACT_APP_DOMAIN
 
+export const MAX_BULK_DOWNLOAD_COUNT = process.env.MAX_BULK_DOWNLOAD_COUNT || 25000
+
+export const EMAIL_CONTACT = process.env.EMAIL_CONTACT || 'pds-img-jpl@jpl.nasa.gov'
+
 export const publicUrl = process.env.REACT_APP_PUBLIC_URL || ''
 
 export const endpoints = {
@@ -31,7 +35,6 @@ export const ES_PATHS = {
     gather: ['gather'],
     gather_uri: ['gather', 'uri'],
     related: ['gather', 'pds_archive', 'related'],
-    pds_archive: ['gather', 'pds_archive'],
     ml: ['gather', 'machine_learning'],
     ml_classification_related: ['gather', 'machine_learning', 'classification', 'related'],
     supplemental: ['gather', 'pds_archive', 'related', 'supplemental'],
@@ -41,6 +44,7 @@ export const ES_PATHS = {
     label: ['gather', 'pds_archive', 'related', 'label', 'uri'],
     mission: ['gather', 'common', 'mission'],
     spacecraft: ['gather', 'common', 'spacecraft'],
+    product_type: ['gather', 'common', 'product_type'],
     geo_location: ['gather', 'common', 'geo_location'],
     start_time: ['gather', 'time', 'start_time'],
     target: ['gather', 'common', 'target'],
@@ -48,6 +52,15 @@ export const ES_PATHS = {
     file_name: ['gather', 'pds_archive', 'file_name'],
     pds_standard: ['gather', 'pds_archive', 'pds_standard'],
     product_id: ['gather', 'pds_archive', 'product_id'],
+    pds_archive: {
+        _self: ['gather', 'pds_archive'],
+        pds_standard: ['gather', 'pds_archive', 'pds_standard'],
+        product_id: ['gather', 'pds_archive', 'product_id'],
+        bundle_id: ['gather', 'pds_archive', 'bundle_id'],
+        volume_id: ['gather', 'pds_archive', 'volume_id'],
+        collection_id: ['gather', 'pds_archive', 'collection_id'],
+        data_set_id: ['gather', 'pds_archive', 'data_set_id'],
+    },
     pds3_label: ['pds3_label'],
     pds4_label: ['pds4_label'],
     archive: {
@@ -108,6 +121,8 @@ export const IMAGE_EXTENSIONS = [
     'heic',
     'svg',
 ]
+export const MODEL_EXTENSIONS = ['obj', 'dae']
+
 export const MISSIONS_TO_BODIES = {
     cassini: {
         main: 'Saturn',

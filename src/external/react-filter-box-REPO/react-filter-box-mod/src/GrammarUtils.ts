@@ -83,7 +83,7 @@ class GrammarUtils {
     removeComments(string: string) {
         if (string == null) return ''
         //Takes a string of code, not an actual function.
-        return string.replace(/\/\*[\s\S]*?\*\/|\/\/.*|\#.*/g, '') //Strip comments
+        return string.replace(/\/\*[\s\S]*?\*\/|\/\/.*|\#.*/g, ''); //Strip comments
     }
 }
 

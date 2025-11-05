@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import FiltersPanel from './Panels/FiltersPanel/FiltersPanel'
 import SecondaryPanel from './Panels/SecondaryPanel/SecondaryPanel'
@@ -36,7 +33,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Search = (props) => {
-    const { width } = props
+    useEffect(() => {
+        document.title = 'Atlas - Search | PDS-IMG'
+    }, [])
+
     const c = useStyles()
 
     const mobileWorkspace = useSelector((state) => {
@@ -44,7 +44,7 @@ const Search = (props) => {
     })
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
     // If mobile
     if (isMobile) {
@@ -91,4 +91,4 @@ const Search = (props) => {
 
 Search.propTypes = {}
 
-export default withWidth()(Search)
+export default Search

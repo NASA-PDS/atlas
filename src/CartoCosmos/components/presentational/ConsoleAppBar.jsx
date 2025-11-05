@@ -3,11 +3,11 @@ import ConsoleTargetInfo from '../presentational/ConsoleTargetInfo.jsx'
 import ConsoleProjectionButtons from '../presentational/ConsoleProjectionButtons.jsx'
 import ConsoleLonLatSelects from '../presentational/ConsoleLonLatSelects.jsx'
 import ConsoleCoordinates from './ConsoleCoordinates.jsx'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
-import Divider from '@material-ui/core/Divider'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Grid from '@mui/material/Grid'
+import { makeStyles } from '@mui/styles'
+import Divider from '@mui/material/Divider'
 
 /**
  * Controls css styling for this component using js to css
@@ -44,7 +44,6 @@ export default function ConsoleAppBar(props) {
         <div className={classes.root} id="consoleToolbarParent">
             <AppBar
                 className={classes.appbar}
-                variant="outlined"
                 position="static"
                 color="inherit"
                 id="consoleToolbar"
@@ -53,7 +52,7 @@ export default function ConsoleAppBar(props) {
                     <Grid
                         className={classes.grid}
                         container
-                        justify="space-between"
+                        justifyContent="space-between"
                         alignItems="stretch"
                     >
                         {/*<ConsoleProjectionButtons />*/}
@@ -64,7 +63,7 @@ export default function ConsoleAppBar(props) {
                                 container
                                 item
                                 xs
-                                justify="space-around"
+                                justifyContent="space-around"
                                 alignItems="center"
                                 wrap="nowrap"
                             >
@@ -76,5 +75,5 @@ export default function ConsoleAppBar(props) {
                 </Toolbar>
             </AppBar>
         </div>
-    )
+    );
 }

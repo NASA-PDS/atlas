@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormLabel from '@material-ui/core/FormLabel'
-import TextField from '@material-ui/core/TextField'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
-import IconButton from '@material-ui/core/IconButton'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import FormGroup from '@mui/material/FormGroup'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormLabel from '@mui/material/FormLabel'
+import TextField from '@mui/material/TextField'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import IconButton from '@mui/material/IconButton'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
-import SendSharpIcon from '@material-ui/icons/SendSharp'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
+import SendSharpIcon from '@mui/icons-material/SendSharp'
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -184,7 +185,7 @@ const Feedback = ({ open, verify, handleClose, links, site_key, logoUrl }) => {
     const [submitted, setSubmitted] = useState(false)
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const handleChange = () => {}
 
@@ -270,7 +271,7 @@ const Feedback = ({ open, verify, handleClose, links, site_key, logoUrl }) => {
                         className={c.closeButton}
                         aria-label={'close feedback'}
                         onClick={handleClose}
-                    >
+                        size="large">
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -384,7 +385,7 @@ const Feedback = ({ open, verify, handleClose, links, site_key, logoUrl }) => {
                 )}
             </DialogActions>
         </Dialog>
-    )
+    );
 }
 
 const FEEDBACK_URL = 'https://pds.nasa.gov/email-service/SubmitFeedback'

@@ -26,7 +26,19 @@ export const formatMappings = (schema) => {
     schema.mappings.properties.pds4_label.properties = organizedProps_pds4_label
 
     const mappingDepthTraversal = (properties, depth, path, pathRaw, nestedPath) => {
-        Object.keys(properties).forEach((propName) => {
+        // Bubbles groups (i.e. those with "properties" objects to the top)
+        const sortedKeys = Object.keys(properties).sort((keyA, keyB) => {
+            const hasPropsA = 'properties' in properties[keyA]
+            const hasPropsB = 'properties' in properties[keyB]
+
+            if (hasPropsA && !hasPropsB) return -1
+            if (!hasPropsA && hasPropsB) return 1
+
+            // Both have or both don't have 'properties' — sort alphabetically
+            return keyA.localeCompare(keyB)
+        })
+
+        sortedKeys.forEach((propName) => {
             const nextPath = path === '' ? propName : `${path}.${propName}`
             const nextPathSplit = nextPath.split('.')
             const nextPathRaw = pathRaw === '' ? propName : `${pathRaw}.${propName}`

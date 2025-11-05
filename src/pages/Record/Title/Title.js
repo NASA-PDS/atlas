@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { HASH_PATHS, ES_PATHS, RELATED_MAPPINGS } from '../../../core/constants'
 
 import {
@@ -18,19 +18,16 @@ import { streamDownloadFile } from '../../../core/downloaders/ZipStream.js'
 import { addToCart, setSnackBarText } from '../../../core/redux/actions/actions'
 import SplitButton from '../../../components/SplitButton/SplitButton'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import LinkIcon from '@material-ui/icons/Link'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import LinkIcon from '@mui/icons-material/Link'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 
 const useStyles = makeStyles((theme) => ({
     Title: {
@@ -60,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
     },
     name: {
-        margin: `0px ${theme.spacing(1)}px`,
+        margin: `0px ${theme.spacing(1)}`,
     },
     nameTitle: {
         fontSize: 16,
@@ -93,13 +90,13 @@ const useStyles = makeStyles((theme) => ({
     },
     splitButton: {
         margin: '4px 5px 3px 5px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             display: 'none',
         },
     },
     divider: {
         background: theme.palette.swatches.grey.grey200,
-        margin: `${theme.spacing(0.5)}px ${theme.spacing(2)}px`,
+        margin: `${theme.spacing(0.5)} ${theme.spacing(2)}`,
     },
     addToCart: {
         width: 34,
@@ -114,15 +111,15 @@ const Title = (props) => {
     const { mobile, recordData } = props
 
     const c = useStyles()
-    // let's change pages by updating the history
-    const history = useHistory()
+
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
 
     // Hidden Feature: Ctrl-Z to quickly go back to search. Could just use Alt <-
     useEffect(() => {
         const toSearch = (e) => {
-            if (e.ctrlKey && e.key === 'z') history.push(HASH_PATHS.search)
+            if (e.ctrlKey && e.key === 'z') navigate(HASH_PATHS.search)
         }
         document.addEventListener('keydown', toSearch)
         return () => {
@@ -185,10 +182,10 @@ const Title = (props) => {
                             className={c.backButton}
                             aria-label={back === 'page' ? 'go back a page' : 'return to search'}
                             onClick={() => {
-                                if (back === 'page') history.goBack()
-                                else history.push(HASH_PATHS.search)
+                                if (back === 'page') navigate(-1)
+                                else navigate(HASH_PATHS.search)
                             }}
-                        >
+                            size="large">
                             <ChevronLeftIcon className={c.backIcon} />
                         </IconButton>
                     </Tooltip>
@@ -207,7 +204,7 @@ const Title = (props) => {
                                 copyToClipboard(window.location.href)
                                 handleOpenSnackbar('Copied URL to clipboard!')
                             }}
-                        >
+                            size="large">
                             <LinkIcon className={c.copyIcon} />
                         </IconButton>
                     </Tooltip>
@@ -251,7 +248,7 @@ const Title = (props) => {
                 </Tooltip>
             </div>
         </div>
-    )
+    );
 }
 
 Title.propTypes = {

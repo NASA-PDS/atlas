@@ -8,20 +8,20 @@ import {
     copyToClipboardAction,
 } from '../../../../core/redux/actions/actions.js'
 
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip'
 
-import AddIcon from '@material-ui/icons/Add'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import AddIcon from '@mui/icons-material/Add'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import FilterList from './subcomponents/FilterList/FilterList'
 import AdvancedFilter from './subcomponents/AdvancedFilter/AdvancedFilter'
 
 import MenuButton from '../../../../components/MenuButton/MenuButton'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
     FiltersPanel: {
@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
         borderRight: `1px solid ${theme.palette.swatches.grey.grey200}`,
     },
     contents: {
-        width: '100%', //`calc(100% - ${theme.spacing(2)}px)`,
-        height: '100%', //`calc(100% - ${theme.spacing(4)}px)`,
-        margin: 0, //`${theme.spacing(2)}px ${theme.spacing(1)}px`,
+        width: '100%', //`calc(100% - ${theme.spacing(2)})`,
+        height: '100%', //`calc(100% - ${theme.spacing(4)})`,
+        margin: 0, //`${theme.spacing(2)} ${theme.spacing(1)}`,
         display: 'flex',
         flexFlow: 'column',
     },
@@ -76,8 +76,10 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     buttonMore: {
-        color: theme.palette.swatches.grey.grey400,
+      "& .MuiIconButton-root": {
+        color: theme.palette.swatches.grey.grey600,
         fontSize: '21px',
+      },
         marginRight: '4px',
     },
 }))

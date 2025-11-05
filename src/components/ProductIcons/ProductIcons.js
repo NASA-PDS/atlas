@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 import { getExtension } from '../../core/utils'
 
-import ImageIcon from '@material-ui/icons/Image'
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
-import FolderIcon from '@material-ui/icons/Folder'
+import ImageIcon from '@mui/icons-material/Image'
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
+import FolderIcon from '@mui/icons-material/Folder'
 
 const useStyles = makeStyles((theme) => ({
     ProductIcons: {
@@ -105,7 +105,7 @@ window.addEventListener('mousemove', function (e) {
 })
 
 const ProductIcons = (props) => {
-    const { filename, size, color, type } = props
+    const { filename, size, color, type, fit } = props
     const c = useStyles()
 
     let Icon
@@ -123,7 +123,6 @@ const ProductIcons = (props) => {
                         />
                     </svg>
                 )
-                break
                 break
             case 'volume':
                 Icon = (
@@ -173,6 +172,7 @@ const ProductIcons = (props) => {
                 [c.dark]: color === 'dark',
                 [c.missing]: isMissing === true,
             })}
+            style={fit ? { width: '100%', height: '100%' } : {}}
         >
             {Icon}
         </div>

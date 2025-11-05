@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
 import clsx from 'clsx'
 
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Box from '@material-ui/core/Box'
-import CloseIcon from '@material-ui/icons/Close'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Box from '@mui/material/Box'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { ZipStreamCart } from '../../../../core/downloaders/ZipStream'
 import { setSnackBarText } from '../../../../core/redux/actions/actions.js'
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.accent.main,
     },
     p: {
-        padding: `${theme.spacing(1.5)}px 0px`,
+        padding: `${theme.spacing(1.5)} 0px`,
     },
     downloadButton: {
         display: 'flex',
@@ -124,7 +124,7 @@ const MobileDownloadBar = (props) => {
                     onClick={() => {
                         setError(null)
                     }}
-                >
+                    size="large">
                     <CloseIcon />
                 </IconButton>
             </div>
@@ -186,7 +186,7 @@ const MobileDownloadBar = (props) => {
                 </div>
             )}
         </div>
-    )
+    );
 }
 
 MobileDownloadBar.propTypes = {}

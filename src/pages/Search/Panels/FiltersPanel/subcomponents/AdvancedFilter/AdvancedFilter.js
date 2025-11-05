@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
 import Url from 'url-parse'
@@ -19,11 +18,11 @@ import {
     basicToAdvancedFilters,
 } from './AutocompleteMapping'
 
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
-import PlayArrowIcon from '@material-ui/icons/PlayArrow'
-import InfoIcon from '@material-ui/icons/Info'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import InfoIcon from '@mui/icons-material/Info'
 
 import ReactFilterBox, {
     AutoCompleteOption,
@@ -31,7 +30,7 @@ import ReactFilterBox, {
 } from './react-filter-box-customized/react-filter-box'
 import './react-filter-box-customized/react-filter-box.css'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 const literals = [
     {
@@ -203,11 +202,11 @@ const toHumanFriendlyErrorMessage = (errorMessage) => {
 const AdvancedFilter = (props) => {
     const c = useStyles()
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const activeFilters = useSelector((state) => {
-        return state.getIn(['activeFilters']).toJS()
-    })
+        return state.getIn(['activeFilters'])
+    }).toJS()
     const advancedFilters = useSelector((state) => {
         return state.getIn(['advancedFilters'])
     })
@@ -225,7 +224,7 @@ const AdvancedFilter = (props) => {
         const desiredSearchUrl = `?_adv=${encodeURI(removeComments(advancedFilters))}`
         const currentURL = new Url(window.location)
         if (currentURL.pathname + currentURL.query !== desiredSearchUrl) {
-            history.replace(desiredSearchUrl)
+            navigate(desiredSearchUrl, { replace: true })
         }
     }, [advancedFilters])
 

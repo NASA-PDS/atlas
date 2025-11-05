@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import Url from 'url-parse'
 
 import Filter from '../../../../../../components/Filter/Filter'
 import { HASH_PATHS } from '../../../../../../core/constants'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
     FilterList: {
@@ -68,18 +67,18 @@ const getSearchURL = (activeFilters) => {
 
 const FilterList = (props) => {
     const c = useStyles()
-    const dispatch = useDispatch()
-    const history = useHistory()
+
+    const navigate = useNavigate()
 
     const [expandedFilter, setExpandedFilter] = useState('_text')
     const activeFilters = useSelector((state) => {
-        return state.getIn(['activeFilters']).toJS()
-    })
+        return state.getIn(['activeFilters'])
+    }).toJS()
     useEffect(() => {
         const currentURL = new Url(window.location)
         const desiredSearchUrl = getSearchURL(activeFilters)
         if (currentURL.pathname + currentURL.query !== desiredSearchUrl) {
-            history.replace(desiredSearchUrl)
+            navigate(desiredSearchUrl, { replace: true })
         }
     }, [activeFilters])
 

@@ -1,13 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
-import { HASH_PATHS, AVAILABLE_URI_SIZES, ES_PATHS } from '../../../../core/constants'
+import { useNavigate } from 'react-router-dom'
+import {
+    HASH_PATHS,
+    AVAILABLE_URI_SIZES,
+    ES_PATHS,
+    MODEL_EXTENSIONS,
+} from '../../../../core/constants'
 
 import clsx from 'clsx'
 
 import { useResizeDetector } from 'react-resize-detector'
-import { useSize, useScroller } from 'mini-virtual-list'
+import { useScroller } from 'mini-virtual-list'
 import {
     usePositioner,
     useResizeObserver,
@@ -16,19 +20,17 @@ import {
     useScrollToIndex,
 } from 'masonic'
 
-import LazyLoad from 'react-lazy-load'
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
+import { makeStyles } from '@mui/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
 
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import FolderIcon from '@material-ui/icons/Folder'
-import ImageIcon from '@material-ui/icons/Image'
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import FolderIcon from '@mui/icons-material/Folder'
+import ImageIcon from '@mui/icons-material/Image'
 
 import { setRecordData, setSnackBarText } from '../../../../core/redux/actions/actions'
 
@@ -36,11 +38,13 @@ import {
     getIn,
     getPDSUrl,
     getFilename,
+    getExtension,
     abbreviateNumber,
     copyToClipboard,
 } from '../../../../core/utils.js'
 
 import ProductToolbar from '../../../../components/ProductToolbar/ProductToolbar'
+import ProductIcons from '../../../../components/ProductIcons/ProductIcons'
 
 const gridItemHeight = 170
 const gridItemGap = 10
@@ -86,6 +90,11 @@ const useStyles = makeStyles((theme) => ({
             '& .ProductToolbarInCart': {
                 opacity: 0,
             },
+        },
+        '& .mui-image-wrapper': {
+            height: '100%',
+            paddingTop: 'unset',
+            background: '#192028',
         },
     },
     gridItemDirectory: {
@@ -217,9 +226,7 @@ const useStyles = makeStyles((theme) => ({
 const CartView = (props) => {
     const c = useStyles()
 
-    const dispatch = useDispatch()
-
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const cart = useSelector((state) => {
         return state.get('cart').toJS() || []
@@ -227,7 +234,6 @@ const CartView = (props) => {
 
     const gridContainerRef = useRef(null)
     const { width, height, ref } = useResizeDetector()
-    const { widthR, heightR } = useSize(gridContainerRef)
     const positioner = usePositioner(
         {
             width: Math.max(width - gridItemGap, 0),
@@ -273,7 +279,7 @@ const CartView = (props) => {
                             aria-label="search images button"
                             size="small"
                             onClick={() => {
-                                history.push(HASH_PATHS.search)
+                                navigate(HASH_PATHS.search)
                             }}
                         >
                             Search Images
@@ -285,7 +291,7 @@ const CartView = (props) => {
                             aria-label="search files button"
                             size="small"
                             onClick={() => {
-                                history.push(HASH_PATHS.fileExplorer)
+                                navigate(HASH_PATHS.fileExplorer)
                             }}
                         >
                             Search Files
@@ -301,7 +307,7 @@ const GridCard = ({ index, data, width }) => {
     const c = useStyles()
 
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
     data.item = data.item || {}
 
     let images
@@ -318,7 +324,6 @@ const GridCard = ({ index, data, width }) => {
     else title = data.item.uri
 
     const release_id = getIn(data, 'item.release_id', null)
-
     return (
         <div
             cart-index={index}
@@ -331,7 +336,7 @@ const GridCard = ({ index, data, width }) => {
                 if (data.item?.uri) {
                     // force a uri query
                     dispatch(setRecordData({}))
-                    history.push(`${HASH_PATHS.record}?uri=${data.item?.uri}`)
+                    navigate(`${HASH_PATHS.record}?uri=${data.item?.uri}`)
                 }
             }}
         >
@@ -349,21 +354,14 @@ const GridCard = ({ index, data, width }) => {
                 images.map((image, idx) => {
                     const imgURL = getPDSUrl(image, release_id, AVAILABLE_URI_SIZES.sm)
                     return (
-                        <LazyLoad offset={600} key={idx} once>
+                        <>
                             <Image
                                 className={c.gridItemImage}
-                                style={{
-                                    height: '100%',
-                                    paddingTop: 'unset',
-                                    background: '#192028',
-                                    position: 'initial',
-                                }}
-                                imageStyle={
+                                style={
                                     data.type === 'query'
                                         ? {
                                               left: `-${idx * 16}px`,
                                               borderRight: '1px solid #FFF',
-                                              top: `${(data.item.images.length - (idx + 1)) * 3}px`,
                                               height: `calc(100% - ${
                                                   (images.length - (idx + 1)) * 3 * 2
                                               }px)`,
@@ -371,14 +369,18 @@ const GridCard = ({ index, data, width }) => {
                                           }
                                         : null
                                 }
-                                disableSpinner={true}
-                                animationDuration={1200}
-                                iconContainerStyle={{ opacity: 0.6 }}
-                                errorIcon={<ImageIcon className={c.errorIcon} />}
+                                duration={250}
+                                iconWrapperStyle={{ opacity: 0.6 }}
+                                errorIcon={<ProductIcons filename={imgURL} />}
                                 src={imgURL || ''}
                                 alt={imgAlt}
+                                loading="lazy"
                             />
-                        </LazyLoad>
+
+                            {MODEL_EXTENSIONS.includes(getExtension(imgURL, true)) && (
+                                <ProductIcons filename={imgURL} />
+                            )}
+                        </>
                     )
                 })}
             {data.item.total ? (

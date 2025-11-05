@@ -6,8 +6,8 @@ import { setFieldState } from '../../../../../../core/redux/actions/actions'
 
 import { getIn, capitalize, prettify, isObject, objectToString } from '../../../../../../core/utils'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Chip from '@material-ui/core/Chip'
+import { makeStyles } from '@mui/styles'
+import Chip from '@mui/material/Chip'
 
 const useStyles = makeStyles((theme) => ({
     ChippedFilters: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
     },
     chip: {
-        'margin': `0 ${theme.spacing(1)}px`,
+        'margin': `0 ${theme.spacing(1)}`,
         'color': theme.palette.text.primary,
         'border': `1px solid rgba(0,0,0,0.23)`,
         '& svg': {
@@ -34,8 +34,8 @@ const ChippedFilters = (props) => {
     const dispatch = useDispatch()
 
     const activeFilters = useSelector((state) => {
-        return state.getIn(['activeFilters']).toJS()
-    })
+        return state.getIn(['activeFilters'])
+    }).toJS()
 
     return (
         <div className={c.ChippedFilters}>

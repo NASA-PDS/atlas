@@ -1,37 +1,36 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useLocation, useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useLocation, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import Url from 'url-parse'
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import Drawer from '@material-ui/core/Drawer'
-import Switch from '@material-ui/core/Switch'
-import Tooltip from '@material-ui/core/Tooltip'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import Drawer from '@mui/material/Drawer'
+import Switch from '@mui/material/Switch'
+import Tooltip from '@mui/material/Tooltip'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
-import MenuIcon from '@material-ui/icons/Menu'
-import MenuOpenIcon from '@material-ui/icons/MenuOpen'
-import SettingsIcon from '@material-ui/icons/Settings'
-import CloseIcon from '@material-ui/icons/Close'
-import FilterListIcon from '@material-ui/icons/FilterList'
-import MapIcon from '@material-ui/icons/Map'
-import ViewComfyIcon from '@material-ui/icons/ViewComfy'
-import RefreshIcon from '@material-ui/icons/Refresh'
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import ImageSearchIcon from '@material-ui/icons/ImageSearch'
-import AccountTreeIcon from '@material-ui/icons/AccountTree'
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined'
-import OpenInNewIcon from '@material-ui/icons/OpenInNew'
+import MenuIcon from '@mui/icons-material/Menu'
+import MenuOpenIcon from '@mui/icons-material/MenuOpen'
+import SettingsIcon from '@mui/icons-material/Settings'
+import CloseIcon from '@mui/icons-material/Close'
+import FilterListIcon from '@mui/icons-material/FilterList'
+import MapIcon from '@mui/icons-material/Map'
+import ViewComfyIcon from '@mui/icons-material/ViewComfy'
+import RefreshIcon from '@mui/icons-material/Refresh'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import ImageSearchIcon from '@mui/icons-material/ImageSearch'
+import AccountTreeIcon from '@mui/icons-material/AccountTree'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 import {
     setModal,
@@ -121,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
     aLink: {
         'width': '100%',
         'height': '100% !important',
-        'padding': `9px 0px 9px ${theme.spacing(3)}px`,
+        'padding': `9px 0px 9px ${theme.spacing(3)}`,
         'color': theme.palette.text.secondary,
         'textDecoration': 'none',
         'boxSizing': 'border-box',
@@ -166,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
     buttonActive: {
         color: theme.palette.active.main,
         borderLeft: `2px solid ${theme.palette.active.main}`,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             background: `${theme.palette.active.main} !important`,
             color: theme.palette.swatches.grey.grey800,
         },
@@ -304,15 +303,15 @@ const Toolbar = (props) => {
 
     // the current page we're on
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const theme = useTheme()
-    const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const mobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const dispatch = useDispatch()
     const w = useSelector((state) => {
-        return state.getIn(['workspace', 'main']).toJS()
-    })
+        return state.getIn(['workspace', 'main'])
+    }).toJS()
     const mW = useSelector((state) => {
         return state.getIn(['workspace', 'mobile'])
     })
@@ -369,7 +368,7 @@ const Toolbar = (props) => {
                                     if (item.isAtlas) {
                                         e.preventDefault()
                                         setDrawer(0)
-                                        history.push(`${item.path}`)
+                                        navigate(`${item.path}`)
                                     }
                                 }}
                                 target="__blank"
@@ -457,7 +456,7 @@ const Toolbar = (props) => {
 
                                             dispatch(setFilexPreview({}))
                                             if (Object.keys(currentURL.query).length > 0)
-                                                history.replace(newPath)
+                                                navigate(newPath, { replace: true })
                                             dispatch(removeFilexColumn(0))
                                         }}
                                     >
@@ -700,4 +699,4 @@ const Toolbar = (props) => {
     )
 }
 
-export default withWidth()(Toolbar)
+export default Toolbar

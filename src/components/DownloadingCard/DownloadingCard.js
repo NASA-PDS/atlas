@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
 import clsx from 'clsx'
 import moment from 'moment'
 
-import Paper from '@material-ui/core/Paper'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import PauseIcon from '@material-ui/icons/Pause'
-import PlayIcon from '@material-ui/icons/PlayArrow'
-import StopIcon from '@material-ui/icons/Stop'
+import Paper from '@mui/material/Paper'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import LinearProgress from '@mui/material/LinearProgress'
+import PauseIcon from '@mui/icons-material/Pause'
+import PlayIcon from '@mui/icons-material/PlayArrow'
+import StopIcon from '@mui/icons-material/Stop'
 
 import { abbreviateNumber } from '../../core/utils.js'
 
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     statusInner: {
         display: 'flex',
         justifyContent: 'space-between',
-        padding: `${theme.spacing(1.5)}px`,
+        padding: theme.spacing(1.5),
         height: '48px',
     },
     statusLeft: {
@@ -247,7 +247,7 @@ function DownloadingCard(props) {
                                     resume()
                                 }
                             }}
-                        >
+                            size="large">
                             {mode === modes.paused ? (
                                 <PlayIcon fontSize="inherit" />
                             ) : (
@@ -257,14 +257,14 @@ function DownloadingCard(props) {
                     </Tooltip>
 
                     <Tooltip title="Stop Download" arrow>
-                        <IconButton className={c.statusButtonRed} onClick={stop}>
+                        <IconButton className={c.statusButtonRed} onClick={stop} size="large">
                             <StopIcon fontSize="inherit" />
                         </IconButton>
                     </Tooltip>
                 </div>
             </div>
         </Paper>
-    )
+    );
 }
 
 DownloadingCard.propTypes = {}

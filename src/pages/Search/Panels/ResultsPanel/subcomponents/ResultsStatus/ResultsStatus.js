@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -9,16 +9,16 @@ import { setFieldState } from '../../../../../../core/redux/actions/actions'
 import { getIn, capitalize, prettify, isObject, objectToString } from '../../../../../../core/utils'
 import { resultsStatuses } from '../../../../../../core/constants'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
-import Paper from '@material-ui/core/Paper'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import Tooltip from '@material-ui/core/Tooltip'
+import Paper from '@mui/material/Paper'
+import CircularProgress from '@mui/material/CircularProgress'
+import LinearProgress from '@mui/material/LinearProgress'
+import Tooltip from '@mui/material/Tooltip'
 
-import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined'
-import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined'
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const useStyles = makeStyles((theme) => ({
     ResultsStatus: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
         'transform': 'translateX(-50%) translateY(-50%)',
         'background': theme.palette.primary.main,
         '& > div': {
-            padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+            padding: `${theme.spacing(4)} ${theme.spacing(6)}`,
         },
     },
     waiting: {
@@ -103,14 +103,6 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiLinearProgress-barColorPrimary': {
             background: theme.palette.accent.main,
         },
-        '& .MuiLinearProgress-bar1Indeterminate': {
-            animation:
-                'MuiLinearProgress-keyframes-indeterminate1 6.3s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite',
-        },
-        '& .MuiLinearProgress-bar2Indeterminate': {
-            animation:
-                'MuiLinearProgress-keyframes-indeterminate2 6.3s cubic-bezier(0.165, 0.84, 0.44, 1) 3.45s infinite',
-        },
     },
     none: {
         background: theme.palette.swatches.yellow.yellow700,
@@ -160,8 +152,8 @@ const ResultsStatus = (props) => {
     const dispatch = useDispatch()
 
     const resultsStatus = useSelector((state) => {
-        return state.getIn(['resultsStatus']).toJS()
-    })
+        return state.getIn(['resultsStatus'])
+    }).toJS()
 
     let inner = null
     let outer = null

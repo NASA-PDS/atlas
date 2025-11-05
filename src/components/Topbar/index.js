@@ -1,19 +1,20 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useNavigate, useLocation } from 'react-router-dom'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import clsx from 'clsx'
 
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
-import Badge from '@material-ui/core/Badge'
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined'
-import ImageSearchIcon from '@material-ui/icons/ImageSearch'
-import AccountTreeIcon from '@material-ui/icons/AccountTree'
+import Badge from '@mui/material/Badge'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
+import ImageSearchIcon from '@mui/icons-material/ImageSearch'
+import AccountTreeIcon from '@mui/icons-material/AccountTree'
 
 import { HASH_PATHS } from '../../core/constants'
 
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 400,
         fontSize: 11,
         margin: 0,
-        padding: `0px ${theme.spacing(1)}px`,
+        padding: `0px ${theme.spacing(1)}`,
         lineHeight: '22px',
         textTransform: 'uppercase',
     },
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 500,
         fontSize: 20,
         margin: 0,
-        padding: `0px ${theme.spacing(0.5)}px`,
+        padding: `0px ${theme.spacing(0.5)}`,
         lineHeight: '22px',
     },
     appNameBeta: {
@@ -93,17 +94,17 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 14,
         letterSpacing: '1px',
         margin: 0,
-        padding: `0px ${theme.spacing(0.5)}px`,
+        padding: `0px ${theme.spacing(0.5)}`,
         lineHeight: '22px',
         textTransform: 'uppercase',
     },
     dividerV1: {
         background: theme.palette.swatches.grey.grey600,
-        margin: `${theme.spacing(0.5)}px ${theme.spacing(2)}px`,
+        margin: `${theme.spacing(0.5)} ${theme.spacing(2)}`,
     },
     dividerV2: {
         background: theme.palette.swatches.grey.grey600,
-        margin: `${theme.spacing(0.5)}px`,
+        margin: theme.spacing(0.5),
     },
     dividerH: {
         background: theme.palette.swatches.grey.grey600,
@@ -144,11 +145,11 @@ const Topbar = () => {
     const c = useStyles()
 
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const theme = useTheme()
-    const isMobileSm = useMediaQuery(theme.breakpoints.down('sm'))
-    const isMobileXs = useMediaQuery(theme.breakpoints.down('xs'))
+    const isMobileSm = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobileXs = useMediaQuery(theme.breakpoints.down('sm'))
 
     const cart = useSelector((state) => {
         return state.get('cart').toJS() || []
@@ -207,7 +208,7 @@ const Topbar = () => {
                         onClick={() => {
                             window.open(HASH_PATHS.apiDocumentation, '_blank').focus()
                         }}
-                    >
+                        size="large">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -224,9 +225,9 @@ const Topbar = () => {
                         })}
                         aria-label="go to image search"
                         onClick={() => {
-                            history.push(HASH_PATHS.search)
+                            navigate(HASH_PATHS.search)
                         }}
-                    >
+                        size="large">
                         <ImageSearchIcon fontSize="inherit" />
                     </IconButton>
                 </Tooltip>
@@ -238,9 +239,9 @@ const Topbar = () => {
                         })}
                         aria-label="go to archive explorer"
                         onClick={() => {
-                            history.push(HASH_PATHS.fileExplorer)
+                            navigate(HASH_PATHS.fileExplorer)
                         }}
-                    >
+                        size="large">
                         <AccountTreeIcon fontSize="inherit" />
                     </IconButton>
                 </Tooltip>
@@ -250,9 +251,9 @@ const Topbar = () => {
                         className={clsx(c.button, { [c.buttonActive]: pageName === 'Cart' })}
                         aria-label="go to cart"
                         onClick={() => {
-                            history.push(HASH_PATHS.cart)
+                            navigate(HASH_PATHS.cart)
                         }}
-                    >
+                        size="large">
                         <Badge className={c.cartBadge} badgeContent={cartLength}>
                             <ShoppingCartOutlinedIcon fontSize="inherit" />
                         </Badge>
@@ -260,7 +261,7 @@ const Topbar = () => {
                 </Tooltip>
             </div>
         </div>
-    )
+    );
 }
 
 export default Topbar

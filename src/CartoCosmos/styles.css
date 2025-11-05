@@ -51,6 +51,7 @@
     color: #ececec;
     background: rgba(0, 0, 0, 0);
     font-size: 12px;
+    text-shadow: none;
 }
 .leaflet-control-layers {
     position: relative;

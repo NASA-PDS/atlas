@@ -1,11 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-
-import { getIn } from '../../core/utils'
-import { addFilexColumn } from '../../core/redux/actions/actions'
-
-import { HASH_PATHS } from '../../core/constants'
 
 import Heading from './Heading/Heading'
 import Columns from './Columns/Columns'
@@ -15,17 +10,11 @@ import RegexModal from './Modals/RegexModal/RegexModal'
 
 import MenuButton from '../../components/MenuButton/MenuButton'
 
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
-import SortIcon from '@material-ui/icons/Sort'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
-import LinkIcon from '@material-ui/icons/Link'
+import SortIcon from '@mui/icons-material/Sort'
 
 import clsx from 'clsx'
 import Draggable from 'react-draggable'
@@ -44,18 +33,9 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '16px',
         fontWeight: 500,
         margin: 0,
-        padding: `0 ${theme.spacing(3)}px`,
+        padding: `0 ${theme.spacing(3)}`,
     },
     topMenu: {},
-    sort: {
-        'color': theme.palette.swatches.grey.grey300,
-        'padding': '9px 10px 10px 10px',
-        'background': 'rgba(0,0,0,0)',
-        'transition': 'background 0.2s ease-out',
-        '&:hover': {
-            background: theme.palette.swatches.grey.grey700,
-        },
-    },
     content: {
         width: '100%',
         height: `calc(100% - ${theme.headHeights[2] + 1}px)`,
@@ -111,7 +91,10 @@ const useStyles = makeStyles((theme) => ({
 let slidingRight = false
 
 const FileExplorer = (props) => {
-    const { width } = props
+    useEffect(() => {
+        document.title = 'Atlas - Archive Explorer | PDS-IMG'
+    }, [])
+
     const c = useStyles()
 
     const dispatch = useDispatch()
@@ -130,8 +113,8 @@ const FileExplorer = (props) => {
     let [forcedPreview, setForcedPreview] = useState(null)
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-    const isLarge = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isLarge = useMediaQuery(theme.breakpoints.down('lg'))
 
     const slideToRight = () => {
         if (slidingRight || slideRef == null || slideRef.current == null) return
@@ -181,11 +164,11 @@ const FileExplorer = (props) => {
         } else setForcedPreview(null)
     }
 
-    const modal = useSelector((state) => {
-        const m = state.getIn(['modals', 'regex'])
-        if (typeof m.toJS === 'function') return m.toJS()
-        return m
+    let modal = useSelector((state) => {
+        return state.getIn(['modals', 'regex'])
     })
+
+    if (typeof modal.toJS === 'function') modal = modal.toJS()
 
     // If mobile
     if (isMobile) {
@@ -281,4 +264,4 @@ const FileExplorer = (props) => {
 
 FileExplorer.propTypes = {}
 
-export default withWidth()(FileExplorer)
+export default FileExplorer

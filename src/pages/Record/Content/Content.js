@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import { getIn, objectArrayIndexOfKeyWithValue } from '../../../core/utils'
 import { ES_PATHS } from '../../../core/constants'
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
     component: {
         flex: 1,
-        overflowY: 'auto',
+        overflowY: 'hidden',
     },
 }))
 

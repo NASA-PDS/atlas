@@ -1,24 +1,23 @@
 import React, { useState, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-import { fade, makeStyles, withStyles } from '@material-ui/core/styles'
-import TreeView from '@material-ui/lab/TreeView'
-import TreeItem from '@material-ui/lab/TreeItem'
-import Collapse from '@material-ui/core/Collapse'
-import IconButton from '@material-ui/core/IconButton'
-import Button from '@material-ui/core/Button'
-import Checkbox from '@material-ui/core/Checkbox'
-import Input from '@material-ui/core/Input'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
+import { makeStyles, withStyles } from '@mui/styles'
+import { styled } from '@mui/material/styles'
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
+import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem'
+import Collapse from '@mui/material/Collapse'
+import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import Input from '@mui/material/Input'
+import InputAdornment from '@mui/material/InputAdornment'
+import { useSpring, animated } from '@react-spring/web'
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import FilterListIcon from '@material-ui/icons/FilterList'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import FilterListIcon from '@mui/icons-material/FilterList'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
 import Highlighter from 'react-highlight-words'
 
@@ -45,57 +44,41 @@ TransitionComponent.propTypes = {
     in: PropTypes.bool,
 }
 
-const StyledTreeGroup = withStyles((theme) => ({
-    root: {
-        textTransform: 'uppercase',
-        minHeight: theme.headHeights[3],
-    },
-    content: {
+const StyledTreeGroup = styled(TreeItem)(({ theme }) => ({
+    minHeight: theme.headHeights[3],
+    textTransform: 'uppercase',
+    paddingLeft: '6px',
+    [`& .${treeItemClasses.content}`]: {
         height: theme.headHeights[3],
-    },
-    iconContainer: {
-        '& .close': {
-            opacity: 0.3,
+        flex: 1,
+        justifyContent: 'left',
+        alignItems: 'center',
+        [`&.${treeItemClasses.selected}:hover`]: {
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
         },
     },
-    label: {
-        fontSize: 14,
-        height: theme.headHeights[3],
-        lineHeight: `${theme.headHeights[3]}px`,
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 12,
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+}))
 
-const StyledTreeItem = withStyles((theme) => ({
-    root: {
-        'height': theme.headHeights[3],
-        'textTransform': 'uppercase',
-        'marginLeft': '-20px',
-        '& > div > .MuiTreeItem-label': {
-            padding: '0px',
-        },
+const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
+    height: theme.headHeights[3],
+    marginLeft: '-20px',
+    textTransform: 'uppercase',
+    [`& > div > .${treeItemClasses.label}`]: {
+        padding: '0px',
     },
-    iconContainer: {
-        '& .close': {
-            opacity: 0.3,
-        },
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 12,
-        height: '32px',
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+}))
 
+// TODO: Investigation consolidation of StyledTreeItem with FilterTreeLabel
+// The two noted component appear to be redundant, investigate how they can
+// merged to reduce code complexity
 const FilterTreeLabel = withStyles((theme) => ({
     FilterTreeLabel: {
         display: 'flex',
         height: theme.headHeights[3],
     },
-    checkbox: {},
+    checkbox: {
+        borderRadius: 0,
+    },
     infoIcon: {
         fontSize: '18px',
         padding: '12px 7px',
@@ -251,8 +234,8 @@ const makeTree = (
                 keyI++
                 tree.push(
                     <StyledTreeItem
+                        itemId={`${keyI}`}
                         key={keyI}
-                        nodeId={`${keyI}`}
                         style={{
                             display: shown.shown ? 'inherit' : 'none',
                         }}
@@ -275,6 +258,9 @@ const makeTree = (
                                 }}
                             />
                         }
+                        slots={{
+                            groupTransition: TransitionComponent,
+                        }}
                     />
                 )
             } else if (type === 'groups') {
@@ -282,8 +268,8 @@ const makeTree = (
                 if (shown.shown) groupIds.push(keyI + '')
                 tree.push(
                     <StyledTreeGroup
+                        itemId={`${keyI}`}
                         key={keyI}
-                        nodeId={`${keyI}`}
                         label={
                             <Highlighter
                                 searchWords={[filterString]}
@@ -291,6 +277,9 @@ const makeTree = (
                                 textToHighlight={String(node[iter[i]].display_name || iter[i])}
                             />
                         }
+                        slots={{
+                            groupTransition: TransitionComponent,
+                        }}
                         style={{ display: shown.shown ? 'inherit' : 'none' }}
                         onClick={(function (kI) {
                             return function () {
@@ -343,7 +332,7 @@ const useStyles = makeStyles((theme) => ({
     tree: {
         flex: 1,
         overflowX: 'hidden',
-        padding: `0 ${theme.spacing(2)}px 0 ${theme.spacing(2)}px`,
+        padding: `0 ${theme.spacing(2)} 0 ${theme.spacing(2)}`,
     },
     helpOpenLeft: {
         transition: 'width 0.2s ease-out',
@@ -369,11 +358,14 @@ const useStyles = makeStyles((theme) => ({
     },
     input: {
         'width': '100%',
-        'margin': `${theme.spacing(1)}px 0 ${theme.spacing(2)}px 0`,
-        'padding': `0 ${theme.spacing(2)}px 0 ${theme.spacing(2)}px`,
+        'margin': `${theme.spacing(1)} 0 ${theme.spacing(2)} 0`,
+        'padding': `0 ${theme.spacing(2)} 0 ${theme.spacing(2)}`,
         'borderBottom': `1px solid ${theme.palette.swatches.grey.grey200}`,
         '&:before': {
             borderBottom: `1px solid rgba(255,255,255,0.2)`,
+        },
+        '& > input': {
+            padding: '5px 0 6px',
         },
     },
     clearInput: {
@@ -475,12 +467,7 @@ const FilterTree = (props) => {
                         Clear
                     </Button>
                 </div>
-                <TreeView
-                    className={c.tree}
-                    defaultCollapseIcon={<ExpandMoreIcon />}
-                    defaultExpandIcon={<ChevronRightIcon />}
-                    expanded={finalExpandeds}
-                >
+                <SimpleTreeView className={c.tree} expanded={finalExpandeds}>
                     {makeTree(
                         atlasMapping,
                         activeFilterIds,
@@ -490,7 +477,7 @@ const FilterTree = (props) => {
                         setSelected,
                         toggleExpanded
                     )}
-                </TreeView>
+                </SimpleTreeView>
             </div>
             <div
                 className={clsx(c.right, {

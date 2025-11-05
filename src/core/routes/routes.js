@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Topbar from '../../components/Topbar'
 import Toolbar from '../../components/Toolbar/Toolbar'
@@ -19,7 +19,7 @@ import { loadMappings } from '../redux/actions/actions.js'
 
 import './routes.css'
 
-export const Routes = () => {
+export const AppRoutes = () => {
     const dispatch = useDispatch()
     // On first load, grab all the atlas index mappings
     useEffect(() => {
@@ -28,66 +28,34 @@ export const Routes = () => {
 
     return (
         <div className="Routes">
-            <Router>
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                 <Toolbar />
                 <div className="routeMain">
                     <Topbar />
-                    <Switch location={location}>
-                        <Route
-                            exact
-                            path={HASH_PATHS.root}
-                            component={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <Search />
-                                    </div>
-                                )
-                            }}
-                        />
-                        <Route
-                            exact
-                            path={HASH_PATHS.search}
-                            component={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <Search />
-                                    </div>
-                                )
-                            }}
-                        />
-                        <Route
-                            exact
-                            path={HASH_PATHS.record}
-                            component={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <Record />
-                                    </div>
-                                )
-                            }}
-                        />
-                        <Route
-                            exact
-                            path={HASH_PATHS.cart}
-                            component={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <Cart />
-                                    </div>
-                                )
-                            }}
-                        />
-                        <Route
-                            path={HASH_PATHS.fileExplorer}
-                            component={() => {
-                                return (
-                                    <div className="routeContent">
-                                        <FileExplorer />
-                                    </div>
-                                )
-                            }}
-                        />
-                    </Switch>
+                    <div className="routeContent">
+                        <Routes location={location}>
+                            <Route
+                                path={HASH_PATHS.root}
+                                element={ <Search /> }
+                            />
+                            <Route
+                                path={HASH_PATHS.search}
+                                element={ <Search /> }
+                            />
+                            <Route
+                                path={HASH_PATHS.record}
+                                element={ <Record /> }
+                            />
+                            <Route
+                                path={HASH_PATHS.cart}
+                                element={ <Cart /> }
+                            />
+                            <Route
+                                path={HASH_PATHS.fileExplorer}
+                                element={ <FileExplorer /> }
+                            />
+                        </Routes>
+                    </div>
                 </div>
             </Router>
             <InformationModal />

@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import withWidth from '@material-ui/core/withWidth'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { getIn, getPDSUrl, prettify, getExtension } from '../../../../../core/utils.js'
 import { HASH_PATHS, ES_PATHS, IMAGE_EXTENSIONS } from '../../../../../core/constants.js'
 
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
-import FormControl from '@material-ui/core/FormControl'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import FormControl from '@mui/material/FormControl'
 
 import OpenSeadragonViewer from '../../../../../components/OpenSeadragonViewer/OpenSeadragonViewer'
 import ThreeViewer from '../../../../../components/ThreeViewer/ThreeViewer'
@@ -24,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.swatches.grey.grey900,
         color: theme.palette.swatches.grey.grey150,
         display: 'flex',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             flexFlow: 'column',
         },
     },
     viewer: {
         height: '100%',
         flex: 1,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             minHeight: '60%',
             flex: 'unset',
             height: 'unset',
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         background: '#101013',
         borderLeft: `1px solid ${theme.palette.swatches.grey.grey700}`,
         padding: '0px 0px 32px 0px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             width: '100%',
             borderLeft: 'none',
             borderTop: `2px solid ${theme.palette.swatches.grey.grey900}`,
@@ -156,11 +155,12 @@ const fields = [
 ]
 
 const Overview = (props) => {
+
     const { recordData, versions, activeVersion } = props
     const c = useStyles()
-    const history = useHistory()
+    const navigate = useNavigate()
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const release_id = getIn(recordData, ES_PATHS.release_id)
 
@@ -222,7 +222,7 @@ const Overview = (props) => {
                                         <Select
                                             className={c.select}
                                             onChange={(e) => {
-                                                history.push(
+                                                navigate(
                                                     `${HASH_PATHS.record}?uri=${
                                                         versions[e.target.value].uri
                                                     }`
@@ -264,4 +264,4 @@ Overview.propTypes = {
     recordData: PropTypes.object,
 }
 
-export default withWidth()(Overview)
+export default Overview;

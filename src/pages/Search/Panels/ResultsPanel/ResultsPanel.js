@@ -3,17 +3,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import Url from 'url-parse'
 
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles'
-
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
+import { makeStyles, withStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
 
 import Heading from './subcomponents/Heading/Heading'
 import ResultsStatus from './subcomponents/ResultsStatus/ResultsStatus'
 import GridView from './subcomponents/GridView/GridView'
 import ListView from './subcomponents/ListView/ListView'
 import TableView from './subcomponents/TableView/TableView'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 
 import { search } from '../../../../core/redux/actions/actions.js'
 import { abbreviateNumber } from '../../../../core/utils.js'
@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
     },
     contents: {
-        width: '100%', //`calc(100% - ${theme.spacing(2)}px)`,
-        height: '100%', //`calc(100% - ${theme.spacing(4)}px)`,
-        margin: 0, //`${theme.spacing(2)}px ${theme.spacing(1)}px`,
+        width: '100%', //`calc(100% - ${theme.spacing(2)})`,
+        height: '100%', //`calc(100% - ${theme.spacing(4)})`,
+        margin: 0, //`${theme.spacing(2)} ${theme.spacing(1)}`,
         display: 'flex',
         flexFlow: 'column',
         background: theme.palette.swatches.grey.grey150,
@@ -171,11 +171,10 @@ const ResultsPanel = (props) => {
         return state.getIn(['filterType'])
     })
 
-    const results = useSelector((state) => {
-        const r = state.getIn(['results'])
-        if (typeof r.toJS === 'function') return r.toJS()
-        return r
+    let results = useSelector((state) => {
+        return state.getIn(['results'])
     })
+    if (typeof results.toJS === 'function') results = results.toJS()
 
     const paging = useSelector((state) => state.getIn(['resultsPaging'])).toJS()
 

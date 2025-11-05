@@ -1,9 +1,10 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
-import ButtonBase from '@material-ui/core/ButtonBase'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles, withStyles, fade } from '@material-ui/core/styles'
-import Zoom from '@material-ui/core/Zoom'
+import Grid from '@mui/material/Grid'
+import ButtonBase from '@mui/material/ButtonBase'
+import Typography from '@mui/material/Typography'
+import { alpha } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import Zoom from '@mui/material/Zoom'
 import StyledTooltip from './StyledTooltip.jsx'
 
 /**
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
             },
         },
         '&:active': {
-            background: fade('#1971c2', 0.5),
+            background: alpha('#1971c2', 0.5),
         },
         '&:hover, &$focusVisible': {
             background: 'black',
@@ -140,7 +141,7 @@ export default function ConsoleProjectionButtons() {
             container
             item
             direction="column"
-            justify="center"
+            justifyContent="center"
             alignItems="center"
             xs
         >
@@ -241,5 +242,5 @@ export default function ConsoleProjectionButtons() {
                 </StyledTooltip>
             </Grid>
         </Grid>
-    )
+    );
 }

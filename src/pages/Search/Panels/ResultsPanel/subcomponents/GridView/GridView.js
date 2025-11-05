@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
     AVAILABLE_URI_SIZES,
     IMAGE_EXTENSIONS,
+    MODEL_EXTENSIONS,
 } from '../../../../../../core/constants'
 
 import { useResizeDetector } from 'react-resize-detector'
@@ -19,13 +19,9 @@ import {
     useScrollToIndex,
 } from 'masonic'
 
-import clsx from 'clsx'
-import LazyLoad from 'react-lazy-load'
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
-import Checkbox from '@material-ui/core/Checkbox'
-
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 import {
     search,
@@ -274,18 +270,21 @@ const GridView = (props) => {
 const GridCard = ({ index, data, width }) => {
     const c = useStyles()
 
-    const dispatch = useDispatch()
-
-    // let's change pages by updating the history
-    const history = useHistory()
+    const navigate = useNavigate()
     const s = data._source
 
     const gridItemHeight = useSelector((state) => state.getIn(['gridSize'])) || 170
 
     const release_id = getIn(s, ES_PATHS.release_id)
 
-    const thumb_id = getIn(s, ES_PATHS.thumb)
+    let thumb_id = getIn(s, ES_PATHS.thumb)
 
+    if (MODEL_EXTENSIONS.includes(getExtension(thumb_id).toLowerCase())) {
+        thumb_id =
+            getIn(s, ES_PATHS.supplemental, []).find((f) =>
+                IMAGE_EXTENSIONS.includes(getExtension(f))
+            ) || thumb_id
+    }
     const imgURL = getPDSUrl(
         thumb_id,
         release_id,
@@ -306,7 +305,7 @@ const GridCard = ({ index, data, width }) => {
                 maxHeight: `${gridItemHeight}px`,
             }}
             onClick={() => {
-                history.push(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
+                navigate(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
             }}
             onMouseEnter={() => {
                 sASet(sAKeys.HOVERED_RESULT, data)
@@ -315,30 +314,29 @@ const GridCard = ({ index, data, width }) => {
                 sASet(sAKeys.HOVERED_RESULT, null)
             }}
         >
-            <LazyLoad offset={600} once>
-                <Image
-                    className={`${c.gridItemImage} ResultsPanelImage`}
-                    style={{
-                        height: '100%',
-                        paddingTop: 'unset',
-                        background: '#192028',
-                        position: 'initial',
-                    }}
-                    imageStyle={{
-                        transition:
-                            'filterBrightness 900ms cubic-bezier(0.4, 0, 0.2, 1) 0s, filterSaturate 1200ms cubic-bezier(0.4, 0, 0.2, 1) 0s, opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 0s, transform 0.15s ease-out 0s',
-                        transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
-                        height: `${gridItemHeight}px`,
-                    }}
-                    disableSpinner={true}
-                    animationDuration={1200}
-                    iconContainerStyle={{ opacity: 0.6 }}
-                    src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
-                    alt={fileName}
-                    errorIcon={<ProductIcons filename={fileName} />}
-                />
-            </LazyLoad>
+            <Image
+                className={`${c.gridItemImage} ResultsPanelImage`}
+                wrapperStyle={{
+                    height: '100%',
+                    paddingTop: 'unset',
+                    background: '#000000',
+                    position: 'initial',
+                }}
+                style={{
+                    transition: 'opacity 600ms ease-in-out 0s, transform 0.15s ease-out 0s',
+                    transform: `rotateZ(${window.atlasGlobal.imageRotation}deg)`,
+                    height: `${gridItemHeight}px`,
+                }}
+                duration={0}
+                src={IMAGE_EXTENSIONS.includes(getExtension(imgURL, true)) ? imgURL : 'null'}
+                alt={fileName}
+                errorIcon={<ProductIcons filename={fileName} />}
+                loading="lazy"
+            />
             <ProductToolbar result={data} />
+            {MODEL_EXTENSIONS.includes(getExtension(fileName, true)) && (
+                <ProductIcons filename={fileName} />
+            )}
             <div className={c.fileExt}>{getExtension(fileName, true)}</div>
             {getIn(s, ES_PATHS.ml, false) ? <div className={c.hasML}>ML</div> : null}
             <div className={`${c.selectionIndicator} selectionIndicator`}></div>

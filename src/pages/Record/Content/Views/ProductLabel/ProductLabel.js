@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { setSnackBarText } from '../../../../../core/redux/actions/actions'
@@ -12,28 +12,23 @@ import {
 } from '../../../../../core/utils.js'
 import { ES_PATHS, IMAGE_EXTENSIONS } from '../../../../../core/constants.js'
 
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Box from '@material-ui/core/Box'
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
-import TreeView from '@material-ui/lab/TreeView'
-import TreeItem from '@material-ui/lab/TreeItem'
-import Collapse from '@material-ui/core/Collapse'
-import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Box from '@mui/material/Box'
+import Input from '@mui/material/Input'
+import InputAdornment from '@mui/material/InputAdornment'
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView'
+import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem'
+import Collapse from '@mui/material/Collapse'
+import { useSpring, animated } from '@react-spring/web'
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import SearchIcon from '@material-ui/icons/Search'
-import CloseIcon from '@material-ui/icons/Close'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import SearchIcon from '@mui/icons-material/Search'
+import CloseIcon from '@mui/icons-material/Close'
 
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import withWidth from '@material-ui/core/withWidth'
+import { makeStyles, withStyles } from '@mui/styles'
+import { styled, useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import OpenSeadragonViewer from '../../../../../components/OpenSeadragonViewer/OpenSeadragonViewer'
 import MenuButton from '../../../../../components/MenuButton/MenuButton'
@@ -60,121 +55,110 @@ TransitionComponent.propTypes = {
     in: PropTypes.bool,
 }
 
-const StyledTreeGroup = withStyles((theme) => ({
-    root: {
-        'minHeight': theme.headHeights[3],
-        '& > div > .MuiTreeItem-label': {
-            '&:hover': {
-                background: 'unset',
-            },
-        },
+const StyledTreeGroup = styled(TreeItem)(({theme}) => ({
+  'minHeight': theme.headHeights[3],
+  'margin': '8px 0px',
+  [`& .${treeItemClasses.content}`]: {
+    'minHeight': theme.headHeights[3],
+    'flex': 1,
+    'justifyContent': 'left',
+    'alignItems': 'center',
+    'background': theme.palette.swatches.grey.grey0,
+    'border': `1px solid ${theme.palette.swatches.grey.grey200}`,
+    'boxShadow': '0px 1px 4px 0px rgba(0,0,0,0)',
+    'borderRadius': '0px',
+    'padding': '0px 8px',
+    'boxSizing': 'border-box',
+    'width': 'auto',
+    'transition': 'box-shadow 0.2s ease-in-out',
+    '&:hover': {
+        background: "#FFFFFF",
+        boxShadow: '0px 2px 5px 0px rgba(0,0,0,0.15)',
     },
-    content: {
-        'height': theme.headHeights[3],
-        'margin': '4px',
-        'background': theme.palette.swatches.grey.grey0,
-        'border': `1px solid ${theme.palette.swatches.grey.grey200}`,
-        'boxShadow': '0px 1px 4px 0px rgba(0,0,0,0.1)',
-        'padding': '0px 8px',
-        'boxSizing': 'border-box',
-        'width': 'auto',
-        'transition': 'box-shadow 0.2s ease-in-out',
-        '&:hover': {
-            boxShadow: '0px 2px 5px 0px rgba(0,0,0,0.15)',
-        },
+    [`&.${treeItemClasses.selected}`]: {
+      background: "#FFFFFF !important",
+    }
+  },
+  [`& .${treeItemClasses.iconContainer}`]: {
+    '& svg': {
+        fontSize: '24px !important',
+        fill: theme.palette.accent.main,
     },
-    iconContainer: {
-        '& .close': {
-            opacity: 0.3,
-        },
-        '& svg': {
-            fontSize: '24px',
-            fill: theme.palette.accent.main,
-        },
-    },
-    label: {
-        fontSize: 14,
-        height: theme.headHeights[3],
-        lineHeight: `${theme.headHeights[3]}px`,
-    },
-    group: {
-        marginLeft: 19,
-        paddingLeft: 12,
-        borderLeft: `1px solid ${theme.palette.swatches.grey.grey200}`,
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+  },
+  [`& .${treeItemClasses.label}`]: {
+      fontSize: 14,
+      lineHeight: `${theme.headHeights[3]}px`,
+  },
+  [`& .${treeItemClasses.groupTransition}`]: {
+    marginLeft: 17,
+    paddingLeft: 12,
+    borderLeft: `1px solid ${theme.palette.swatches.grey.grey200}`,
+  }
+}));
 
-const StyledTreeItem = withStyles((theme) => ({
-    root: {
-        '& > div > .MuiTreeItem-label': {
-            'paddingLeft': '8px',
-            '&:hover': {
-                background: 'inherit',
-            },
-        },
-        'borderLeft': '4px solid rgba(0,0,0,0)',
+const StyledTreeItem = styled(StyledTreeGroup)(({theme}) => ({
+  'minHeight': theme.headHeights[3],
+  [`& .${treeItemClasses.iconContainer}`]: {
+    display: "none"
+  },
+  [`& .${treeItemClasses.label}`]: {
+    paddingLeft: "8px"
+  },
+  [`& .${treeItemClasses.content}`]: {
+    '&:hover': {
+      cursor: 'default',
     },
-    iconContainer: {
-        display: 'none',
-    },
-    group: {
-        marginLeft: 7,
-        paddingLeft: 12,
-        height: '32px',
-    },
-}))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />)
+  }
+}));
+
+// TODO: consolidate StyledTreeItem and FilterTreeLabel into single component
+/*const FilterTreeLabel = styled(StyledTreeItem)(({theme}) => ({
+  label: {
+      'display': 'flex',
+      'justifyContent': 'space-between',
+      'flexWrap': 'wrap',
+      'wordBreak': 'break-all',
+  }
+}));*/
 
 const FilterTreeLabel = withStyles((theme) => ({
-    FilterTreeLabel: {
-        display: 'flex',
-        marginLeft: '-15px',
-        padding: '0px 4px 0px 6px',
-    },
     label: {
         'display': 'flex',
         'justifyContent': 'space-between',
         'flexWrap': 'wrap',
         'wordBreak': 'break-all',
-        'width': '100%',
-        'lineHeight': `${theme.headHeights[3]}px`,
-        'border': `1px solid ${theme.palette.swatches.grey.grey200}`,
-        'padding': '0px 8px 0px 16px',
-        'margin': '3px 0px',
-        'background': 'white',
-        'transition': 'all 0.2s ease-in-out',
-        '&:hover': {
-            boxShadow: '0px 2px 5px 0px rgba(0,0,0,0.15)',
-            background: theme.palette.swatches.grey.grey50,
-        },
     },
     key: {
         fontSize: '14px',
         fontWeight: 'bold',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             fontSize: '12px',
         },
     },
     value: {
         marginLeft: '40px',
+        marginRight: '8px',
         fontSize: '14px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             fontSize: '12px',
         },
     },
     highlight: {
-        fontWeight: 'bold',
+         fontWeight: 'bold',
     },
     more: {
-        'position': 'absolute',
-        'top': '9px',
-        'right': '10px',
-        'padding': '2px 10px',
-        'fontSize': '11px',
-        'border': 'none',
-        'background': theme.palette.swatches.grey.grey150,
-        '&:hover': {
-            background: theme.palette.swatches.blue.blue100,
-        },
+        'color': '#000000',
+         'position': 'absolute',
+         'top': '9px',
+         'right': '10px',
+         'padding': '2px 10px',
+         'fontSize': '11px',
+         'border': 'none',
+         'background': theme.palette.swatches.grey.grey150,
+         '&:hover': {
+            border: 'none',
+             background: theme.palette.swatches.blue.blue100,
+         },
     },
 }))((props) => {
     const { classes, id, valueKey, value, filterString } = props
@@ -266,8 +250,8 @@ const makeTree = (data, filterString, classes) => {
             if (isObject(node[iter[i]])) {
                 tree.push(
                     <StyledTreeGroup
+                        itemId={`${keyI}`}
                         key={keyI}
-                        nodeId={`${keyI}`}
                         label={
                             <Highlighter
                                 highlightClassName={classes.highlight}
@@ -276,6 +260,9 @@ const makeTree = (data, filterString, classes) => {
                                 textToHighlight={String(iter[i])}
                             />
                         }
+                        slots={{
+                          groupTransition: TransitionComponent
+                        }}
                     >
                         {depthTraversal(
                             node[iter[i]],
@@ -287,8 +274,8 @@ const makeTree = (data, filterString, classes) => {
             } else {
                 tree.push(
                     <StyledTreeItem
+                        itemId={`${keyI}`}
                         key={keyI}
-                        nodeId={`${keyI}`}
                         style={{
                             display: shown.shown ? 'inherit' : 'none',
                         }}
@@ -300,6 +287,9 @@ const makeTree = (data, filterString, classes) => {
                                 filterString={filterString}
                             />
                         }
+                        slots={{
+                          groupTransition: TransitionComponent
+                        }}
                     />
                 )
             }
@@ -344,10 +334,10 @@ const useStyles = makeStyles((theme) => ({
         borderLeft: `1px solid ${theme.palette.swatches.grey.grey150}`,
         width: '960px',
         background: theme.palette.swatches.grey.grey100,
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('lg')]: {
             width: '660px',
         },
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             width: '100%',
         },
     },
@@ -363,7 +353,7 @@ const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden',
         overflowY: 'auto',
         height: `calc(100% - ${theme.headHeights[2]}px)`,
-        padding: `4px 0px ${theme.spacing(8)}px 2px`,
+        padding: `4px 8px`,
         boxSizing: 'border-box',
     },
     viewer: {
@@ -371,32 +361,20 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
     },
     search: {
-        'flex': 1,
-        'position': 'relative',
-        'margin': '0px 8px 0px 0px',
-        '& > div': {
-            'width': '100%',
-            '& > div': {
-                width: '100%',
-            },
-        },
-        '& input': {
-            width: '100%',
-            height: `${theme.headHeights[2]}px`,
-            boxSizing: 'border-box',
-        },
-        '& .MuiInputAdornment-root': {
-            'marginLeft': '8px',
-            '& > svg': {
-                fill: theme.palette.swatches.grey.grey600,
-            },
+        flex: 1,
+    },
+    input: {
+        width: '100%',
+        'margin': `${theme.spacing(1)} 0 ${theme.spacing(2)} 0`,
+        'padding': `0 0 0 ${theme.spacing(2)}`,
+        'borderBottom': `1px solid ${theme.palette.swatches.grey.grey200}`,
+        '&:before': {
+            borderBottom: `1px solid rgba(255,255,255,0.2)`,
         },
     },
     searchCancelButton: {
-        width: `${theme.headHeights[2]}px`,
-        height: `${theme.headHeights[2]}px`,
-        position: 'absolute',
-        right: 0,
+        width: `${theme.headHeights[3]}px`,
+        height: `${theme.headHeights[3]}px`,
         color: theme.palette.swatches.grey.grey800,
         transition: 'opacity 0.2s ease-out',
     },
@@ -410,6 +388,11 @@ const useStyles = makeStyles((theme) => ({
         height: 30,
         margin: '0px 3px',
         color: theme.palette.text.primary,
+        border: "1px solid rgba(0, 0, 0, 0.23)",
+        "&:hover": {
+          border: "1px solid rgba(0, 0, 0, 0.23)",
+          'background': "#0000000a",
+        },
     },
     snackbar: {
         fontSize: 14,
@@ -418,12 +401,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ProductLabel = (props) => {
+
     const { recordData } = props
 
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const dispatch = useDispatch()
 
@@ -488,30 +472,32 @@ const ProductLabel = (props) => {
                 <div className={c.right}>
                     <div className={c.top}>
                         <div className={c.search}>
-                            <TextField
+                            <Input
+                                className={c.input}
                                 value={filterString}
                                 placeholder="Search in Label"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchIcon />
-                                        </InputAdornment>
-                                    ),
-                                }}
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                }
+                                endAdornment={
+                                  <InputAdornment>
+                                    <IconButton
+                                        className={c.searchCancelButton}
+                                        aria-label={`clear search`}
+                                        size="small"
+                                        style={{
+                                            opacity: filterString.length > 0 ? '1' : '0',
+                                        }}
+                                        onClick={() => setFilterString('')}
+                                    >
+                                        <CloseIcon />
+                                    </IconButton>
+                                  </InputAdornment>
+                                }
                                 onChange={(e) => setFilterString(e.target.value)}
                             />
-
-                            <IconButton
-                                className={c.searchCancelButton}
-                                aria-label={`clear search`}
-                                size="small"
-                                style={{
-                                    opacity: filterString.length > 0 ? '1' : '0',
-                                }}
-                                onClick={() => setFilterString('')}
-                            >
-                                <CloseIcon />
-                            </IconButton>
                         </div>
 
                         {!isMobile && (
@@ -572,15 +558,13 @@ const ProductLabel = (props) => {
                         )}
                     </div>
                     <div className={c.bottom}>
-                        <TreeView
-                            defaultCollapseIcon={<ExpandMoreIcon />}
-                            defaultExpandIcon={<ChevronRightIcon />}
+                        <SimpleTreeView
                             defaultExpanded={Array(labelTree.numOfKeys)
                                 .fill()
                                 .map((x, i) => String(i))}
                         >
                             {labelTree.tree}
-                        </TreeView>
+                        </SimpleTreeView>
                     </div>
                 </div>
             </div>
@@ -590,4 +574,4 @@ const ProductLabel = (props) => {
 
 ProductLabel.propTypes = {}
 
-export default withWidth()(ProductLabel)
+export default ProductLabel;

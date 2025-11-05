@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
-import Input from '@material-ui/core/Input'
-import Button from '@material-ui/core/Button'
+import Input from '@mui/material/Input'
+import Button from '@mui/material/Button'
 
 import { setFieldState } from '../../../../core/redux/actions/actions.js'
 import { getIn } from '../../../../core/utils.js'
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     InputRangeFilter: {
         display: 'flex',
         flexFlow: 'column',
-        padding: `0px ${theme.spacing(2)}px`,
+        padding: `0px ${theme.spacing(2)}`,
     },
     input: {
         flex: 1,
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
     outOfOrder: {
         textAlign: 'center',
-        margin: `${theme.spacing(2)}px 0px`,
+        margin: `${theme.spacing(2)} 0px`,
         color: theme.palette.swatches.red.red500,
         fontWeight: 'bold',
     },
@@ -49,10 +49,10 @@ const InputRangeFilter = (props) => {
     const [filterInputEnd, setFilterInputEnd] = useState(null)
 
     const dispatch = useDispatch()
-    const facet = useSelector((state) => {
-        const sel = state.getIn(['activeFilters', filterKey, 'facets', facetId])
-        return sel ? sel.toJS() : {}
+    let facet = useSelector((state) => {
+        return state.getIn(['activeFilters', filterKey, 'facets', facetId])
     })
+    facet = facet ? facet.toJS() : {}
 
     useEffect(() => {
         setFilterInputStart(

@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
-import { HASH_PATHS } from '../../../core/constants'
+import { useNavigate } from 'react-router-dom'
 
-import { getIn } from '../../../core/utils'
+import { makeStyles } from '@mui/styles'
 
-import { makeStyles } from '@material-ui/core/styles'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
 
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 
 import { removeFromCart, setModal } from '../../../core/redux/actions/actions.js'
 
@@ -47,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
     },
     name: {
-        margin: `0px ${theme.spacing(1)}px`,
+        margin: `0px ${theme.spacing(1)}`,
     },
     nameTitle: {
         fontSize: 18,
@@ -68,7 +65,7 @@ const Title = (props) => {
 
     const c = useStyles()
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
 
@@ -90,8 +87,9 @@ const Title = (props) => {
                             className={c.backButton}
                             aria-label="return"
                             onClick={() => {
-                                history.goBack()
+                                navigate(-1)
                             }}
+                            size="large"
                         >
                             <ChevronLeftIcon className={c.backIcon} />
                         </IconButton>
@@ -117,7 +115,7 @@ const Title = (props) => {
                 </Button>
                 <Button
                     className={c.button1}
-                    variant="outlined"
+                    variant="contained"
                     aria-label="empty cart button"
                     size="small"
                     onClick={() =>

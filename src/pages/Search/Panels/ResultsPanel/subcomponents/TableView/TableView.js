@@ -1,25 +1,23 @@
-import React, { useState, useEffect, memo } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
     HASH_PATHS,
     ES_PATHS,
     AVAILABLE_URI_SIZES,
     IMAGE_EXTENSIONS,
+    MODEL_EXTENSIONS,
 } from '../../../../../../core/constants'
 
 import { List, AutoSizer, InfiniteLoader } from 'react-virtualized'
 import Draggable from 'react-draggable'
 
 import clsx from 'clsx'
-import LazyLoad from 'react-lazy-load'
-import Image from 'material-ui-image'
+import Image from 'mui-image'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Checkbox from '@material-ui/core/Checkbox'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import { makeStyles } from '@mui/styles'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
 import {
     search,
@@ -34,9 +32,11 @@ import { getIn, getPDSUrl, getExtension } from '../../../../../../core/utils.js'
 import ProductToolbar from '../../../../../../components/ProductToolbar/ProductToolbar'
 import ProductIcons from '../../../../../../components/ProductIcons/ProductIcons'
 
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
-import ImageIcon from '@material-ui/icons/Image'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import ImageIcon from '@mui/icons-material/Image'
+
+import BrowseImage from '../../../../../../components/BrowseImage/BrowseImage.js'
 
 const rowItemHeight = 32
 
@@ -49,11 +49,15 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
     },
     content: {
-        'height': `calc(100% - ${theme.headHeights[3]}px)`,
-        'overflowY': 'auto',
+        'height': '100%',
+        'overflowY': 'hidden',
         'background': 'white',
         '& > div': {
             whiteSpace: 'nowrap',
+        },
+        '& .ReactVirtualize__List': {
+            overflowX: 'hidden',
+            overflowY: 'auto',
         },
     },
     rowItem: {
@@ -94,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
         height: `${rowItemHeight}px`,
     },
     cellThumbnail: {
+        'background-color': `${theme.palette.swatches.black.black0}`,
         'width': `${rowItemHeight}px`,
         'height': `${rowItemHeight}px`,
         'zIndex': 2,
@@ -143,6 +148,10 @@ const useStyles = makeStyles((theme) => ({
         boxSizing: 'border-box',
         padding: '6px',
     },
+    modelIcon: {
+        width: '100%',
+        height: '100%',
+    },
     header: {
         'borderBottom': `1px solid ${theme.palette.swatches.grey.grey300}`,
         'min-height': `${theme.headHeights[3]}px`,
@@ -151,7 +160,7 @@ const useStyles = makeStyles((theme) => ({
         'display': 'inline-block',
         'whiteSpace': 'nowrap',
         'box-sizing': 'border-box',
-        'width': '100%',
+        'min-width': '100%',
         'background': theme.palette.swatches.grey.grey150,
     },
     cellHeader: {
@@ -204,22 +213,6 @@ const useStyles = makeStyles((theme) => ({
         'box-sizing': 'border-box',
         'display': 'inline-block',
     },
-    checkbox: {
-        'width': '100%',
-        'height': '30px',
-        'padding': '0',
-        'transition': 'background 0.2s ease-out',
-        '&:hover': {
-            background: 'rgba(0,0,0,0.1)',
-        },
-    },
-    checkboxChecked: {
-        'background': theme.palette.swatches.red.red500,
-        'color': `${theme.palette.text.secondary} !important`,
-        '&:hover': {
-            background: `${theme.palette.swatches.red.red500} !important`,
-        },
-    },
     sortButton: {
         position: 'absolute',
         margin: '4px',
@@ -257,14 +250,13 @@ const TableView = (props) => {
     ]
 
     const resultSorting = useSelector((state) => {
-        return state.getIn(['resultSorting']).toJS()
-    })
+        return state.getIn(['resultSorting'])
+    }).toJS()
 
-    const resultsTable = useSelector((state) => {
-        const r = state.getIn(['resultsTable'])
-        if (typeof r.toJS === 'function') return r.toJS()
-        return r
+    let resultsTable = useSelector((state) => {
+        return state.getIn(['resultsTable'])
     })
+    if (typeof resultsTable.toJS === 'function') resultsTable = resultsTable.toJS()
 
     resultsTable.columns.forEach((path) => {
         cols.push({ type: 'label', path: path.split('.') })
@@ -273,7 +265,7 @@ const TableView = (props) => {
     if (results.length != resultsLength) loadedMore = true
     resultsLength = results.length
 
-    const [columnWidths, setColumnWidths] = useState([32, 32].concat(Array(498).fill(200)))
+    const [columnWidths, setColumnWidths] = useState([32, 32, 520].concat(Array(497).fill(200)))
 
     const headerRef = React.useRef(null)
     const tableContainerRef = React.useRef(null)
@@ -292,15 +284,14 @@ const TableView = (props) => {
     const RowItem = ({ index, data }) => {
         const c = useStyles()
 
-        const dispatch = useDispatch()
-        const history = useHistory()
+        const navigate = useNavigate()
 
         if (data == null) return null
 
         const s = data._source
 
         function toRecord() {
-            history.push(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
+            navigate(`${HASH_PATHS.record}?uri=${getIn(s, ES_PATHS.source)}`)
         }
 
         return (
@@ -323,17 +314,10 @@ const TableView = (props) => {
 
     return (
         <div className={`${c.TableView} fade-in`}>
-            <div className={c.header} ref={headerRef}>
-                {makeHeader(cols, columnWidths, setColumnWidths, resultSorting, setSort)}
-            </div>
-            <div
-                className={c.content}
-                id="TableViewContent"
-                onScroll={(e) => {
-                    if (e.target.classList.contains('ReactVirtualized__List'))
-                        headerRef.current.style.marginLeft = -e.target.scrollLeft + 'px'
-                }}
-            >
+            <div className={c.content} id="TableViewContent">
+                <div className={c.header} ref={headerRef}>
+                    {makeHeader(cols, columnWidths, setColumnWidths, resultSorting, setSort)}
+                </div>
                 <InfiniteLoader
                     isRowLoaded={({ index }) => results[index]}
                     loadMoreRows={loadData}
@@ -345,8 +329,13 @@ const TableView = (props) => {
                                 <List
                                     ref={registerChild}
                                     onRowsRendered={onRowsRendered}
-                                    width={width}
-                                    height={height}
+                                    width={Math.max(
+                                        width,
+                                        columnWidths
+                                            .slice(0, cols.length)
+                                            .reduce((a, b) => a + b, 0) + 64
+                                    )}
+                                    height={height - 32}
                                     overscanRowCount={10}
                                     rowCount={results.length}
                                     rowHeight={rowItemHeight}
@@ -368,13 +357,18 @@ const TableView = (props) => {
 const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
     const c = useStyles()
 
-    const dispatch = useDispatch()
-
     const s = data._source
 
     const release_id = getIn(s, ES_PATHS.release_id)
 
-    const thumb_id = getIn(s, ES_PATHS.thumb)
+    let thumb_id = getIn(s, ES_PATHS.thumb)
+
+    if (MODEL_EXTENSIONS.includes(getExtension(thumb_id).toLowerCase())) {
+        thumb_id =
+            getIn(s, ES_PATHS.supplemental, []).find((f) =>
+                IMAGE_EXTENSIONS.includes(getExtension(f))
+            ) || thumb_id
+    }
 
     const imgURL = getPDSUrl(thumb_id, release_id, AVAILABLE_URI_SIZES.xs)
 
@@ -400,35 +394,38 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
             case 'thumbnail':
                 colElements.push(
                     <div key={`${index}_${index}`} className={c.cellThumbnail} onClick={toRecord}>
-                        <div className={clsx(c.thumbnailIcon, 'thumbnailIcon')}>
-                            <ImageIcon />
-                        </div>
-                        <LazyLoad offset={100} once>
-                            <Image
-                                className={clsx(c.cellImage, 'hoverImage')}
-                                style={{
-                                    height: '100%',
-                                    paddingTop: 'unset',
-                                    position: 'initial',
-                                }}
-                                disableSpinner={true}
-                                animationDuration={1200}
-                                src={
-                                    IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
-                                        ? imgURL
-                                        : 'null'
-                                }
-                                alt={fileName}
-                                errorIcon={
-                                    <ProductIcons filename={fileName} size="small" color="dark" />
-                                }
-                            />
-                        </LazyLoad>
+                        <BrowseImage
+                            src={
+                                IMAGE_EXTENSIONS.includes(getExtension(imgURL, true))
+                                    ? imgURL
+                                    : 'null'
+                            }
+                            className={clsx(c.cellImage, 'hoverImage')}
+                            alt=""
+                        />
                     </div>
                 )
                 break
             case 'label':
-                const value = getIn(s, col.path, '--')
+                const rawValue = getIn(s, col.path, '--')
+
+                let value = ''
+                switch (typeof rawValue) {
+                    case 'string':
+                        value = rawValue
+                        break
+                    case 'object':
+                        if (Array.isArray(rawValue)) {
+                            value = rawValue.join(',')
+                        } else {
+                            value = rawValue
+                        }
+                        break
+                    default:
+                        value = rawValue
+                        break
+                }
+
                 colElements.push(
                     <div
                         key={`${index}_${index}`}
@@ -451,6 +448,8 @@ const makeColumns = (idx, data, cols, columnWidths, toRecord) => {
 
 const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort) => {
     const c = useStyles()
+
+    const nodeRef = useRef(null)
 
     let colHeader = []
     cols.forEach((col, index) => {
@@ -524,6 +523,7 @@ const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort)
                             </div>
                         </div>
                         <Draggable
+                            nodeRef={nodeRef}
                             axis="x"
                             position={{ x: 0, y: 0 }}
                             onStop={(e, d) => {
@@ -536,7 +536,7 @@ const makeHeader = (cols, columnWidths, setColumnWidths, resultSorting, setSort)
                                 setColumnWidths(newColumnWidths)
                             }}
                         >
-                            <div className={c.cellHeaderDrag}>
+                            <div ref={nodeRef} className={c.cellHeaderDrag}>
                                 <div></div>
                             </div>
                         </Draggable>

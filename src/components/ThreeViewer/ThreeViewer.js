@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
+import { makeStyles } from '@mui/styles'
+import Paper from '@mui/material/Paper'
 
 import { getExtension, getPDSUrl, getRedirectedUrl } from '../../core/utils'
 import { IMAGE_EXTENSIONS } from '../../core/constants'
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         'pointerEvents': 'none',
         'transition': 'opacity 1s ease-out',
         '& > div': {
-            padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+            padding: `${theme.spacing(4)} ${theme.spacing(6)}`,
         },
     },
 }))

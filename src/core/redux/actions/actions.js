@@ -347,6 +347,8 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
         const filterType = state.getIn(['filterType'])
         const atlasMapping = state.getIn(['mappings', 'atlas'])
 
+        const resultsTable = state.getIn(['resultsTable']).toJS()
+
         if (page > 0) dispatch(setResultsStatus(resultsStatuses.LOADING))
         else dispatch(setResultsStatus(resultsStatuses.SEARCHING))
 
@@ -723,6 +725,24 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 },
             }
 
+        let source = [
+            ES_PATHS.uri.join('.'),
+            ES_PATHS.gather_uri.join('.'),
+            ES_PATHS.pds_archive._self.join('.'),
+            ES_PATHS.release_id.join('.'),
+            ES_PATHS.archive.size.join('.'),
+            ES_PATHS.mission.join('.'),
+            ES_PATHS.spacecraft.join('.'),
+            ES_PATHS.target.join('.'),
+            ES_PATHS.instrument.join('.'),
+            ES_PATHS.product_type.join('.'),
+            ES_PATHS.start_time.join('.'),
+        ]
+
+        if (resultsTable?.columns?.length > 0) {
+            source = source.concat(resultsTable.columns)
+        }
+
         const dsl = {
             query,
             from,
@@ -739,13 +759,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                 field: 'uri',
             },
             track_total_hits: true,
-            _source: [
-                ES_PATHS.uri.join('.'),
-                ES_PATHS.gather_uri.join('.'),
-                ES_PATHS.pds_archive.join('.'),
-                ES_PATHS.release_id.join('.'),
-                ES_PATHS.archive.size.join('.'),
-            ],
+            _source: [...new Set(source)],
         }
 
         lastDSL = dsl

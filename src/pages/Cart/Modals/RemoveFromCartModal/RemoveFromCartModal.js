@@ -4,17 +4,18 @@ import PropTypes from 'prop-types'
 
 import { setModal, removeFromCart } from '../../../../core/redux/actions/actions.js'
 
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import IconButton from '@material-ui/core/IconButton'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const useStyles = makeStyles((theme) => ({
     RemoveFromCartModal: {
@@ -65,9 +66,13 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.primary.light,
     },
     button2: {
-        height: 30,
-        margin: '7px 3px',
-        color: theme.palette.text.primary,
+        'height': 30,
+        'margin': '7px 3px',
+        'color': theme.palette.text.primary,
+        'border': '1px solid rgba(0, 0, 0, 0.5)',
+        '&:hover': {
+            border: '1px solid rgba(0, 0, 0, 1)',
+        },
     },
 }))
 
@@ -76,7 +81,7 @@ const RemoveFromCartModal = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
     const modal = useSelector((state) => {

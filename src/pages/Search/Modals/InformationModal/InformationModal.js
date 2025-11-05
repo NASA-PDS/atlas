@@ -1,22 +1,19 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { setModal } from '../../../../core/redux/actions/actions.js'
 
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import IconButton from '@material-ui/core/IconButton'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import IconButton from '@mui/material/IconButton'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import NASALogo from '../../../../media/images/nasa-logo.svg'
 
@@ -25,7 +22,7 @@ import { publicUrl } from '../../../../core/constants'
 const useStyles = makeStyles((theme) => ({
     InformationModal: {
         margin: theme.headHeights[1],
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             margin: '6px',
         },
     },
@@ -55,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     head: {
         display: 'flex',
         justifyContent: 'center',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             flexFlow: 'column',
         },
     },
@@ -76,25 +73,25 @@ const useStyles = makeStyles((theme) => ({
     pdsAndNode: {
         textAlign: 'left',
         padding: '26px 0px',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             paddingTop: '4px',
         },
     },
     pds: {
         fontSize: '18px',
         textTransform: 'uppercase',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
         },
     },
     node: {
         fontSize: '24px',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             textAlign: 'center',
         },
     },
     title: {
-        margin: `0px 0px ${theme.spacing(6)}px 0px`,
+        margin: `0px 0px ${theme.spacing(6)} 0px`,
         padding: '0px 2px',
         fontSize: '30px',
         fontWeight: 'bold',
@@ -105,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'justify',
     },
     message: {
-        margin: `${theme.spacing(4)}px 0px`,
+        margin: `${theme.spacing(4)} 0px`,
     },
     aLink: {
         color: 'link',
@@ -132,10 +129,8 @@ const InformationModal = (props) => {
     const {} = props
     const c = useStyles()
 
-    const history = useHistory()
-
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
     const modal = useSelector((state) => {
@@ -189,7 +184,7 @@ const InformationModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                    >
+                        size="large">
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -247,7 +242,7 @@ const InformationModal = (props) => {
                 </div>
             </DialogActions>
         </Dialog>
-    )
+    );
 }
 
 InformationModal.propTypes = {}

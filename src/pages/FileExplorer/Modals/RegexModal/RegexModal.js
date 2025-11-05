@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 import {
     setModal,
@@ -19,28 +17,29 @@ import {
     humanFileSize,
 } from '../../../../core/utils'
 
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
-import TextField from '@material-ui/core/TextField'
-import SearchIcon from '@material-ui/icons/Search'
-import GetAppIcon from '@material-ui/icons/GetApp'
-import ImageIcon from '@material-ui/icons/Image'
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
-import FolderIcon from '@material-ui/icons/Folder'
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
-import Tooltip from '@material-ui/core/Tooltip'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
-import SpellcheckIcon from '@material-ui/icons/Spellcheck'
-import Pagination from '@material-ui/lab/Pagination'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
+import TextField from '@mui/material/TextField'
+import SearchIcon from '@mui/icons-material/Search'
+import GetAppIcon from '@mui/icons-material/GetApp'
+import ImageIcon from '@mui/icons-material/Image'
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
+import FolderIcon from '@mui/icons-material/Folder'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import Tooltip from '@mui/material/Tooltip'
+import InputAdornment from '@mui/material/InputAdornment'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import SpellcheckIcon from '@mui/icons-material/Spellcheck'
+import Pagination from '@mui/material/Pagination'
+import LinearProgress from '@mui/material/LinearProgress'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { publicUrl, ES_PATHS, IMAGE_EXTENSIONS } from '../../../../core/constants'
 import { streamDownloadFile } from '../../../../core/downloaders/ZipStream.js'
@@ -274,14 +273,14 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemFilter: {
         justifyContent: 'space-between',
-        padding: `0px ${theme.spacing(2)}px 0px 0px`,
+        padding: `0px ${theme.spacing(2)} 0px 0px`,
     },
     liType: {
         fontSize: '24px',
         padding: '2px',
     },
     liName: {
-        margin: `0px ${theme.spacing(1.5)}px`,
+        margin: `0px ${theme.spacing(1.5)}`,
         lineHeight: '32px',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -399,10 +398,8 @@ const RegexModal = (props) => {
     const { modal } = props
     const c = useStyles()
 
-    const history = useHistory()
-
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
 
@@ -469,7 +466,7 @@ const RegexModal = (props) => {
                                 onClick={() => {
                                     setHelpOpen(!helpOpen)
                                 }}
-                            >
+                                size="large">
                                 <HelpOutlineIcon size="small" />
                             </IconButton>
                         </Tooltip>
@@ -497,7 +494,7 @@ const RegexModal = (props) => {
                                 className={c.closeIcon}
                                 aria-label="close"
                                 onClick={handleClose}
-                            >
+                                size="large">
                                 <CloseSharpIcon fontSize="inherit" />
                             </IconButton>
                         </Tooltip>
@@ -542,7 +539,7 @@ const RegexModal = (props) => {
                                             onClick={() => {
                                                 setCaseSensitive(!caseSensitive)
                                             }}
-                                        >
+                                            size="large">
                                             <SpellcheckIcon fontSize="inherit" />
                                         </IconButton>
                                     </Tooltip>
@@ -560,7 +557,7 @@ const RegexModal = (props) => {
                                             onClick={() => {
                                                 setIncludeDirectories(!includeDirectories)
                                             }}
-                                        >
+                                            size="large">
                                             <FolderIcon fontSize="inherit" />
                                         </IconButton>
                                     </Tooltip>
@@ -711,7 +708,7 @@ const RegexModal = (props) => {
                                 onClick={() => {
                                     setHelpOpen(false)
                                 }}
-                            >
+                                size="large">
                                 <CloseSharpIcon fontSize="inherit" />
                             </IconButton>
                         </Tooltip>
@@ -802,7 +799,7 @@ const RegexModal = (props) => {
                                                                     )
                                                                 }
                                                             }}
-                                                        >
+                                                            size="large">
                                                             <GetAppIcon size="small" />
                                                         </IconButton>
                                                     </Tooltip>
@@ -851,14 +848,14 @@ const RegexModal = (props) => {
                                                                 )
                                                             )
                                                         }}
-                                                    >
+                                                        size="large">
                                                         <AddShoppingCartIcon size="small" />
                                                     </IconButton>
                                                 </Tooltip>
                                             </div>
                                         </div>
                                     </li>
-                                )
+                                );
                             })
                         ) : !loading ? (
                             <Paper className={c.noResults}>
@@ -920,7 +917,7 @@ const RegexModal = (props) => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 RegexModal.propTypes = {}

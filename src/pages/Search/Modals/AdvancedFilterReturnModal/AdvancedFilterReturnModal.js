@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { setModal, setFilterType, resetFilters } from '../../../../core/redux/actions/actions.js'
 
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import IconButton from '@material-ui/core/IconButton'
-import CloseSharpIcon from '@material-ui/icons/CloseSharp'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
+import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { makeStyles } from '@mui/styles'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const useStyles = makeStyles((theme) => ({
     AdvancedFilterReturnModal: {
@@ -33,12 +34,12 @@ const useStyles = makeStyles((theme) => ({
     heading: {
         position: 'relative',
         boxSizing: 'border-box',
-        padding: `0 ${theme.spacing(2)}px 0 ${theme.spacing(4)}px`,
+        padding: `0 ${theme.spacing(2)} 0 ${theme.spacing(4)}`,
     },
     title: {
         width: '100%',
-        padding: `${theme.spacing(2.5)}px 0`,
-        margin: `${theme.spacing(3)}px 0px ${theme.spacing(1)}px 0px`,
+        padding: `${theme.spacing(2.5)} 0`,
+        margin: `${theme.spacing(3)} 0px ${theme.spacing(1)} 0px`,
         fontSize: theme.typography.pxToRem(20),
         fontWeight: 'bold',
         textAlign: 'center',
@@ -57,12 +58,12 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
     },
     content: {
-        'padding': `0px ${theme.spacing(8)}px ${theme.spacing(2)}px ${theme.spacing(8)}px`,
+        'padding': `0px ${theme.spacing(8)} ${theme.spacing(2)} ${theme.spacing(8)}`,
         'height': `calc(100% - ${theme.headHeights[2]}px)`,
         '& > div': {
             display: 'flex',
             justifyContent: 'space-between',
-            margin: `${theme.spacing(6)}px 0px ${theme.spacing(3)}px 0px`,
+            margin: `${theme.spacing(6)} 0px ${theme.spacing(3)} 0px`,
         },
         '& > p': {
             marginTop: '0px',
@@ -71,6 +72,14 @@ const useStyles = makeStyles((theme) => ({
     },
     proceed: {
         color: theme.palette.text.secondary,
+    },
+    continue: {
+        'color': theme.palette.text.primary,
+        'border': '1px solid rgba(0, 0, 0, 0.23)',
+        '&:hover': {
+            border: '1px solid rgba(0, 0, 0, 0.23)',
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+        },
     },
 }))
 
@@ -120,7 +129,7 @@ const AdvancedFilterReturnModal = (props) => {
     const c = useStyles()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const dispatch = useDispatch()
     const modal = useSelector((state) => {
@@ -139,19 +148,25 @@ const AdvancedFilterReturnModal = (props) => {
         handleClose()
     }
 
+    /*
     const activeFilters = useSelector((state) => {
         const m = state.getIn(['activeFilters'])
         if (typeof m.toJS === 'function') return m.toJS()
         return m
     })
-    const advancedFiltersExpression = useSelector((state) => {
-        const m = state.getIn(['advancedFiltersExpression'])
-        if (typeof m.toJS === 'function') return m.toJS()
-        return m
+    */
+
+    let advancedFiltersExpression = useSelector((state) => {
+        return state.getIn(['advancedFiltersExpression'])
     })
+    if (typeof advancedFiltersExpression.toJS === 'function')
+        advancedFiltersExpression = advancedFiltersExpression.toJS()
+
+    /*
     const atlasMapping = useSelector((state) => {
         return state.getIn(['mappings', 'atlas'])
     })
+        */
 
     if (open) {
         if (advancedFiltersExpression.isError != true) {
@@ -179,6 +194,7 @@ const AdvancedFilterReturnModal = (props) => {
                     title="Close"
                     aria-label="close"
                     onClick={handleClose}
+                    size="large"
                 >
                     <CloseSharpIcon fontSize="inherit" />
                 </IconButton>

@@ -3,20 +3,17 @@ import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
+import { makeStyles } from '@mui/styles'
 
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
-import Checkbox from '@material-ui/core/Checkbox'
+import IconButton from '@mui/material/IconButton'
+import Checkbox from '@mui/material/Checkbox'
 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Grow from '@material-ui/core/Grow'
-import Paper from '@material-ui/core/Paper'
-import Popper from '@material-ui/core/Popper'
-import MenuItem from '@material-ui/core/MenuItem'
-import MenuList from '@material-ui/core/MenuList'
+import ClickAwayListener from '@mui/material/ClickAwayListener'
+import Grow from '@mui/material/Grow'
+import Paper from '@mui/material/Paper'
+import Popper from '@mui/material/Popper'
+import MenuItem from '@mui/material/MenuItem'
+import MenuList from '@mui/material/MenuList'
 
 const useStyles = makeStyles((theme) => ({
     MenuButton: {
@@ -24,7 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         'color': theme.palette.swatches.grey.grey500,
-        'padding': '9px 10px 10px 10px',
+        'width': '40px',
+        'height': '40px',
+        'fontSize': '1.5rem',
         'background': 'rgba(0,0,0,0)',
         'transition': 'all 0.2s ease-out',
         '&:hover': {
@@ -61,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.swatches.grey.grey600,
     },
     checkbox: {
-        'padding': `0px ${theme.spacing(2)}px 0px 0px`,
+        'padding': `0px ${theme.spacing(2)} 0px 0px`,
         '&.Mui-checked': {
             color: theme.palette.swatches.grey.grey100,
         },
@@ -116,6 +115,7 @@ const MenuButton = (props) => {
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
                 onClick={handleToggle}
+                size="large"
             >
                 {buttonComponent}
             </IconButton>

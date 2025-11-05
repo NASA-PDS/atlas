@@ -1,11 +1,11 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import Checkbox from '@material-ui/core/Checkbox'
+import Checkbox from '@mui/material/Checkbox'
 
 import { setFieldState } from '../../../../core/redux/actions/actions.js'
 import { DISPLAY_NAME_MAPPINGS } from '../../../../core/constants.js'
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         listStyleType: 'none',
     },
     listItem: {
-        'padding': `0px ${theme.spacing(2)}px`,
+        'padding': `0px ${theme.spacing(2)}`,
         'display': 'flex',
         'height': '24px',
         'lineHeight': '24px',
@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
     listItemZero: {
         opacity: 0.4,
     },
-    checkbox: {},
+    checkbox: {
+        borderRadius: 0,
+    },
     label: {
         display: 'flex',
         lineHeight: '26px',
@@ -69,10 +71,10 @@ const ListFilter = (props) => {
     const c = useStyles()
 
     const dispatch = useDispatch()
-    const facet = useSelector((state) => {
-        const sel = state.getIn(['activeFilters', filterKey, 'facets', facetId])
-        return sel ? sel.toJS() : {}
+    let facet = useSelector((state) => {
+        return state.getIn(['activeFilters', filterKey, 'facets', facetId])
     })
+    facet = facet ? facet.toJS() : {}
 
     return (
         <div className={c.ListFilter}>

@@ -3,16 +3,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
-import IconButton from '@material-ui/core/IconButton'
-import Checkbox from '@material-ui/core/Checkbox'
-import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import Checkbox from '@mui/material/Checkbox'
+import Tooltip from '@mui/material/Tooltip'
 
-import GetAppIcon from '@material-ui/icons/GetApp'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart'
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import GetAppIcon from '@mui/icons-material/GetApp'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 import {
     checkItemInResults,
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         opacity: 0,
         zIndex: 2,
         transition: 'opacity 0.2s ease-out',
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('lg')]: {
             'opacity': '1 !important',
             '& .ProductToolbarInner': {
                 display: 'flex !important',
@@ -98,6 +98,10 @@ const useStyles = makeStyles((theme) => ({
             background: 'rgba(0,0,0,0.2)',
             color: 'white',
         },
+        'borderRadius': '0px',
+        '& .MuiTouchRipple-child': {
+            borderRadius: 'inherit',
+        },
     },
     noHoverCheckbox: {
         'color': theme.palette.swatches.grey.grey300,
@@ -134,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.swatches.red.red500,
     },
     noHoverButtonCart: {
-        'color': theme.palette.swatches.grey.grey50,
+        'color': theme.palette.swatches.red.red500,
         '&:hover': {
             background: theme.palette.swatches.red.red500,
             color: theme.palette.swatches.grey.grey0,

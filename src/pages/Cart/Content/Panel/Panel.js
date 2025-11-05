@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@mui/styles'
 
-import Typography from '@material-ui/core/Typography'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import Typography from '@mui/material/Typography'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 
 import BrowserTab from './Tabs/Browser/Browser'
 import CURLTab from './Tabs/CURL/CURL'
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     header: {
         height: theme.headHeights[2],
         width: '100%',
-        padding: `0px ${theme.spacing(2)}px`,
+        padding: `0px ${theme.spacing(2)}`,
         boxSizing: 'border-box',
     },
     panelTitle: {
@@ -55,9 +55,9 @@ const useStyles = makeStyles((theme) => ({
         'lineHeight': '20px',
         'fontSize': '16px',
         'color': theme.palette.text.main,
-        'background': theme.palette.swatches.yellow.yellow800,
+        'background': theme.palette.swatches.yellow.yellow700,
         'margin': theme.spacing(4),
-        'padding': theme.spacing(3),
+        'padding': theme.spacing(4),
         'boxShadow': '0px 2px 4px 0px rgba(0, 0, 0, 0.2)',
         '& > span': {
             position: 'absolute',

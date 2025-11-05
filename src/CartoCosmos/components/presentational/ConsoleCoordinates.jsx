@@ -1,13 +1,14 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles'
-import Zoom from '@material-ui/core/Zoom'
-import Paper from '@material-ui/core/Paper'
-import Divider from '@material-ui/core/Divider'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
+import Zoom from '@mui/material/Zoom'
+import Paper from '@mui/material/Paper'
+import Divider from '@mui/material/Divider'
 import StyledTooltip from './StyledTooltip.jsx'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 /**
  * Controls css styling for this component using js to css
@@ -68,7 +69,7 @@ export default function ConsoleCoordinates() {
     const classes = useStyles()
 
     const theme = useTheme()
-    const isMobileXS = useMediaQuery(theme.breakpoints.down('xs'))
+    const isMobileXS = useMediaQuery(theme.breakpoints.down('sm'))
 
     return (
         <div id="coordContainer" className={classes.container}>

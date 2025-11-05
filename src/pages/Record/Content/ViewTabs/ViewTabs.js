@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import { makeStyles, withStyles } from '@mui/styles'
 import { prettify } from '../../../../core/utils.js'
 
 import { setRecordViewTab } from '../../../../core/redux/actions/actions.js'

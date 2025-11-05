@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 
 import MiniHistogram from '../../../MiniHistogram/MiniHistogram'
 
 import { setFieldState } from '../../../../core/redux/actions/actions.js'
 import { getIn, prettify, abbreviateNumber } from '../../../../core/utils.js'
 
-import Slider from '@material-ui/core/Slider'
+import Slider from '@mui/material/Slider'
 
 const useStyles = makeStyles((theme) => ({
     SliderRangeFilter: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     },
     bottom: {
         marginTop: theme.spacing(2),
-        padding: `0px ${theme.spacing(2)}px`,
+        padding: `0px ${theme.spacing(2)}`,
     },
     clear: {
         'background': theme.palette.swatches.grey.grey500,

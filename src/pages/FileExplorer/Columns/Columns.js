@@ -28,34 +28,34 @@ import {
     setSnackBarText,
 } from '../../../core/redux/actions/actions'
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 import MenuButton from '../../../components/MenuButton/MenuButton'
-import IconButton from '@material-ui/core/IconButton'
-import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
-import TextField from '@material-ui/core/TextField'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import Checkbox from '@material-ui/core/Checkbox'
-import InputAdornment from '@material-ui/core/InputAdornment'
+import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import LinearProgress from '@mui/material/LinearProgress'
+import Checkbox from '@mui/material/Checkbox'
+import InputAdornment from '@mui/material/InputAdornment'
 
-import AddIcon from '@material-ui/icons/Add'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import SortIcon from '@material-ui/icons/Sort'
-import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined'
-import FolderIcon from '@material-ui/icons/Folder'
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
-import ImageIcon from '@material-ui/icons/Image'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
-import GetAppIcon from '@material-ui/icons/GetApp'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
-import SearchIcon from '@material-ui/icons/Search'
-import FilterListIcon from '@material-ui/icons/FilterList'
+import AddIcon from '@mui/icons-material/Add'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import SortIcon from '@mui/icons-material/Sort'
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
+import FolderIcon from '@mui/icons-material/Folder'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import ImageIcon from '@mui/icons-material/Image'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import GetAppIcon from '@mui/icons-material/GetApp'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import SearchIcon from '@mui/icons-material/Search'
+import FilterListIcon from '@mui/icons-material/FilterList'
 
 import Draggable from 'react-draggable'
 import Highlighter from 'react-highlight-words'
@@ -243,14 +243,14 @@ const useStyles = makeStyles((theme) => ({
     },
     listItemFilter: {
         justifyContent: 'space-between',
-        padding: `0px ${theme.spacing(2)}px 0px 0px`,
+        padding: `0px ${theme.spacing(2)} 0px 0px`,
     },
     liType: {
         fontSize: '24px',
         padding: '2px',
     },
     liName: {
-        margin: `0px ${theme.spacing(1.5)}px`,
+        margin: `0px ${theme.spacing(1.5)}`,
         lineHeight: '30px',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -269,7 +269,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '16px',
     },
     footer: {
-        padding: `0px ${theme.spacing(1.5)}px`,
+        padding: `0px ${theme.spacing(1.5)}`,
         height: `${theme.headHeights[4]}px`,
         lineHeight: `${theme.headHeights[4]}px`,
         color: theme.palette.swatches.grey.grey500,
@@ -693,7 +693,7 @@ const Column = (props) => {
                                     onClick={() => {
                                         mobileBack()
                                     }}
-                                >
+                                    size="large">
                                     <ArrowBackIcon fontSize="small" />
                                 </IconButton>
                             )}
@@ -724,14 +724,14 @@ const Column = (props) => {
                                         ))}
                                     </Select>
                                     */
-                                    <Typography
+                                    (<Typography
                                         className={clsx(c.volumeTitle, {
                                             [c.volumeTitleMobile]: isMobile,
                                         })}
                                         variant="h6"
                                     >
                                         {params.display_name}
-                                    </Typography>
+                                    </Typography>)
                                 ) : null}
                                 {params.type === 'volume' ? (
                                     <div className={c.flex2}>
@@ -743,7 +743,7 @@ const Column = (props) => {
                                                     onClick={() => {
                                                         setShowFilterColumns(true)
                                                     }}
-                                                >
+                                                    size="large">
                                                     <ArrowBackIcon fontSize="small" />
                                                 </IconButton>
                                             )}
@@ -804,7 +804,7 @@ const Column = (props) => {
                                                             })
                                                         )
                                                     }}
-                                                >
+                                                    size="large">
                                                     <SearchIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
@@ -850,7 +850,7 @@ const Column = (props) => {
                                                     onClick={() => {
                                                         setFilterSearchOpen(!filterSearchOpen)
                                                     }}
-                                                >
+                                                    size="large">
                                                     <FilterListIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
@@ -866,7 +866,7 @@ const Column = (props) => {
                                                             })
                                                         )
                                                     }}
-                                                >
+                                                    size="large">
                                                     <SearchIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
@@ -900,7 +900,7 @@ const Column = (props) => {
                                     onClick={() => {
                                         setShowMobilePreview(true, prevColumn.active)
                                     }}
-                                >
+                                    size="large">
                                     <InfoOutlinedIcon fontSize="small" />
                                 </IconButton>
                             )}
@@ -1302,7 +1302,7 @@ const Column = (props) => {
                                                                           )
                                                                       }
                                                                   }}
-                                                              >
+                                                                  size="large">
                                                                   <GetAppIcon size="small" />
                                                               </IconButton>
                                                           </Tooltip>
@@ -1354,14 +1354,14 @@ const Column = (props) => {
                                                                       )
                                                                   )
                                                               }}
-                                                          >
+                                                              size="large">
                                                               <AddShoppingCartIcon size="small" />
                                                           </IconButton>
                                                       </Tooltip>
                                                   </div>
                                               </div>
                                           </li>
-                                      )
+                                      );
                                   })}
                         </ul>
                     ) : null}
@@ -1379,7 +1379,7 @@ const Column = (props) => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 let slideTimeout

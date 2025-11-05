@@ -83,6 +83,6 @@ body > #root > div:first-child {
     color: black !important;
 }
 
-.LazyLoad > div > div {
-    opacity: 1 !important;
+.mui-image-wrapper {
+    position: absolute !important;
 }

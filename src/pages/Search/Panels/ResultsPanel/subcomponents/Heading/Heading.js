@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import clsx from 'clsx'
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
+import { makeStyles } from '@mui/styles'
 
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import RotateRightIcon from '@material-ui/icons/RotateRight'
-import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
-import PhotoSizeSelectLargeIcon from '@material-ui/icons/PhotoSizeSelectLarge'
-import PhotoSizeSelectSmallIcon from '@material-ui/icons/PhotoSizeSelectSmall'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import RotateRightIcon from '@mui/icons-material/RotateRight'
+import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual'
+import PhotoSizeSelectLargeIcon from '@mui/icons-material/PhotoSizeSelectLarge'
+import PhotoSizeSelectSmallIcon from '@mui/icons-material/PhotoSizeSelectSmall'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 
 import ResultsSorter from '../../../../../../components/ResultsSorter/ResultsSorter'
 import MenuButton from '../../../../../../components/MenuButton/MenuButton'
@@ -114,6 +115,9 @@ const useStyles = makeStyles((theme) => ({
             background: theme.palette.swatches.red.red400,
         },
     },
+    menuButton: {
+        fontSize: '21px',
+    },
 }))
 
 const Heading = (props) => {
@@ -123,12 +127,12 @@ const Heading = (props) => {
     const dispatch = useDispatch()
 
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
 
     const filterType = useSelector((state) => state.getIn(['filterType']))
     const gridSize = useSelector((state) => state.getIn(['gridSize']))
 
-    const resultKeysChecked = useSelector((state) => state.getIn(['resultKeysChecked']).toJS())
+    const resultKeysChecked = useSelector((state) => state.getIn(['resultKeysChecked'])).toJS()
 
     const gridSizes = isMobile ? [92, 128, 256] : [128, 192, 256]
 
@@ -298,7 +302,7 @@ const Heading = (props) => {
                                   'Rotate Images 90°',
                               ]
                     }
-                    buttonComponent={<MoreVertIcon fontSize="inherit" />}
+                    buttonComponent={<MoreVertIcon className={c.menuButton} />}
                     onChange={(option, idx) => {
                         switch (option) {
                             case 'Add Selected Results to Cart':

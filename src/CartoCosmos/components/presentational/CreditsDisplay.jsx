@@ -1,11 +1,11 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import Link from '@material-ui/core/Link'
-import { makeStyles } from '@material-ui/core/styles'
-import Divider from '@material-ui/core/Divider'
-import Grid from '@material-ui/core/Grid'
-import GitHubIcon from '@material-ui/icons/GitHub'
-import SvgIcon from '@material-ui/core/SvgIcon'
+import { makeStyles } from '@mui/styles'
+import Typography from '@mui/material/Typography'
+import Link from '@mui/material/Link'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import SvgIcon from '@mui/material/SvgIcon'
 
 /**
  * Controls css styling for this component using js to css
@@ -46,7 +46,7 @@ export default function CreditsDisplay() {
                 container
                 alignItems="center"
                 alignContent="center"
-                justify="space-evenly"
+                justifyContent="space-evenly"
                 className={classes.root}
                 wrap="nowrap"
             >
@@ -123,5 +123,5 @@ export default function CreditsDisplay() {
                 </Grid>
             </Grid>
         </div>
-    )
+    );
 }

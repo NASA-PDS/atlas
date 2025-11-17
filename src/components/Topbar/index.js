@@ -88,8 +88,8 @@ const useStyles = makeStyles((theme) => ({
     },
     appName: {
         color: theme.palette.text.primary,
-        fontWeight: 500,
-        fontSize: 20,
+        fontWeight: 700,
+        fontSize: 14,
         margin: 0,
         padding: `0px ${theme.spacing(0.5)}`,
         lineHeight: '22px',
@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     titleDivider: {
         color: theme.palette.swatches.grey.grey500,
         fontWeight: 500,
-        fontSize: 20,
+        fontSize: 14,
         margin: 0,
         padding: `0px 3px 0px 2px`,
         lineHeight: '22px',

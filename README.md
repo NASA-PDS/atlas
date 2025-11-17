@@ -10,7 +10,7 @@
 <span style="display:block;text-align:center">![Search](docs/images/atlas_search.png)</span>
 <span style="display:block;text-align:center">![Archive Explorer](docs/images/atlas_archiveexplorer.png)</span>
 
-## [See it LIVE!](https://pds-imaging.jpl.nasa.gov/beta/search)
+## [See it LIVE!](https://pds-imaging.jpl.nasa.gov/atlas/search)
 
 ## Features
 

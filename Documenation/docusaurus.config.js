@@ -8,7 +8,7 @@ import { themes as prismThemes } from 'prism-react-renderer'
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-    title: 'PDSIMG - CARTOGRAPHY AND IMAGING SCIENCES',
+    title: 'API Documentation | PDS-IMG',
     tagline: 'Technical Documentation',
     favicon: 'img/favicon.png',
 
@@ -16,7 +16,7 @@ const config = {
     url: 'https://your-docusaurus-site.example.com',
     // Set the /<baseUrl>/ pathname under which your site is served
     // For GitHub pages deployment, it is often '/<projectName>/'
-    baseUrl: '/documentation/',
+    baseUrl: '/atlas/documentation/',
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
@@ -85,15 +85,15 @@ const config = {
                         items: [
                             {
                                 label: 'Main Site',
-                                href: 'https://pds-imaging.jpl.nasa.gov/beta',
+                                href: 'https://pds-imaging.jpl.nasa.gov',
                             },
                             {
                                 label: 'Atlas Search',
-                                href: 'https://pds-imaging.jpl.nasa.gov/beta/search',
+                                href: 'https://pds-imaging.jpl.nasa.gov/atlas/search',
                             },
                             {
                                 label: 'Atlas Archive Explorer',
-                                href: 'https://pds-imaging.jpl.nasa.gov/beta/archive-explorer',
+                                href: 'https://pds-imaging.jpl.nasa.gov/atlas/archive-explorer',
                             },
                         ],
                     },

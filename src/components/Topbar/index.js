@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
         width: 32,
         height: 32,
     },
+    nodeTitle: {
+        color: 'black',
+    },
     appTitle: {
         'display': 'flex',
         'flexFlow': 'column',
@@ -55,13 +58,30 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     node: {
-        color: theme.palette.swatches.grey.grey500,
-        fontWeight: 400,
-        fontSize: 11,
-        margin: 0,
-        padding: `0px ${theme.spacing(1)}`,
-        lineHeight: '22px',
-        textTransform: 'uppercase',
+        'color': `${theme.palette.swatches.grey.grey500} !important`,
+        'fontWeight': 400,
+        'fontSize': 11,
+        'margin': 0,
+        'padding': `0px ${theme.spacing(1)}`,
+        'lineHeight': '22px',
+        'textTransform': 'uppercase',
+        'textDecoration': 'none !important',
+        '& > div': {
+            display: 'flex',
+        },
+        '& > div > a:first-child': {
+            textDecoration: 'none !important',
+            fontWeight: 'bold',
+            marginRight: '3px',
+            color: 'darkgoldenrod !important',
+        },
+        '& > div > a:last-child': {
+            textDecoration: 'none !important',
+            color: `${theme.palette.swatches.grey.grey500} !important`,
+        },
+        '& > div > a:hover': {
+            textDecoration: 'underline !important',
+        },
     },
     appNameDiv: {
         display: 'flex',
@@ -74,13 +94,6 @@ const useStyles = makeStyles((theme) => ({
         padding: `0px ${theme.spacing(0.5)}`,
         lineHeight: '22px',
     },
-    appNameBeta: {
-        fontStyle: 'italic',
-        fontSize: '14px',
-        textTransform: 'uppercase',
-        color: 'darkgoldenrod',
-        lineHeight: '23px',
-    },
     titleDivider: {
         color: theme.palette.swatches.grey.grey500,
         fontWeight: 500,
@@ -90,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: '22px',
     },
     appPage: {
-        color: theme.palette.swatches.blue.blue800,
+        color: 'darkgoldenrod',
         fontSize: 14,
         letterSpacing: '1px',
         margin: 0,
@@ -181,13 +194,21 @@ const Topbar = () => {
                 <div className={c.appTitle}>
                     <div className={c.nodeDiv}>
                         <h3 className={c.node}>
-                            {isMobileXs ? 'PDSIMG' : 'Cartography and Imaging Sciences'}
+                            {isMobileXs ? (
+                                'PDSIMG'
+                            ) : (
+                                <div>
+                                    <a href="http://pds.nasa.gov/">PDS</a>
+                                    <a href="https://pds-imaging.jpl.nasa.gov/">
+                                        Cartography and Imaging Sciences
+                                    </a>
+                                </div>
+                            )}
                         </h3>
                     </div>
                     <div>
                         <div className={c.appNameDiv}>
                             <h1 className={c.appName}>ATLAS</h1>
-                            <div className={c.appNameBeta}>beta</div>
                         </div>
                         {pageName && (
                             <>
@@ -208,7 +229,8 @@ const Topbar = () => {
                         onClick={() => {
                             window.open(HASH_PATHS.apiDocumentation, '_blank').focus()
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -227,7 +249,8 @@ const Topbar = () => {
                         onClick={() => {
                             navigate(HASH_PATHS.search)
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <ImageSearchIcon fontSize="inherit" />
                     </IconButton>
                 </Tooltip>
@@ -241,7 +264,8 @@ const Topbar = () => {
                         onClick={() => {
                             navigate(HASH_PATHS.fileExplorer)
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <AccountTreeIcon fontSize="inherit" />
                     </IconButton>
                 </Tooltip>
@@ -253,7 +277,8 @@ const Topbar = () => {
                         onClick={() => {
                             navigate(HASH_PATHS.cart)
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <Badge className={c.cartBadge} badgeContent={cartLength}>
                             <ShoppingCartOutlinedIcon fontSize="inherit" />
                         </Badge>
@@ -261,7 +286,7 @@ const Topbar = () => {
                 </Tooltip>
             </div>
         </div>
-    );
+    )
 }
 
 export default Topbar

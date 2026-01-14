@@ -2,7 +2,7 @@
 # Builder
 ############################
 
-FROM artifactory.jpl.nasa.gov:17001/node:lts-jod as builder
+FROM node:lts-jod AS builder
 
 # Add git
 RUN apt-get update \
@@ -47,7 +47,7 @@ WORKDIR /usr/src/app/
 # Runner
 ############################
 
-FROM artifactory.jpl.nasa.gov:17001/node:lts-jod as runner
+FROM node:lts-jod AS runner
 
 # Create app directory
 WORKDIR /usr/src/app

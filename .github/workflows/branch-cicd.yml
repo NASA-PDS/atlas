@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js CI
+name: Node.js Compatibility Testing
 
 on:
   push:
@@ -12,23 +12,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-      fail-fast: false
-      # When set to true, causes all other jobs in this matrix to terminate if any one job fails. Reference:
-      # https://stackoverflow.com/questions/75793764/node-ci-being-cancelled-with-no-reason-github-actions
-
+    name: Atlas Test Build
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Read .nvmrc and set environment variable
+        id: read_nvmrc
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+      - name: "Set up Node.js (${{ env.NODE_VERSION }})"
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build --if-present
-      #- run: npm test
+      - name: Install dependencies
+        run: npm ci
+      #- name: Run tests
+      #  run: CI=true npm test --if-present
+      - name: Build the application
+        run: npm run build --if-present

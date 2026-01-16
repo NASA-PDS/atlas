@@ -16,7 +16,8 @@ update-secrets-baseline:	## Updates .secrets.baseline
 		--exclude-files '\.pre-commit-config\.yaml' \
 		--exclude-files 'node_modules' \
 		--exclude-files 'build' \
-		--exclude-files 'src/external/react-filter-box-REPO/react-filter-box-mod/src/example' > .secrets.baseline
+		--exclude-files 'src/external/react-filter-box-REPO/react-filter-box-mod/src/example' \
+		--exclude-files 'src/external/react-filter-box-REPO/react-filter-box-mod/package.json' > .secrets.baseline
 
 # ----------------------------------------------------------------------------
 # Self-Documented Makefile

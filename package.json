@@ -3,6 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "homepage": "/",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "onFail": "error"
+    }
+  },
   "scripts": {
     "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider node scripts/start-dev.js",
     "start:prod": "cross-env NODE_OPTIONS=--openssl-legacy-provider node scripts/start-prod.js",

@@ -59,8 +59,10 @@ module.exports = function (webpackEnv) {
 
     // Webpack uses `publicPath` to determine where the app is being served from.
     // It requires a trailing slash, or the file assets will get an incorrect path.
-    // In development, we always serve from the root. This makes config easier.
-    const publicPath = isEnvProduction ? paths.servedPath : isEnvDevelopment && "/"
+    // In production: Read from environment to support different deployment paths
+    // In development: Always use root path for simpler local development
+    const publicPath = isEnvProduction && process.env.PUBLIC_URL ? `${process.env.PUBLIC_URL}/` : "/"
+
     // Some apps do not use client-side routing with pushState.
     // For these, "homepage" can be set to "." to enable relative asset paths.
     const shouldUseRelativeAssetPaths = publicPath === "./"
@@ -68,7 +70,9 @@ module.exports = function (webpackEnv) {
     // `publicUrl` is just like `publicPath`, but we will provide it to our app
     // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
     // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
-    const publicUrl = isEnvProduction ? publicPath.slice(0, -1) : isEnvDevelopment && ""
+    // In production: Read from environment to support different deployment paths (no trailing slash)
+    // In development: Always use empty string for root path
+    const publicUrl = isEnvProduction && process.env.PUBLIC_URL ? process.env.PUBLIC_URL : ""
 
     // Get environment variables to inject into our app.
     const env = getClientEnvironment(publicUrl);
@@ -665,15 +669,45 @@ class HTML2PugPlugin {
 
             let pugStr = html2pug(htmlStr, {})
 
-            const elementStringsToNonce = [...pugStr.matchAll(/(script|link)\((.*)\)/g)]
+            // Replace absolute paths with publicUrl variable for runtime configuration
+            // If webpack publicPath includes a prefix, strip it first to avoid double-prefixing
+            const publicPathPrefix = process.env.PUBLIC_URL || ''
+            if (publicPathPrefix) {
+                // Strip the publicPath prefix and replace with publicUrl variable
+                const escapedPrefix = publicPathPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+                pugStr = pugStr.replace(
+                    new RegExp(`href=['"]${escapedPrefix}/([^'"]*)['"]`, 'g'),
+                    "href=publicUrl + '/$1'"
+                )
+                pugStr = pugStr.replace(
+                    new RegExp(`src=['"]${escapedPrefix}/([^'"]*)['"]`, 'g'),
+                    "src=publicUrl + '/$1'"
+                )
+            } else {
+                pugStr = pugStr.replace(/href=['"]\/([^'"]*)['"]/g, "href=publicUrl + '/$1'")
+                pugStr = pugStr.replace(/src=['"]\/([^'"]*)['"]/g, "src=publicUrl + '/$1'")
+            }
+
+            // Inject runtime config script - find and replace the script with window.APP_CONFIG
+            pugStr = pugStr.replace(
+                /script\s+window\.APP_CONFIG[^\n]*/,
+                `script(nonce=nonce)\n      | window.APP_CONFIG = !{runtimeConfig};`
+            )
+
+            const elementStringsToNonce = [...pugStr.matchAll(/(script|link)\((.*?)\)/g)]
 
             elementStringsToNonce.forEach((elmStr) => {
                 const re = new RegExp(elmStr[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "g")
                 let newElmStr = elmStr[0]
-                newElmStr = newElmStr.replace(/\)/, ', nonce="" + nonce)')
+                // Use nonce variable directly instead of string concatenation
+                // Check if nonce is already present
+                if (!newElmStr.includes('nonce=')) {
+                    newElmStr = newElmStr.replace(/\)/, ', nonce=nonce)')
+                }
                 pugStr = pugStr.replace(re, newElmStr)
             })
-            pugStr = pugStr.replace(/\bscript /, 'script(nonce="" + nonce) ')
+            // Handle inline scripts without parentheses (e.g., "script (()=>...")
+            pugStr = pugStr.replace(/\bscript (\()/g, 'script(nonce=nonce) $1')
 
             fs.writeFileSync(`${this.htmlPath}/index.pug`, pugStr)
         })

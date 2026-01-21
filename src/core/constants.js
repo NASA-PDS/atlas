@@ -1,10 +1,22 @@
-export const domain = process.env.REACT_APP_DOMAIN
+import {
+    getPublicUrl,
+    getDomain,
+    getApiUrl,
+    getEsUrl,
+    getFootprintUrl,
+    getImageryUrl,
+    getRegistryUrl,
+    getDoiUrl
+} from './runtimeConfig'
 
 export const MAX_BULK_DOWNLOAD_COUNT = process.env.MAX_BULK_DOWNLOAD_COUNT || 25000
 
 export const EMAIL_CONTACT = process.env.EMAIL_CONTACT || 'pds-img-jpl@jpl.nasa.gov'
 
-export const publicUrl = process.env.REACT_APP_PUBLIC_URL || ''
+// Call getPublicUrl() to get the value - the function checks for window.APP_CONFIG
+// If window doesn't exist or APP_CONFIG isn't set, it falls back to process.env
+export const publicUrl = getPublicUrl()
+export const domain = getDomain()
 
 export const endpoints = {
     data: process.env.REACT_APP_DATA_ENDPOINT,
@@ -17,13 +29,15 @@ export const endpoints = {
         'https://pds.nasa.gov/services/search/search?fq=product-class%3AProduct_Attribute_Definition&fq=attribute_name%3A{field}&wt=json',
 }
 
+// HASH_PATHS now use simple relative paths
+// BrowserRouter's basename prop handles the PUBLIC_URL prefix automatically
 export const HASH_PATHS = {
-    root: publicUrl + '/',
-    search: publicUrl + '/search',
-    record: publicUrl + '/record',
-    cart: publicUrl + '/cart',
-    fileExplorer: publicUrl + '/archive-explorer',
-    apiDocumentation: publicUrl + '/documentation/',
+    root: '/',
+    search: '/search',
+    record: '/record',
+    cart: '/cart',
+    fileExplorer: '/archive-explorer',
+    apiDocumentation: '/documentation/',
 }
 
 export const localStorageCart = 'ATLAS_CART'

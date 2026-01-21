@@ -30,7 +30,13 @@ const getPublicUrl = (appPackageJson) => envPublicUrl || require(appPackageJson)
 // single-page apps that may serve index.html for nested URLs like /todos/42.
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
+// RUNTIME CONFIG: Always build with root path in production for deployment-agnostic builds
 function getServedPath(appPackageJson) {
+    // In production, always use root path for runtime-configurable builds
+    if (process.env.NODE_ENV === 'production') {
+        return '/'
+    }
+    // Development can use package.json homepage
     const publicUrl = getPublicUrl(appPackageJson)
     const servedUrl = envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname : '/')
     return ensureSlash(servedUrl, true)

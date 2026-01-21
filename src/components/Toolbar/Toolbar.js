@@ -40,7 +40,8 @@ import {
     removeFilexColumn,
 } from '../../core/redux/actions/actions.js'
 
-import { publicUrl, HASH_PATHS } from '../../core/constants'
+import { HASH_PATHS } from '../../core/constants'
+import { getPublicUrl } from '../../core/runtimeConfig'
 
 const drawerWidth = 230
 
@@ -256,6 +257,7 @@ const drawerItems = [
         name: 'Documentation',
         path: '/documentation',
         isAtlas: true,
+        openInNewTab: true,
     },
     {
         name: 'Data',
@@ -292,11 +294,7 @@ const drawerItems = [
     },
 ]
 
-// Prepend publicUrl if available
-if (publicUrl != null || publicUrl.length > 0)
-    Object.keys(drawerItems).forEach((r) => {
-        if (drawerItems[r].path) drawerItems[r].path = publicUrl + drawerItems[r].path
-    })
+// No need to prepend publicUrl - BrowserRouter's basename handles path prefixing
 
 const Toolbar = (props) => {
     const c = useStyles()
@@ -309,6 +307,7 @@ const Toolbar = (props) => {
     const mobile = useMediaQuery(theme.breakpoints.down('md'))
 
     const dispatch = useDispatch()
+    const publicUrl = getPublicUrl()
     const w = useSelector((state) => {
         return state.getIn(['workspace', 'main'])
     }).toJS()
@@ -365,14 +364,16 @@ const Toolbar = (props) => {
                                             pathRoot.indexOf(item.path) === 0),
                                 })}
                                 onClick={(e) => {
-                                    if (item.isAtlas) {
+                                    if (item.isAtlas && !item.openInNewTab) {
                                         e.preventDefault()
                                         setDrawer(0)
                                         navigate(`${item.path}`)
+                                    } else if (item.openInNewTab) {
+                                        setDrawer(0)
                                     }
                                 }}
-                                target="__blank"
-                                href={item.path}
+                                target={item.openInNewTab ? "_blank" : "__blank"}
+                                href={item.isAtlas && item.openInNewTab ? `${publicUrl}${item.path}` : item.path}
                                 rel="noopener"
                             >
                                 {item.name === 'Search Images' && (
@@ -442,7 +443,7 @@ const Toolbar = (props) => {
                     </Tooltip>
                     <Divider className={clsx(c.divider)} />
 
-                    {pathRoot === `${publicUrl}/archive-explorer` ? (
+                    {pathRoot === `/archive-explorer` ? (
                         <React.Fragment>
                             <div className={c.optionsItem}>
                                 <Tooltip title="Reset Path" arrow placement="right">
@@ -469,7 +470,7 @@ const Toolbar = (props) => {
                             </div>
                         </React.Fragment>
                     ) : null}
-                    {pathRoot === `${publicUrl}/search` ? (
+                    {pathRoot === `/search` ? (
                         <React.Fragment>
                             <div className={c.panelMenu}>
                                 <div className={c.optionsItem}>

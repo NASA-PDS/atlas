@@ -22,7 +22,7 @@ module.exports = function (proxy, allowedHost) {
         allowedHosts: !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === "true" ? "all" : "auto",
         static:{
           directory: paths.appPublic,
-          publicPath: paths.publicUrl,
+          publicPath: '/',  // Always serve static files from root in dev mode
           watch: true
         },
         hot: true,
@@ -47,7 +47,7 @@ module.exports = function (proxy, allowedHost) {
             // Paths with dots should still use the history fallback.
             // See https://github.com/facebook/create-react-app/issues/387.
             disableDotRule: true,
-            index: paths.publicUrl,
+            index: '/',  // Always use root index in dev mode
         },
         setupMiddlewares(middlewares, devServer) {
           if (!devServer) {
@@ -57,6 +57,17 @@ module.exports = function (proxy, allowedHost) {
           if (fs.existsSync(paths.proxySetup)) {
             require(paths.proxySetup)(devServer.app);
           }
+
+          // Serve Docusaurus documentation in dev mode
+          const express = require('express');
+          const docPath = paths.docBuild;
+          if (fs.existsSync(docPath)) {
+            devServer.app.use('/documentation', express.static(docPath));
+            console.log(chalk.cyan('Documentation available at http://localhost:' + port + '/documentation'));
+          } else {
+            console.log(chalk.yellow('Documentation not built. Run "npm run build-docs" to build it.'));
+          }
+
           middlewares.push(
             evalSourceMapMiddleware(devServer),
             errorOverlayMiddleware(),

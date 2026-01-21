@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  audit-secrets:
+    desc: Audit the secrets
+    cmds:
+      - detect-secrets audit .secrets.baseline
+    silent: true
+  update-secrets-baseline:
+    desc: Update the secrets baseline
+    cmds:
+      - detect-secrets scan --disable-plugin AbsolutePathDetectorExperimental \
+        --exclude-files '\.secrets..*' \
+        --exclude-files '\.git.*' \
+        --exclude-files '\.pre-commit-config\.yaml' \
+        --exclude-files 'node_modules' \
+        --exclude-files 'build' \
+        --exclude-files 'src/external/react-filter-box-REPO/react-filter-box-mod/src/example' \
+        --exclude-files 'src/external/react-filter-box-REPO/react-filter-box-mod/package.json' > .secrets.baseline
+    silent: true
+  test-workflow-branch-cicd:
+    desc: Test the branch-cicd workflow
+    cmds:
+      - act -W .github/workflows/branch-cicd.yml
+    silent: true
+  test-workflow-secrets-detection:
+    desc: Test the secrets-detection workflow
+    cmds:
+      - act -W .github/workflows/secrets-detection.yaml
+    silent: true

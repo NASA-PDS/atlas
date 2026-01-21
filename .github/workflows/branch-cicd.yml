@@ -15,7 +15,7 @@ jobs:
     name: Atlas Test Build
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Read .nvmrc and set environment variable
         id: read_nvmrc
         run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV

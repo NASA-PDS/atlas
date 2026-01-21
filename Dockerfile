@@ -19,10 +19,6 @@ RUN npx browserslist@latest --update-db
 # Force production env
 RUN npm ci NODE_ENV=production
 
-# (MAYBE) Set the subpath we're going to server at
-# ARG PUBLIC_URL=/beta
-# ENV PUBLIC_URL=/beta
-
 # Build client and server
 RUN npm run build
 

@@ -24,7 +24,7 @@ export const endpoints = {
     pit: process.env.REACT_APP_PIT_ENDPOINT,
     scroll: process.env.REACT_APP_SCROLL_ENDPOINT,
     archive: process.env.REACT_APP_ARCHIVE_ENDPOINT,
-    mitm: '/streamsaver/mitm.html',
+    mitm: `${publicUrl}/streamsaver/mitm.html`,
     pdsFieldSearch:
         'https://pds.nasa.gov/services/search/search?fq=product-class%3AProduct_Attribute_Definition&fq=attribute_name%3A{field}&wt=json',
 }

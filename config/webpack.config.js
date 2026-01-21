@@ -688,11 +688,17 @@ class HTML2PugPlugin {
                 pugStr = pugStr.replace(/src=['"]\/([^'"]*)['"]/g, "src=publicUrl + '/$1'")
             }
 
-            // Inject runtime config script - find and replace the script with window.APP_CONFIG
-            pugStr = pugStr.replace(
-                /script\s+window\.APP_CONFIG[^\n]*/,
-                `script(nonce=nonce)\n      | window.APP_CONFIG = !{runtimeConfig};`
-            )
+            // Inject runtime config script at the end of <head>
+            // Find the closing </head> tag (which gets converted to just indentation in pug)
+            // Look for the title tag and insert the script after it
+            const titleMatch = pugStr.match(/(.*title .*\n)/);
+            if (titleMatch) {
+                const insertAfter = titleMatch[0];
+                pugStr = pugStr.replace(
+                    insertAfter,
+                    insertAfter + `    script(nonce=nonce)\n      | window.APP_CONFIG = !{runtimeConfig};\n`
+                );
+            }
 
             const elementStringsToNonce = [...pugStr.matchAll(/(script|link)\((.*?)\)/g)]
 

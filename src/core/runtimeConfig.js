@@ -16,7 +16,7 @@ export const getPublicUrl = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.PUBLIC_URL ?? ''
     }
-    return process.env.REACT_APP_PUBLIC_URL ?? ''
+    return process.env.PUBLIC_URL ?? ''
 }
 
 /**

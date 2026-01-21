@@ -21,7 +21,7 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
 
 // Runtime configuration - read from environment variables at server startup
 const runtimeConfig = {
-    PUBLIC_URL: process.env.PUBLIC_URL || process.env.REACT_APP_PUBLIC_URL || '',
+    PUBLIC_URL: process.env.PUBLIC_URL || '',
     DOMAIN: process.env.REACT_APP_DOMAIN || '',
     API_URL: process.env.REACT_APP_API_URL || '',
     ES_URL: process.env.REACT_APP_ES_URL || '',
@@ -119,34 +119,36 @@ app.get('/robots.txt', (req, res) => {
     res.send('User-agent: *\nAllow: /')
 })
 
-const mitmPath = runtimeConfig.PUBLIC_URL ? `${runtimeConfig.PUBLIC_URL}/streamsaver/mitm.html` : '/streamsaver/mitm.html'
-const pingPath = runtimeConfig.PUBLIC_URL ? `${runtimeConfig.PUBLIC_URL}/streamsaver/ping.html` : '/streamsaver/ping.html'
+const mitmPath = runtimeConfig.PUBLIC_URL
+    ? `${runtimeConfig.PUBLIC_URL}/streamsaver/mitm.html`
+    : '/streamsaver/mitm.html'
+const pingPath = runtimeConfig.PUBLIC_URL
+    ? `${runtimeConfig.PUBLIC_URL}/streamsaver/ping.html`
+    : '/streamsaver/ping.html'
 
 app.get(['/streamsaver/mitm.html', mitmPath], (req, res) => {
     res.setHeader('Cache-Control', 'no-cache')
-    fs.readFile(
-        path.join(paths.appBuild, '/streamsaver/mitm.html'),
-        'utf8',
-        function (err, html) {
-            let newHTML = typeof html === 'string' ? html
-                .replace(/<script/g, '<script nonce="' + res.locals.nonce + '"')
-                .replace(/<style/g, '<style nonce="' + res.locals.nonce + '"') : 'Not Found'
-            res.send(newHTML)
-        }
-    )
+    fs.readFile(path.join(paths.appBuild, '/streamsaver/mitm.html'), 'utf8', function (err, html) {
+        let newHTML =
+            typeof html === 'string'
+                ? html
+                      .replace(/<script/g, '<script nonce="' + res.locals.nonce + '"')
+                      .replace(/<style/g, '<style nonce="' + res.locals.nonce + '"')
+                : 'Not Found'
+        res.send(newHTML)
+    })
 })
 app.get(['/streamsaver/ping.html', pingPath], (req, res) => {
     res.setHeader('Cache-Control', 'no-cache')
-    fs.readFile(
-        path.join(paths.appBuild, '/streamsaver/ping.html'),
-        'utf8',
-        function (err, html) {
-            let newHTML = typeof html === 'string' ? html
-                .replace(/<script/g, '<script nonce="' + res.locals.nonce + '"')
-                .replace(/<style/g, '<style nonce="' + res.locals.nonce + '"') : 'Not Found'
-            res.send(newHTML)
-        }
-    )
+    fs.readFile(path.join(paths.appBuild, '/streamsaver/ping.html'), 'utf8', function (err, html) {
+        let newHTML =
+            typeof html === 'string'
+                ? html
+                      .replace(/<script/g, '<script nonce="' + res.locals.nonce + '"')
+                      .replace(/<style/g, '<style nonce="' + res.locals.nonce + '"')
+                : 'Not Found'
+        res.send(newHTML)
+    })
 })
 
 // Pug is used to render atlas pages.
@@ -156,12 +158,11 @@ app.set('view engine', 'pug')
 const baseRoutes = ['/', '/search', '/record', '/cart', '/archive-explorer*']
 const appRoutes = runtimeConfig.PUBLIC_URL
     ? [
-        ...baseRoutes,
-        ...baseRoutes.map(route => route === '/'
-            ? runtimeConfig.PUBLIC_URL
-            : `${runtimeConfig.PUBLIC_URL}${route}`
-        )
-    ]
+          ...baseRoutes,
+          ...baseRoutes.map((route) =>
+              route === '/' ? runtimeConfig.PUBLIC_URL : `${runtimeConfig.PUBLIC_URL}${route}`
+          ),
+      ]
     : baseRoutes
 
 app.get(appRoutes, (req, res) => {
@@ -174,8 +175,12 @@ app.get(appRoutes, (req, res) => {
 })
 
 // Normalize favicon and manifest with PUBLIC_URL prefix
-const faviconPath = runtimeConfig.PUBLIC_URL ? `${runtimeConfig.PUBLIC_URL}/favicon.png` : '/favicon.png'
-const manifestPath = runtimeConfig.PUBLIC_URL ? `${runtimeConfig.PUBLIC_URL}/manifest.json` : '/manifest.json'
+const faviconPath = runtimeConfig.PUBLIC_URL
+    ? `${runtimeConfig.PUBLIC_URL}/favicon.png`
+    : '/favicon.png'
+const manifestPath = runtimeConfig.PUBLIC_URL
+    ? `${runtimeConfig.PUBLIC_URL}/manifest.json`
+    : '/manifest.json'
 app.use(faviconPath, express.static(path.join(paths.appBuild, 'favicon.png')))
 app.use(manifestPath, express.static(path.join(paths.appBuild, 'manifest.json')))
 
@@ -191,7 +196,9 @@ if (runtimeConfig.PUBLIC_URL) {
 const searchPath = runtimeConfig.PUBLIC_URL ? `${runtimeConfig.PUBLIC_URL}/search` : '/search'
 const recordPath = runtimeConfig.PUBLIC_URL ? `${runtimeConfig.PUBLIC_URL}/record` : '/record'
 const cartPath = runtimeConfig.PUBLIC_URL ? `${runtimeConfig.PUBLIC_URL}/cart` : '/cart'
-const archiveExplorerPath = runtimeConfig.PUBLIC_URL ? `${runtimeConfig.PUBLIC_URL}/archive-explorer` : '/archive-explorer'
+const archiveExplorerPath = runtimeConfig.PUBLIC_URL
+    ? `${runtimeConfig.PUBLIC_URL}/archive-explorer`
+    : '/archive-explorer'
 app.use(
     [searchPath, recordPath, cartPath, archiveExplorerPath],
     express.static(path.join(paths.appBuild, 'atlas'))
@@ -201,6 +208,51 @@ app.use(
 const docBasePath = runtimeConfig.PUBLIC_URL
     ? `${runtimeConfig.PUBLIC_URL}/documentation`
     : '/documentation'
+
+// Middleware to rewrite documentation HTML files to inject correct base path
+if (runtimeConfig.PUBLIC_URL) {
+    app.use(docBasePath, (req, res, next) => {
+        // Only process HTML files
+        if (req.path.endsWith('.html') || req.path === '/' || !req.path.includes('.')) {
+            const fs = require('fs')
+            let filePath = path.join(paths.docBuild, req.path)
+
+            // If path doesn't end with .html and is not /, append index.html
+            if (!req.path.endsWith('.html') && !req.path.includes('.')) {
+                filePath = path.join(filePath, 'index.html')
+            }
+
+            if (fs.existsSync(filePath)) {
+                fs.readFile(filePath, 'utf8', (err, html) => {
+                    if (err) {
+                        return next()
+                    }
+
+                    // Replace /documentation/ with /beta/documentation/ in HTML
+                    const modifiedHtml = html
+                        .replace(
+                            /href="\/documentation\//g,
+                            `href="${runtimeConfig.PUBLIC_URL}/documentation/`
+                        )
+                        .replace(
+                            /src="\/documentation\//g,
+                            `src="${runtimeConfig.PUBLIC_URL}/documentation/`
+                        )
+                        .replace(
+                            /"\/documentation\//g,
+                            `"${runtimeConfig.PUBLIC_URL}/documentation/`
+                        )
+
+                    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+                    res.send(modifiedHtml)
+                })
+                return
+            }
+        }
+        next()
+    })
+}
+
 app.use([docBasePath], express.static(paths.docBuild))
 
 app.use((err, _req, res, _next) =>

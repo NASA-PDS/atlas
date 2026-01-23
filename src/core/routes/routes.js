@@ -30,32 +30,19 @@ export const AppRoutes = () => {
 
     return (
         <div className="Routes">
-            <Router basename={publicUrl} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Router
+                basename={publicUrl}
+                future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+            >
                 <Toolbar />
                 <div className="routeMain">
                     <Topbar />
                     <div className="routeContent">
                         <Routes>
-                            <Route
-                                path="/"
-                                element={ <Search /> }
-                            />
-                            <Route
-                                path="/search"
-                                element={ <Search /> }
-                            />
-                            <Route
-                                path="/record"
-                                element={ <Record /> }
-                            />
-                            <Route
-                                path="/cart"
-                                element={ <Cart /> }
-                            />
-                            <Route
-                                path="/archive-explorer"
-                                element={ <FileExplorer /> }
-                            />
+                            <Route path="/search" element={<Search />} />
+                            <Route path="/record" element={<Record />} />
+                            <Route path="/cart" element={<Cart />} />
+                            <Route path="/archive-explorer" element={<FileExplorer />} />
                         </Routes>
                     </div>
                 </div>

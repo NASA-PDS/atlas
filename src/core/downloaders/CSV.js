@@ -233,7 +233,7 @@ const createCSVFile = (datestamp, finishCallback) => {
     if (window.navigator.userAgent.indexOf('Windows') !== -1) CSVStr = CSVStr.replace(/%/g, '%%')
 
     const blob = new Blob([CSVStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas_${datestamp}.csv`, true)
+    fileSaver.saveAs(blob, `pdsimg-atlas_${datestamp}.csv`, { autoBom: false })
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

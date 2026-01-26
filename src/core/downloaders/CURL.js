@@ -235,7 +235,7 @@ const createCURLFile = (datestamp) => {
     if (window.navigator.userAgent.indexOf('Windows') !== -1) CURLStr = CURLStr.replace(/%/g, '%%')
 
     const blob = new Blob([CURLStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas-curl_${datestamp}.bat`, true)
+    fileSaver.saveAs(blob, `pdsimg-atlas-curl_${datestamp}.bat`, { autoBom: false })
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

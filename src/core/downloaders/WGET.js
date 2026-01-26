@@ -236,7 +236,7 @@ const createWGETFile = (datestamp, finishCallback) => {
     if (window.navigator.userAgent.indexOf('Windows') !== -1) WGETStr = WGETStr.replace(/%/g, '%%')
 
     const blob = new Blob([WGETStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas-wget_${datestamp}.bat`, true)
+    fileSaver.saveAs(blob, `pdsimg-atlas-wget_${datestamp}.bat`, { autoBom: false })
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

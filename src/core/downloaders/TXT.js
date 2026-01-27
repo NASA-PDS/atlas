@@ -229,7 +229,7 @@ const createTXTFile = (datestamp, finishCallback) => {
     if (window.navigator.userAgent.indexOf('Windows') !== -1) TXTStr = TXTStr.replace(/%/g, '%%')
 
     const blob = new Blob([TXTStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas_${datestamp}.txt`, true)
+    fileSaver.saveAs(blob, `pdsimg-atlas_${datestamp}.txt`, { autoBom: false })
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

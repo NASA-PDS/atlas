@@ -165,7 +165,7 @@ const CURLQuery = (
                         const pdsUri = getPDSUrl(path, release_id)
                         if (filename && pdsUri)
                             CURLRows.push(
-                                `curl -sSLO# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/${filepath} ${pdsUri}\n`
+                                `curl -sSL# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/${filepath} -o ${filename}  ${pdsUri}\n`
                             )
                     }
                 })
@@ -231,11 +231,15 @@ const createCURLFile = (datestamp) => {
     let CURLStr = CURLRows.join('')
     CURLRows = []
 
+    // Detect operating system
+    const isWindows = window.navigator.userAgent.indexOf('Windows') !== -1
+    const fileExtension = isWindows ? 'bat' : 'sh'
+
     // Windows treats the % character as EOL in batch files, so need to escape it
-    if (window.navigator.userAgent.indexOf('Windows') !== -1) CURLStr = CURLStr.replace(/%/g, '%%')
+    if (isWindows) CURLStr = CURLStr.replace(/%/g, '%%')
 
     const blob = new Blob([CURLStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas-curl_${datestamp}.bat`, true)
+    fileSaver.saveAs(blob, `pdsimg-atlas-curl_${datestamp}.${fileExtension}`, { autoBom: false })
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

@@ -232,11 +232,15 @@ const createWGETFile = (datestamp, finishCallback) => {
     let WGETStr = WGETRows.join('')
     WGETRows = []
 
+    // Detect operating system
+    const isWindows = window.navigator.userAgent.indexOf('Windows') !== -1
+    const fileExtension = isWindows ? 'bat' : 'sh'
+
     // Windows treats the % character as EOL in batch files, so need to escape it
-    if (window.navigator.userAgent.indexOf('Windows') !== -1) WGETStr = WGETStr.replace(/%/g, '%%')
+    if (isWindows) WGETStr = WGETStr.replace(/%/g, '%%')
 
     const blob = new Blob([WGETStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas-wget_${datestamp}.bat`, { autoBom: false })
+    fileSaver.saveAs(blob, `pdsimg-atlas-wget_${datestamp}.${fileExtension}`, { autoBom: false })
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

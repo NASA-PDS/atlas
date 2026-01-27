@@ -81,7 +81,7 @@ function CURLTab(props) {
     const [error, setError] = useState(null)
     const [selectionCount, setSelectionCount] = useState(0)
 
-    const [datestamp, setDatestamp] = useState()
+    const [datestamp, setDatestamp] = useState('{datestamp}')
 
     useEffect(() => {
         // If true, then it'll next be false
@@ -163,46 +163,52 @@ function CURLTab(props) {
                         </Tooltip>
                         <Typography className={c.p2}>Download notes:</Typography>
                         <Typography className={c.p}>
-                            The downloaded script will contain a set of pre-configured CURL commands that you can execute on your computer system.
+                            The downloaded script will contain a set of pre-configured CURL commands
+                            that you can execute on your computer system.
                         </Typography>
                         <Typography className={c.p3}>CURL Software:</Typography>
                         <Typography className={c.p}>
                             CURL is software that allows one to download internet content using a
-                            command line interface. Availability and installation of Curl varies
-                            between operating systems. Please verify that Curl is available for your
+                            command line interface. Availability and installation of CURL varies
+                            between operating systems. Please verify that CURL is available for your
                             computer and is installed. <strong>Requires: curl 7.73.0+</strong>
                         </Typography>
                         <Typography className={c.p3}>CURL Script File Size Limit:</Typography>
                         <Typography className={c.p}>
-                            The downloaded script files max out at 500k lines. Multiple script 
-                            files may be downloaded to support the entire payload.
+                            The downloaded script files max out at 500k lines. Multiple script files
+                            may be downloaded to support the entire payload.
                         </Typography>
                         <Typography className={c.p3}>Downloaded Products Directory:</Typography>
                         <Typography className={c.p}>
-                            After script execution, you can find all the downloaded products in a 
+                            After script execution, you can find all the downloaded products in a
                             directory named:
                             <Typography className={c.pCode}>
-                                ./pdsimg-atlas-curl_&lt;datestamp&gt;
+                                ./pdsimg-atlas-curl_{datestamp}
                             </Typography>
-                            This directory will be created in your shell's current working directory. If you are using a Windows machine, you may need to run the script in a Windows Subsystem for Linux (WSL) environment.
+                            This directory will be created in your shell's current working
+                            directory. If you are using a Windows machine, you may need to run the
+                            script in a Windows Subsystem for Linux (WSL) environment.
                         </Typography>
                         <Typography className={c.p2}>Operating System Instructions:</Typography>
-                        <Typography className={c.p3}>Mac / Linux:</Typography>
+                        <Typography className={c.p3}>Mac / Linux / Windows (WSL):</Typography>
                         <Typography className={c.p}>
-                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-curl_&lt;datestamp&gt;.sh" script 
-                            using the following command:
+                            After downloading, open a shell window and change directory to the
+                            location where the script was downloaded and then execute the
+                            "pdsimg-atlas-curl_{datestamp}.sh" script using the following command:
                         </Typography>
                         <Typography className={c.pCode}>
-                            source pdsimg-atlas-curl_&lt;datestamp&gt;.sh
+                            source pdsimg-atlas-curl_{datestamp}.sh
                         </Typography>
 
-                        <Typography className={c.p3}>Windows (WSL):</Typography>
+                        <Typography className={c.p3}>Windows:</Typography>
                         <Typography className={c.p}>
-                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-curl_&lt;datestamp&gt;.bat" script 
-                            using the following command:<br />
+                            After downloading, open a shell window and change directory to the
+                            location where the script was downloaded and then execute the
+                            "pdsimg-atlas-curl_{datestamp}.bat" script using the following command:
+                            <br />
                         </Typography>
                         <Typography className={c.pCode}>
-                            pdsimg-atlas-curl_&lt;datestamp&gt;.bat
+                            pdsimg-atlas-curl_{datestamp}.bat
                         </Typography>
                         <div className={c.downloading}>
                             <div className={clsx(c.error, { [c.errorOn]: error != null })}>
@@ -219,7 +225,7 @@ function CURLTab(props) {
                 </>
             )}
         </div>
-    );
+    )
 }
 
 CURLTab.propTypes = {}

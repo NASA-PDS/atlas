@@ -165,7 +165,7 @@ const CURLQuery = (
                         const pdsUri = getPDSUrl(path, release_id)
                         if (filename && pdsUri)
                             CURLRows.push(
-                                `curl -sSLO# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/${filepath} ${pdsUri}\n`
+                                `curl -sSL# --create-dirs --output-dir ./pdsimg-atlas-curl_${datestamp}/${filepath} -o ${filename}  ${pdsUri}\n`
                             )
                     }
                 })

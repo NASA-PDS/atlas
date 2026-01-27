@@ -81,7 +81,7 @@ function WGETTab(props) {
     const [error, setError] = useState(null)
     const [selectionCount, setSelectionCount] = useState(0)
 
-    const [datestamp, setDatestamp] = useState()
+    const [datestamp, setDatestamp] = useState('{datestamp}')
 
     useEffect(() => {
         // If true, then it'll next be false
@@ -163,45 +163,42 @@ function WGETTab(props) {
                         </Tooltip>
                         <Typography className={c.p2}>Download notes:</Typography>
                         <Typography className={c.p}>
-                            The downloaded script will contain a set of pre-configured WGET commands that you can execute on your computer system.
+                            The downloaded script will contain a set of pre-configured WGET commands
+                            that you can execute on your computer system.
                         </Typography>
                         <Typography className={c.p3}>WGET Software:</Typography>
                         <Typography className={c.p}>
                             WGET is software that allows one to download internet content using a
                             command line interface. Availability and installation of wget varies
-                            between operating systems. Please verify that wget is available for 
-                            your computer system and is installed.
+                            between operating systems. Please verify that wget is available for your
+                            computer system and is installed.
                         </Typography>
                         <Typography className={c.p3}>WGET Script File Size Limit:</Typography>
                         <Typography className={c.p}>
-                            The downloaded script files max out at 500k lines. Multiple script 
-                            files may be downloaded to support the entire payload.
+                            The downloaded script files max out at 500k lines. Multiple script files
+                            may be downloaded to support the entire payload.
                         </Typography>
                         <Typography className={c.p3}>Downloaded Products Directory:</Typography>
                         <Typography className={c.p}>
-                            After script execution, you can find all the downloaded products in a 
+                            After script execution, you can find all the downloaded products in a
                             directory named:
                             <Typography className={c.pCode}>
-                                ./pdsimg-atlas-wget_&lt;datestamp&gt;
+                                ./pdsimg-atlas-wget_{datestamp}
                             </Typography>
-                            This directory will be created in your shell's current working directory. If you are using a Windows machine, you may need to run the script in a Windows Subsystem for Linux (WSL) environment.
+                            This directory will be created in your shell's current working
+                            directory. If you are using a Windows machine, you may need to run the
+                            script in a Windows Subsystem for Linux (WSL) environment.
                         </Typography>
                         <Typography className={c.p2}>Operating System Instructions:</Typography>
-                        <Typography className={c.p3}>Mac / Linux:</Typography>
+                        <Typography className={c.p3}>Mac / Linux / Windows (WSL):</Typography>
                         <Typography className={c.p}>
-                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-wget_&lt;datestamp&gt;.sh" script 
-                            using the following command:<br />
+                            After downloading, open a shell window and change directory to the
+                            location where the script was downloaded and then execute the
+                            "pdsimg-atlas-wget_{datestamp}.sh" script using the following command:
+                            <br />
                         </Typography>
                         <Typography className={c.pCode}>
-                            source pdsimg-atlas-wget_&lt;datestamp&gt;.sh
-                        </Typography>
-                        <Typography className={c.p3}>Windows (WSL):</Typography>
-                        <Typography className={c.p}>
-                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-wget_&lt;datestamp&gt;.bat" script 
-                            using the following command:<br />
-                        </Typography>
-                        <Typography className={c.pCode}>
-                            pdsimg-atlas-wget_&#123;datestamp&#125;.bat
+                            source pdsimg-atlas-wget_{datestamp}.sh
                         </Typography>
                     </Box>
                     <div className={c.downloading}>
@@ -216,7 +213,7 @@ function WGETTab(props) {
                 </>
             )}
         </div>
-    );
+    )
 }
 
 WGETTab.propTypes = {}

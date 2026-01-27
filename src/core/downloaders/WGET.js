@@ -166,7 +166,7 @@ const WGETQuery = (
                         const pdsUri = getPDSUrl(path, release_id)
                         if (filename && pdsUri)
                             WGETRows.push(
-                                `wget -q --show-progress -nc -P ./pdsimg-atlas-wget_${datestamp}/${filepath} ${pdsUri}\n`
+                                `mkdir -p ./pdsimg-atlas-wget_${datestamp}/${filepath} && wget -q --show-progress -nc -O ./pdsimg-atlas-wget_${datestamp}/${filepath}${filename} ${pdsUri}\n`
                             )
                     }
                 })
@@ -233,7 +233,8 @@ const createWGETFile = (datestamp, finishCallback) => {
     WGETRows = []
 
     // Detect operating system
-    const isWindows = window.navigator.userAgent.indexOf('Windows') !== -1
+    // Force Windows false, Windows users should just use WSL
+    const isWindows = false //window.navigator.userAgent.indexOf('Windows') !== -1
     const fileExtension = isWindows ? 'bat' : 'sh'
 
     // Windows treats the % character as EOL in batch files, so need to escape it

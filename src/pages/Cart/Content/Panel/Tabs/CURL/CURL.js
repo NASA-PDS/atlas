@@ -182,27 +182,27 @@ function CURLTab(props) {
                             After script execution, you can find all the downloaded products in a 
                             directory named:
                             <Typography className={c.pCode}>
-                                ./pdsimg-atlas-curl_&#123;datestamp&#125;
+                                ./pdsimg-atlas-curl_&lt;datestamp&gt;
                             </Typography>
                             This directory will be created in your shell's current working directory. If you are using a Windows machine, you may need to run the script in a Windows Subsystem for Linux (WSL) environment.
                         </Typography>
                         <Typography className={c.p2}>Operating System Instructions:</Typography>
                         <Typography className={c.p3}>Mac / Linux:</Typography>
                         <Typography className={c.p}>
-                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-curl_&#123;datestamp&#125;.sh" script 
+                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-curl_&lt;datestamp&gt;.sh" script 
                             using the following command:
                         </Typography>
                         <Typography className={c.pCode}>
-                            source pdsimg-atlas-curl_&#123;datestamp&#125;.sh
+                            source pdsimg-atlas-curl_&lt;datestamp&gt;.sh
                         </Typography>
 
                         <Typography className={c.p3}>Windows (WSL):</Typography>
                         <Typography className={c.p}>
-                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-curl_&#123;datestamp&#125;.bat" script 
+                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-curl_&lt;datestamp&gt;.bat" script 
                             using the following command:<br />
                         </Typography>
                         <Typography className={c.pCode}>
-                            pdsimg-atlas-curl_&#123;datestamp&#125;.bat
+                            pdsimg-atlas-curl_&lt;datestamp&gt;.bat
                         </Typography>
                         <div className={c.downloading}>
                             <div className={clsx(c.error, { [c.errorOn]: error != null })}>

@@ -1,11 +1,4 @@
-@font-face {
-    font-family: Inter;
-    src: url(./media/fonts/Inter/Inter-VariableFont_slnt-wght.ttf);
-}
-@font-face {
-    font-family: PublicSans;
-    src: url(./media/fonts/Public_Sans/PublicSans-VariableFont_wght.ttf);
-}
+/* Font faces are dynamically injected at runtime - see src/index.js */
 
 html,
 body {

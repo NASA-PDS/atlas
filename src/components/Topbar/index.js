@@ -16,9 +16,17 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import ImageSearchIcon from '@mui/icons-material/ImageSearch'
 import AccountTreeIcon from '@mui/icons-material/AccountTree'
 
-import { HASH_PATHS } from '../../core/constants'
+import { HASH_PATHS, publicUrl } from '../../core/constants'
+import { getPublicUrl } from '../../core/runtimeConfig'
 
-import NASALogo from '../../media/images/nasa-logo.svg'
+import NASALogoPath from '../../media/images/nasa-logo.svg'
+
+// Construct runtime-aware logo URL
+const getNASALogoUrl = () => {
+    const publicUrl = getPublicUrl()
+    const relativePath = NASALogoPath.match(/\/(static\/.+)$/)?.[1] || NASALogoPath
+    return `${publicUrl}/${relativePath}`
+}
 
 const useStyles = makeStyles((theme) => ({
     Topbar: {
@@ -189,7 +197,7 @@ const Topbar = () => {
         <div className={c.Topbar}>
             <div className={c.left}>
                 <div className={c.logoDiv}>
-                    <img className={c.logo} src={NASALogo} alt="NASA logo" />
+                    <img className={c.logo} src={getNASALogoUrl()} alt="NASA logo" />
                 </div>
                 <div className={c.appTitle}>
                     <div className={c.nodeDiv}>
@@ -227,7 +235,7 @@ const Topbar = () => {
                         className={clsx(c.button)}
                         aria-label="go to api documentation"
                         onClick={() => {
-                            window.open(HASH_PATHS.apiDocumentation, '_blank').focus()
+                            window.open(`${publicUrl}${HASH_PATHS.apiDocumentation}`, '_blank').focus()
                         }}
                         size="large"
                     >

@@ -14,13 +14,15 @@ import Cart from '../../pages/Cart/Cart'
 import InformationModal from '../../pages/Search/Modals/InformationModal/InformationModal'
 import FeedbackModal from '../../pages/Search/Modals/FeedbackModal/FeedbackModal'
 
-import { HASH_PATHS } from '../constants'
+import { getPublicUrl } from '../runtimeConfig'
 import { loadMappings } from '../redux/actions/actions.js'
 
 import './routes.css'
 
 export const AppRoutes = () => {
     const dispatch = useDispatch()
+    const publicUrl = getPublicUrl()
+
     // On first load, grab all the atlas index mappings
     useEffect(() => {
         dispatch(loadMappings('atlas'))
@@ -28,32 +30,19 @@ export const AppRoutes = () => {
 
     return (
         <div className="Routes">
-            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Router
+                basename={publicUrl}
+                future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+            >
                 <Toolbar />
                 <div className="routeMain">
                     <Topbar />
                     <div className="routeContent">
-                        <Routes location={location}>
-                            <Route
-                                path={HASH_PATHS.root}
-                                element={ <Search /> }
-                            />
-                            <Route
-                                path={HASH_PATHS.search}
-                                element={ <Search /> }
-                            />
-                            <Route
-                                path={HASH_PATHS.record}
-                                element={ <Record /> }
-                            />
-                            <Route
-                                path={HASH_PATHS.cart}
-                                element={ <Cart /> }
-                            />
-                            <Route
-                                path={HASH_PATHS.fileExplorer}
-                                element={ <FileExplorer /> }
-                            />
+                        <Routes>
+                            <Route path="/search" element={<Search />} />
+                            <Route path="/record" element={<Record />} />
+                            <Route path="/cart" element={<Cart />} />
+                            <Route path="/archive-explorer" element={<FileExplorer />} />
                         </Routes>
                     </div>
                 </div>

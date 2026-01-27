@@ -15,9 +15,17 @@ import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import NASALogo from '../../../../media/images/nasa-logo.svg'
+import NASALogoPath from '../../../../media/images/nasa-logo.svg'
+import { getPublicUrl } from '../../../../core/runtimeConfig'
 
 import { publicUrl } from '../../../../core/constants'
+
+// Construct runtime-aware logo URL
+const getNASALogoUrl = () => {
+    const publicUrl = getPublicUrl()
+    const relativePath = NASALogoPath.match(/\/(static\/.+)$/)?.[1] || NASALogoPath
+    return `${publicUrl}/${relativePath}`
+}
 
 const useStyles = makeStyles((theme) => ({
     InformationModal: {
@@ -165,7 +173,7 @@ const InformationModal = (props) => {
                 <div className={c.top}>
                     <div className={c.head}>
                         <div className={c.logo}>
-                            <img src={NASALogo} alt={'NASA Logo'} />
+                            <img src={getNASALogoUrl()} alt={'NASA Logo'} />
                         </div>
                         <div className={c.pdsAndNode}>
                             <Typography className={c.pds} variant="h3">

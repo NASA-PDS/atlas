@@ -36,16 +36,23 @@ const getSearchURL = (activeFilters) => {
                         break
                     case 'input_range':
                     case 'slider_range':
-                        if (f.state && f.state.range && Array.isArray(f.state.range) && 
-                            (f.state.range[0] != null || f.state.range[1] != null)) {
+                        if (
+                            f.state &&
+                            f.state.range &&
+                            Array.isArray(f.state.range) &&
+                            (f.state.range[0] != null || f.state.range[1] != null)
+                        ) {
                             const min = f.state.range[0] != null ? f.state.range[0] : ''
                             const max = f.state.range[1] != null ? f.state.range[1] : ''
                             values.push(`${encodeURI(min)}_to_${encodeURI(max)}`)
                         }
                         break
                     case 'date_range':
-                        if (f.state && f.state.daterange && 
-                            (f.state.daterange.start || f.state.daterange.end)) {
+                        if (
+                            f.state &&
+                            f.state.daterange &&
+                            (f.state.daterange.start || f.state.daterange.end)
+                        ) {
                             const start = f.state.daterange.start || ''
                             const end = f.state.daterange.end || ''
                             values.push(`${encodeURI(start)}_to_${encodeURI(end)}`)
@@ -80,7 +87,7 @@ const FilterList = (props) => {
         if (currentURL.pathname + currentURL.query !== desiredSearchUrl) {
             navigate(desiredSearchUrl, { replace: true })
         }
-    }, [activeFilters])
+    }, [JSON.stringify(activeFilters)])
 
     const sortedActiveFilterKeys = Object.keys(activeFilters).sort((a, b) => {
         return activeFilters[a].order - activeFilters[b].order

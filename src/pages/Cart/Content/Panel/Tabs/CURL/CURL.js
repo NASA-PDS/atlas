@@ -161,6 +161,7 @@ function CURLTab(props) {
                                 </Button>
                             </span>
                         </Tooltip>
+                        <Typography className={c.p2}>Download notes:</Typography>
                         <Typography className={c.p}>
                             The downloaded script will contain a set of pre-configured CURL commands that you can execute on your computer system.
                         </Typography>
@@ -169,8 +170,7 @@ function CURLTab(props) {
                             CURL is software that allows one to download internet content using a
                             command line interface. Availability and installation of Curl varies
                             between operating systems. Please verify that Curl is available for your
-                            computer and is installed.
-                            <Typography className={c.p3}>Requires: curl 7.73.0+</Typography>
+                            computer and is installed. <strong>Requires: curl 7.73.0+</strong>
                         </Typography>
                         <Typography className={c.p3}>CURL Script File Size Limit:</Typography>
                         <Typography className={c.p}>
@@ -184,25 +184,25 @@ function CURLTab(props) {
                             <Typography className={c.pCode}>
                                 ./pdsimg-atlas-curl_&#123;datestamp&#125;
                             </Typography>
-                            This directory will be created at the same level as the script file.
+                            This directory will be created in your shell's current working directory. If you are using a Windows machine, you may need to run the script in a Windows Subsystem for Linux (WSL) environment.
                         </Typography>
                         <Typography className={c.p2}>Operating System Instructions:</Typography>
                         <Typography className={c.p3}>Mac / Linux:</Typography>
                         <Typography className={c.p}>
-                            After downloading, run the "pdsimg-atlas-curl_{datestamp}.sh" script 
+                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-curl_&#123;datestamp&#125;.sh" script 
                             using the following command:
                         </Typography>
                         <Typography className={c.pCode}>
-                            source pdsimg-atlas-curl_{datestamp}.sh
+                            source pdsimg-atlas-curl_&#123;datestamp&#125;.sh
                         </Typography>
 
                         <Typography className={c.p3}>Windows (WSL):</Typography>
                         <Typography className={c.p}>
-                            After downloading, run the "pdsimg-atlas-curl_{datestamp}.bat" script 
-                            using the following command:
+                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-curl_&#123;datestamp&#125;.bat" script 
+                            using the following command:<br />
                         </Typography>
                         <Typography className={c.pCode}>
-                            pdsimg-atlas-curl_{datestamp}.bat
+                            pdsimg-atlas-curl_&#123;datestamp&#125;.bat
                         </Typography>
                         <div className={c.downloading}>
                             <div className={clsx(c.error, { [c.errorOn]: error != null })}>

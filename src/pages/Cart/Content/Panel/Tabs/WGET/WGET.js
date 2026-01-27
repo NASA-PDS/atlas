@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
     pCode: {
         background: theme.palette.swatches.grey.grey200,
-        padding: theme.spacing(3),
+        padding: theme.spacing(4),
         fontFamily: 'monospace',
         marginBottom: '5px',
     },
@@ -189,19 +189,19 @@ function WGETTab(props) {
                         <Typography className={c.p2}>Operating System Instructions:</Typography>
                         <Typography className={c.p3}>Mac / Linux:</Typography>
                         <Typography className={c.p}>
-                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-wget_{datestamp}.sh" script 
-                            using the following command:
+                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-wget_&#123;datestamp&#125;.sh" script 
+                            using the following command:<br />
                         </Typography>
                         <Typography className={c.pCode}>
-                            source pdsimg-atlas-wget_{datestamp}.sh
+                            source pdsimg-atlas-wget_&#123;datestamp&#125;.sh
                         </Typography>
                         <Typography className={c.p3}>Windows (WSL):</Typography>
                         <Typography className={c.p}>
-                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-wget_{datestamp}.bat" script 
-                            using the following command:
+                            After downloading, open a shell window and change directory to the location where the script was downloaded and then execute the "pdsimg-atlas-wget_&#123;datestamp&#125;.bat" script 
+                            using the following command:<br />
                         </Typography>
                         <Typography className={c.pCode}>
-                            pdsimg-atlas-wget_{datestamp}.bat
+                            pdsimg-atlas-wget_&#123;datestamp&#125;.bat
                         </Typography>
                     </Box>
                     <div className={c.downloading}>

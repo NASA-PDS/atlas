@@ -166,7 +166,7 @@ const WGETQuery = (
                         const pdsUri = getPDSUrl(path, release_id)
                         if (filename && pdsUri)
                             WGETRows.push(
-                                `wget -q --show-progress -nc -P ./pdsimg-atlas-wget_${datestamp}/${filepath} ${pdsUri}\n`
+                                `mkdir -p ./pdsimg-atlas-wget_${datestamp}/${filepath} && wget -q --show-progress -nc -O ./pdsimg-atlas-wget_${datestamp}/${filepath}${filename} ${pdsUri}\n`
                             )
                     }
                 })
@@ -232,11 +232,16 @@ const createWGETFile = (datestamp, finishCallback) => {
     let WGETStr = WGETRows.join('')
     WGETRows = []
 
+    // Detect operating system
+    // Force Windows false, Windows users should just use WSL
+    const isWindows = false //window.navigator.userAgent.indexOf('Windows') !== -1
+    const fileExtension = isWindows ? 'bat' : 'sh'
+
     // Windows treats the % character as EOL in batch files, so need to escape it
-    if (window.navigator.userAgent.indexOf('Windows') !== -1) WGETStr = WGETStr.replace(/%/g, '%%')
+    if (isWindows) WGETStr = WGETStr.replace(/%/g, '%%')
 
     const blob = new Blob([WGETStr], { type: 'text/plain;charset=utf-8' })
-    fileSaver.saveAs(blob, `pdsimg-atlas-wget_${datestamp}.bat`, true)
+    fileSaver.saveAs(blob, `pdsimg-atlas-wget_${datestamp}.${fileExtension}`, { autoBom: false })
 
     if (typeof finishCallback === 'function') {
         finishCallback(false)

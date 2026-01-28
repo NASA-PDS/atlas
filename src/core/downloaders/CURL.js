@@ -222,7 +222,7 @@ const CURLImage = (item, productKeys, datestamp, statusCallback) => {
     return
 }
 
-const createCURLFile = (datestamp) => {
+const createCURLFile = (datestamp, finishCallback) => {
     if (CURLRows.length == 0) {
         alert('Please select products to download.')
         return

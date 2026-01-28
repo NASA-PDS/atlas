@@ -192,8 +192,12 @@ function DownloadingCard(props) {
             break
     }
 
-    if (mode === modes.running && status.overall.percent >= 100) setMode(modes.done)
-    else if (mode === modes.done && status.overall.percent < 100) setMode(modes.running)
+    // Transition to done mode when progress reaches 100%
+    if (mode === modes.running && status.overall.percent >= 100) {
+        setMode(modes.done)
+    }
+    // Don't allow reverting from done to running - prevents race condition
+    // where stale status updates arrive after completion
 
     let remaining = moment
         .utc(moment.duration(status.overall.estimatedTimeRemaining).as('milliseconds'))

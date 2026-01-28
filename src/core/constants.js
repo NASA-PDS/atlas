@@ -6,7 +6,7 @@ import {
     getFootprintUrl,
     getImageryUrl,
     getRegistryUrl,
-    getDoiUrl
+    getDoiUrl,
 } from './runtimeConfig'
 
 export const MAX_BULK_DOWNLOAD_COUNT = process.env.MAX_BULK_DOWNLOAD_COUNT || 25000
@@ -210,6 +210,8 @@ export const MISSIONS_TO_BODIES = {
 }
 
 export const DISPLAY_NAME_MAPPINGS = {
+    'ap': 'Apollo',
+    'apollo': 'Apollo',
     'cas': 'Cassini',
     'cassini': 'Cassini',
     'cassini_orbiter': 'Cassini Orbiter',

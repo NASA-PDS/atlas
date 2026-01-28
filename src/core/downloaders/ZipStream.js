@@ -267,7 +267,28 @@ const ZipStreamDownload = (
         // more optimized
         return readableZipStream.pipeTo(fileStream).then(() => {
             if (typeof finishCallback === 'function') {
-                finishCallback(false)
+                try {
+                    finishCallback(false)
+                } catch (err) {
+                    console.error('Error in finish callback:', err)
+                }
+            }
+        }).catch((err) => {
+            console.error('Error in stream pipeline:', err)
+            // Ensure callback is called even on error
+            if (typeof finishCallback === 'function') {
+                try {
+                    finishCallback(true)
+                } catch (cbErr) {
+                    console.error('Error in finish callback:', cbErr)
+                }
+            }
+            if (typeof errorCallback === 'function') {
+                try {
+                    errorCallback('Download failed: ' + (err?.message || 'Unknown error'))
+                } catch (cbErr) {
+                    console.error('Error in error callback:', cbErr)
+                }
             }
         })
     } else {
@@ -281,11 +302,33 @@ const ZipStreamDownload = (
                 .then((res) => {
                     if (res.done) {
                         if (typeof finishCallback === 'function') {
-                            finishCallback(false)
+                            try {
+                                finishCallback(false)
+                            } catch (err) {
+                                console.error('Error in finish callback:', err)
+                            }
                         }
                         return writer.close()
                     } else {
                         return writer.write(res.value).then(pump)
+                    }
+                })
+                .catch((err) => {
+                    console.error('Error in stream pump:', err)
+                    // Ensure callback is called even on error
+                    if (typeof finishCallback === 'function') {
+                        try {
+                            finishCallback(true)
+                        } catch (cbErr) {
+                            console.error('Error in finish callback:', cbErr)
+                        }
+                    }
+                    if (typeof errorCallback === 'function') {
+                        try {
+                            errorCallback('Download failed: ' + (err?.message || 'Unknown error'))
+                        } catch (cbErr) {
+                            console.error('Error in error callback:', cbErr)
+                        }
                     }
                 })
 

@@ -1598,28 +1598,29 @@ export const updateFilexColumn = (columnId, options, stopPropagate, forcePropaga
                     let volume = url.query.bundle || splitUri(url.query.uri).bundle
                     const pdsStandard = url.query.pds
 
-                    if (columnId === 0) {
-                        dispatch(
-                            addFilexColumn(
-                                'filter',
-                                'az',
-                                [
-                                    {
-                                        display_name: 'Instruments',
-                                        value: ES_PATHS.archive.instrument.join('.'),
-                                    },
-                                ],
-                                ES_PATHS.archive.instrument.join('.')
-                            )
-                        )
+                    // Instrument filter column disabled - TS-194
+                    // if (columnId === 0) {
+                    //     dispatch(
+                    //         addFilexColumn(
+                    //             'filter',
+                    //             'az',
+                    //             [
+                    //                 {
+                    //                     display_name: 'Instruments',
+                    //                     value: ES_PATHS.archive.instrument.join('.'),
+                    //                 },
+                    //             ],
+                    //             ES_PATHS.archive.instrument.join('.')
+                    //         )
+                    //     )
 
-                        // Set the value if one came from the url
-                        if (!usedURLState) {
-                            const nextInstActive =
-                                instrument != null ? { active: { key: instrument } } : null
-                            if (nextInstActive) dispatch(updateFilexColumn(1, nextInstActive, true))
-                        }
-                    }
+                    //     // Set the value if one came from the url
+                    //     if (!usedURLState) {
+                    //         const nextInstActive =
+                    //             instrument != null ? { active: { key: instrument } } : null
+                    //         if (nextInstActive) dispatch(updateFilexColumn(1, nextInstActive, true))
+                    //     }
+                    // }
                     dispatch(addFilexColumn(isFinalFilter ? 'volume' : null))
 
                     // URL state stuff

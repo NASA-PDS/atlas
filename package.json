@@ -59,7 +59,7 @@
     "mui-image": "^1.0.9",
     "ngeohash": "^0.6.3",
     "openseadragon": "^2.4.2",
-    "proj4": "^2.19.10",
+    "proj4": "^2.20.2",
     "proj4leaflet": "^1.0.2",
     "pug": "^3.0.3",
     "react": "^18.3.1",

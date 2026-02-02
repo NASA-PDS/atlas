@@ -83,14 +83,23 @@ function TXTTab(props) {
 
     const [datestamp, setDatestamp] = useState()
 
+    const prevIsDownloadingRef = useRef(isDownloading)
+
     useEffect(() => {
-        // If true, then it'll next be false
-        if (isDownloading === true && status != null) {
-            const nextStatus = status
-            nextStatus.overall.percent = 100
+        // Detect transition from downloading to not downloading
+        if (prevIsDownloadingRef.current === true && isDownloading === false && status != null) {
+            const nextStatus = {
+                ...status,
+                overall: {
+                    ...status.overall,
+                    percent: 100,
+                    current: status.overall.total
+                }
+            }
             setStatus(nextStatus)
         }
-    }, [isDownloading])
+        prevIsDownloadingRef.current = isDownloading
+    }, [isDownloading, status])
 
     return (
         <div

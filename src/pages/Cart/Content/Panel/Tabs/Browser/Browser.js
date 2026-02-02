@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { makeStyles, withStyles } from '@mui/styles'
@@ -13,7 +13,6 @@ import Tooltip from '@mui/material/Tooltip'
 import { ZipStreamCart } from '../../../../../../core/downloaders/ZipStream'
 import { setSnackBarText } from '../../../../../../core/redux/actions/actions.js'
 
-import ProductDownloadSelector from '../../../../../../components/ProductDownloadSelector/ProductDownloadSelector'
 import DownloadingCard from '../../../../../../components/DownloadingCard/DownloadingCard'
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function BrowserTab(props) {
-    const { value, index, ...other } = props
+    const { value, index, selectorRef, selectionCount, ...other } = props
 
     const c = useStyles()
 
@@ -62,10 +61,8 @@ function BrowserTab(props) {
     const [status, setStatus] = useState(null)
     const [zipController, setZipController] = useState(null)
     const [error, setError] = useState(null)
-    const [selectionCount, setSelectionCount] = useState(0)
 
     const dispatch = useDispatch()
-    const selectorRef = useRef()
 
     useEffect(() => {
         // If true, then it'll next be false
@@ -87,13 +84,6 @@ function BrowserTab(props) {
                 <>
                     <Box p={3}>
                         <Typography variant="h5">Browser ZIP</Typography>
-                        <Typography className={clsx(c.p, c.subtitle)}>
-                            Select the products to include in your download:
-                        </Typography>
-                        <ProductDownloadSelector
-                            ref={selectorRef}
-                            onSelection={setSelectionCount}
-                        />
                         <Tooltip
                             title={selectionCount === 0 ? 'Select products above to download.' : ''}
                             arrow

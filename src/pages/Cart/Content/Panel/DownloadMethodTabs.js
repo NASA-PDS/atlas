@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     radioGroupContainer: {
         width: '100%',
         boxSizing: 'border-box',
-        marginBottom: theme.spacing(3),
     },
     radioGroup: {
         gap: theme.spacing(1),

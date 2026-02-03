@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { makeStyles, withStyles } from '@mui/styles'
+import { makeStyles } from '@mui/styles'
 
 import Typography from '@mui/material/Typography'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
 
-import BrowserTab from './Tabs/Browser/Browser'
-import CURLTab from './Tabs/CURL/CURL'
-import WGETTab from './Tabs/WGET/WGET'
-import CSVTab from './Tabs/CSV/CSV'
-import TXTTab from './Tabs/TXT/TXT'
+import ProductDownloadSelector from '../../../../components/ProductDownloadSelector/ProductDownloadSelector'
+import DownloadMethodTabs from './DownloadMethodTabs'
 
 const useStyles = makeStyles((theme) => ({
     Panel: {
@@ -28,24 +23,23 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         padding: `0px ${theme.spacing(2)}`,
         boxSizing: 'border-box',
+        flexShrink: 0,
+        borderBottom: `1px solid ${theme.palette.swatches.grey.grey200}`,
+    },
+    scrollableContent: {
+        flex: 1,
+        overflowY: 'auto',
+        overflowX: 'hidden',
     },
     panelTitle: {
-        fontSize: '16px',
+        fontSize: '18px',
         fontWeight: 'bold',
         lineHeight: `${theme.headHeights[2]}px`,
     },
-    tabs: {
-        height: theme.headHeights[2],
-        width: '100%',
-        boxSizing: 'border-box',
-        background: theme.palette.swatches.grey.grey150,
+    panelBody: {
+        padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
+        background: theme.palette.swatches.grey.grey100,
         borderBottom: `1px solid ${theme.palette.swatches.grey.grey200}`,
-        color: theme.palette.text.main,
-    },
-    tabPanels: {
-        height: `calc(100% - ${theme.headHeights[2] * 2}px)`,
-        overflowY: 'auto',
-        position: 'relative',
     },
     introMessage: {
         'position': 'relative',
@@ -73,42 +67,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const StyledTabs = withStyles((theme) => ({
-    indicator: {
-        'display': 'flex',
-        'justifyContent': 'center',
-        'backgroundColor': 'transparent',
-        'height': '5px',
-        '& > span': {
-            maxWidth: 124,
-            width: '100%',
-            backgroundColor: theme.palette.accent.main,
-        },
-    },
-}))((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />)
-
-const StyledTab = withStyles((theme) => ({
-    root: {
-        'color': theme.palette.text.main,
-        'fontSize': theme.typography.pxToRem(14),
-        'marginRight': theme.spacing(1),
-        'minWidth': 58,
-        '&:focus': {
-            opacity: 1,
-        },
-    },
-}))((props) => <Tab disableRipple {...props} />)
-
 const Panel = (props) => {
     const {} = props
     const c = useStyles()
 
-    const [tab, setTab] = useState(0)
+    const [selectedDownloadMethodIndex, setSelectedDownloadMethodIndex] = useState(null)
+    const [selectionCount, setSelectionCount] = useState(0)
+    const selectorRef = useRef()
 
     const dispatch = useDispatch()
 
-    const handleChange = (event, newTabIndex) => {
-        setTab(newTabIndex)
+    // Reset download method when no product types are selected
+    useEffect(() => {
+        if (selectionCount === 0) {
+            setSelectedDownloadMethodIndex(null)
+        }
+    }, [selectionCount])
+
+    const handleChange = (event, newDownloadMethodIndex) => {
+        setSelectedDownloadMethodIndex(newDownloadMethodIndex)
     }
 
     const cart = useSelector((state) => {
@@ -129,28 +106,27 @@ const Panel = (props) => {
                 <>
                     <div className={c.header}>
                         <Typography className={c.panelTitle} variant="h4">
-                            Choose Your Download Method
+                            Download Your Products
                         </Typography>
                     </div>
-                    <div className={c.tabs}>
-                        <StyledTabs
-                            value={tab}
-                            onChange={handleChange}
-                            aria-label="cart download tab"
-                        >
-                            <StyledTab label="ZIP" />
-                            <StyledTab label="WGET" />
-                            <StyledTab label="CURL" />
-                            <StyledTab label="CSV" />
-                            <StyledTab label="TXT" />
-                        </StyledTabs>
-                    </div>
-                    <div className={c.tabPanels}>
-                        <BrowserTab value={tab} index={0} />
-                        <WGETTab value={tab} index={1} />
-                        <CURLTab value={tab} index={2} />
-                        <CSVTab value={tab} index={3} />
-                        <TXTTab value={tab} index={4} />
+                    <div className={c.scrollableContent}>
+                        <div className={c.panelBody}>
+                            <Typography className={c.panelBodyText}>
+                                Select the products to include in your download, choose your download method, then click the download button to start.
+                            </Typography>
+                        </div>
+                        <ProductDownloadSelector
+                            ref={selectorRef}
+                            onSelection={setSelectionCount}
+                        />
+                        {selectionCount > 0 && (
+                            <DownloadMethodTabs
+                                selectedDownloadMethodIndex={selectedDownloadMethodIndex}
+                                onChange={handleChange}
+                                selectorRef={selectorRef}
+                                selectionCount={selectionCount}
+                            />
+                        )}
                     </div>
                 </>
             )}

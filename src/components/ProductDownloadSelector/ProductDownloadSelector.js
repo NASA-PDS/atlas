@@ -19,7 +19,16 @@ import Checkbox from '@mui/material/Checkbox'
 import WarningIcon from '@mui/icons-material/Warning'
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
+    root: {
+        padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
+        background: theme.palette.swatches.grey.grey100,
+        borderBottom: `1px solid ${theme.palette.swatches.grey.grey200}`,
+    },
+    title: {
+        fontSize: '16px',
+        fontWeight: 'bold',
+        marginBottom: theme.spacing(3),
+    },
     header: {
         fontWeight: 'bold',
     },
@@ -196,7 +205,10 @@ const ProductDownloadSelector = forwardRef((props, ref) => {
     const summary = getSummary(listState)
 
     return (
-        <div className={clsx({ [c.hidden]: hidden })}>
+        <div className={clsx(c.root, { [c.hidden]: hidden })}>
+            <Typography className={c.title}>
+                1. Select the products to include in your download:
+            </Typography>
             <div className={c.list}>{makeSelectors(listState, onCheck)}</div>
             <div className={c.summary}>
                 <div className={c.totalTitle}>Total:&nbsp;</div>

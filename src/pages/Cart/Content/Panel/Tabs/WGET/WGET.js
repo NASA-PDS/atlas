@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { makeStyles, withStyles } from '@mui/styles'
@@ -8,7 +8,6 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import clsx from 'clsx'
 
-import ProductDownloadSelector from '../../../../../../components/ProductDownloadSelector/ProductDownloadSelector'
 import DownloadingCard from '../../../../../../components/DownloadingCard/DownloadingCard'
 import { setSnackBarText } from '../../../../../../core/redux/actions/actions.js'
 import { WGETCart } from '../../../../../../core/downloaders/WGET'
@@ -68,18 +67,16 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function WGETTab(props) {
-    const { value, index, ...other } = props
+    const { value, index, selectorRef, selectionCount, ...other } = props
 
     const c = useStyles()
     const dispatch = useDispatch()
-    const selectorRef = useRef()
 
     const [isDownloading, setIsDownloading] = useState(false)
     const [onStop, setOnStop] = useState(false)
     const [downloadId, setDownloadId] = useState(0)
     const [status, setStatus] = useState(null)
     const [error, setError] = useState(null)
-    const [selectionCount, setSelectionCount] = useState(0)
 
     const [datestamp, setDatestamp] = useState('{datestamp}')
 
@@ -103,13 +100,6 @@ function WGETTab(props) {
                 <>
                     <Box p={3}>
                         <Typography variant="h5">WGET</Typography>
-                        <Typography className={c.p}>
-                            Select the products to include in your download:
-                        </Typography>
-                        <ProductDownloadSelector
-                            ref={selectorRef}
-                            onSelection={setSelectionCount}
-                        />
                         <Tooltip
                             title={selectionCount === 0 ? 'Select products above to download.' : ''}
                             arrow

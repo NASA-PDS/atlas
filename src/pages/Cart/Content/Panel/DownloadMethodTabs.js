@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
             },
         },
         '&.selected': {
-            'border': `1px solid ${theme.palette.accent.main}`,
+            border: `1px solid ${theme.palette.accent.main}`,
         },
     },
     radioLabelContent: {
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
     tabPanels: {
         position: 'relative',
-        padding: `${theme.spacing(0)} ${theme.spacing(3)}`,
+        padding: 0,
     },
     borderBottom: {
         borderBottom: `1px solid ${theme.palette.swatches.grey.grey200}`,
@@ -81,34 +81,39 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const DownloadMethodTabs = ({ selectedDownloadMethodIndex, onChange, selectorRef, selectionCount }) => {
+const DownloadMethodTabs = ({
+    selectedDownloadMethodIndex,
+    onChange,
+    selectorRef,
+    selectionCount,
+}) => {
     const c = useStyles()
 
     const methods = [
-        { 
-            value: 0, 
-            title: 'ZIP', 
-            description: 'Download files as a compressed ZIP archive through your browser' 
+        {
+            value: 0,
+            title: 'ZIP',
+            description: 'Download files as a compressed ZIP archive through your browser',
         },
-        { 
-            value: 1, 
-            title: 'WGET', 
-            description: 'Use wget command-line tool to download files' 
+        {
+            value: 1,
+            title: 'WGET',
+            description: 'Use wget command-line tool to download files',
         },
-        { 
-            value: 2, 
-            title: 'CURL', 
-            description: 'Use curl command-line tool to download files' 
+        {
+            value: 2,
+            title: 'CURL',
+            description: 'Use curl command-line tool to download files',
         },
-        { 
-            value: 3, 
-            title: 'CSV', 
-            description: 'Download a CSV file containing URLs for all products' 
+        {
+            value: 3,
+            title: 'CSV',
+            description: 'Download a CSV file containing URLs for all products',
         },
-        { 
-            value: 4, 
-            title: 'TXT', 
-            description: 'Download a text file containing URLs for all products' 
+        {
+            value: 4,
+            title: 'TXT',
+            description: 'Download a text file containing URLs for all products',
         },
     ]
 
@@ -120,14 +125,16 @@ const DownloadMethodTabs = ({ selectedDownloadMethodIndex, onChange, selectorRef
     return (
         <>
             <div className={clsx(c.root, c.borderBottom)}>
-                <Typography className={c.title}>
-                    2. Select a download method:
-                </Typography>
+                <Typography className={c.title}>2. Select a download method:</Typography>
                 <div className={c.radioGroupContainer}>
                     <FormControl component="fieldset" fullWidth>
                         <RadioGroup
                             aria-label="cart download method selection"
-                            value={selectedDownloadMethodIndex !== null ? selectedDownloadMethodIndex : ''}
+                            value={
+                                selectedDownloadMethodIndex !== null
+                                    ? selectedDownloadMethodIndex
+                                    : ''
+                            }
                             onChange={handleRadioChange}
                             className={c.radioGroup}
                         >
@@ -159,15 +166,38 @@ const DownloadMethodTabs = ({ selectedDownloadMethodIndex, onChange, selectorRef
             </div>
             {selectedDownloadMethodIndex !== null && (
                 <div className={clsx(c.root)}>
-                    <Typography className={c.title}>
-                        3. Download your products:
-                    </Typography>
+                    <Typography className={c.title}>3. Download your products:</Typography>
                     <div className={c.tabPanels}>
-                        <BrowserTab value={selectedDownloadMethodIndex} index={0} selectorRef={selectorRef} selectionCount={selectionCount} />
-                        <WGETTab value={selectedDownloadMethodIndex} index={1} selectorRef={selectorRef} selectionCount={selectionCount} />
-                        <CURLTab value={selectedDownloadMethodIndex} index={2} selectorRef={selectorRef} selectionCount={selectionCount} />
-                        <CSVTab value={selectedDownloadMethodIndex} index={3} selectorRef={selectorRef} selectionCount={selectionCount} />
-                        <TXTTab value={selectedDownloadMethodIndex} index={4} selectorRef={selectorRef} selectionCount={selectionCount} />
+                        <BrowserTab
+                            value={selectedDownloadMethodIndex}
+                            index={0}
+                            selectorRef={selectorRef}
+                            selectionCount={selectionCount}
+                        />
+                        <WGETTab
+                            value={selectedDownloadMethodIndex}
+                            index={1}
+                            selectorRef={selectorRef}
+                            selectionCount={selectionCount}
+                        />
+                        <CURLTab
+                            value={selectedDownloadMethodIndex}
+                            index={2}
+                            selectorRef={selectorRef}
+                            selectionCount={selectionCount}
+                        />
+                        <CSVTab
+                            value={selectedDownloadMethodIndex}
+                            index={3}
+                            selectorRef={selectorRef}
+                            selectionCount={selectionCount}
+                        />
+                        <TXTTab
+                            value={selectedDownloadMethodIndex}
+                            index={4}
+                            selectorRef={selectorRef}
+                            selectionCount={selectionCount}
+                        />
                     </div>
                 </div>
             )}

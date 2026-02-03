@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { makeStyles, withStyles } from '@mui/styles'
@@ -90,8 +90,8 @@ function CURLTab(props) {
                 overall: {
                     ...status.overall,
                     percent: 100,
-                    current: status.overall.total
-                }
+                    current: status.overall.total,
+                },
             }
             setStatus(nextStatus)
         }

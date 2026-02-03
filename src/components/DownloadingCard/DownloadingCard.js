@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     statusInner: {
         display: 'flex',
         justifyContent: 'space-between',
-        padding: theme.spacing(1.5),
+        padding: `${theme.spacing(1.5)} 0px`,
         height: '48px',
     },
     statusLeft: {
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '7px',
     },
     statusRemaining: {
-        fontSize: 16,
+        fontSize: 14,
     },
     statusRight: {
         width: '108px',

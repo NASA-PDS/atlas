@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles, withStyles } from '@mui/styles'
 
@@ -130,6 +130,13 @@ function DownloadingCard(props) {
         setMode(modes.running)
     }, [downloadId])
 
+    // Transition to done mode when progress reaches 100%
+    useEffect(() => {
+        if (mode === modes.running && status?.overall.percent >= 100) {
+            setMode(modes.done)
+        }
+    }, [status, mode])
+
     const pause = () => {
         if (controller) {
             switch (controllerType) {
@@ -192,9 +199,6 @@ function DownloadingCard(props) {
             break
     }
 
-    if (mode === modes.running && status.overall.percent >= 100) setMode(modes.done)
-    else if (mode === modes.done && status.overall.percent < 100) setMode(modes.running)
-
     let remaining = moment
         .utc(moment.duration(status.overall.estimatedTimeRemaining).as('milliseconds'))
         .format('HH:mm:ss')
@@ -247,7 +251,8 @@ function DownloadingCard(props) {
                                     resume()
                                 }
                             }}
-                            size="large">
+                            size="large"
+                        >
                             {mode === modes.paused ? (
                                 <PlayIcon fontSize="inherit" />
                             ) : (
@@ -264,7 +269,7 @@ function DownloadingCard(props) {
                 </div>
             </div>
         </Paper>
-    );
+    )
 }
 
 DownloadingCard.propTypes = {}

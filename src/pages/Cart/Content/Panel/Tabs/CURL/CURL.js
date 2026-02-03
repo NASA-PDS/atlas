@@ -80,14 +80,23 @@ function CURLTab(props) {
 
     const [datestamp, setDatestamp] = useState('{datestamp}')
 
+    const prevIsDownloadingRef = useRef(isDownloading)
+
     useEffect(() => {
-        // If true, then it'll next be false
-        if (isDownloading === true && status != null) {
-            const nextStatus = status
-            nextStatus.overall.percent = 100
+        // Detect transition from downloading to not downloading
+        if (prevIsDownloadingRef.current === true && isDownloading === false && status != null) {
+            const nextStatus = {
+                ...status,
+                overall: {
+                    ...status.overall,
+                    percent: 100,
+                    current: status.overall.total
+                }
+            }
             setStatus(nextStatus)
         }
-    }, [isDownloading])
+        prevIsDownloadingRef.current = isDownloading
+    }, [isDownloading, status])
 
     return (
         <div
@@ -172,9 +181,11 @@ function CURLTab(props) {
                         <Typography className={c.p}>
                             After script execution, you can find all the downloaded products in a
                             directory named:
-                            <Typography className={c.pCode}>
-                                ./pdsimg-atlas-curl_{datestamp}
-                            </Typography>
+                        </Typography>
+                        <Typography className={c.pCode}>
+                            ./pdsimg-atlas-curl_&#123;datestamp&#125;
+                        </Typography>
+                        <Typography className={c.p}>
                             This directory will be created in your shell's current working
                             directory. If you are using a Windows machine, you may need to run the
                             script in a Windows Subsystem for Linux (WSL) environment.

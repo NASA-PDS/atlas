@@ -97,7 +97,11 @@ export const splitUri = (uri, get) => {
 
 export const getFilename = (url) => {
     if (!url || typeof url != 'string') return url
-    return url.split('/').pop()
+    // Get the filename from the URL
+    let filename = url.split('/').pop()
+    // Strip the ::release_id suffix if present (e.g., "file.xml::1" -> "file.xml")
+    if (filename) filename = filename.split('::')[0]
+    return filename
 }
 
 /**

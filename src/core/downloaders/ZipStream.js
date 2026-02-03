@@ -154,6 +154,8 @@ const ZipStreamDownload = (
                                 filepath =
                                     getFilename(currentItem.item.uri) +
                                     files[filesIdx].url.split(currentItem.item.uri)[1]
+                                // Strip ::release_id from the filepath (e.g., "path/file.xml::1" -> "path/file.xml")
+                                filepath = filepath.split('::')[0]
                             } catch (err) {}
                         }
                         // Make sure we're not trying to add folders as files
@@ -265,11 +267,43 @@ const ZipStreamDownload = (
 
     if (window.WritableStream && readableZipStream.pipeTo) {
         // more optimized
-        return readableZipStream.pipeTo(fileStream).then(() => {
-            if (typeof finishCallback === 'function') {
-                finishCallback(false)
-            }
-        })
+        return readableZipStream
+            .pipeTo(fileStream)
+            .then(() => {
+                if (typeof finishCallback === 'function') {
+                    try {
+                        finishCallback(false)
+                    } catch (err) {
+                        console.error('Error in finish callback:', err)
+                    }
+                }
+            })
+            .catch((err) => {
+                // Check if this is a user cancellation (AbortError or no error message)
+                const isUserCancellation = err?.name === 'AbortError' || !err || !err.message
+
+                if (!isUserCancellation) {
+                    console.error('Error in stream pipeline:', err)
+                }
+
+                // Stop the downloading state (finishCallback with false stops the download)
+                if (typeof finishCallback === 'function') {
+                    try {
+                        finishCallback(false)
+                    } catch (cbErr) {
+                        console.error('Error in finish callback:', cbErr)
+                    }
+                }
+
+                // Only show error message if it's not a user cancellation
+                if (!isUserCancellation && typeof errorCallback === 'function') {
+                    try {
+                        errorCallback('Download failed: ' + (err?.message || 'Unknown error'))
+                    } catch (cbErr) {
+                        console.error('Error in error callback:', cbErr)
+                    }
+                }
+            })
     } else {
         // less optimized
         const writer = fileStream.getWriter()
@@ -281,11 +315,41 @@ const ZipStreamDownload = (
                 .then((res) => {
                     if (res.done) {
                         if (typeof finishCallback === 'function') {
-                            finishCallback(false)
+                            try {
+                                finishCallback(false)
+                            } catch (err) {
+                                console.error('Error in finish callback:', err)
+                            }
                         }
                         return writer.close()
                     } else {
                         return writer.write(res.value).then(pump)
+                    }
+                })
+                .catch((err) => {
+                    // Check if this is a user cancellation (AbortError or no error message)
+                    const isUserCancellation = err?.name === 'AbortError' || !err || !err.message
+
+                    if (!isUserCancellation) {
+                        console.error('Error in stream pump:', err)
+                    }
+
+                    // Stop the downloading state (finishCallback with false stops the download)
+                    if (typeof finishCallback === 'function') {
+                        try {
+                            finishCallback(false)
+                        } catch (cbErr) {
+                            console.error('Error in finish callback:', cbErr)
+                        }
+                    }
+
+                    // Only show error message if it's not a user cancellation
+                    if (!isUserCancellation && typeof errorCallback === 'function') {
+                        try {
+                            errorCallback('Download failed: ' + (err?.message || 'Unknown error'))
+                        } catch (cbErr) {
+                            console.error('Error in error callback:', cbErr)
+                        }
                     }
                 })
 

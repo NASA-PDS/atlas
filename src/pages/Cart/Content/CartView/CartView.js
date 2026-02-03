@@ -354,7 +354,7 @@ const GridCard = ({ index, data, width }) => {
                 images.map((image, idx) => {
                     const imgURL = getPDSUrl(image, release_id, AVAILABLE_URI_SIZES.sm)
                     return (
-                        <>
+                        <React.Fragment key={idx}>
                             <Image
                                 className={c.gridItemImage}
                                 style={
@@ -380,7 +380,7 @@ const GridCard = ({ index, data, width }) => {
                             {MODEL_EXTENSIONS.includes(getExtension(imgURL, true)) && (
                                 <ProductIcons filename={imgURL} />
                             )}
-                        </>
+                        </React.Fragment>
                     )
                 })}
             {data.item.total ? (

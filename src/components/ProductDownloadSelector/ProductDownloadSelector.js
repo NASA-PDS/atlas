@@ -207,7 +207,7 @@ const ProductDownloadSelector = forwardRef((props, ref) => {
     return (
         <div className={clsx(c.root, { [c.hidden]: hidden })}>
             <Typography className={c.title}>
-                Select the products to include in your download:
+                1. Select the products to include in your download:
             </Typography>
             <div className={c.list}>{makeSelectors(listState, onCheck)}</div>
             <div className={c.summary}>

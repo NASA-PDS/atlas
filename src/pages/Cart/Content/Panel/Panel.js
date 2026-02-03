@@ -6,11 +6,6 @@ import { makeStyles } from '@mui/styles'
 
 import Typography from '@mui/material/Typography'
 
-import BrowserTab from './Tabs/Browser/Browser'
-import CURLTab from './Tabs/CURL/CURL'
-import WGETTab from './Tabs/WGET/WGET'
-import CSVTab from './Tabs/CSV/CSV'
-import TXTTab from './Tabs/TXT/TXT'
 import ProductDownloadSelector from '../../../../components/ProductDownloadSelector/ProductDownloadSelector'
 import DownloadMethodTabs from './DownloadMethodTabs'
 
@@ -28,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         padding: `0px ${theme.spacing(2)}`,
         boxSizing: 'border-box',
+        flexShrink: 0,
+        borderBottom: `1px solid ${theme.palette.swatches.grey.grey200}`,
+    },
+    scrollableContent: {
+        flex: 1,
+        overflowY: 'auto',
+        overflowX: 'hidden',
     },
     panelTitle: {
         fontSize: '18px',
@@ -38,11 +40,6 @@ const useStyles = makeStyles((theme) => ({
         padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
         background: theme.palette.swatches.grey.grey100,
         borderBottom: `1px solid ${theme.palette.swatches.grey.grey200}`,
-    },
-    tabPanels: {
-        height: `calc(100% - ${theme.headHeights[2] * 2}px)`,
-        overflowY: 'auto',
-        position: 'relative',
     },
     introMessage: {
         'position': 'relative',
@@ -74,14 +71,21 @@ const Panel = (props) => {
     const {} = props
     const c = useStyles()
 
-    const [tab, setTab] = useState(0)
+    const [selectedDownloadMethodIndex, setSelectedDownloadMethodIndex] = useState(null)
     const [selectionCount, setSelectionCount] = useState(0)
     const selectorRef = useRef()
 
     const dispatch = useDispatch()
 
-    const handleChange = (event, newTabIndex) => {
-        setTab(newTabIndex)
+    // Reset download method when no product types are selected
+    useEffect(() => {
+        if (selectionCount === 0) {
+            setSelectedDownloadMethodIndex(null)
+        }
+    }, [selectionCount])
+
+    const handleChange = (event, newDownloadMethodIndex) => {
+        setSelectedDownloadMethodIndex(newDownloadMethodIndex)
     }
 
     const cart = useSelector((state) => {
@@ -105,24 +109,24 @@ const Panel = (props) => {
                             Download Your Products
                         </Typography>
                     </div>
-                    <div className={c.panelBody}>
-                        <Typography className={c.panelBodyText}>
-                            First, select the products you want to download.<br />
-                            Second, choose your download method.<br />
-                            Third, click the download button to start the download.
-                        </Typography>
-                    </div>
-                    <ProductDownloadSelector
-                        ref={selectorRef}
-                        onSelection={setSelectionCount}
-                    />
-                    <DownloadMethodTabs value={tab} onChange={handleChange} />
-                    <div className={c.tabPanels}>
-                        <BrowserTab value={tab} index={0} selectorRef={selectorRef} selectionCount={selectionCount} />
-                        <WGETTab value={tab} index={1} selectorRef={selectorRef} selectionCount={selectionCount} />
-                        <CURLTab value={tab} index={2} selectorRef={selectorRef} selectionCount={selectionCount} />
-                        <CSVTab value={tab} index={3} selectorRef={selectorRef} selectionCount={selectionCount} />
-                        <TXTTab value={tab} index={4} selectorRef={selectorRef} selectionCount={selectionCount} />
+                    <div className={c.scrollableContent}>
+                        <div className={c.panelBody}>
+                            <Typography className={c.panelBodyText}>
+                                Select the products to include in your download, choose your download method, then click the download button to start.
+                            </Typography>
+                        </div>
+                        <ProductDownloadSelector
+                            ref={selectorRef}
+                            onSelection={setSelectionCount}
+                        />
+                        {selectionCount > 0 && (
+                            <DownloadMethodTabs
+                                selectedDownloadMethodIndex={selectedDownloadMethodIndex}
+                                onChange={handleChange}
+                                selectorRef={selectorRef}
+                                selectionCount={selectionCount}
+                            />
+                        )}
                     </div>
                 </>
             )}

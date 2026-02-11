@@ -118,7 +118,8 @@ const Heading = (props) => {
         
         url += `${idx === 0 ? '?' : '&'}${p.key}=${encodeURI(p.value)}`
 
-        if (p.key === 'pds') {
+        const skipKeys = ['pds'];
+        if (skipKeys.includes(p.key)) {
             return;
         }
 

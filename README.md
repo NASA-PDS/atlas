@@ -10,7 +10,7 @@
 <span style="display:block;text-align:center">![Search](docs/images/atlas_search.png)</span>
 <span style="display:block;text-align:center">![Archive Explorer](docs/images/atlas_archiveexplorer.png)</span>
 
-## [See it LIVE!](https://pds-imaging.jpl.nasa.gov/atlas/search)
+## [See it LIVE!](https://pds-imaging.jpl.nasa.gov/tools/atlas/search)
 
 ## Features
 
@@ -68,7 +68,7 @@ Check out our code of conduct [here.](CODE_OF_CONDUCT.md)
 
 ### License: Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
-Copyright (c) 2025, California Institute of Technology ("Caltech"). U.S. Government sponsorship acknowledged.
+Copyright (c) 2026, California Institute of Technology ("Caltech"). U.S. Government sponsorship acknowledged.
 
 All rights reserved.
 

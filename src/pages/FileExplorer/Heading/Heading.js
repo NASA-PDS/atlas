@@ -115,10 +115,17 @@ const Heading = (props) => {
     let fullPath = ''
     let url = ''
     getParams.forEach((p, idx) => {
+        
         url += `${idx === 0 ? '?' : '&'}${p.key}=${encodeURI(p.value)}`
+
+        if (p.key === 'pds') {
+            return;
+        }
+
         let v = p.value
         if (p.key === 'uri') v = splitUri(v).relativeUrl || ''
         fullPath += `${v[0] === '/' ? '' : '/'}${v}`
+        
     })
     if (fullPath[fullPath.length - 1] == '-') fullPath = fullPath.slice(0, -1)
 

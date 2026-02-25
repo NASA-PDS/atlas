@@ -75,6 +75,7 @@ let flatActions = [
     'SET_LAST_FILEX_FILTER_DOC',
     'SET_FILEX_PREVIEW',
     'SET_LAST_REGEX_QUERY',
+    'SET_SHOW_DEPRECATED',
 
     // ================= CART RELATED =================
     'ADD_TO_CART',
@@ -710,6 +711,20 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
             query.bool.must = query.bool.must || []
             query.bool.must.push({ exists: { field: 'gather.uri' } })
         }
+
+        // Always filter out deprecated products in search
+        query.bool = query.bool || {}
+        query.bool.must_not = query.bool.must_not || []
+        query.bool.must_not.push({
+            wildcard: {
+                'gather.pds_archive.bundle_id': '*deprecated*',
+            },
+        })
+        query.bool.must_not.push({
+            wildcard: {
+                'gather.pds_archive.volume_id': '*deprecated*',
+            },
+        })
 
         // === Secondary aggs
         // Always include a mission agg so that other components can know
@@ -1814,6 +1829,22 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                 },
             })
 
+        // Filter out deprecated items at ES query level
+        const showDeprecated = state.getIn(['showDeprecated'], false)
+        if (column.type === 'volume' && !showDeprecated) {
+            query.bool.must_not = query.bool.must_not || []
+            query.bool.must_not.push({
+                wildcard: {
+                    [ES_PATHS.archive.volume_id.join('.')]: '*deprecated*',
+                },
+            })
+            query.bool.must_not.push({
+                wildcard: {
+                    [ES_PATHS.archive.bundle_id.join('.')]: '*deprecated*',
+                },
+            })
+        }
+
         // Make aggs
 
         const aggs = {}
@@ -2159,6 +2190,13 @@ export const setFilexPreview = (previewItem) => {
         payload: {
             previewItem,
         },
+    }
+}
+
+export const setShowDeprecated = (showDeprecated) => {
+    return {
+        type: ACTIONS.SET_SHOW_DEPRECATED,
+        payload: { showDeprecated },
     }
 }
 

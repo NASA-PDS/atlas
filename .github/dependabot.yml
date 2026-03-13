@@ -9,14 +9,18 @@ updates:
     # to match the new version.
     versioning-strategy: increase
     groups:
-       # Specify a name for the group, which will be used in pull request titles
-       # and branch names
-       dev-dependencies:
+      # Specify a name for the group, which will be used in pull request titles
+      # and branch names
+      development-dependencies:
           # Define patterns to include dependencies in the group (based on
           # dependency name)
           applies-to: version-updates # Applies the group rule to version updates
-            - "*"       # A wildcard that matches all dependencies in the package
-                        # ecosystem. Note: using "*" may open a large pull request
+          dependency-type: development
+      production-dependencies:
+          # Define patterns to include dependencies in the group (based on
+          # dependency name)
+          applies-to: version-updates # Applies the group rule to version updates
+          dependency-type: production
     labels: "pdsen-ignore"
 
   # Maintain dependencies for GitHub Actions

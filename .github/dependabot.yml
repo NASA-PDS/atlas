@@ -21,23 +21,27 @@ updates:
           # dependency name)
           applies-to: version-updates # Applies the group rule to version updates
           dependency-type: production
-    labels: "pdsen-ignore"
+    labels:
+      - "pdsen-ignore"
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    labels: "pdsen-ignore"
+    labels:
+      - "pdsen-ignore"
 
   - package-ecosystem: "docker"
     directory: "/docker/"
     schedule:
       interval: "weekly"
-    labels: "pdsen-ignore"
+    labels:
+      - "pdsen-ignore"
 
   - package-ecosystem: "terraform"
     directory: "/terraform/"
     schedule:
       interval: "weekly"
-    labels: "pdsen-ignore"
+    labels:
+      - "pdsen-ignore"

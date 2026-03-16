@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "homepage": "/",
+  "packageManager": "npm@10.9.4",
   "devEngines": {
     "runtime": {
       "name": "node",

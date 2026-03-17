@@ -13,7 +13,7 @@ updates:
       # and branch names
       dependencies:
           applies-to: version-updates # Applies the group rule to version updates
-          pattern:
+          patterns:
             - "*"
     labels:
       - "pdsen-ignore"

@@ -11,16 +11,10 @@ updates:
     groups:
       # Specify a name for the group, which will be used in pull request titles
       # and branch names
-      development-dependencies:
-          # Define patterns to include dependencies in the group (based on
-          # dependency name)
+      dependencies:
           applies-to: version-updates # Applies the group rule to version updates
-          dependency-type: development
-      production-dependencies:
-          # Define patterns to include dependencies in the group (based on
-          # dependency name)
-          applies-to: version-updates # Applies the group rule to version updates
-          dependency-type: production
+          pattern:
+            - "*"
     labels:
       - "pdsen-ignore"
 

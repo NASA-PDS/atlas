@@ -49,6 +49,7 @@ const reducerFuncs = {
     SET_FILEX_PREVIEW: setFilexPreview,
     SET_LAST_FILEX_FILTER_DOC: setLastFilexFilterDoc,
     SET_LAST_REGEX_QUERY: setLastRegexQuery,
+    SET_SHOW_DEPRECATED: setShowDeprecated,
 
     // ================= CART RELATED =================
     ADD_TO_CART: addToCart,
@@ -461,6 +462,10 @@ function setLastQuery(state, payload) {
  */
 function setLastRegexQuery(state, payload) {
     return state.setIn(['lastRegexQuery'], fromJS({ total: payload.total, query: payload.query }))
+}
+
+function setShowDeprecated(state, payload) {
+    return state.setIn(['showDeprecated'], payload.showDeprecated)
 }
 
 /**

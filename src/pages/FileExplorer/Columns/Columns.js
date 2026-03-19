@@ -26,6 +26,7 @@ import {
     setModal,
     addToCart,
     setSnackBarText,
+    setShowDeprecated,
 } from '../../../core/redux/actions/actions'
 
 import { makeStyles } from '@mui/styles'
@@ -47,6 +48,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import SortIcon from '@mui/icons-material/Sort'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
 import FolderIcon from '@mui/icons-material/Folder'
+import FolderOffIcon from '@mui/icons-material/FolderOff'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -64,6 +66,7 @@ const initialColumnWidth = 220
 const minColumnWidth = 220
 const volumeColumnWidth = 230
 const minVolumeColumnWidth = 230
+const DEPRECATED_COLOR = '#834325'
 
 const useStyles = makeStyles((theme) => ({
     Columns: {
@@ -259,6 +262,13 @@ const useStyles = makeStyles((theme) => ({
     },
     liNameMobile: {
         lineHeight: `${theme.headHeights[3]}px`,
+    },
+    liTypeDeprecated: {
+        width: '22px',
+        padding: '2px 2px 2px 5px',
+    },
+    deprecatedColor: {
+        color: DEPRECATED_COLOR,
     },
     listItemActive: {
         background: `${theme.palette.accent.main} !important`,
@@ -527,6 +537,10 @@ const Column = (props) => {
     const c = useStyles()
 
     const dispatch = useDispatch()
+
+    const showDeprecated = useSelector((state) => {
+        return state.getIn(['showDeprecated'], false)
+    })
 
     const colRef = useRef(null)
     const firstItemRef = useRef(null)
@@ -804,7 +818,30 @@ const Column = (props) => {
                                                 })()}
                                             </Typography>
                                         </div>
-                                        <div>
+                                        <div className={c.flex}>
+                                            <MenuButton
+                                                key={1}
+                                                options={['Show Deprecated']}
+                                                checkboxIndices={[0]}
+                                                active={showDeprecated ? 'Show Deprecated' : null}
+                                                buttonComponent={
+                                                    <MoreVertIcon fontSize="inherit" />
+                                                }
+                                                title={'Options'}
+                                                onChange={(option, idx) => {
+                                                    if (option === 'Show Deprecated') {
+                                                        // Toggle show deprecated
+                                                        dispatch(setShowDeprecated(!showDeprecated))
+                                                        // Clear results and re-query to apply filter
+                                                        dispatch(
+                                                            updateFilexColumn(columnId, {
+                                                                results: null,
+                                                            })
+                                                        )
+                                                        dispatch(queryFilexColumn(columnId, null, null))
+                                                    }
+                                                }}
+                                            />
                                             <Tooltip title="URI Regex Search Here" arrow>
                                                 <IconButton
                                                     //className={}
@@ -821,25 +858,6 @@ const Column = (props) => {
                                                     <SearchIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
-                                            {/*
-                                            <MenuButton
-                                                key={1}
-                                                options={['Filter', 'Regex Search']}
-                                                buttonComponent={
-                                                    <MoreVertIcon fontSize="inherit" />
-                                                }
-                                                title={'Actions'}
-                                                onChange={(option) => {
-                                                    if (option === 'Filter')
-                                                        setFilterSearchOpen(!filterSearchOpen)
-                                                    else if (option === 'Regex Search')
-                                                        dispatch(
-                                                            setModal('regex', {
-                                                                uri: currentParentUri,
-                                                            })
-                                                        )
-                                                }}
-                                            />*/}
                                         </div>
                                     </div>
                                 ) : null}
@@ -1132,6 +1150,14 @@ const Column = (props) => {
                                               const uniqueKey = `${result.type || 'volume'}-${
                                                   result.key
                                               }`
+                                              const isDeprecated = result.key
+                                                  .toLowerCase()
+                                                  .includes('deprecated')
+                                              const isActive =
+                                                  params.active &&
+                                                  (params.active.uniqueKey === uniqueKey ||
+                                                      (!params.active.uniqueKey &&
+                                                          params.active.key === result.key))
                                               return (
                                                   <li
                                                       key={`${typePrefix}-${idx}`}
@@ -1139,14 +1165,7 @@ const Column = (props) => {
                                                           c.listItem,
                                                           c.listItemFilter,
                                                           {
-                                                              [c.listItemActive]:
-                                                                  params.active &&
-                                                                  (params.active.uniqueKey ===
-                                                                      uniqueKey ||
-                                                                      (!params.active.uniqueKey &&
-                                                                          params.active.key ===
-                                                                              result.key)),
-
+                                                              [c.listItemActive]: isActive,
                                                               [c.listItemMobile]: isMobile,
                                                           }
                                                       )}
@@ -1166,20 +1185,33 @@ const Column = (props) => {
                                                   >
                                                       <div className={c.flexBetween}>
                                                           <div className={c.liflex}>
-                                                              <div className={c.liType}>
-                                                                  <svg
-                                                                      className={c.iconSvg}
-                                                                      viewBox="0 0 24 24"
-                                                                  >
-                                                                      <path
-                                                                          fill="currentColor"
-                                                                          d="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,12.35L13.85,13.36Z"
-                                                                      />
-                                                                  </svg>
+                                                              <div
+                                                                  className={clsx(c.liType, {
+                                                                      [c.liTypeDeprecated]:
+                                                                          isDeprecated,
+                                                                      [c.deprecatedColor]:
+                                                                          isDeprecated && !isActive,
+                                                                  })}
+                                                              >
+                                                                  {isDeprecated ? (
+                                                                      <FolderOffIcon size="small" />
+                                                                  ) : (
+                                                                      <svg
+                                                                          className={c.iconSvg}
+                                                                          viewBox="0 0 24 24"
+                                                                      >
+                                                                          <path
+                                                                              fill="currentColor"
+                                                                              d="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,12.35L13.85,13.36Z"
+                                                                          />
+                                                                      </svg>
+                                                                  )}
                                                               </div>
                                                               <div
                                                                   className={clsx(c.liName, {
                                                                       [c.liNameMobile]: isMobile,
+                                                                      [c.deprecatedColor]:
+                                                                          isDeprecated && !isActive,
                                                                   })}
                                                                   title={result.key}
                                                               >
@@ -1305,6 +1337,11 @@ const Column = (props) => {
                                       const s = r._source || {}
                                       const result = s.archive || {}
                                       const pds4_label = s.pds4_label || {}
+                                      const isDeprecated = (result.uri || result.name || '')
+                                          .toLowerCase()
+                                          .includes('deprecated')
+                                      const isActive =
+                                          params.active && params.active.key === result.name
 
                                       // Exit if not match filter
                                       if (
@@ -1320,10 +1357,7 @@ const Column = (props) => {
                                               key={idx}
                                               ref={idx === 0 ? firstItemRef : null}
                                               className={clsx(c.listItem, c.listItemLessPadding, {
-                                                  [c.listItemActive]:
-                                                      params.active &&
-                                                      params.active.key === result.name,
-
+                                                  [c.listItemActive]: isActive,
                                                   [c.listItemMobile]: isMobile,
                                               })}
                                               onClick={() => {
@@ -1338,7 +1372,13 @@ const Column = (props) => {
                                                   )
                                               }}
                                           >
-                                              <div className={c.liType}>
+                                              <div
+                                                  className={clsx(c.liType, {
+                                                      [c.liTypeDeprecated]: isDeprecated,
+                                                      [c.deprecatedColor]:
+                                                          isDeprecated && !isActive,
+                                                  })}
+                                              >
                                                   {getIn(r._source, ES_PATHS.archive.fs_type) ===
                                                   'file' ? (
                                                       <>
@@ -1350,6 +1390,8 @@ const Column = (props) => {
                                                               <InsertDriveFileOutlinedIcon size="small" />
                                                           )}{' '}
                                                       </>
+                                                  ) : isDeprecated ? (
+                                                      <FolderOffIcon size="small" />
                                                   ) : (
                                                       <FolderIcon size="small" />
                                                   )}
@@ -1358,6 +1400,8 @@ const Column = (props) => {
                                                   <div
                                                       className={clsx(c.liName, {
                                                           [c.liNameMobile]: isMobile,
+                                                          [c.deprecatedColor]:
+                                                              isDeprecated && !isActive,
                                                       })}
                                                       title={result.name}
                                                   >

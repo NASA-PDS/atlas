@@ -136,6 +136,7 @@ export const INITIAL = (() => {
         filexPreview: {},
         lastFilexFilterDoc: null,
         lastRegexQuery: null,
+        showDeprecated: false,
 
         // ================= CART RELATED =================
         cart: storageCart,

@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Atlas Test Build
+    name: Test Build
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6

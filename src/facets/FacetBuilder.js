@@ -145,7 +145,8 @@ export const formatMappings = (schema) => {
     }
     mappingDepthTraversal(schema.mappings.properties, 0, 'groups', '')
 
-    return augmentFacets(facets)
+    const augmentedFacets = augmentFacets(facets)
+    return flattenGather(augmentedFacets)
 }
 
 const augmentFacets = (facets) => {
@@ -155,7 +156,7 @@ const augmentFacets = (facets) => {
     if (facets.groups.gather.groups.galileo_content)
         delete facets.groups.gather.groups.galileo_content
     if (facets.groups.gather.groups.mro_landmarks) delete facets.groups.gather.groups.mro_landmarks
-    if (facets.groups.gather.groups.msl_content) delete facets.groups.gather.groups.sml_content
+    if (facets.groups.gather.groups.msl_content) delete facets.groups.gather.groups.msl_content
 
     // Add some standard descriptions
     if (facets.groups.gather.groups.common.groups.instrument)
@@ -189,6 +190,38 @@ const augmentFacets = (facets) => {
         facets.groups.archive.groups.uri.description = uriDescription
 
     return facets
+}
+
+/**
+ * Flattens the gather level in the facets tree, moving its children to the top level
+ * while preserving other top-level groups (archive, pds4_label).
+ * @param {Object} facets - The facets object with groups structure
+ * @returns {Object} - Facets with gather children promoted to top level
+ */
+const flattenGather = (facets) => {
+    // Check if gather group exists
+    if (!facets?.groups?.gather?.groups) {
+        return facets
+    }
+
+    // Extract gather's children (common, ancillary, time, pds_archive, etc.)
+    const gatherChildren = facets.groups.gather.groups
+
+    // Create new groups object with:
+    // 1. All existing non-gather top-level groups (archive, pds4_label)
+    // 2. All of gather's children promoted to top level
+    const newGroups = {
+        ...facets.groups,
+        ...gatherChildren
+    }
+
+    // Remove the gather wrapper
+    delete newGroups.gather
+
+    return {
+        ...facets,
+        groups: newGroups
+    }
 }
 
 // Define the intended order of filters
@@ -232,12 +265,12 @@ export const getInitialActiveFilters = (mapping) => {
                 },
             ],
         },
-        'gather.common.mission': mapping.groups.gather.groups.common.groups.mission,
-        'gather.common.spacecraft': mapping.groups.gather.groups.common.groups.spacecraft,
-        'gather.common.instrument': mapping.groups.gather.groups.common.groups.instrument,
-        'gather.common.target': mapping.groups.gather.groups.common.groups.target,
-        'gather.common.product_type': mapping.groups.gather.groups.common.groups.product_type,
-        'gather.common.kind': mapping.groups.gather.groups.common.groups.kind,
+        'gather.common.mission': mapping.groups.common.groups.mission,
+        'gather.common.spacecraft': mapping.groups.common.groups.spacecraft,
+        'gather.common.instrument': mapping.groups.common.groups.instrument,
+        'gather.common.target': mapping.groups.common.groups.target,
+        'gather.common.product_type': mapping.groups.common.groups.product_type,
+        'gather.common.kind': mapping.groups.common.groups.kind,
         'archive.bundle_id': mapping.groups.archive.groups.bundle_id,
     }
 }

@@ -223,12 +223,34 @@ const makeTree = (
     // A depth first traversal through the facet json tree to construct the react elements
     const depthTraversal = (node, type, depth, path, forceShown) => {
         let tree = []
-        let iter = Object.keys(node)
+        // Sort by type (groups first, then items), then alphabetically within each type
+        let iter = Object.keys(node).sort((a, b) => {
+            const aIsGroup = node[a].groups != null
+            const bIsGroup = node[b].groups != null
+
+            // Groups come before items
+            if (aIsGroup && !bIsGroup) return -1
+            if (!aIsGroup && bIsGroup) return 1
+
+            // Within same type, sort alphabetically
+            return a.localeCompare(b)
+        })
         //console.log(type, node)
         for (let i = 0; i < iter.length; i++) {
             const shown = isShown(iter[i], node[iter[i]], forceShown)
             let nextPath = `${path}${path.length > 0 ? '.' : ''}${iter[i]}`
             nextPath = nextPath.replace(/.groups/g, '')
+
+            // After flattening gather, add 'gather.' prefix to its former children
+            // to maintain filter key compatibility (e.g., 'gather.common.mission')
+            const topLevelNonGatherGroups = ['archive', 'pds4_label', 'groups', 'facets']
+            const pathParts = nextPath.split('.')
+            if (pathParts.length > 0 && !topLevelNonGatherGroups.includes(pathParts[0])) {
+                // This is a former gather child that needs the prefix
+                if (!nextPath.startsWith('gather.')) {
+                    nextPath = 'gather.' + nextPath
+                }
+            }
 
             if (node[iter[i]].facets != null) {
                 keyI++

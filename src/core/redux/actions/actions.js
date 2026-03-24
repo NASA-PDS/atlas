@@ -752,6 +752,7 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
             ES_PATHS.instrument.join('.'),
             ES_PATHS.product_type.join('.'),
             ES_PATHS.start_time.join('.'),
+            ES_PATHS.ml_classifications.join('.'),
         ]
 
         if (resultsTable?.columns?.length > 0) {
@@ -942,6 +943,13 @@ export const search = (page, filtersNeedUpdate, pageNeedsUpdate, url, forceActiv
                                             buckets.push(newBucket)
                                         })
                                     }
+
+                                    // Sort buckets case-insensitively
+                                    buckets.sort((a, b) =>
+                                        String(a.key).localeCompare(String(b.key), undefined, {
+                                            sensitivity: 'base',
+                                        })
+                                    )
 
                                     nextActiveFilters[filter].facets[i].fields = buckets
                                 }
@@ -1939,7 +1947,9 @@ export const queryFilexColumn = (columnId, isLast, cb) => {
                         }))
                         results.buckets = results.buckets.concat(bundleBuckets)
                     }
-                    results.buckets = results.buckets.sort((a, b) => a.key.localeCompare(b.key))
+                    results.buckets = results.buckets.sort((a, b) =>
+                        String(a.key).localeCompare(String(b.key), undefined, { sensitivity: 'base' })
+                    )
                 }
                 if (column.type === 'filter') {
                     let lastDoc = getIn(response, ['data', 'hits', 'hits', 0, '_source'], null)

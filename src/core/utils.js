@@ -138,7 +138,12 @@ export const setIn = (obj, keyArray, value) => {
 export const mergeFields = (currentFields, returnedFields) => {
     let newFields = []
 
-    if (currentFields == null) return returnedFields
+    if (currentFields == null) {
+        // Sort returnedFields case-insensitively before returning
+        return returnedFields.sort((a, b) =>
+            String(a.key).localeCompare(String(b.key), undefined, { sensitivity: 'base' })
+        )
+    }
 
     currentFields.forEach((field) => {
         const match = returnedFields.findIndex((elm) => elm.key === field.key)
@@ -160,7 +165,9 @@ export const mergeFields = (currentFields, returnedFields) => {
         }
     })
 
-    newFields.sort((a, b) => a.key.localeCompare(b.key))
+    newFields.sort((a, b) =>
+        String(a.key).localeCompare(String(b.key), undefined, { sensitivity: 'base' })
+    )
 
     return newFields
 }

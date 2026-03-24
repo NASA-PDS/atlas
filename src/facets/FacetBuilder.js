@@ -193,14 +193,16 @@ const augmentFacets = (facets) => {
 
 // Define the intended order of filters
 const FILTER_ORDER_PRIORITY = [
-    '_text',                        // Text Search
-    'gather.common.mission',        // Mission  
-    'gather.common.spacecraft',     // Spacecraft
-    'gather.common.instrument',     // Instrument
-    'gather.common.target',         // Target
-    'gather.common.product_type',   // Product Type
-    'gather.common.kind',           // Kind
-    'archive.bundle_id',            // Bundle ID
+    '_text', // Text Search
+    'gather.common.mission', // Mission
+    'gather.common.spacecraft', // Spacecraft
+    'gather.common.instrument', // Instrument
+    'gather.common.target', // Target
+    'gather.common.product_type', // Product Type
+    'gather.common.kind', // Kind
+    'archive.bundle_id', // Bundle ID
+    'gather.machine_learning.classification.classifications.class', // ML Class
+    'gather.machine_learning.classification.classifications.confidence', // ML Confidence Score
 ]
 
 /**
@@ -218,7 +220,7 @@ export const getFilterOrderValue = (filterKey) => {
 }
 
 export const getInitialActiveFilters = (mapping) => {
-    return {
+    const initialFilters = {
         '_text': {
             display_name: 'Text Search',
             description:
@@ -238,6 +240,25 @@ export const getInitialActiveFilters = (mapping) => {
         'gather.common.target': mapping.groups.gather.groups.common.groups.target,
         'gather.common.product_type': mapping.groups.gather.groups.common.groups.product_type,
         'gather.common.kind': mapping.groups.gather.groups.common.groups.kind,
-        'archive.bundle_id': mapping.groups.archive.groups.bundle_id,
     }
+
+    // Conditionally add ML filters if they exist in the mapping
+    const mlClass =
+        mapping.groups?.gather?.groups?.machine_learning?.groups?.classification?.groups
+            ?.classifications?.groups?.class
+    const mlConfidence =
+        mapping.groups?.gather?.groups?.machine_learning?.groups?.classification?.groups
+            ?.classifications?.groups?.confidence
+
+    if (mlClass) {
+        initialFilters['gather.machine_learning.classification.classifications.class'] = mlClass
+    }
+    if (mlConfidence) {
+        initialFilters['gather.machine_learning.classification.classifications.confidence'] =
+            mlConfidence
+    }
+
+    initialFilters['archive.bundle_id'] = mapping.groups.archive.groups.bundle_id
+
+    return initialFilters
 }

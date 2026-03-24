@@ -82,7 +82,6 @@ const AccordionSummary = withStyles((theme) => ({
     content: {
         'margin': '4px 0',
         '&.Mui-expanded': {
-            height: '100%',
             margin: '4px 0',
         },
     },
@@ -247,6 +246,57 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         whiteSpace: 'nowrap',
         pointerEvents: 'none',
+    },
+    filterBadge: {
+        border: `1px solid ${theme.palette.swatches.grey.grey400}`,
+        borderRadius: '2px',
+        textTransform: 'uppercase',
+        height: '16px',
+        lineHeight: '17px',
+        color: theme.palette.swatches.grey.grey600,
+        padding: '0px 4px',
+        fontSize: '9px',
+        fontWeight: 'bold',
+    },
+    mlBadge: {
+        borderColor: theme.palette.swatches.orange.orange600,
+        color: theme.palette.swatches.orange.orange600,
+    },
+    archiveBadge: {
+        borderColor: theme.palette.swatches.blue.blue500,
+        color: theme.palette.swatches.blue.blue500,
+    },
+    pds3Badge: {
+        borderColor: theme.palette.swatches.red.red500,
+        color: theme.palette.swatches.red.red500,
+    },
+    pds4Badge: {
+        borderColor: theme.palette.swatches.purple.purple500,
+        color: theme.palette.swatches.purple.purple500,
+    },
+    lightingBadge: {
+        borderColor: theme.palette.swatches.grey.grey700,
+        color: theme.palette.swatches.grey.grey700,
+    },
+    landedBadge: {
+        borderColor: theme.palette.swatches.yellow.yellow800,
+        color: theme.palette.swatches.yellow.yellow800,
+    },
+    orbitalBadge: {
+        borderColor: theme.palette.swatches.blue.blue700,
+        color: theme.palette.swatches.blue.blue700,
+    },
+    pdsArchiveBadge: {
+        borderColor: theme.palette.swatches.blue.blue900,
+        color: theme.palette.swatches.blue.blue900,
+    },
+    ancillaryBadge: {
+        borderColor: theme.palette.swatches.orange.orange500,
+        color: theme.palette.swatches.orange.orange500,
+    },
+    timeBadge: {
+        borderColor: theme.palette.swatches.grey.grey800,
+        color: theme.palette.swatches.grey.grey800,
     },
     accordionHead: {
         '& > div:first-child': {
@@ -445,6 +495,32 @@ const Filter = (props) => {
             .split(':')
             .slice(-1)}`
 
+    // Extract badge label from filter key
+    const getBadgeLabel = (key) => {
+        if (key === '_text') return null
+        const parts = key.split('.')
+        let label
+        if (parts[0] === 'gather' && parts.length > 1) {
+            label = parts[1] // Return second part for gather filters
+        } else {
+            label = parts[0] // Return first part for others
+        }
+
+        // Apply abbreviations
+        if (label === 'machine_learning') return 'ML'
+        if (label === 'pds3_label') return 'pds3'
+        if (label === 'pds4_label') return 'pds4'
+        if (label === 'lighting_geometry') return 'lighting'
+        if (label === 'landed_missions') return 'landed'
+        if (label === 'orbital_missions') return 'orbital'
+        if (label === 'pds_archive') return 'pds_archive' // Keep as-is to distinguish from 'archive'
+
+        return label
+    }
+
+    const badgeLabel = getBadgeLabel(filterKey)
+    const isMLFilter = filterKey.includes('machine_learning')
+
     let count = 0
     if (filter.facets)
         filter.facets.forEach((f) => {
@@ -494,8 +570,27 @@ const Filter = (props) => {
                                 <Typography className={c.title}>{friendlyFilterName}</Typography>
                             </Tooltip>
                         </Badge>
-                        <div className={c.headerButtons}>
-                            {/*
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {badgeLabel && (
+                                <div
+                                    className={clsx(c.filterBadge, {
+                                        [c.mlBadge]: badgeLabel === 'ML',
+                                        [c.archiveBadge]: badgeLabel === 'archive',
+                                        [c.pds3Badge]: badgeLabel === 'pds3',
+                                        [c.pds4Badge]: badgeLabel === 'pds4',
+                                        [c.lightingBadge]: badgeLabel === 'lighting',
+                                        [c.landedBadge]: badgeLabel === 'landed',
+                                        [c.orbitalBadge]: badgeLabel === 'orbital',
+                                        [c.pdsArchiveBadge]: badgeLabel === 'pds_archive',
+                                        [c.ancillaryBadge]: badgeLabel === 'ancillary',
+                                        [c.timeBadge]: badgeLabel === 'time',
+                                    })}
+                                >
+                                    {badgeLabel === 'pds_archive' ? 'archive' : badgeLabel}
+                                </div>
+                            )}
+                            <div className={c.headerButtons}>
+                                {/*
                             {expanded && (
                                 <Tooltip title="Settings" arrow>
                                     <IconButton
@@ -511,54 +606,55 @@ const Filter = (props) => {
                                 </Tooltip>
                             )}
                             */}
-                            {expanded && isListFilter && (
-                                <Tooltip title="Search" arrow>
+                                {expanded && isListFilter && (
+                                    <Tooltip title="Search" arrow>
+                                        <IconButton
+                                            className={clsx(c.settingsButton, {
+                                                [c.settingsButtonActive]: isFilterDownOpen,
+                                            })}
+                                            aria-label={`search ${filterName} options`}
+                                            size="small"
+                                            onClick={handleFilterDown}
+                                        >
+                                            <SearchIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                                <Tooltip title="Info" arrow>
                                     <IconButton
-                                        className={clsx(c.settingsButton, {
-                                            [c.settingsButtonActive]: isFilterDownOpen,
-                                        })}
-                                        aria-label={`search ${filterName} options`}
+                                        className={c.infoButton}
+                                        aria-label={`information about ${filterName} filter`}
                                         size="small"
-                                        onClick={handleFilterDown}
+                                        onClick={handleInfo}
                                     >
-                                        <SearchIcon fontSize="inherit" />
+                                        <InfoOutlinedIcon fontSize="inherit" />
                                     </IconButton>
                                 </Tooltip>
-                            )}
-                            <Tooltip title="Info" arrow>
-                                <IconButton
-                                    className={c.infoButton}
-                                    aria-label={`information about ${filterName} filter`}
-                                    size="small"
-                                    onClick={handleInfo}
-                                >
-                                    <InfoOutlinedIcon fontSize="inherit" />
-                                </IconButton>
-                            </Tooltip>
-                            {count > 0 && (
-                                <Tooltip title="Clear All Selections" arrow>
-                                    <IconButton
-                                        className={c.clearButton}
-                                        aria-label={`clear all selections in ${filterName} filter`}
-                                        size="small"
-                                        onClick={handleClearSelections}
-                                    >
-                                        <ClearAllIcon fontSize="inherit" />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-                            {!permanent ? (
-                                <Tooltip title="Remove" arrow>
-                                    <IconButton
-                                        className={c.removeButton}
-                                        aria-label={`remove ${filterName} filter`}
-                                        size="small"
-                                        onClick={handleRemove}
-                                    >
-                                        <DeleteOutlinedIcon fontSize="inherit" />
-                                    </IconButton>
-                                </Tooltip>
-                            ) : null}
+                                {count > 0 && (
+                                    <Tooltip title="Clear All Selections" arrow>
+                                        <IconButton
+                                            className={c.clearButton}
+                                            aria-label={`clear all selections in ${filterName} filter`}
+                                            size="small"
+                                            onClick={handleClearSelections}
+                                        >
+                                            <ClearAllIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                                {!permanent ? (
+                                    <Tooltip title="Remove" arrow>
+                                        <IconButton
+                                            className={c.removeButton}
+                                            aria-label={`remove ${filterName} filter`}
+                                            size="small"
+                                            onClick={handleRemove}
+                                        >
+                                            <DeleteOutlinedIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </Tooltip>
+                                ) : null}
+                            </div>
                         </div>
                     </div>
                     {expanded && isFilterDownOpen && (

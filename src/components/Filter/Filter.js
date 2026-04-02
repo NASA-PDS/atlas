@@ -49,6 +49,9 @@ const Accordion = withStyles({
         '&.Mui-expanded': {
             margin: 'auto',
         },
+        '& .MuiCollapse-wrapper': {
+            borderLeft: 'none !important',
+        },
         'position': 'inherit',
         'overflow': 'hidden',
         'borderRadius': '0 !important',
@@ -71,12 +74,12 @@ const AccordionSummary = withStyles((theme) => ({
         'transition': 'unset',
         'alignItems': 'flex-start',
         '&:hover': {
-            background: theme.palette.swatches.grey.grey150,
+            background: theme.palette.swatches.grey.grey50,
         },
         '&.Mui-expanded': {
             minHeight: theme.headHeights[2],
-            background: theme.palette.swatches.grey.grey150,
-            borderLeft: `4px solid ${theme.palette.swatches.yellow.yellow600}`,
+            background: theme.palette.swatches.grey.grey0,
+            borderLeft: `4px solid ${theme.palette.swatches.yellow.yellow800}`,
         },
     },
     content: {
@@ -107,7 +110,7 @@ const AccordionDetails = withStyles((theme) => ({
         flexFlow: 'column',
         borderBottom: `1px solid ${theme.palette.swatches.grey.grey200}`,
         borderRight: `1px solid ${theme.palette.swatches.grey.grey200}`,
-        borderLeft: `4px solid ${theme.palette.swatches.yellow.yellow600}`,
+        borderLeft: `4px solid ${theme.palette.swatches.yellow.yellow800}`,
     },
 }))(MuiAccordionDetails)
 
@@ -246,57 +249,6 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         whiteSpace: 'nowrap',
         pointerEvents: 'none',
-    },
-    filterBadge: {
-        border: `1px solid ${theme.palette.swatches.grey.grey400}`,
-        borderRadius: '2px',
-        textTransform: 'uppercase',
-        height: '16px',
-        lineHeight: '17px',
-        color: theme.palette.swatches.grey.grey600,
-        padding: '0px 4px',
-        fontSize: '9px',
-        fontWeight: 'bold',
-    },
-    mlBadge: {
-        borderColor: theme.palette.swatches.orange.orange600,
-        color: theme.palette.swatches.orange.orange600,
-    },
-    archiveBadge: {
-        borderColor: theme.palette.swatches.blue.blue500,
-        color: theme.palette.swatches.blue.blue500,
-    },
-    pds3Badge: {
-        borderColor: theme.palette.swatches.red.red500,
-        color: theme.palette.swatches.red.red500,
-    },
-    pds4Badge: {
-        borderColor: theme.palette.swatches.purple.purple500,
-        color: theme.palette.swatches.purple.purple500,
-    },
-    lightingBadge: {
-        borderColor: theme.palette.swatches.grey.grey700,
-        color: theme.palette.swatches.grey.grey700,
-    },
-    landedBadge: {
-        borderColor: theme.palette.swatches.yellow.yellow800,
-        color: theme.palette.swatches.yellow.yellow800,
-    },
-    orbitalBadge: {
-        borderColor: theme.palette.swatches.blue.blue700,
-        color: theme.palette.swatches.blue.blue700,
-    },
-    pdsArchiveBadge: {
-        borderColor: theme.palette.swatches.blue.blue900,
-        color: theme.palette.swatches.blue.blue900,
-    },
-    ancillaryBadge: {
-        borderColor: theme.palette.swatches.orange.orange500,
-        color: theme.palette.swatches.orange.orange500,
-    },
-    timeBadge: {
-        borderColor: theme.palette.swatches.grey.grey800,
-        color: theme.palette.swatches.grey.grey800,
     },
     accordionHead: {
         '& > div:first-child': {
@@ -495,32 +447,6 @@ const Filter = (props) => {
             .split(':')
             .slice(-1)}`
 
-    // Extract badge label from filter key
-    const getBadgeLabel = (key) => {
-        if (key === '_text') return null
-        const parts = key.split('.')
-        let label
-        if (parts[0] === 'gather' && parts.length > 1) {
-            label = parts[1] // Return second part for gather filters
-        } else {
-            label = parts[0] // Return first part for others
-        }
-
-        // Apply abbreviations
-        if (label === 'machine_learning') return 'ML'
-        if (label === 'pds3_label') return 'pds3'
-        if (label === 'pds4_label') return 'pds4'
-        if (label === 'lighting_geometry') return 'lighting'
-        if (label === 'landed_missions') return 'landed'
-        if (label === 'orbital_missions') return 'orbital'
-        if (label === 'pds_archive') return 'pds_archive' // Keep as-is to distinguish from 'archive'
-
-        return label
-    }
-
-    const badgeLabel = getBadgeLabel(filterKey)
-    const isMLFilter = filterKey.includes('machine_learning')
-
     let count = 0
     if (filter.facets)
         filter.facets.forEach((f) => {
@@ -571,24 +497,6 @@ const Filter = (props) => {
                             </Tooltip>
                         </Badge>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            {badgeLabel && (
-                                <div
-                                    className={clsx(c.filterBadge, {
-                                        [c.mlBadge]: badgeLabel === 'ML',
-                                        [c.archiveBadge]: badgeLabel === 'archive',
-                                        [c.pds3Badge]: badgeLabel === 'pds3',
-                                        [c.pds4Badge]: badgeLabel === 'pds4',
-                                        [c.lightingBadge]: badgeLabel === 'lighting',
-                                        [c.landedBadge]: badgeLabel === 'landed',
-                                        [c.orbitalBadge]: badgeLabel === 'orbital',
-                                        [c.pdsArchiveBadge]: badgeLabel === 'pds_archive',
-                                        [c.ancillaryBadge]: badgeLabel === 'ancillary',
-                                        [c.timeBadge]: badgeLabel === 'time',
-                                    })}
-                                >
-                                    {badgeLabel === 'pds_archive' ? 'archive' : badgeLabel}
-                                </div>
-                            )}
                             <div className={c.headerButtons}>
                                 {/*
                             {expanded && (

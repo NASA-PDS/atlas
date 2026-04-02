@@ -29,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
         transition: 'width 0.4s ease-out',
         overflow: 'hidden',
         position: 'relative',
-        background: theme.palette.swatches.grey.grey100,
+        background: theme.palette.swatches.grey.grey150,
         boxSizing: 'border-box',
-        borderRight: `1px solid ${theme.palette.swatches.grey.grey200}`,
+        borderRight: `1px solid ${theme.palette.swatches.grey.grey300}`,
     },
     contents: {
         width: '100%', //`calc(100% - ${theme.spacing(2)})`,
@@ -76,11 +76,11 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     buttonMore: {
-      "& .MuiIconButton-root": {
-        color: theme.palette.swatches.grey.grey600,
-        fontSize: '21px',
-      },
-        marginRight: '4px',
+        '& .MuiIconButton-root': {
+            color: theme.palette.swatches.grey.grey600,
+            fontSize: '21px',
+        },
+        'marginRight': '4px',
     },
 }))
 

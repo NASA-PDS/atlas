@@ -338,7 +338,9 @@ const GridCard = ({ index, data, width }) => {
                 <ProductIcons filename={fileName} />
             )}
             <div className={c.fileExt}>{getExtension(fileName, true)}</div>
-            {getIn(s, ES_PATHS.ml, false) ? <div className={c.hasML}>ML</div> : null}
+            {getIn(s, ES_PATHS.ml_classifications, []).length > 0 ? (
+                <div className={c.hasML}>ML</div>
+            ) : null}
             <div className={`${c.selectionIndicator} selectionIndicator`}></div>
         </div>
     )

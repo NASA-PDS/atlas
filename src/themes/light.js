@@ -80,6 +80,11 @@ export const palette = {
             red500: '#F64137',
             red600: '#B60109',
         },
+        purple: {
+            purple400: '#BA68C8',
+            purple500: '#9C27B0',
+            purple600: '#7B1FA2',
+        },
     },
 }
 

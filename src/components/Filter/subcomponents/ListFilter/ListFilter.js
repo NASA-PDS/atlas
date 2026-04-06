@@ -80,12 +80,10 @@ const ListFilter = (props) => {
         <div className={c.ListFilter}>
             <ul className={c.list}>
                 {facet.fields ? (
-                    facet.fields.map((field, idx) => (
-                        <li
-                            className={clsx(c.listItem, {
-                                [c.listItemZero]: field.doc_count === 0,
-                            })}
-                            key={idx}
+                    facet.fields
+                        .filter((field) => field.doc_count > 0)
+                        .map((field, idx) => (
+                            <li className={c.listItem} key={idx}
                             onClick={() => {
                                 dispatch(
                                     setFieldState(filterKey, facetId, {

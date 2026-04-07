@@ -9,6 +9,8 @@ updates:
     # to match the new version.
     versioning-strategy: increase
     labels:
+      - "dependencies"
+      - "javascript"
       - "pdsen-ignore"
 
   # Maintain dependencies for GitHub Actions

@@ -46,6 +46,7 @@ import { streamDownloadFile } from '../../../../core/downloaders/ZipStream.js'
 
 import clsx from 'clsx'
 import ReactMarkdown from 'react-markdown'
+import rehypeExternalLinks from 'rehype-external-links'
 
 const useStyles = makeStyles((theme) => ({
     RegexModal: {
@@ -584,7 +585,7 @@ const RegexModal = (props) => {
                             [c.helpOpen]: helpOpen,
                         })}
                     >
-                        <ReactMarkdown linkTarget="_blank">
+                        <ReactMarkdown rehypePlugins={[rehypeExternalLinks]}>
                             {[
                                 `# Help - Regular Expressions`,
                                 `A regular expression (regex) is a way to match patterns in data using placeholder characters, called operators.`,

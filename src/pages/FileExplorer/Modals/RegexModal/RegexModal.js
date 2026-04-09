@@ -585,7 +585,9 @@ const RegexModal = (props) => {
                             [c.helpOpen]: helpOpen,
                         })}
                     >
-                        <ReactMarkdown rehypePlugins={[rehypeExternalLinks]}>
+                        <ReactMarkdown
+                            rehypePlugins={[[rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }]]}
+                        >
                             {[
                                 `# Help - Regular Expressions`,
                                 `A regular expression (regex) is a way to match patterns in data using placeholder characters, called operators.`,
@@ -700,6 +702,7 @@ const RegexModal = (props) => {
                                 '- The regular expression engine, Lucene, does not support anchor operators, such as `^` (beginning of line) or `$` (end of line). To match a term, the regular expression must match the entire string.',
                             ].join('\n')}
                         </ReactMarkdown>
+                   
                         <Tooltip title="Close Help" arrow>
                             <IconButton
                                 className={clsx(c.closeHelpIcon, {

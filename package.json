@@ -72,7 +72,7 @@
     "react-highlight-words": "^0.21.0",
     "react-icons": "^3.11.0",
     "react-intersection-observer": "^8.34.0",
-    "react-markdown": "^8.0.7",
+    "react-markdown": "^10.1.0",
     "react-movable": "^3.4.1",
     "react-redux": "^7.2.9",
     "react-resize-detector": "^12.1.0",

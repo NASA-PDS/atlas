@@ -18,6 +18,7 @@
     "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider node scripts/start-dev.js",
     "start:prod": "cross-env NODE_OPTIONS=--openssl-legacy-provider node scripts/start-prod.js",
     "build": "cross-env NODE_OPTIONS=\"--openssl-legacy-provider --max-old-space-size=4096\" node scripts/build.js",
+    "build:eslint": "cross-env ESLINT_WEBPACK=true NODE_OPTIONS=\"--openssl-legacy-provider --max-old-space-size=4096\" node scripts/build.js",
     "analyze": "node scripts/start.js --analyze",
     "test": "node scripts/test.js",
     "docs": "jsdoc -c jsdoc.conf.json",

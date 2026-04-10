@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
 const resolve = require("resolve");
-const ESLintPlugin = require("eslint-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
@@ -57,6 +56,10 @@ module.exports = function (webpackEnv) {
     const isEnvProductionProfile = isEnvProduction && process.argv.includes("--profile");
 
     const isEnvDevAnalyze = isEnvDevelopment && process.argv.includes("--analyze");
+
+    // ESLint via webpack: always in dev; in production only when ESLINT_WEBPACK=true (lazy-require).
+    const runEslintInWebpack =
+        isEnvDevelopment || process.env.ESLINT_WEBPACK === "true";
 
     // Webpack uses `publicPath` to determine where the app is being served from.
     // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -505,17 +508,20 @@ module.exports = function (webpackEnv) {
             ],
         },
         plugins: [
-            // Flat config: eslint.config.mjs. Dev only — omitting the plugin in production avoids
-            // running ESLint during `npm run build` (use `npx eslint` / CI for release checks).
-            isEnvDevelopment &&
-                new ESLintPlugin({
-                    context: paths.appSrc,
-                    extensions: ["js", "mjs", "jsx", "ts", "tsx"],
-                    eslintPath: require.resolve("eslint"),
-                    cache: true,
-                    failOnError: false,
-                    failOnWarning: false,
-                }),
+            // Flat config: eslint.config.mjs. Lazy-require so production skips the package unless
+            // ESLINT_WEBPACK=true. For CI without webpack, use: npx eslint "src/**/*.{js,jsx,ts,tsx}"
+            runEslintInWebpack &&
+                (() => {
+                    const ESLintPlugin = require("eslint-webpack-plugin");
+                    return new ESLintPlugin({
+                        context: paths.appSrc,
+                        extensions: ["js", "mjs", "jsx", "ts", "tsx"],
+                        eslintPath: require.resolve("eslint"),
+                        cache: true,
+                        failOnError: isEnvProduction,
+                        failOnWarning: false,
+                    });
+                })(),
             // Generates an `index.html` file with the <script> injected.
             new HtmlWebpackPlugin(
                 Object.assign(

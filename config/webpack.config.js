@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
 const resolve = require("resolve");
+const ESLintPlugin = require("eslint-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
@@ -318,26 +319,6 @@ module.exports = function (webpackEnv) {
         module: {
             strictExportPresence: true,
             rules: [
-                // First, run the linter.
-                // It's important to do this before Babel processes the JS.
-                /*
-                {
-                    test: /\.(js|mjs|jsx|ts|tsx)$/,
-                    enforce: "pre",
-                    use: [
-                        {
-                            options: {
-                                cache: true,
-                                formatter: require.resolve("react-dev-utils/eslintFormatter"),
-                                eslintPath: require.resolve("eslint"),
-                                resolvePluginsRelativeTo: __dirname,
-                            },
-                            loader: require.resolve("eslint-webpack-plugin"),
-                        },
-                    ],
-                    include: paths.appSrc,
-                },
-                */
                 {
                     // "oneOf" will traverse all following loaders until one will
                     // match the requirements. When no loader matches it will fall
@@ -524,6 +505,16 @@ module.exports = function (webpackEnv) {
             ],
         },
         plugins: [
+            // Flat config: repo-root eslint.config.mjs. Runs in dev and production; only fail
+            // the compilation on lint errors in production so `npm run build` exits non-zero.
+            new ESLintPlugin({
+                context: paths.appSrc,
+                extensions: ["js", "mjs", "jsx", "ts", "tsx"],
+                eslintPath: require.resolve("eslint"),
+                cache: true,
+                failOnError: false, // in the future we should set this to isEnvProduction,
+                failOnWarning: false,
+            }),
             // Generates an `index.html` file with the <script> injected.
             new HtmlWebpackPlugin(
                 Object.assign(
@@ -644,7 +635,8 @@ module.exports = function (webpackEnv) {
                     ],
                     silent: true,
                 }),
-            new HTML2PugPlugin(paths.appBuild),
+            // index.html lives in webpack's in-memory fs in dev; only emit index.pug after a disk write.
+            isEnvProduction && new HTML2PugPlugin(paths.appBuild),
         ].filter(Boolean),
         // Some libraries import Node modules but don't use them in the browser.
         // Tell Webpack to provide empty mocks for them so importing them works.

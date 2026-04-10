@@ -86,7 +86,7 @@
     "resolve-url-loader": "^5.0.0",
     "semver": "^7.7.3",
     "streamsaver": "^2.0.6",
-    "styled-components": "^5.3.11",
+    "styled-components": "^6.4.0",
     "svg-overlay": "git+https://git@github.com/openseadragon/svg-overlay.git",
     "three": "^0.150.1",
     "url-parse": "^1.5.10",

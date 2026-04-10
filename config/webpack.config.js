@@ -505,18 +505,17 @@ module.exports = function (webpackEnv) {
             ],
         },
         plugins: [
-            // Flat config: eslint.config.mjs. `failOnError: false` does not stop ESLint from
-            // adding webpack `compilation.errors`; `scripts/build.js` still fails on stats.errors.
-            new ESLintPlugin({
-                context: paths.appSrc,
-                extensions: ["js", "mjs", "jsx", "ts", "tsx"],
-                emitError: isEnvDevelopment,
-                emitWarning: isEnvDevelopment,
-                eslintPath: require.resolve("eslint"),
-                cache: true,
-                failOnError: false,
-                failOnWarning: false,
-            }),
+            // Flat config: eslint.config.mjs. Dev only — omitting the plugin in production avoids
+            // running ESLint during `npm run build` (use `npx eslint` / CI for release checks).
+            isEnvDevelopment &&
+                new ESLintPlugin({
+                    context: paths.appSrc,
+                    extensions: ["js", "mjs", "jsx", "ts", "tsx"],
+                    eslintPath: require.resolve("eslint"),
+                    cache: true,
+                    failOnError: false,
+                    failOnWarning: false,
+                }),
             // Generates an `index.html` file with the <script> injected.
             new HtmlWebpackPlugin(
                 Object.assign(

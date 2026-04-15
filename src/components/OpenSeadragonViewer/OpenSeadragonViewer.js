@@ -98,12 +98,12 @@ const useStyles = makeStyles((theme) => ({
         '& > div': {
             padding: `${theme.spacing(4)} ${theme.spacing(6)}`,
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
         },
     },
     loadingProgress: {
-        'marginBottom': theme.spacing(1.5),
+        'marginTop': '1px',
+        'marginRight': theme.spacing(2),
         '& .MuiCircularProgress-colorPrimary': {
             color: theme.palette.text.secondary,
         },
@@ -280,7 +280,8 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         onClick={() => {
                             viewer.viewport.setRotation(0)
                         }}
-                        size="large">
+                        size="large"
+                    >
                         <HomeIcon fontSize="inherit" />
                     </IconButton>
                     <IconButton
@@ -288,7 +289,8 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={clsx(c.button, c.gap)}
                         title="Fullscreen"
                         aria-label="image view fullscreen"
-                        size="large">
+                        size="large"
+                    >
                         <FullscreenIcon fontSize="inherit" />
                     </IconButton>
                     <IconButton
@@ -296,7 +298,8 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={clsx(c.button, c.joiner)}
                         title="Rotate Counter-Clockwise"
                         aria-label="image view rotate counter clockwise"
-                        size="large">
+                        size="large"
+                    >
                         <RotateLeftIcon fontSize="inherit" />
                     </IconButton>
                     <IconButton
@@ -304,7 +307,8 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={c.button}
                         title="Rotate Clockwise"
                         aria-label="image view rotate clockwise"
-                        size="large">
+                        size="large"
+                    >
                         <RotateRightIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -315,7 +319,8 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                             title="Layers"
                             aria-label="image view layers"
                             onClick={onLayers}
-                            size="large">
+                            size="large"
+                        >
                             <LayersIcon fontSize="inherit" />
                         </IconButton>
                     ) : null}
@@ -326,7 +331,8 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={clsx(c.button, c.joiner)}
                         title="Zoom In"
                         aria-label="image view zoom in"
-                        size="large">
+                        size="large"
+                    >
                         <AddIcon fontSize="inherit" />
                     </IconButton>
                     <IconButton
@@ -334,16 +340,21 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                         className={c.button}
                         title="Zoom Out"
                         aria-label="image view zoom out"
-                        size="large">
+                        size="large"
+                    >
                         <RemoveIcon fontSize="inherit" />
                     </IconButton>
                 </div>
             </div>
-            <div className={clsx(c.loadingWrapper, { [c.loadingHidden]: !imageLoading || openFailed })}>
+            <div
+                className={clsx(c.loadingWrapper, {
+                    [c.loadingHidden]: !imageLoading || openFailed,
+                })}
+            >
                 <Paper className={c.loadingPaper} elevation={2}>
                     <div>
                         <div className={c.loadingProgress}>
-                            <CircularProgress size={36} />
+                            <CircularProgress size={20} />
                         </div>
                         <div className={c.loadingText}>LOADING</div>
                     </div>
@@ -368,7 +379,7 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 function drawFeatures(overlay, features) {

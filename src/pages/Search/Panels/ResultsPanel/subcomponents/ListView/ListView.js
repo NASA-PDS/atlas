@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -218,6 +218,15 @@ const ListView = (props) => {
         align: 'top',
     })
 
+    // On unmount, cancel in-flight thumbnail image requests to free up
+    // browser HTTP connection slots for the next page
+    useLayoutEffect(() => {
+        return () => {
+            const imgs = document.querySelectorAll('.ListViewImage')
+            imgs.forEach((img) => { img.src = '' })
+        }
+    }, [])
+
     // On mount, if the user is coming from another view and has scroll to
     // some position in it, scroll to that same item
     useEffect(() => {
@@ -334,7 +343,7 @@ const ListCard = ({ index, data, width }) => {
         >
             <div className={c.listItemLeft}>
                 <Image
-                    className={c.listItemImage}
+                    className={`${c.listItemImage} ResultsPanelImage ListViewImage`}
                     wrapperStyle={{
                         height: '100%',
                         paddingTop: 'unset',

@@ -343,7 +343,7 @@ const ListCard = ({ index, data, width }) => {
         >
             <div className={c.listItemLeft}>
                 <Image
-                    className={`${c.listItemImage} ListViewImage`}
+                    className={`${c.listItemImage} ResultsPanelImage ListViewImage`}
                     wrapperStyle={{
                         height: '100%',
                         paddingTop: 'unset',

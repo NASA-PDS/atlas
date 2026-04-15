@@ -324,7 +324,7 @@ const GridCard = ({ index, data, width }) => {
             }}
         >
             <Image
-                className={`${c.gridItemImage} GridViewImage`}
+                className={`${c.gridItemImage} ResultsPanelImage GridViewImage`}
                 wrapperStyle={{
                     height: '100%',
                     paddingTop: 'unset',

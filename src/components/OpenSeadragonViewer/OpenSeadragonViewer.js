@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import OpenSeadragon from 'openseadragon'
 import 'svg-overlay'
 import PropTypes from 'prop-types'
@@ -184,6 +184,9 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
     const [imageLoading, setImageLoading] = useState(true)
     const [svgOverlay, setSvgOverlay] = useState(null)
 
+    const openHandlerRef = useRef(null)
+    const openFailedHandlerRef = useRef(null)
+
     const c = useStyles()
 
     settings = settings || {}
@@ -228,18 +231,26 @@ const OpenSeadragonViewer = ({ image, settings, features, onLayers }) => {
         if (image && image.src && viewer) {
             setOpenFailed(false)
             setImageLoading(true)
-            viewer.removeHandler('open')
-            viewer.removeHandler('open-failed')
-            viewer.addHandler('open', function (e) {
+            if (openHandlerRef.current) {
+                viewer.removeHandler('open', openHandlerRef.current)
+            }
+            if (openFailedHandlerRef.current) {
+                viewer.removeHandler('open-failed', openFailedHandlerRef.current)
+            }
+            const onOpen = function (e) {
                 setImageLoading(false)
                 const so = viewer.svgOverlay()
                 setSvgOverlay(so)
                 drawFeatures(so, features)
-            })
-            viewer.addHandler('open-failed', function () {
+            }
+            const onOpenFailed = function () {
                 setImageLoading(false)
                 setOpenFailed(true)
-            })
+            }
+            openHandlerRef.current = onOpen
+            openFailedHandlerRef.current = onOpenFailed
+            viewer.addHandler('open', onOpen)
+            viewer.addHandler('open-failed', onOpenFailed)
             viewer.open({
                 type: 'image',
                 url: image.src,

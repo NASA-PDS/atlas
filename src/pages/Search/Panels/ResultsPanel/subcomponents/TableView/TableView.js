@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -269,7 +269,7 @@ const TableView = (props) => {
 
     // On unmount, cancel in-flight thumbnail image requests to free up
     // browser HTTP connection slots for the next page
-    useEffect(() => {
+    useLayoutEffect(() => {
         return () => {
             const imgs = document.querySelectorAll('.hoverImage')
             imgs.forEach((img) => { img.src = '' })

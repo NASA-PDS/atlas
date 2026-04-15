@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -220,7 +220,7 @@ const ListView = (props) => {
 
     // On unmount, cancel in-flight thumbnail image requests to free up
     // browser HTTP connection slots for the next page
-    useEffect(() => {
+    useLayoutEffect(() => {
         return () => {
             const imgs = document.querySelectorAll('.ListViewImage')
             imgs.forEach((img) => { img.src = '' })

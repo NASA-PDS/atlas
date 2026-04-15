@@ -194,7 +194,7 @@ const GridView = (props) => {
     // browser HTTP connection slots for the next page
     useEffect(() => {
         return () => {
-            const imgs = document.querySelectorAll('.ResultsPanelImage')
+            const imgs = document.querySelectorAll('.GridViewImage')
             imgs.forEach((img) => { img.src = '' })
         }
     }, [])
@@ -324,7 +324,7 @@ const GridCard = ({ index, data, width }) => {
             }}
         >
             <Image
-                className={`${c.gridItemImage} ResultsPanelImage`}
+                className={`${c.gridItemImage} GridViewImage`}
                 wrapperStyle={{
                     height: '100%',
                     paddingTop: 'unset',

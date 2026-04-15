@@ -222,7 +222,7 @@ const ListView = (props) => {
     // browser HTTP connection slots for the next page
     useEffect(() => {
         return () => {
-            const imgs = document.querySelectorAll('.ResultsPanelImage')
+            const imgs = document.querySelectorAll('.ListViewImage')
             imgs.forEach((img) => { img.src = '' })
         }
     }, [])
@@ -343,7 +343,7 @@ const ListCard = ({ index, data, width }) => {
         >
             <div className={c.listItemLeft}>
                 <Image
-                    className={`${c.listItemImage} ResultsPanelImage`}
+                    className={`${c.listItemImage} ListViewImage`}
                     wrapperStyle={{
                         height: '100%',
                         paddingTop: 'unset',

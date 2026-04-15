@@ -190,6 +190,15 @@ const GridView = (props) => {
         align: 'top',
     })
 
+    // On unmount, cancel in-flight thumbnail image requests to free up
+    // browser HTTP connection slots for the next page
+    useEffect(() => {
+        return () => {
+            const imgs = document.querySelectorAll('.ResultsPanelImage')
+            imgs.forEach((img) => { img.src = '' })
+        }
+    }, [])
+
     // On mount, if the user is coming from another view and has scroll to
     // some position in it, scroll to that same item
     useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -190,6 +190,15 @@ const GridView = (props) => {
         align: 'top',
     })
 
+    // On unmount, cancel in-flight thumbnail image requests to free up
+    // browser HTTP connection slots for the next page
+    useLayoutEffect(() => {
+        return () => {
+            const imgs = document.querySelectorAll('.GridViewImage')
+            imgs.forEach((img) => { img.src = '' })
+        }
+    }, [])
+
     // On mount, if the user is coming from another view and has scroll to
     // some position in it, scroll to that same item
     useEffect(() => {
@@ -315,7 +324,7 @@ const GridCard = ({ index, data, width }) => {
             }}
         >
             <Image
-                className={`${c.gridItemImage} ResultsPanelImage`}
+                className={`${c.gridItemImage} ResultsPanelImage GridViewImage`}
                 wrapperStyle={{
                     height: '100%',
                     paddingTop: 'unset',

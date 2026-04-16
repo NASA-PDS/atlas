@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -266,6 +266,15 @@ const TableView = (props) => {
     resultsLength = results.length
 
     const [columnWidths, setColumnWidths] = useState([32, 32, 520].concat(Array(497).fill(200)))
+
+    // On unmount, cancel in-flight thumbnail image requests to free up
+    // browser HTTP connection slots for the next page
+    useLayoutEffect(() => {
+        return () => {
+            const imgs = document.querySelectorAll('.hoverImage')
+            imgs.forEach((img) => { img.src = '' })
+        }
+    }, [])
 
     const headerRef = React.useRef(null)
     const tableContainerRef = React.useRef(null)

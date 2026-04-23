@@ -213,14 +213,20 @@ const docBasePath = runtimeConfig.PUBLIC_URL
     ? `${runtimeConfig.PUBLIC_URL}/documentation`
     : '/documentation'
 
+// Resolve docBuild once at startup for path traversal checks
+let docBuildReal = null
+try {
+    docBuildReal = fs.realpathSync(paths.docBuild)
+} catch (_e) {
+    // docBuild directory may not exist (e.g. docs not built); skip middleware
+}
+
 // Middleware to rewrite documentation HTML files to inject correct base path
-if (runtimeConfig.PUBLIC_URL) {
+if (runtimeConfig.PUBLIC_URL && docBuildReal) {
     app.use(docBasePath, (req, res, next) => {
         // Only process HTML files
         if (req.path.endsWith('.html') || req.path === '/' || !req.path.includes('.')) {
-            const fs = require('fs')
-            const docBuildReal = fs.realpathSync(paths.docBuild)
-            let filePath = path.resolve(paths.docBuild, req.path.replace(/^\/+/, ''))
+            let filePath = path.resolve(docBuildReal, req.path.replace(/^\/+/, ''))
 
             // If path doesn't end with .html and is not /, append index.html
             if (!req.path.endsWith('.html') && !req.path.includes('.')) {

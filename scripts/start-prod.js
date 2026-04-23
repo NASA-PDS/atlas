@@ -219,11 +219,17 @@ if (runtimeConfig.PUBLIC_URL) {
         // Only process HTML files
         if (req.path.endsWith('.html') || req.path === '/' || !req.path.includes('.')) {
             const fs = require('fs')
-            let filePath = path.join(paths.docBuild, req.path)
+            const docBuildReal = fs.realpathSync(paths.docBuild)
+            let filePath = path.resolve(paths.docBuild, req.path.replace(/^\/+/, ''))
 
             // If path doesn't end with .html and is not /, append index.html
             if (!req.path.endsWith('.html') && !req.path.includes('.')) {
                 filePath = path.join(filePath, 'index.html')
+            }
+
+            // Prevent path traversal: ensure resolved path is within docBuild
+            if (!filePath.startsWith(docBuildReal + path.sep) && filePath !== docBuildReal) {
+                return res.status(400).send('Invalid path')
             }
 
             if (fs.existsSync(filePath)) {

@@ -239,7 +239,12 @@ if (runtimeConfig.PUBLIC_URL && docBuildReal) {
             }
 
             if (fs.existsSync(filePath)) {
-                fs.readFile(filePath, 'utf8', (err, html) => {
+                const realFilePath = fs.realpathSync(filePath)
+                if (!realFilePath.startsWith(docBuildReal + path.sep) && realFilePath !== docBuildReal) {
+                    return res.status(400).send('Invalid path')
+                }
+
+                fs.readFile(realFilePath, 'utf8', (err, html) => {
                     if (err) {
                         return next()
                     }

@@ -518,6 +518,7 @@ module.exports = function (webpackEnv) {
                         extensions: ["js", "mjs", "jsx", "ts", "tsx"],
                         eslintPath: require.resolve("eslint"),
                         cache: true,
+                        emitError: false,
                         failOnError: isEnvProduction,
                         failOnWarning: false,
                     });

@@ -131,7 +131,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
-    "@babel/core": "^7.29.0",
+    "@babel/core": "^7.29.6",
     "@playwright/test": "^1.59.1",
     "@svgr/webpack": "^8.1.0",
     "browserslist": "^4.28.2",

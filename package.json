@@ -131,7 +131,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
-    "@babel/core": "^7.29.0",
+    "@babel/core": "^7.29.6",
     "@playwright/test": "^1.59.1",
     "@svgr/webpack": "^8.1.0",
     "browserslist": "^4.28.2",
@@ -156,7 +156,7 @@
     "interpolate-html-plugin": "^4.0.0",
     "mini-css-extract-plugin": "^2.9.2",
     "parse5": "^8.0.1",
-    "postcss": "^8.5.10",
+    "postcss": "^8.5.26",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^8.2.1",
     "postcss-preset-env": "^10.1.7",
@@ -171,7 +171,7 @@
     "webpack": "^5.102.1",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.5",
+    "webpack-dev-server": "^5.2.6",
     "webpack-manifest-plugin": "^6.0.1"
   }
 }

@@ -68,7 +68,7 @@
     "flat": "^5.0.2",
     "fs-extra": "^11.3.0",
     "helmet": "^8.1.0",
-    "immutable": "^4.3.7",
+    "immutable": "^4.3.9",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
     "leaflet.markercluster": "^1.5.3",

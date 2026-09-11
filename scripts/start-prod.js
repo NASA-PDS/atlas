@@ -1,20 +1,25 @@
-const path = require('path')
-const express = require('express')
-const cors = require('cors')
-const fs = require('fs')
-const axios = require('axios')
-const helmet = require('helmet')
-const uuidv4 = require('uuid').v4
+import path from 'path'
+import { createRequire } from 'module'
+import express from 'express'
+import cors from 'cors'
+import fs from 'fs'
+import axios from 'axios'
+import helmet from 'helmet'
+import { v4 as uuidv4 } from 'uuid'
 
-const compression = require('compression')
-const paths = require('../config/paths')
+import compression from 'compression'
+import paths from '../config/paths.js'
+import dotenv from 'dotenv'
 
+// package.json is read via a real `require()` for simplicity/robustness
+// across Node versions rather than a JSON import.
+const require = createRequire(import.meta.url)
 const atlasPackageJSON = require('../package.json')
 
 process.env.BABEL_ENV = 'production'
 process.env.NODE_ENV = 'production'
 
-require('dotenv').config()
+dotenv.config()
 
 const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)

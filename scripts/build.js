@@ -1,6 +1,14 @@
 'use strict'
 
-// Do this as the first thing so that any code reading it knows the right env.
+// NOTE: unlike the old CJS script, this assignment does NOT guarantee
+// NODE_ENV/BABEL_ENV are set before `config/env.js` runs its "NODE_ENV is
+// required" check. ESM `import` declarations (including the transitive one
+// pulled in below via `config/webpack.config.js` -> `config/env.js`) are
+// hoisted and evaluated before this file's own top-level statements, no
+// matter where they're textually written. The actual guarantee comes from
+// `cross-env NODE_ENV=production BABEL_ENV=production` in the `build` /
+// `build:eslint` npm scripts in package.json. Keep these assignments too,
+// for direct `node scripts/build.js` invocation and to preserve intent.
 process.env.BABEL_ENV = 'production'
 process.env.NODE_ENV = 'production'
 
@@ -12,20 +20,20 @@ process.on('unhandledRejection', (err) => {
 })
 
 // Ensure environment variables are read.
-require('../config/env')
+import '../config/env.js'
 
-const path = require('path')
-const chalk = require('chalk')
-const fs = require('fs-extra')
-const webpack = require('webpack')
-const configFactory = require('../config/webpack.config')
-const paths = require('../config/paths')
-const {
+import path from 'path'
+import chalk from 'chalk'
+import fs from 'fs-extra'
+import webpack from 'webpack'
+import configFactory from '../config/webpack.config.js'
+import paths from '../config/paths.js'
+import {
     formatWebpackMessages,
     printBuildError,
     FileSizeReporter,
     checkBrowsers,
-} = require('../config/build-utils')
+} from '../config/build-utils.js'
 
 const measureFileSizesBeforeBuild = FileSizeReporter.measureFileSizesBeforeBuild
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild

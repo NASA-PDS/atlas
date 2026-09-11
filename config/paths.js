@@ -1,9 +1,9 @@
 'use strict'
 
-import path from 'path'
-import fs from 'fs'
-import url from 'url'
-import { createRequire } from 'module'
+import path from 'node:path'
+import fs from 'node:fs'
+import url from 'node:url'
+import { createRequire } from 'node:module'
 
 // `appPackageJson` is a runtime-computed absolute path, so it needs a real
 // `require()` (not a static import specifier) to read package.json's `homepage`.

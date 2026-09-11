@@ -1,8 +1,8 @@
 'use strict';
 
-import fs from 'fs';
-import path from 'path';
-import { createRequire } from 'module';
+import fs from 'node:fs';
+import path from 'node:path';
+import { createRequire } from 'node:module';
 import paths from './paths.js';
 import chalk from 'chalk';
 import resolve from 'resolve';

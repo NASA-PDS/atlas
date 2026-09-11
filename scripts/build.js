@@ -22,7 +22,7 @@ process.on('unhandledRejection', (err) => {
 // Ensure environment variables are read.
 import '../config/env.js'
 
-import path from 'path'
+import path from 'node:path'
 import chalk from 'chalk'
 import fs from 'fs-extra'
 import webpack from 'webpack'

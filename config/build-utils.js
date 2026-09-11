@@ -4,8 +4,8 @@
  * https://github.com/facebook/create-react-app
  */
 
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import chalk from "chalk";
 import gzipSize from "gzip-size";
 import recursiveReaddir from "recursive-readdir";

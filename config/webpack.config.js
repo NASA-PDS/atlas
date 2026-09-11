@@ -1,8 +1,8 @@
 "use strict";
 
-import fs from "fs";
-import path from "path";
-import { createRequire } from "module";
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";

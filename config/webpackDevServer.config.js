@@ -1,7 +1,7 @@
 "use strict";
 
-import fs from "fs";
-import { createRequire } from "module";
+import fs from "node:fs";
+import { createRequire } from "node:module";
 import express from "express";
 import { noopServiceWorkerMiddleware } from "./build-utils.js";
 import paths from "./paths.js";

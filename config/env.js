@@ -2,8 +2,8 @@
 
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import paths from './paths.js';
 
 // Note: unlike the old CJS version, we can't bust the ESM module cache to

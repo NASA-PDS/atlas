@@ -19,7 +19,7 @@
     "start:prod": "cross-env NODE_ENV=production BABEL_ENV=production node scripts/start-prod.js",
     "build": "cross-env NODE_ENV=production BABEL_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node scripts/build.js",
     "build:eslint": "cross-env NODE_ENV=production BABEL_ENV=production ESLINT_WEBPACK=true NODE_OPTIONS=--max-old-space-size=4096 node scripts/build.js",
-    "analyze": "node scripts/start.js --analyze",
+    "analyze": "cross-env NODE_ENV=production BABEL_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node scripts/build.js --analyze",
     "test": "playwright test",
     "docs": "jsdoc -c jsdoc.conf.json",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",

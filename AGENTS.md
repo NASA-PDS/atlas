@@ -60,6 +60,10 @@ Root `/` 307-redirects to `/search`.
 - Default dev port: **8500**. Tests use **18500** to avoid conflicts.
 - Production server: `node scripts/start-prod.js`
 - Build directory: `build/atlas/`
+- Bundle analysis: `npm run analyze` runs a production webpack build with
+  `webpack-bundle-analyzer` and writes `reports/bundle-report.html`
+  (outside `build/atlas/` so it is never deployed). Dev can still pass
+  `--analyze` to `scripts/start-dev.js` for the interactive analyzer server.
 - Required env for tests: `NODE_ENV=production`, `DISABLE_CSP=true`,
   `PUBLIC_URL=''`, `REACT_APP_DOMAIN` (defaults to
   `https://pds-imaging.jpl.nasa.gov/api`)

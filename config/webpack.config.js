@@ -55,7 +55,8 @@ export default function (webpackEnv) {
     // passed into alias object. Uses a flag if passed into the build command
     const isEnvProductionProfile = isEnvProduction && process.argv.includes("--profile");
 
-    const isEnvDevAnalyze = isEnvDevelopment && process.argv.includes("--analyze");
+    // Enable via `npm run analyze` (production) or `node scripts/start-dev.js --analyze`.
+    const shouldAnalyze = process.argv.includes("--analyze");
 
     // ESLint via webpack: always in dev; in production only when ESLINT_WEBPACK=true (lazy-require).
     const runEslintInWebpack =
@@ -554,7 +555,23 @@ export default function (webpackEnv) {
             // a plugin that prints an error when you attempt to do this.
             // See https://github.com/facebook/create-react-app/issues/240
             isEnvDevelopment && new CaseSensitivePathsPlugin(),
-            isEnvDevAnalyze && new BundleAnalyzerPlugin(),
+            shouldAnalyze &&
+                new BundleAnalyzerPlugin(
+                    // Production: write a static report and exit so `npm run analyze` can finish.
+                    // Development: keep the interactive analyzer server.
+                    isEnvProduction
+                        ? {
+                              analyzerMode: "static",
+                              openAnalyzer: false,
+                              // Keep outside build/atlas so the report is never deployed.
+                              reportFilename: path.join(
+                                  paths.appPath,
+                                  "reports",
+                                  "bundle-report.html"
+                              ),
+                          }
+                        : undefined
+                ),
             isEnvProduction &&
                 new MiniCssExtractPlugin({
                     // Options similar to the same options in webpackOptions.output

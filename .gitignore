@@ -8,6 +8,7 @@ react-codemod
 coverage
 stuff
 build/*
+reports/
 yarn-error.log
 debug.log
 tmp

@@ -1,21 +1,28 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
-const InterpolateHtmlPlugin = require("interpolate-html-plugin");
-const paths = require("./paths");
-const modules = require("./modules");
-const getClientEnvironment = require("./env");
-const { htmlToPug } = require("./build-utils");
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+import webpack from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import HtmlInlineScriptPlugin from "html-inline-script-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import { WebpackManifestPlugin } from "webpack-manifest-plugin";
+import InterpolateHtmlPlugin from "interpolate-html-plugin";
+import paths from "./paths.js";
+import modules from "./modules.js";
+import getClientEnvironment from "./env.js";
+import { htmlToPug } from "./build-utils.js";
+
+// Several loaders below are referenced via `require.resolve(...)` (the
+// CRA convention for pinning webpack to a specific loader package rather
+// than whatever a project's own resolution might shadow it with), and
+// `appPackageJson` is a runtime-computed path. Both need a real `require()`.
+const require = createRequire(import.meta.url);
 
 const appPackageJson = require(paths.appPackageJson);
 
@@ -40,7 +47,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-module.exports = function (webpackEnv) {
+export default function (webpackEnv) {
     const isEnvDevelopment = webpackEnv === "development";
     const isEnvProduction = webpackEnv === "production";
 
@@ -48,7 +55,8 @@ module.exports = function (webpackEnv) {
     // passed into alias object. Uses a flag if passed into the build command
     const isEnvProductionProfile = isEnvProduction && process.argv.includes("--profile");
 
-    const isEnvDevAnalyze = isEnvDevelopment && process.argv.includes("--analyze");
+    // Enable via `npm run analyze` (production) or `node scripts/start-dev.js --analyze`.
+    const shouldAnalyze = process.argv.includes("--analyze");
 
     // ESLint via webpack: always in dev; in production only when ESLINT_WEBPACK=true (lazy-require).
     const runEslintInWebpack =
@@ -547,7 +555,23 @@ module.exports = function (webpackEnv) {
             // a plugin that prints an error when you attempt to do this.
             // See https://github.com/facebook/create-react-app/issues/240
             isEnvDevelopment && new CaseSensitivePathsPlugin(),
-            isEnvDevAnalyze && new BundleAnalyzerPlugin(),
+            shouldAnalyze &&
+                new BundleAnalyzerPlugin(
+                    // Production: write a static report and exit so `npm run analyze` can finish.
+                    // Development: keep the interactive analyzer server.
+                    isEnvProduction
+                        ? {
+                              analyzerMode: "static",
+                              openAnalyzer: false,
+                              // Keep outside build/atlas so the report is never deployed.
+                              reportFilename: path.join(
+                                  paths.appPath,
+                                  "reports",
+                                  "bundle-report.html"
+                              ),
+                          }
+                        : undefined
+                ),
             isEnvProduction &&
                 new MiniCssExtractPlugin({
                     // Options similar to the same options in webpackOptions.output

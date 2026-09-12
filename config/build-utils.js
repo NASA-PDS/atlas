@@ -1,14 +1,16 @@
-"use strict";
-
 /**
  * Build utility functions that replace react-dev-utils utilities.
  * Adapted from Create React App source (MIT licensed).
  * https://github.com/facebook/create-react-app
  */
 
-const path = require("path");
-const fs = require("fs");
-const chalk = require("chalk");
+import path from "node:path";
+import fs from "node:fs";
+import chalk from "chalk";
+import gzipSize from "gzip-size";
+import recursiveReaddir from "recursive-readdir";
+import browserslist from "browserslist";
+import { parse } from "parse5";
 
 // ---------------------------------------------------------------------------
 // formatWebpackMessages
@@ -136,8 +138,6 @@ function printBuildError(err) {
 // FileSizeReporter (measureFileSizesBeforeBuild, printFileSizesAfterBuild)
 // Adapted from: react-dev-utils/FileSizeReporter
 // ---------------------------------------------------------------------------
-const gzipSize = require("gzip-size");
-const recursiveReaddir = require("recursive-readdir");
 
 function canReadAsset(asset) {
   return (
@@ -296,7 +296,6 @@ const FileSizeReporter = {
 // checkBrowsers
 // Adapted from: react-dev-utils/browsersHelper
 // ---------------------------------------------------------------------------
-const browserslist = require("browserslist");
 
 function checkBrowsers(dir, isInteractive) {
   const current = browserslist.loadConfig({ path: dir });
@@ -467,8 +466,6 @@ function walkNode(node, level, out) {
 }
 
 function htmlToPug(html) {
-  // Lazy-require parse5 so build-utils stays cheap to import in dev paths.
-  const { parse } = require("parse5");
   const doc = parse(html);
   const out = [];
   for (const child of doc.childNodes || []) {
@@ -480,7 +477,7 @@ function htmlToPug(html) {
 // ---------------------------------------------------------------------------
 // Exports
 // ---------------------------------------------------------------------------
-module.exports = {
+export {
   formatWebpackMessages,
   printBuildError,
   FileSizeReporter,

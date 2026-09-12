@@ -1,14 +1,16 @@
 'use strict';
 
-const dotenv = require('dotenv');
-const dotenvExpand = require('dotenv-expand');
-const fs = require('fs');
-const path = require('path');
-const paths = require('./paths');
+import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
+import fs from 'node:fs';
+import path from 'node:path';
+import paths from './paths.js';
 
-// Make sure that including paths.js after env.js will read .env variables.
-delete require.cache[require.resolve('./paths')];
-
+// Note: unlike the old CJS version, we can't bust the ESM module cache to
+// force `paths.js` to re-evaluate with the env vars loaded below. This is
+// safe because the only paths.js values env-derived (`publicUrl`,
+// `servedPath`) aren't consumed anywhere in this codebase — everything else
+// (like `paths.dotenv`, used just below) is a static filesystem path.
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
   throw new Error(
@@ -92,4 +94,4 @@ function getClientEnvironment(publicUrl) {
   return { raw, stringified };
 }
 
-module.exports = getClientEnvironment;
+export default getClientEnvironment;

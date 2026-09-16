@@ -24,10 +24,11 @@ import Tooltip from '@mui/material/Tooltip'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import InfoIcon from '@mui/icons-material/Info'
 
-import ReactFilterBox, {
-    AutoCompleteOption,
-    SimpleResultProcessing,
-} from './react-filter-box-customized/react-filter-box'
+// Imported via the '@vendor/react-filter-box' alias (see vite.config.js)
+// rather than the relative path, so Vite's dependency pre-bundler
+// (optimizeDeps) — not its lighter per-file dev transform — handles this
+// vendored UMD/CJS bundle's CJS-to-ESM interop in both dev and build.
+import ReactFilterBox from '@vendor/react-filter-box'
 import './react-filter-box-customized/react-filter-box.css'
 
 import { makeStyles } from '@mui/styles'

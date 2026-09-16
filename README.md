@@ -52,7 +52,7 @@
 
 1. Or run `npm run start` for development
 
-1. Optional: run `npm run analyze` to produce a production webpack bundle report at `reports/bundle-report.html` (kept outside `build/atlas` so it is not deployed)
+1. Optional: run `npm run analyze` to produce a production Vite/Rollup bundle report at `reports/bundle-report.html` (kept outside `build/atlas` so it is not deployed)
 
 ---
 

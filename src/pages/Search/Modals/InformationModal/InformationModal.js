@@ -226,11 +226,11 @@ const InformationModal = (props) => {
                         </Typography>
                     </div>
                     <div className={c.metadata}>
-                        <Typography>Version Number: {process.env.REACT_APP_VERSION}</Typography>
+                        <Typography>Version Number: {import.meta.env.REACT_APP_VERSION}</Typography>
                         <Typography>
-                            Clearance Number: {process.env.REACT_APP_CLEARANCE_NUMBER}
+                            Clearance Number: {import.meta.env.REACT_APP_CLEARANCE_NUMBER}
                         </Typography>
-                        <Typography>Last Updated: {process.env.REACT_APP_LAST_UPDATED}</Typography>
+                        <Typography>Last Updated: {import.meta.env.REACT_APP_LAST_UPDATED}</Typography>
                     </div>
                 </div>
             </DialogContent>

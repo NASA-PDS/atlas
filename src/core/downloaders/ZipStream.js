@@ -3,8 +3,15 @@ import axios from 'axios'
 import { domain, endpoints, ES_PATHS } from '../constants'
 import { getIn, getHeader, getPDSUrl, getRedirectedUrl, getFilename, getExtension } from '../utils'
 
-import ponyfill from '../../external/streamsaver-helpers/ponyfill.min'
-import BlobJS from '../../external/streamsaver-helpers/Blob'
+// Imported via a '@vendor/*' alias (see vite.config.js) so Vite's
+// dependency pre-bundler (optimizeDeps) handles this vendored UMD/CJS
+// bundle's CJS-to-ESM interop in both dev and build, matching the
+// build-time Rollup commonjs plugin (build.commonjsOptions) behavior.
+import ponyfill from '@vendor/streamsaver-ponyfill'
+// Side-effect only: patches the global Blob/File/FileReader polyfill.
+// Has no module.exports (not even an empty one) — the old CommonJS-era
+// `import BlobJS from ...` default binding was always unused/undefined.
+import '../../external/streamsaver-helpers/Blob'
 import streamsaver from 'streamsaver'
 import { ZIP } from '../../external/streamsaver-helpers/zip-stream'
 

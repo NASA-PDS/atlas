@@ -4,6 +4,9 @@
   "private": true,
   "homepage": "/",
   "packageManager": "npm@10.9.4",
+  "engines": {
+    "node": ">=22"
+  },
   "devEngines": {
     "runtime": {
       "name": "node",

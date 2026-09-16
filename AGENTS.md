@@ -73,6 +73,21 @@ Root `/` 307-redirects to `/search`.
 - `PUBLIC_URL` is read from `.env` at build time; `dotenv-expand`
   has caused it to leak in unexpected ways — keep an eye on it.
 
+### Docker runner stage
+
+The production image's runner stage hand-lists runtime files rather
+than copying all of `config/` / `scripts/`:
+
+- `config/paths.js` + `config/package.json` (`"type": "module"`)
+- `scripts/start-prod.js` + `scripts/package.json` (`"type": "module"`)
+
+Those scoped `package.json` files are required so Node treats the
+scripts as ESM without emitting `MODULE_TYPELESS_PACKAGE_JSON` (and
+the related reparse overhead). If `scripts/start-prod.js` or
+`config/paths.js` gains a new local import, update the Dockerfile
+runner stage's `COPY` lines to include it — the builder stage uses
+`COPY . .`, but the runner does not.
+
 ## Selector patterns (Playwright / DOM)
 
 The codebase uses **MUI 5** with `@mui/styles/makeStyles`, which

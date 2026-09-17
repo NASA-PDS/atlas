@@ -14,7 +14,12 @@ import {
     abbreviateNumber,
     getExtension,
 } from '../../../core/utils'
-import { IMAGE_EXTENSIONS, ES_PATHS, DISPLAY_NAME_MAPPINGS } from '../../../core/constants'
+import {
+    IMAGE_EXTENSIONS,
+    ES_PATHS,
+    getDisplayName,
+    getShortDisplayName,
+} from '../../../core/constants'
 import { streamDownloadFile } from '../../../core/downloaders/ZipStream.js'
 
 import {
@@ -1061,8 +1066,8 @@ const Column = (props) => {
                                 ? content
                                       .slice() // optional: makes a shallow copy to avoid mutating original array
                                       .sort((a, b) => {
-                                          const nameA = DISPLAY_NAME_MAPPINGS[a.key] || a.key
-                                          const nameB = DISPLAY_NAME_MAPPINGS[b.key] || b.key
+                                          const nameA = getShortDisplayName(a.key)
+                                          const nameB = getShortDisplayName(b.key)
                                           return nameA.localeCompare(nameB)
                                       })
                                       .map((result, idx) => (
@@ -1098,11 +1103,9 @@ const Column = (props) => {
                                                       className={clsx(c.liName, {
                                                           [c.liNameMobile]: isMobile,
                                                       })}
-                                                      title={result.key}
+                                                      title={getDisplayName(result.key)}
                                                   >
-                                                      {DISPLAY_NAME_MAPPINGS[result.key]
-                                                          ? DISPLAY_NAME_MAPPINGS[result.key]
-                                                          : result.key}
+                                                      {getShortDisplayName(result.key)}
                                                   </div>
                                               </div>
                                               <div className={c.flex}>

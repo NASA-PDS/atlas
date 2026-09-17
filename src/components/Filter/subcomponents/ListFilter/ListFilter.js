@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import Checkbox from '@mui/material/Checkbox'
 
 import { setFieldState } from '../../../../core/redux/actions/actions.js'
-import { DISPLAY_NAME_MAPPINGS } from '../../../../core/constants.js'
+import { getDisplayName, getShortDisplayName } from '../../../../core/constants.js'
 import { getIn } from '../../../../core/utils.js'
 
 const useStyles = makeStyles((theme) => ({
@@ -42,13 +42,21 @@ const useStyles = makeStyles((theme) => ({
     },
     label: {
         display: 'flex',
+        flex: 1,
+        minWidth: 0,
         lineHeight: '26px',
         marginLeft: '8px',
     },
     name: {
+        flex: 1,
+        minWidth: 0,
+        overflow: 'hidden',
         padding: '0px 2px',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
     },
     count: {
+        flexShrink: 0,
         padding: '0px 2px',
         fontSize: 12,
         color: theme.palette.swatches.grey.grey400,
@@ -82,34 +90,41 @@ const ListFilter = (props) => {
                 {facet.fields ? (
                     facet.fields
                         .filter((field) => field.doc_count > 0)
-                        .map((field, idx) => (
-                            <li className={c.listItem} key={idx}
-                            onClick={() => {
-                                dispatch(
-                                    setFieldState(filterKey, facetId, {
-                                        [field.key]: !getIn(facet, ['state', field.key], false),
-                                    })
-                                )
-                            }}
-                        >
-                            <Checkbox
-                                className={c.checkbox}
-                                color="default"
-                                checked={getIn(facet, ['state', field.key], false)}
-                                size="small"
-                                title="Select"
-                                aria-label="select"
-                            />
-                            <span className={c.label}>
-                                <div className={c.name}>
-                                    {DISPLAY_NAME_MAPPINGS[field.key]
-                                        ? DISPLAY_NAME_MAPPINGS[field.key]
-                                        : field.key}
-                                </div>
-                                <div className={c.count}>({field.doc_count})</div>
-                            </span>
-                        </li>
-                    ))
+                        .map((field, idx) => {
+                            const long = getDisplayName(field.key)
+                            return (
+                                <li
+                                    className={c.listItem}
+                                    key={idx}
+                                    onClick={() => {
+                                        dispatch(
+                                            setFieldState(filterKey, facetId, {
+                                                [field.key]: !getIn(
+                                                    facet,
+                                                    ['state', field.key],
+                                                    false
+                                                ),
+                                            })
+                                        )
+                                    }}
+                                >
+                                    <Checkbox
+                                        className={c.checkbox}
+                                        color="default"
+                                        checked={getIn(facet, ['state', field.key], false)}
+                                        size="small"
+                                        title="Select"
+                                        aria-label="select"
+                                    />
+                                    <span className={c.label}>
+                                        <div className={c.name} title={long}>
+                                            {getShortDisplayName(field.key)}
+                                        </div>
+                                        <div className={c.count}>({field.doc_count})</div>
+                                    </span>
+                                </li>
+                            )
+                        })
                 ) : (
                     <div className={c.noData}>No aggregation data</div>
                 )}

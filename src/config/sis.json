@@ -330,6 +330,16 @@
             "size": 449328,
             "note": "One SIS for the cameras, spectrometers and photometer."
         },
+        "scalpss_user_guide": {
+            "title": "BGM1 SCALPSS Payload Data Archive User Guide",
+            "mission": "scalpss",
+            "camera": true,
+            "url": "https://pds-imaging.jpl.nasa.gov/archive/archive/scalpss/bg1/clps_to_19d_scalpss/document/SCALPSS_1.1_BGM1_PDS_User_Guide.pdf",
+            "size": 773101,
+            "document": "Version 5",
+            "revision": "August 19, 2026",
+            "note": "Serves as the archive SIS: file naming convention (§4, Fig. 3), bundle structure and label summary. Label keywords are in SCALPSS_SIS_Label_Keywords.pdf in the same document collection."
+        },
         "lo_loirp": {
             "title": "Lunar Orbiter Image Recovery Project (LOIRP) SIS",
             "mission": "lo",

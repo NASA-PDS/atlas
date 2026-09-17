@@ -234,7 +234,7 @@ export const DISPLAY_NAME_MAPPINGS = {
     'go': 'Galileo',
     'galileo_orbiter': 'Galileo Orbiter',
     'juno': 'Juno',
-    'kplo': 'Korea Pathfinder Lunar Orbiter',
+    'kplo': { short: 'KPLO', long: 'KPLO - Korea Pathfinder Lunar Orbiter' },
     'lcro': 'LCROSS',
     'lcross': 'LCROSS',
     'lo': 'Lunar Orbiter',
@@ -245,21 +245,24 @@ export const DISPLAY_NAME_MAPPINGS = {
     'magellan': 'Magellan',
     'mars_2020': 'Mars 2020',
     'm20': 'Mars 2020',
-    'perseverance': 'Mars 2020 - Perseverance',
+    'perseverance': { short: 'Perseverance', long: 'Mars 2020 - Perseverance' },
     'mer': 'MER - Mars Exploration Rover',
-    'opportunity': 'MER - Opportunity',
-    'spirit': 'MER - Spirit',
+    'opportunity': { short: 'Opportunity', long: 'MER - Opportunity' },
+    'spirit': { short: 'Spirit', long: 'MER - Spirit' },
     'mess': 'Messenger',
     'messenger': 'Messenger',
     'mgs': 'Mars Global Surveyor',
     'mars_global_surveyor': 'Mars Global Surveyor',
     'mpf': 'Mars Pathfinder',
-    'csms': 'MPF - Carl Sagan Memorial Station',
-    'sojourner': 'MPF - Sojourner',
+    'csms': {
+        short: 'Carl Sagan Memorial Station',
+        long: 'MPF - Carl Sagan Memorial Station',
+    },
+    'sojourner': { short: 'Sojourner', long: 'MPF - Sojourner' },
     'mro': 'MRO - Mars Reconnaissance Orbiter',
     'mars_reconnaissance_orbiter': 'MRO - Mars Reconnaissance Orbiter',
     'msl': 'MSL - Mars Science Laboratory',
-    'curiosity': 'MSL - Curiosity',
+    'curiosity': { short: 'Curiosity', long: 'MSL - Curiosity' },
     'm09': 'Mariner 9',
     'm10': 'Mariner 10',
     'm69': 'Mariner 69',
@@ -272,6 +275,18 @@ export const DISPLAY_NAME_MAPPINGS = {
     '2001_mars_odyssey': '2001 Mars Odyssey',
     'phx': 'Phoenix',
     'phoenix_lander': 'Phoenix Lander',
+    'scalpss': {
+        short: 'SCALPSS',
+        long: 'SCALPSS - Stereo Cameras for Lunar Plume-Surface Studies',
+    },
+    'firefly-bg1': { short: 'Blue Ghost M1', long: 'Firefly Blue Ghost Mission 1' },
+    'scalpss_to_19d': 'SCALPSS 1.1 (CLPS TO-19D)',
+    'SFL0': 'SFL0 - Short Focal Length Camera 0',
+    'SFL1': 'SFL1 - Short Focal Length Camera 1',
+    'SFL2': 'SFL2 - Short Focal Length Camera 2',
+    'SFL3': 'SFL3 - Short Focal Length Camera 3',
+    'LFL0': 'LFL0 - Long Focal Length Camera 0',
+    'LFL1': 'LFL1 - Long Focal Length Camera 1',
     'vik': 'Viking',
     'viking_orbiter_1': 'Viking Orbiter 1',
     'viking_orbiter_2': 'Viking Orbiter 2',
@@ -283,3 +298,13 @@ export const DISPLAY_NAME_MAPPINGS = {
     'voyager_2': 'Voyager 2',
     'voyager': 'Voyager',
 }
+
+// A mapping value is either a string (`Short - Long gloss`) or `{ short, long }`.
+export const getDisplayNames = (key) => {
+    const mapped = DISPLAY_NAME_MAPPINGS[key]
+    if (mapped == null) return { short: key, long: key }
+    if (typeof mapped === 'string') return { short: mapped.split(' - ')[0], long: mapped }
+    return { short: mapped.short, long: mapped.long }
+}
+export const getDisplayName = (key) => getDisplayNames(key).long
+export const getShortDisplayName = (key) => getDisplayNames(key).short

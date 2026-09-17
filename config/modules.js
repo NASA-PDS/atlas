@@ -1,10 +1,15 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const paths = require('./paths');
-const chalk = require('chalk');
-const resolve = require('resolve');
+import fs from 'node:fs';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+import paths from './paths.js';
+import chalk from 'chalk';
+import resolve from 'resolve';
+
+// TypeScript/jsconfig paths are runtime-computed, so they need a real
+// `require()` (not a static import specifier) to load.
+const require = createRequire(import.meta.url);
 
 /**
  * Get additional module paths based on the baseUrl of a compilerOptions object.
@@ -138,4 +143,4 @@ function getModules() {
   };
 }
 
-module.exports = getModules();
+export default getModules();

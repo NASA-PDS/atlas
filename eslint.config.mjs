@@ -53,7 +53,7 @@ export default tseslint.config(
             ...reactHooks.configs.recommended.rules,
             'import/no-unassigned-import': 'off',
             'import/no-named-as-default-member': 'off',
-            curly: ['error', 'multi'],
+            curly: ['error', 'all'],
         },
     },
 )

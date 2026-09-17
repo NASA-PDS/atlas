@@ -1,13 +1,10 @@
 'use strict';
 
-const dotenv = require('dotenv');
-const dotenvExpand = require('dotenv-expand');
-const fs = require('fs');
-const path = require('path');
-const paths = require('./paths');
-
-// Make sure that including paths.js after env.js will read .env variables.
-delete require.cache[require.resolve('./paths')];
+import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
+import fs from 'node:fs';
+import path from 'node:path';
+import paths from './paths.js';
 
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
@@ -92,4 +89,4 @@ function getClientEnvironment(publicUrl) {
   return { raw, stringified };
 }
 
-module.exports = getClientEnvironment;
+export default getClientEnvironment;

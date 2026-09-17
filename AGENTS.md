@@ -60,6 +60,10 @@ Root `/` 307-redirects to `/search`.
 - Default dev port: **8500**. Tests use **18500** to avoid conflicts.
 - Production server: `node scripts/start-prod.js`
 - Build directory: `build/atlas/`
+- Bundle analysis: `npm run analyze` runs a production webpack build with
+  `webpack-bundle-analyzer` and writes `reports/bundle-report.html`
+  (outside `build/atlas/` so it is never deployed). Dev can still pass
+  `--analyze` to `scripts/start-dev.js` for the interactive analyzer server.
 - Required env for tests: `NODE_ENV=production`, `DISABLE_CSP=true`,
   `PUBLIC_URL=''`, `REACT_APP_DOMAIN` (defaults to
   `https://pds-imaging.jpl.nasa.gov/api`)
@@ -68,6 +72,21 @@ Root `/` 307-redirects to `/search`.
   through `window.APP_CONFIG` (see `src/core/runtimeConfig.js`).
 - `PUBLIC_URL` is read from `.env` at build time; `dotenv-expand`
   has caused it to leak in unexpected ways — keep an eye on it.
+
+### Docker runner stage
+
+The production image's runner stage hand-lists runtime files rather
+than copying all of `config/` / `scripts/`:
+
+- `config/paths.js` + `config/package.json` (`"type": "module"`)
+- `scripts/start-prod.js` + `scripts/package.json` (`"type": "module"`)
+
+Those scoped `package.json` files are required so Node treats the
+scripts as ESM without emitting `MODULE_TYPELESS_PACKAGE_JSON` (and
+the related reparse overhead). If `scripts/start-prod.js` or
+`config/paths.js` gains a new local import, update the Dockerfile
+runner stage's `COPY` lines to include it — the builder stage uses
+`COPY . .`, but the runner does not.
 
 ## Selector patterns (Playwright / DOM)
 

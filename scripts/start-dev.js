@@ -1,6 +1,14 @@
 'use strict'
 
-// Do this as the first thing so that any code reading it knows the right env.
+// NOTE: unlike the old CJS script, this assignment does NOT guarantee
+// NODE_ENV/BABEL_ENV are set before `config/env.js` runs its "NODE_ENV is
+// required" check. ESM `import` declarations (including the transitive one
+// pulled in below via `config/webpack.config.js` -> `config/env.js`) are
+// hoisted and evaluated before this file's own top-level statements, no
+// matter where they're textually written. The actual guarantee comes from
+// `cross-env NODE_ENV=development BABEL_ENV=development` in the `start`
+// npm script in package.json. Keep these assignments too, for direct
+// `node scripts/start-dev.js` invocation and to preserve intent.
 process.env.BABEL_ENV = 'development'
 process.env.NODE_ENV = 'development'
 
@@ -12,19 +20,24 @@ process.on('unhandledRejection', (err) => {
 })
 
 // Ensure environment variables are read.
-require('../config/env')
+import '../config/env.js'
 
-const fs = require('fs')
-const chalk = require('chalk')
-const webpack = require('webpack')
-const WebpackDevServer = require('webpack-dev-server')
-const paths = require('../config/paths')
-const configFactory = require('../config/webpack.config')
-const createDevServerConfig = require('../config/webpackDevServer.config')
-const {
+import fs from 'node:fs'
+import { createRequire } from 'node:module'
+import chalk from 'chalk'
+import webpack from 'webpack'
+import WebpackDevServer from 'webpack-dev-server'
+import paths from '../config/paths.js'
+import configFactory from '../config/webpack.config.js'
+import createDevServerConfig from '../config/webpackDevServer.config.js'
+import {
     formatWebpackMessages,
     checkBrowsers,
-} = require('../config/build-utils')
+} from '../config/build-utils.js'
+
+// `paths.appPackageJson` is a runtime-computed path, so it needs a real
+// `require()` rather than a static import.
+const require = createRequire(import.meta.url)
 
 const isInteractive = process.stdout.isTTY
 

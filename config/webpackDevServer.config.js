@@ -1,9 +1,15 @@
 "use strict";
 
-const fs = require("fs");
-const { noopServiceWorkerMiddleware } = require("./build-utils");
-const paths = require("./paths");
-const chalk = require("chalk");
+import fs from "node:fs";
+import { createRequire } from "node:module";
+import express from "express";
+import { noopServiceWorkerMiddleware } from "./build-utils.js";
+import paths from "./paths.js";
+import chalk from "chalk";
+
+// `paths.proxySetup` is a runtime-computed, optional project file (may not
+// exist), so it needs a real `require()` rather than a static import.
+const require = createRequire(import.meta.url);
 
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const host = process.env.HOST || "0.0.0.0";
@@ -13,7 +19,7 @@ const sockPort = process.env.WDS_SOCKET_PORT;
 
 const port = parseInt(process.env.PORT || "8500", 10);
 
-module.exports = function (proxy, allowedHost) {
+export default function (proxy, allowedHost) {
     return {
         port: port,
         allowedHosts: !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === "true" ? "all" : "auto",
@@ -56,7 +62,6 @@ module.exports = function (proxy, allowedHost) {
           }
 
           // Serve Docusaurus documentation in dev mode
-          const express = require('express');
           const docPath = paths.docBuild;
           if (fs.existsSync(docPath)) {
             devServer.app.use('/documentation', express.static(docPath));

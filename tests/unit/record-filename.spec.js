@@ -210,6 +210,20 @@ test.describe('missions with several conventions', () => {
         expect(lcro.meaning('Millisecond')).toBe('Millisecond 823')
     })
 
+    test('a scalpss frame decodes its capture, frame, camera and rendition', () => {
+        const scalpss = decode('scalpss', 'cap093_frame004_sfl0-std.tif')
+        expect(scalpss.meaning('Capture number')).toBe('Capture 93')
+        expect(scalpss.meaning('Frame number')).toBe('Frame 4')
+        expect(scalpss.meaning('Camera')).toContain('Short Focal Length camera 0')
+        expect(scalpss.meaning('Image type')).toContain('full resolution')
+        expect(scalpss.meaning('Extension')).toContain('TIFF')
+        const label = decode('scalpss', 'cap004_frame120_lfl1-low_res.tif.xml')
+        expect(label.meaning('Camera')).toContain('Long Focal Length camera 1')
+        expect(label.meaning('Image type')).toContain('16× binned')
+        expect(label.meaning('Extension')).toContain('label')
+        expect(parseFilename('cap004_frame120_lfl1.tif', filenameSpecs.scalpss)).toBe(null)
+    })
+
     test('a lunar orbiter frame decodes its orbiter and subframe', () => {
         const lo = decode('lo', 'FRAME_3101_H2.IMG')
         expect(lo.meaning('Orbiter')).toBe('Lunar Orbiter III')

@@ -16,6 +16,7 @@ import msl from './msl.json'
 import nsyt from './nsyt.json'
 import ody from './ody.json'
 import phx from './phx.json'
+import scalpss from './scalpss.json'
 
 // Filename naming conventions, keyed by `<mission>` or `<mission>.<pds_standard>`.
 // A mission with no spec renders its filename as plain text.
@@ -38,4 +39,5 @@ export const filenameSpecs = {
     nsyt,
     ody,
     phx,
+    scalpss,
 }

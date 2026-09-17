@@ -30,4 +30,10 @@ test.describe('display names', () => {
         expect(getShortDisplayName('phx')).toBe('Phoenix')
         expect(getDisplayName('phx')).toBe('Phoenix')
     })
+
+    test('keeps spacecraft names distinct from mission prefixes', () => {
+        expect(getShortDisplayName('opportunity')).toBe('Opportunity')
+        expect(getShortDisplayName('spirit')).toBe('Spirit')
+        expect(getDisplayName('spirit')).toBe('MER - Spirit')
+    })
 })

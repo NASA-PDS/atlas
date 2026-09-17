@@ -234,7 +234,7 @@ export const DISPLAY_NAME_MAPPINGS = {
     'go': 'Galileo',
     'galileo_orbiter': 'Galileo Orbiter',
     'juno': 'Juno',
-    'kplo': 'Korea Pathfinder Lunar Orbiter',
+    'kplo': { short: 'KPLO', long: 'KPLO - Korea Pathfinder Lunar Orbiter' },
     'lcro': 'LCROSS',
     'lcross': 'LCROSS',
     'lo': 'Lunar Orbiter',
@@ -272,8 +272,11 @@ export const DISPLAY_NAME_MAPPINGS = {
     '2001_mars_odyssey': '2001 Mars Odyssey',
     'phx': 'Phoenix',
     'phoenix_lander': 'Phoenix Lander',
-    'scalpss': 'SCALPSS - Stereo Cameras for Lunar Plume-Surface Studies',
-    'firefly-bg1': 'Firefly Blue Ghost Mission 1',
+    'scalpss': {
+        short: 'SCALPSS',
+        long: 'SCALPSS - Stereo Cameras for Lunar Plume-Surface Studies',
+    },
+    'firefly-bg1': { short: 'Blue Ghost M1', long: 'Firefly Blue Ghost Mission 1' },
     'scalpss_to_19d': 'SCALPSS 1.1 (CLPS TO-19D)',
     'SFL0': 'SFL0 - Short Focal Length Camera 0',
     'SFL1': 'SFL1 - Short Focal Length Camera 1',
@@ -292,3 +295,13 @@ export const DISPLAY_NAME_MAPPINGS = {
     'voyager_2': 'Voyager 2',
     'voyager': 'Voyager',
 }
+
+// A mapping value is either a string (`Short - Long gloss`) or `{ short, long }`.
+export const getDisplayNames = (key) => {
+    const mapped = DISPLAY_NAME_MAPPINGS[key]
+    if (mapped == null) return { short: key, long: key }
+    if (typeof mapped === 'string') return { short: mapped.split(' - ')[0], long: mapped }
+    return { short: mapped.short, long: mapped.long }
+}
+export const getDisplayName = (key) => getDisplayNames(key).long
+export const getShortDisplayName = (key) => getDisplayNames(key).short

@@ -57,21 +57,52 @@ Root `/` 307-redirects to `/search`.
 
 ## Build / dev / test runtime
 
-- Default dev port: **8500**. Tests use **18500** to avoid conflicts.
+- Bundler: **Vite 7.x** (`vite.config.js`), migrated off Webpack in
+  Phase 2 of the tooling upgrade. `@vitejs/plugin-react` handles
+  JSX/Fast Refresh; a custom `plugins/vite-plugin-html2pug.js`
+  `closeBundle` plugin ports the old `HTML2PugPlugin` (converts the
+  built `index.html` to `index.pug`, injects the `window.APP_CONFIG`
+  `<script>` and CSP `nonce` attributes, and rewrites asset URLs to use
+  the runtime `publicUrl` variable). Vite 8's Rolldown/oxc bundler was
+  evaluated and rejected for now (stricter JSX parsing in `.js` files,
+  younger plugin ecosystem) — see "Phase 3" in the migration plan.
+- Default dev port: **8500** (`vite` / `vite preview`, set via
+  `server.port` / `preview.port` in `vite.config.js`). Tests use
+  **18500** to avoid conflicts.
 - Production server: `node scripts/start-prod.js`
 - Build directory: `build/atlas/`
-- Bundle analysis: `npm run analyze` runs a production webpack build with
-  `webpack-bundle-analyzer` and writes `reports/bundle-report.html`
-  (outside `build/atlas/` so it is never deployed). Dev can still pass
-  `--analyze` to `scripts/start-dev.js` for the interactive analyzer server.
+- Bundle analysis: `npm run analyze` runs a production Vite build with
+  `ANALYZE=true`, which enables `rollup-plugin-visualizer` and writes
+  `reports/bundle-report.html` (outside `build/atlas/` so it is never
+  deployed).
 - Required env for tests: `NODE_ENV=production`, `DISABLE_CSP=true`,
   `PUBLIC_URL=''`, `REACT_APP_DOMAIN` (defaults to
   `https://pds-imaging.jpl.nasa.gov/api`)
-- `REACT_APP_*` vars are **build-time** (CRA convention) — they're
-  baked into the bundle by `npm run build`. Runtime overrides go
-  through `window.APP_CONFIG` (see `src/core/runtimeConfig.js`).
-- `PUBLIC_URL` is read from `.env` at build time; `dotenv-expand`
-  has caused it to leak in unexpected ways — keep an eye on it.
+- `REACT_APP_*` (and `VITE_*`) vars are **build-time** — Vite's
+  `envPrefix` config exposes them as `import.meta.env.REACT_APP_*` /
+  `import.meta.env.VITE_*`, baked into the bundle by `npm run build`.
+  Runtime overrides go through `window.APP_CONFIG` (see
+  `src/core/runtimeConfig.js`).
+- `PUBLIC_URL` is **not** baked into the build — `vite.config.js` hard-codes
+  `base: '/'` regardless of env vars. `PUBLIC_URL` is applied purely at
+  runtime: `scripts/start-prod.js` reads `process.env.PUBLIC_URL` at
+  server startup and injects it into `window.APP_CONFIG` (and the
+  `index.pug` template's `publicUrl` local) on every request. This means
+  the old CRA/webpack-era `dotenv-expand`-leaking-`PUBLIC_URL`-into-the-build
+  hazard no longer applies — a plain `npm run build` is safe regardless
+  of what's in `.env`.
+- Vendored UMD/CJS modules (`react-filter-box-customized`,
+  `src/external/streamsaver-helpers/{ponyfill.min,Blob}.js`) are aliased
+  under `@vendor/*` in `vite.config.js` and force-included in
+  `optimizeDeps` so Vite's dev-mode esbuild pre-bundler reliably handles
+  their CJS-to-ESM interop (Vite's lightweight per-file dev transform
+  doesn't reliably detect named/default exports on complex UMD wrappers).
+  The same modules are also listed in `build.commonjsOptions.include` so
+  Rollup's production build applies the same interop. `Blob.js` in
+  particular is imported only for its side effects (it patches globals,
+  has no real `module.exports`) — see the comment above its
+  `strTag`-assignment block for a pre-existing sloppy-mode-only bug that
+  strict-mode ESM surfaced.
 
 ### Docker runner stage
 

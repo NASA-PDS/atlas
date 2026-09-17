@@ -9,9 +9,17 @@ import {
     getDoiUrl,
 } from './runtimeConfig'
 
-export const MAX_BULK_DOWNLOAD_COUNT = process.env.MAX_BULK_DOWNLOAD_COUNT || 25000
+// Note: these two are not REACT_APP_/VITE_-prefixed, so they were never
+// actually build-time injected under the old webpack DefinePlugin either
+// (it only stringified REACT_APP_* + NODE_ENV + PUBLIC_URL) — these always
+// resolved to their defaults in practice. Guarded here so a bare
+// `process.env` reference can't throw in a browser bundle that doesn't
+// shim a global `process` (Vite doesn't, unlike some webpack setups).
+const nodeProcessEnv = typeof process !== 'undefined' ? process.env : {}
 
-export const EMAIL_CONTACT = process.env.EMAIL_CONTACT || 'pds-img-jpl@jpl.nasa.gov'
+export const MAX_BULK_DOWNLOAD_COUNT = nodeProcessEnv.MAX_BULK_DOWNLOAD_COUNT || 25000
+
+export const EMAIL_CONTACT = nodeProcessEnv.EMAIL_CONTACT || 'pds-img-jpl@jpl.nasa.gov'
 
 // Call getPublicUrl() to get the value - the function checks for window.APP_CONFIG
 // If window doesn't exist or APP_CONFIG isn't set, it falls back to process.env
@@ -19,11 +27,11 @@ export const publicUrl = getPublicUrl()
 export const domain = getDomain()
 
 export const endpoints = {
-    data: process.env.REACT_APP_DATA_ENDPOINT,
-    search: process.env.REACT_APP_SEARCH_ENDPOINT,
-    pit: process.env.REACT_APP_PIT_ENDPOINT,
-    scroll: process.env.REACT_APP_SCROLL_ENDPOINT,
-    archive: process.env.REACT_APP_ARCHIVE_ENDPOINT,
+    data: import.meta.env.REACT_APP_DATA_ENDPOINT,
+    search: import.meta.env.REACT_APP_SEARCH_ENDPOINT,
+    pit: import.meta.env.REACT_APP_PIT_ENDPOINT,
+    scroll: import.meta.env.REACT_APP_SCROLL_ENDPOINT,
+    archive: import.meta.env.REACT_APP_ARCHIVE_ENDPOINT,
     mitm: `${publicUrl}/streamsaver/mitm.html`,
     pdsFieldSearch:
         'https://pds.nasa.gov/services/search/search?fq=product-class%3AProduct_Attribute_Definition&fq=attribute_name%3A{field}&wt=json',

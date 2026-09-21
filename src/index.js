@@ -31,7 +31,7 @@ const injectFontFaces = () => {
     const getRelativePath = (assetPath) => {
         // Extract everything after /static/
         const match = assetPath.match(/\/(static\/.+)$/)
-        return match ? match[1] : assetPath
+        return match ? match[1] : assetPath.replace(/^\//, '')
     }
 
     const interPath = `${publicUrl}/${getRelativePath(interFont)}`

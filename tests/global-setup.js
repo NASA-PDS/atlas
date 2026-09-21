@@ -14,9 +14,9 @@
  * `npm run build` is all that's needed.
  */
 
-import { existsSync } from 'fs'
-import { resolve } from 'path'
-import { execSync } from 'child_process'
+import { existsSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { execSync } from 'node:child_process'
 
 export default async function globalSetup() {
     const cwd = process.cwd()

@@ -1,8 +1,13 @@
 'use strict'
 
-const path = require('path')
-const fs = require('fs')
-const url = require('url')
+import path from 'node:path'
+import fs from 'node:fs'
+import url from 'node:url'
+import { createRequire } from 'node:module'
+
+// `appPackageJson` is a runtime-computed absolute path, so it needs a real
+// `require()` (not a static import specifier) to read package.json's `homepage`.
+const require = createRequire(import.meta.url)
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
@@ -70,7 +75,7 @@ const resolveModule = (resolveFn, filePath) => {
 }
 
 // config after eject: we're in ./config/
-module.exports = {
+const paths = {
     dotenv: resolveApp('.env'),
     appPath: resolveApp('.'),
     appBuild: resolveApp('build/atlas'),
@@ -87,6 +92,7 @@ module.exports = {
     appNodeModules: resolveApp('node_modules'),
     publicUrl: getPublicUrl(resolveApp('package.json')),
     servedPath: getServedPath(resolveApp('package.json')),
+    moduleFileExtensions,
 }
 
-module.exports.moduleFileExtensions = moduleFileExtensions
+export default paths

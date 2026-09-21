@@ -4,6 +4,9 @@
   "private": true,
   "homepage": "/",
   "packageManager": "npm@10.9.4",
+  "engines": {
+    "node": ">=22"
+  },
   "devEngines": {
     "runtime": {
       "name": "node",
@@ -15,11 +18,11 @@
     }
   },
   "scripts": {
-    "start": "node scripts/start-dev.js",
-    "start:prod": "node scripts/start-prod.js",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 node scripts/build.js",
-    "build:eslint": "cross-env ESLINT_WEBPACK=true NODE_OPTIONS=--max-old-space-size=4096 node scripts/build.js",
-    "analyze": "node scripts/start.js --analyze",
+    "start": "vite",
+    "start:prod": "cross-env NODE_ENV=production node scripts/start-prod.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "analyze": "cross-env ANALYZE=true vite build",
     "test": "playwright test",
     "docs": "jsdoc -c jsdoc.conf.json",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
@@ -61,7 +64,6 @@
     "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
-    "dotenv-expand": "^12.0.2",
     "express": "^5.1.0",
     "express-manifest-helpers": "^0.6.0",
     "file-saver": "^2.0.5",
@@ -101,7 +103,6 @@
     "redux-thunk": "^2.4.2",
     "rehype-external-links": "^3.0.0",
     "resolve": "^1.22.10",
-    "resolve-url-loader": "^5.0.0",
     "semver": "^7.7.3",
     "streamsaver": "^2.0.6",
     "styled-components": "^6.4.0",
@@ -124,54 +125,25 @@
       "last 1 safari version"
     ]
   },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
-    "@babel/core": "^7.29.6",
     "@playwright/test": "^1.59.1",
-    "@svgr/webpack": "^8.1.0",
-    "browserslist": "^4.28.8",
-    "chalk": "^4.1.2",
-    "babel-loader": "^10.1.1",
-    "babel-plugin-named-asset-import": "^0.3.8",
-    "babel-preset-react-app": "^10.1.0",
-    "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "@vitejs/plugin-react": "^4.7.0",
     "cross-env": "^7.0.3",
-    "css-loader": "^7.1.4",
-    "css-minimizer-webpack-plugin": "^8.0.0",
     "eslint": "^9.39.1",
-    "gzip-size": "^6.0.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-webpack-plugin": "^6.0.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^16.5.0",
-    "html-webpack-plugin": "^5.6.3",
-    "html-inline-script-webpack-plugin": "^3.2.1",
-    "interpolate-html-plugin": "^4.0.0",
-    "mini-css-extract-plugin": "^2.9.2",
     "parse5": "^8.0.1",
     "postcss": "^8.5.26",
     "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-loader": "^8.2.1",
-    "postcss-preset-env": "^10.1.7",
+    "postcss-preset-env": "^11.4.0",
     "prettier": "^3.5.3",
-    "recursive-readdir": "^2.2.3",
-    "sass-loader": "^16.0.7",
-    "style-loader": "^4.0.0",
-    "terser-webpack-plugin": "^5.4.0",
+    "rollup-plugin-visualizer": "^6.0.11",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.58.1",
-    "url": "^0.11.4",
-    "webpack": "^5.102.1",
-    "webpack-bundle-analyzer": "^4.10.2",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.6",
-    "webpack-manifest-plugin": "^6.0.1"
+    "vite": "^7.3.6"
   }
 }

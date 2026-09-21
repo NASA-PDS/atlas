@@ -8,6 +8,7 @@ tasks:
     cmds:
       - detect-secrets audit .secrets.baseline
     silent: true
+
   update-secrets-baseline:
     desc: Update the secrets baseline
     cmds:
@@ -20,13 +21,59 @@ tasks:
         --exclude-files 'src/external/react-filter-box-REPO/react-filter-box-mod/src/example' \
         --exclude-files 'src/external/react-filter-box-REPO/react-filter-box-mod/package.json' > .secrets.baseline
     silent: true
-  test-workflow-branch-cicd:
-    desc: Test the branch-cicd workflow
+
+  #########################################################
+  # Docker
+  #########################################################
+
+  docker:build:
+    desc: Build the docker image
     cmds:
-      - act -W .github/workflows/branch-cicd.yml
+      - docker buildx build . --tag atlas
     silent: true
-  test-workflow-secrets-detection:
-    desc: Test the secrets-detection workflow
+
+  docker:run:
+    desc: Run the docker image
     cmds:
-      - act -W .github/workflows/secrets-detection.yaml
+      - |
+        docker container run -d --rm --name atlas -p 8500:8500 \
+          -e REACT_APP_DOMAIN=https://pds-imaging.jpl.nasa.gov/api \
+          -e PUBLIC_URL= \
+          -e DISABLE_CSP=true \
+          atlas
+    silent: true
+
+  docker:stop:
+    desc: Stop the docker container
+    cmds:
+      - docker container stop atlas
+    silent: true
+
+  docker:open:
+    desc: Open the docker container
+    cmds:
+      - open http://localhost:8500
+    silent: true
+
+  #########################################################
+  # NPM
+  #########################################################
+
+  npm:build:
+    desc: Build the project
+    cmds: 
+      - npm run build
+    silent: true
+
+  npm:start:
+    desc: Start the project
+    cmds:
+      - npm run start
+    silent: true
+
+  npm:start:prod:
+    desc: Start the project in production mode
+    deps: [npm:build]
+    cmds:
+      - npm run start:prod
     silent: true

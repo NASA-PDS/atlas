@@ -3,7 +3,7 @@
  *
  * Provides a single source of truth for all application configuration.
  * In production, reads from window.APP_CONFIG (server-injected at runtime).
- * In development, falls back to process.env (webpack-injected at build time).
+ * In development, falls back to import.meta.env (Vite-injected at build time).
  *
  * This allows building once and deploying to any path without rebuilding.
  */
@@ -16,7 +16,7 @@ export const getPublicUrl = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.PUBLIC_URL ?? ''
     }
-    return process.env.PUBLIC_URL ?? ''
+    return import.meta.env.PUBLIC_URL ?? ''
 }
 
 /**
@@ -27,7 +27,7 @@ export const getDomain = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.DOMAIN ?? ''
     }
-    return process.env.REACT_APP_DOMAIN ?? ''
+    return import.meta.env.REACT_APP_DOMAIN ?? ''
 }
 
 /**
@@ -38,7 +38,7 @@ export const getApiUrl = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.API_URL ?? ''
     }
-    return process.env.REACT_APP_API_URL ?? ''
+    return import.meta.env.REACT_APP_API_URL ?? ''
 }
 
 /**
@@ -49,7 +49,7 @@ export const getEsUrl = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.ES_URL ?? ''
     }
-    return process.env.REACT_APP_ES_URL ?? ''
+    return import.meta.env.REACT_APP_ES_URL ?? ''
 }
 
 /**
@@ -60,7 +60,7 @@ export const getFootprintUrl = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.FOOTPRINT_URL ?? ''
     }
-    return process.env.REACT_APP_FOOTPRINT_URL ?? ''
+    return import.meta.env.REACT_APP_FOOTPRINT_URL ?? ''
 }
 
 /**
@@ -71,7 +71,7 @@ export const getImageryUrl = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.IMAGERY_URL ?? ''
     }
-    return process.env.REACT_APP_IMAGERY_URL ?? ''
+    return import.meta.env.REACT_APP_IMAGERY_URL ?? ''
 }
 
 /**
@@ -82,7 +82,7 @@ export const getRegistryUrl = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.REGISTRY_URL ?? ''
     }
-    return process.env.REACT_APP_REGISTRY_URL ?? ''
+    return import.meta.env.REACT_APP_REGISTRY_URL ?? ''
 }
 
 /**
@@ -93,7 +93,7 @@ export const getDoiUrl = () => {
     if (typeof window !== 'undefined' && window.APP_CONFIG) {
         return window.APP_CONFIG.DOI_URL ?? ''
     }
-    return process.env.REACT_APP_DOI_URL ?? ''
+    return import.meta.env.REACT_APP_DOI_URL ?? ''
 }
 
 /**

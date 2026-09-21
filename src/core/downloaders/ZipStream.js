@@ -3,8 +3,12 @@ import axios from 'axios'
 import { domain, endpoints, ES_PATHS } from '../constants'
 import { getIn, getHeader, getPDSUrl, getRedirectedUrl, getFilename, getExtension } from '../utils'
 
-import ponyfill from '../../external/streamsaver-helpers/ponyfill.min'
-import BlobJS from '../../external/streamsaver-helpers/Blob'
+// '@vendor/*' alias — see vite.config.js optimizeDeps
+import '@vendor/streamsaver-ponyfill'
+// Side-effect only: patches the global Blob/File/FileReader polyfill.
+// Has no module.exports (not even an empty one) — the old CommonJS-era
+// `import BlobJS from ...` default binding was always unused/undefined.
+import '../../external/streamsaver-helpers/Blob'
 import streamsaver from 'streamsaver'
 import { ZIP } from '../../external/streamsaver-helpers/zip-stream'
 
@@ -100,7 +104,12 @@ const ZipStreamDownload = (
                         currentItem.type === 'directory' ||
                         currentItem.type === 'regex'
                     ) {
-                        lastQueryResult = await getQuery(currentItem.item, null, productKeys, abortController.signal)
+                        lastQueryResult = await getQuery(
+                            currentItem.item,
+                            null,
+                            productKeys,
+                            abortController.signal
+                        )
                         files = lastQueryResult.files
                         filesAreFrom = lastQueryResult
                     } else {
@@ -109,7 +118,12 @@ const ZipStreamDownload = (
                     }
                 } else {
                     // We're in the middle of a scroll query
-                    lastQueryResult = await getQuery(currentItem.item, lastQueryResult, productKeys, abortController.signal)
+                    lastQueryResult = await getQuery(
+                        currentItem.item,
+                        lastQueryResult,
+                        productKeys,
+                        abortController.signal
+                    )
                     files = lastQueryResult.files
                     filesAreFrom = lastQueryResult
                 }
@@ -385,17 +399,17 @@ const getQuery = (item, previousResult, productKeys, signal) => {
 
         if (previousResult == null) {
             axios
-                .post(
-                    `${domain}${endpoints.search}?scroll=${scrollTimeout}&${filter_path}`,
-                    dsl,
-                    {
-                        ...getHeader(),
-                        signal,
-                    }
-                )
+                .post(`${domain}${endpoints.search}?scroll=${scrollTimeout}&${filter_path}`, dsl, {
+                    ...getHeader(),
+                    signal,
+                })
                 .then((res) => processResponse(res))
                 .catch((err) => {
-                    if (axios.isCancel(err) || err?.name === 'CanceledError' || err?.name === 'AbortError') {
+                    if (
+                        axios.isCancel(err) ||
+                        err?.name === 'CanceledError' ||
+                        err?.name === 'AbortError'
+                    ) {
                         resolve({ files: [] })
                         return
                     }
@@ -419,7 +433,11 @@ const getQuery = (item, previousResult, productKeys, signal) => {
                     processResponse(res)
                 })
                 .catch((err) => {
-                    if (axios.isCancel(err) || err?.name === 'CanceledError' || err?.name === 'AbortError') {
+                    if (
+                        axios.isCancel(err) ||
+                        err?.name === 'CanceledError' ||
+                        err?.name === 'AbortError'
+                    ) {
                         resolve({ files: [] })
                         return
                     }

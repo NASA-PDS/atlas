@@ -24,7 +24,8 @@ import NASALogoPath from '../../media/images/nasa-logo.svg'
 // Construct runtime-aware logo URL
 const getNASALogoUrl = () => {
     const publicUrl = getPublicUrl()
-    const relativePath = NASALogoPath.match(/\/(static\/.+)$/)?.[1] || NASALogoPath
+    const relativePath =
+        NASALogoPath.match(/\/(static\/.+)$/)?.[1] || NASALogoPath.replace(/^\//, '')
     return `${publicUrl}/${relativePath}`
 }
 
@@ -235,7 +236,9 @@ const Topbar = () => {
                         className={clsx(c.button)}
                         aria-label="go to api documentation"
                         onClick={() => {
-                            window.open(`${publicUrl}${HASH_PATHS.apiDocumentation}`, '_blank').focus()
+                            window
+                                .open(`${publicUrl}${HASH_PATHS.apiDocumentation}`, '_blank')
+                                .focus()
                         }}
                         size="large"
                     >

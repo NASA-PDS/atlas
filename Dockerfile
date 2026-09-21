@@ -27,17 +27,18 @@ RUN npm run build
 # Switch to Atlas Documentation project
 #############################
 
+# Bundle entire app source
+COPY ./Documentation /usr/src/app/Documentation
+
 WORKDIR /usr/src/app/Documentation
 
-# Bundle entire app source
-COPY . .
-
 RUN npm ci NODE_ENV=production
-
 RUN npm run build
 
+########################################
+# Switch to Atlas project
+########################################
 WORKDIR /usr/src/app/
-
 
 ############################
 # Runner
@@ -51,8 +52,8 @@ WORKDIR /usr/src/app
 # Contains script macros and metadata
 COPY package*.json ./
 
-COPY config/paths.js ./config/
-COPY scripts/start-prod.js ./scripts/
+COPY config/paths.js config/package.json ./config/
+COPY scripts/start-prod.js scripts/package.json ./scripts/
 
 # Not all server side packages get bundled
 RUN npm ci NODE_ENV=production

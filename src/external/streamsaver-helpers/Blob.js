@@ -574,9 +574,18 @@
   }
 
   if (strTag) {
-    File.prototype[strTag] = 'File'
-    Blob.prototype[strTag] = 'Blob'
-    FileReader.prototype[strTag] = 'FileReader'
+    // NOTE: File/Blob/FileReader here resolve to the native globals (the
+    // vendored FakeBlobBuilder()'s own File/Blob/FileReader are scoped to
+    // that function and never reach this point). Their native
+    // Symbol.toStringTag is non-writable, so this assignment is a no-op
+    // by design in modern, spec-compliant browsers. It used to fail
+    // silently under Webpack's sloppy-mode CommonJS wrapping; guard it
+    // explicitly so it stays a no-op under strict-mode ESM too.
+    try {
+      File.prototype[strTag] = 'File'
+      Blob.prototype[strTag] = 'Blob'
+      FileReader.prototype[strTag] = 'FileReader'
+    } catch (e) {}
   }
 
   var blob = global.Blob.prototype

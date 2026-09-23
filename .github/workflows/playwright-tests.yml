@@ -24,16 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Strip PUBLIC_URL from .env for test build
-        # dotenv-expand@12 treats PUBLIC_URL='' as unset and re-expands from
-        # .env, which would bake "/beta" into webpack's publicPath. Remove
-        # the line so webpack's `publicPath` resolves to "/".
-        run: sed -i.bak '/^[[:space:]]*PUBLIC_URL[[:space:]]*=/d' .env || true
-
       - name: Build application
         run: npm run build
-        env:
-          PUBLIC_URL: ''
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium

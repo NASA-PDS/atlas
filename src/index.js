@@ -15,7 +15,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import './index.css'
 import { getPublicUrl } from './core/runtimeConfig'
 
-// Import fonts so webpack processes them and includes them in the build
+// Import fonts so the bundler processes them and includes them in the build
 import interFont from './media/fonts/Inter/Inter-VariableFont_slnt-wght.ttf'
 import publicSansFont from './media/fonts/Public_Sans/PublicSans-VariableFont_wght.ttf'
 
@@ -24,13 +24,14 @@ import publicSansFont from './media/fonts/Public_Sans/PublicSans-VariableFont_wg
 const injectFontFaces = () => {
     const publicUrl = getPublicUrl()
 
-    // Extract just the filename from the webpack-processed path
-    // webpack gives us something like "/static/media/Inter-VariableFont_slnt-wght.abc123.ttf"
+    // Extract just the filename from the bundler-processed path
+    // Vite gives us something like "/static/media/Inter-VariableFont_slnt-wght.abc123.ttf"
+    // (see vite.config.js's rollupOptions.output.assetFileNames)
     // We need to replace the leading part with our runtime publicUrl
-    const getRelativePath = (webpackPath) => {
+    const getRelativePath = (assetPath) => {
         // Extract everything after /static/
-        const match = webpackPath.match(/\/(static\/.+)$/)
-        return match ? match[1] : webpackPath
+        const match = assetPath.match(/\/(static\/.+)$/)
+        return match ? match[1] : assetPath.replace(/^\//, '')
     }
 
     const interPath = `${publicUrl}/${getRelativePath(interFont)}`
@@ -57,14 +58,14 @@ if (!window.APP_CONFIG) {
     window.APP_CONFIG = {
         // In development, always use empty string for PUBLIC_URL (serve from root)
         // The .env PUBLIC_URL is ignored in dev mode
-        PUBLIC_URL: process.env.NODE_ENV === 'development' ? '' : process.env.PUBLIC_URL || '',
-        DOMAIN: process.env.REACT_APP_DOMAIN || '',
-        API_URL: process.env.REACT_APP_API_URL || '',
-        ES_URL: process.env.REACT_APP_ES_URL || '',
-        FOOTPRINT_URL: process.env.REACT_APP_FOOTPRINT_URL || '',
-        IMAGERY_URL: process.env.REACT_APP_IMAGERY_URL || '',
-        REGISTRY_URL: process.env.REACT_APP_REGISTRY_URL || '',
-        DOI_URL: process.env.REACT_APP_DOI_URL || '',
+        PUBLIC_URL: import.meta.env.DEV ? '' : import.meta.env.PUBLIC_URL || '',
+        DOMAIN: import.meta.env.REACT_APP_DOMAIN || '',
+        API_URL: import.meta.env.REACT_APP_API_URL || '',
+        ES_URL: import.meta.env.REACT_APP_ES_URL || '',
+        FOOTPRINT_URL: import.meta.env.REACT_APP_FOOTPRINT_URL || '',
+        IMAGERY_URL: import.meta.env.REACT_APP_IMAGERY_URL || '',
+        REGISTRY_URL: import.meta.env.REACT_APP_REGISTRY_URL || '',
+        DOI_URL: import.meta.env.REACT_APP_DOI_URL || '',
     }
 }
 

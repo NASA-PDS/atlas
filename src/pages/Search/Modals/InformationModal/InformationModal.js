@@ -23,7 +23,8 @@ import { publicUrl } from '../../../../core/constants'
 // Construct runtime-aware logo URL
 const getNASALogoUrl = () => {
     const publicUrl = getPublicUrl()
-    const relativePath = NASALogoPath.match(/\/(static\/.+)$/)?.[1] || NASALogoPath
+    const relativePath =
+        NASALogoPath.match(/\/(static\/.+)$/)?.[1] || NASALogoPath.replace(/^\//, '')
     return `${publicUrl}/${relativePath}`
 }
 
@@ -192,7 +193,8 @@ const InformationModal = (props) => {
                         title="Close"
                         aria-label="close"
                         onClick={handleClose}
-                        size="large">
+                        size="large"
+                    >
                         <CloseSharpIcon fontSize="inherit" />
                     </IconButton>
                 </div>
@@ -226,11 +228,13 @@ const InformationModal = (props) => {
                         </Typography>
                     </div>
                     <div className={c.metadata}>
-                        <Typography>Version Number: {process.env.REACT_APP_VERSION}</Typography>
+                        <Typography>Version Number: {import.meta.env.REACT_APP_VERSION}</Typography>
                         <Typography>
-                            Clearance Number: {process.env.REACT_APP_CLEARANCE_NUMBER}
+                            Clearance Number: {import.meta.env.REACT_APP_CLEARANCE_NUMBER}
                         </Typography>
-                        <Typography>Last Updated: {process.env.REACT_APP_LAST_UPDATED}</Typography>
+                        <Typography>
+                            Last Updated: {import.meta.env.REACT_APP_LAST_UPDATED}
+                        </Typography>
                     </div>
                 </div>
             </DialogContent>
@@ -250,7 +254,7 @@ const InformationModal = (props) => {
                 </div>
             </DialogActions>
         </Dialog>
-    );
+    )
 }
 
 InformationModal.propTypes = {}

@@ -4,7 +4,7 @@ import light from '../../themes/light'
 
 function getFullImagePath(path = "") {
     try {
-        const BaseUrl = process.env.REACT_APP_S3_BUCKET_LOCATION;
+        const BaseUrl = import.meta.env.REACT_APP_S3_BUCKET_LOCATION;
         
         // Check if BaseUrl is not empty or null
         if (!BaseUrl || typeof BaseUrl !== 'string') {
